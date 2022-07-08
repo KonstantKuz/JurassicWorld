@@ -143,7 +143,7 @@ pipeline {
             agent {
                 node {
                     label 'iOS && unity'
-                    customWorkspace '/Users/jenkins/slave/survivors'
+                    customWorkspace '/Users/jenkins/slave/dino'
                 }
             }
             stages {
