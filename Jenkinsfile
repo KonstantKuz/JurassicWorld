@@ -129,8 +129,8 @@ pipeline {
                 UNITY_PATH = '/Applications/Unity/Hub/Editor/2020.3.17f1/Unity.app/Contents/MacOS/Unity'
                 LANG='en_US.UTF-8'
                 KEYCHAIN_PATH='/Users/jenkins/Library/Keychains/jenkins.keychain-db'
-                DEVELOPMENT_PROFILE_ID='81b6c60f-221b-4a49-985b-1ccbf66305a9'
-                DISTRIBUTION_PROFILE_ID='f3bf7e3c-649d-43a9-a118-cb3519a6452c'
+                DEVELOPMENT_PROFILE_ID='5bd29ce3-e9f7-4637-a39c-c1a405647524'
+                DISTRIBUTION_PROFILE_ID='c49dd90e-4132-421c-9e46-85c751d0723a'
                 DEVELOPMENT_CODE_SIGN_IDENTITY='Apple Development: Ludd Ludd (NR2QZ5TJDW)'
                 DISTRIBUTION_CODE_SIGN_IDENTITY='Apple Distribution: Feofun Limited (8Y9KH6XT49)'
                 IPA_NAME='dinoWorldSurvival'  //Alas, it is not taken from OUTPUT_FILE_NAME. But from module name in project...
