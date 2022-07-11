@@ -1,4 +1,4 @@
-﻿using DinoWorldSurvival.Config;
+﻿using Dino.Config;
 using UnityEditor;
 using UnityEngine;
 

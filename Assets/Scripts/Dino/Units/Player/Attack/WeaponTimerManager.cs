@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using Dino.Units.Model;
+using Feofun.Components;
+using SuperMaxim.Core.Extensions;
+using UnityEngine;
+
+namespace Dino.Units.Player.Attack
+{
+    public class WeaponTimerManager : MonoBehaviour, IWeaponTimerManager, IInitializable<Squad.Squad>
+    {
+        private Dictionary<string, WeaponTimer> _timers;
+        
+        public void Init(Squad.Squad owner)
+        {
+            _timers = new Dictionary<string, WeaponTimer>();
+        }
+        public void Subscribe(string weaponId, IAttackModel attackModel, Action onAttackReady)
+        {
+            if (!_timers.ContainsKey(weaponId)) {
+                AddTimer(weaponId, attackModel);
+            } 
+            _timers[weaponId].OnAttackReady += onAttackReady;
+        }
+        public void Unsubscribe(string weaponId, Action onAttackReady)
+        {
+            if (_timers == null || !_timers.ContainsKey(weaponId)) {
+                return;
+            }
+            _timers[weaponId].OnAttackReady -= onAttackReady;
+        }
+        private void AddTimer(string unitTypeId, IAttackModel attackModel)
+        {
+            _timers[unitTypeId] = new WeaponTimer(attackModel.AttackInterval);;
+        }
+        private void Update()
+        {
+            _timers?.Values.ForEach(it => it.OnTick());
+        }
+    }
+}
