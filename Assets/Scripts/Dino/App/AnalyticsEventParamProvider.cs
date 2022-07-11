@@ -6,9 +6,12 @@ using Dino.Location;
 using Dino.Player.Progress.Service;
 using Dino.Session.Config;
 using Dino.Session.Service;
+
+
 using Dino.Units.Service;
 using Feofun.Config;
 using UnityEngine;
+
 using Zenject;
 
 namespace Dino.App
@@ -18,6 +21,7 @@ namespace Dino.App
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
+
         [Inject] private UnitService _unitService;
         [Inject] private World _world;
         
@@ -37,6 +41,7 @@ namespace Dino.App
                 EventParams.LEVEL_ID => _sessionService.LevelId,
                 EventParams.LEVEL_NUMBER => GetLevelNumber(),
                 EventParams.LEVEL_LOOP => GetLevelLoop(),
+
                 EventParams.ENEMY_KILLED => _sessionService.Kills.Value,
                 EventParams.TIME_SINCE_LEVEL_START => _sessionService.SessionTime,
                 EventParams.PASS_NUMBER => GetPassNumber(),

@@ -15,6 +15,7 @@ namespace Dino.Loot.Service
     public class DroppingLootService : IWorldScope
     {
         [Inject] private World _world;
+
         [Inject] private UnitService _unitService;
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private StringKeyedConfigCollection<DroppingLootConfig> _droppingLoots;

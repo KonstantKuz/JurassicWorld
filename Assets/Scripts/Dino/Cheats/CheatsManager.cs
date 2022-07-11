@@ -15,6 +15,7 @@ namespace Dino.Cheats
         
         [Inject] private LocalizationService _localizationService;     
 
+
         [SerializeField] private GameObject _fpsMonitor;
         [SerializeField] private GameObject _debugConsole;
         
@@ -34,6 +35,8 @@ namespace Dino.Cheats
             Application.Quit();
         }
         
+
+
         public void LogTestMessage()
         {
             var logger = this.Logger();

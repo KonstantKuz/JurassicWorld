@@ -6,7 +6,6 @@ using Dino.Session.Service;
 using UniRx;
 using UnityEngine;
 using Zenject;
-using Unit = Dino.Units.Unit;
 
 namespace Dino.Loot
 {
@@ -30,7 +29,7 @@ namespace Dino.Loot
         private Unit _unit;
         private CompositeDisposable _disposable;
         private List<DroppingLoot> _movingLoots = new List<DroppingLoot>();
-
+        
         private void Awake()
         {
             _collider.radius = _collectRadius;

@@ -3,7 +3,7 @@ using System;
 using Unity.Advertisement.IosSupport;
 using UnityEngine;
 
-namespace Survivors.IOSTransparency
+namespace Dino.IOSTransparency
 {
     public class IosATTListener: IATTListener
     {

@@ -1,7 +1,7 @@
 ﻿#if UNITY_IOS
 using Feofun.App.Init;
 
-namespace Survivors.IOSTransparency
+namespace Dino.IOSTransparency
 {
     public class IosATTInitStep: AppInitStep
     {

@@ -7,7 +7,7 @@ using UnityEngine;
 using Zenject;
 
 #if UNITY_IOS
-using Survivors.IOSTransparency;
+using Dino.IOSTransparency;
 #endif
 
 namespace Dino

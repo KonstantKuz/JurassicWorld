@@ -4,7 +4,6 @@ using Feofun.Components;
 using UniRx;
 using UnityEngine;
 using Zenject;
-
 namespace Dino.Units.Hud
 {
     public class HudOwner : MonoBehaviour, IInitializable<Unit>
