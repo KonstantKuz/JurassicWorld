@@ -1,19 +1,19 @@
-﻿using Feofun.Config;
+﻿using DinoWorldSurvival.App.Config;
+using DinoWorldSurvival.Config;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Modifiers.Config;
+using DinoWorldSurvival.Player.Inventory.Service;
+using DinoWorldSurvival.Squad.Config;
+using DinoWorldSurvival.Squad.Model;
+using DinoWorldSurvival.Units.Player.Config;
+using DinoWorldSurvival.Units.Service;
+using Feofun.Config;
 using Feofun.Modifiers;
-using Survivors.App.Config;
-using Survivors.Config;
-using Survivors.Extension;
-using Survivors.Location;
-using Survivors.Location.Service;
-using Survivors.Modifiers.Config;
-using Survivors.Player.Inventory.Service;
-using Survivors.Squad.Config;
-using Survivors.Squad.Model;
-using Survivors.Units.Player.Config;
-using Survivors.Units.Service;
 using Zenject;
 
-namespace Survivors.Squad
+namespace DinoWorldSurvival.Squad
 {
     public class SquadFactory
     {

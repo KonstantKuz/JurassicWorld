@@ -1,6 +1,6 @@
 ﻿using UniRx;
 
-namespace Survivors.Units.Component
+namespace DinoWorldSurvival.Units.Component
 {
     public interface IHealthBarOwner
     {

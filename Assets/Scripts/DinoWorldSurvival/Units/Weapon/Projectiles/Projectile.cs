@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using JetBrains.Annotations;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public abstract class Projectile : MonoBehaviour
     {

@@ -1,11 +1,11 @@
-﻿using Feofun.UI.Components.Button;
+﻿using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Session.Service;
+using Feofun.UI.Components.Button;
 using Feofun.UI.Dialog;
-using Survivors.Location;
-using Survivors.Session.Service;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Dialog.ReviveDialog
+namespace DinoWorldSurvival.UI.Dialog.ReviveDialog
 {
     public class ReviveDialog : BaseDialog
     {

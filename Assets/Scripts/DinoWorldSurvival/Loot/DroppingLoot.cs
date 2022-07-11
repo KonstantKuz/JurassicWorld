@@ -1,8 +1,8 @@
-﻿using Survivors.Location.Model;
-using Survivors.Loot.Config;
+﻿using DinoWorldSurvival.Location.Model;
+using DinoWorldSurvival.Loot.Config;
 using UnityEngine;
 
-namespace Survivors.Loot
+namespace DinoWorldSurvival.Loot
 {
     public class DroppingLoot : WorldObject
     {

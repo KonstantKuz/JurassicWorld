@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using Logger.Extension;
 using ModestTree;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public class Beam : MonoBehaviour
     {

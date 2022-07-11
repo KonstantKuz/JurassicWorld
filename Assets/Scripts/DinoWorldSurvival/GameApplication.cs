@@ -1,16 +1,15 @@
-﻿using Feofun.App;
+﻿using DinoWorldSurvival.App;
+using Feofun.App;
 using Feofun.App.Init;
 using JetBrains.Annotations;
-using Survivors.Analytics;
-using Survivors.App;
-#if UNITY_IOS
-using Survivors.IOSTransparency;
-#endif
 using UnityEditor;
 using UnityEngine;
 using Zenject;
+#if UNITY_IOS
+using Survivors.IOSTransparency;
+#endif
 
-namespace Survivors
+namespace DinoWorldSurvival
 {
     public class GameApplication : MonoBehaviour
     {

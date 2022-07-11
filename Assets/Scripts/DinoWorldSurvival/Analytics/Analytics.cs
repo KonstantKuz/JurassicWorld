@@ -3,7 +3,7 @@ using JetBrains.Annotations;
 using Logger.Extension;
 using Zenject;
 
-namespace Survivors.Analytics
+namespace DinoWorldSurvival.Analytics
 {
     [PublicAPI]
     public class Analytics

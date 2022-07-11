@@ -1,7 +1,7 @@
 ﻿
 using UnityEngine;
 
-namespace Survivors.Extension
+namespace DinoWorldSurvival.Extension
 {
     public static class MathExt
     {

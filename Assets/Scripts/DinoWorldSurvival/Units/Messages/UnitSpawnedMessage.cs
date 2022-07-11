@@ -1,4 +1,4 @@
-﻿namespace Survivors.Units.Messages
+﻿namespace DinoWorldSurvival.Units.Messages
 {
     public readonly struct UnitSpawnedMessage
     {

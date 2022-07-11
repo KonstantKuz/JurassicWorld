@@ -1,9 +1,9 @@
 ﻿using System;
-using Survivors.Units.Model;
-using Survivors.Units.Target;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Target;
 using UnityEngine;
 
-namespace Survivors.Units
+namespace DinoWorldSurvival.Units
 {
     public interface IUnit
     {

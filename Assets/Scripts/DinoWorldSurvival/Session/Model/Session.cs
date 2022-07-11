@@ -1,8 +1,8 @@
-﻿using Survivors.Session.Config;
-using Survivors.Units;
+﻿using DinoWorldSurvival.Session.Config;
+using DinoWorldSurvival.Units;
 using UnityEngine;
 
-namespace Survivors.Session.Model
+namespace DinoWorldSurvival.Session.Model
 {
     public class Session
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using Feofun.UI.Components;
 using UnityEngine;
 
-namespace Survivors.UI.Screen.Main
+namespace DinoWorldSurvival.UI.Screen.Main
 {
     public class LevelProgressBar : MonoBehaviour
     {

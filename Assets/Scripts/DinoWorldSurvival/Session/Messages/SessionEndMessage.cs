@@ -1,6 +1,6 @@
-﻿using Survivors.Session.Model;
+﻿using DinoWorldSurvival.Session.Model;
 
-namespace Survivors.Session.Messages
+namespace DinoWorldSurvival.Session.Messages
 {
     public readonly struct SessionEndMessage
     {

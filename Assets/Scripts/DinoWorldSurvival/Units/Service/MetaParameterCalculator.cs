@@ -1,10 +1,10 @@
-﻿using Feofun.Config;
+﻿using DinoWorldSurvival.Modifiers.Config;
+using DinoWorldSurvival.Player.Inventory.Model;
+using Feofun.Config;
 using Feofun.Modifiers;
 using Feofun.Modifiers.Parameters;
-using Survivors.Modifiers.Config;
-using Survivors.Player.Inventory.Model;
 
-namespace Survivors.Units.Service
+namespace DinoWorldSurvival.Units.Service
 {
     public class MetaParameterCalculator
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Survivors.Units.Component.Health
+namespace DinoWorldSurvival.Units.Component.Health
 {
     public interface IDamageable
     { 

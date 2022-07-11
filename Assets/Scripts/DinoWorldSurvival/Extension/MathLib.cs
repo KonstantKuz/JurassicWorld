@@ -1,4 +1,4 @@
-﻿namespace Survivors.Extension
+﻿namespace DinoWorldSurvival.Extension
 {
     public static class MathLib
     {

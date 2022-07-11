@@ -1,7 +1,7 @@
-﻿using Survivors.Units.Model;
+﻿using DinoWorldSurvival.Units.Model;
 using UniRx;
 
-namespace Survivors.Units.Enemy.Model
+namespace DinoWorldSurvival.Units.Enemy.Model
 {
     public class EnemyHealthModel : IHealthModel
     {

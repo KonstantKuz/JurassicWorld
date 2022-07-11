@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
-using Survivors.Session.Config;
 
-namespace Survivors.Analytics
+namespace DinoWorldSurvival.Analytics
 {
     public interface IAnalyticsImpl
     {

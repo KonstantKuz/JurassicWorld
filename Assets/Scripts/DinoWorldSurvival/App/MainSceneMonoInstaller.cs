@@ -1,18 +1,18 @@
+using DinoWorldSurvival.Analytics;
+using DinoWorldSurvival.Cheats.Installer;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Modifiers;
+using DinoWorldSurvival.Player.Installer;
+using DinoWorldSurvival.Reward.Installer;
+using DinoWorldSurvival.Squad.Installer;
+using DinoWorldSurvival.UI;
+using DinoWorldSurvival.Units.Installer;
 using Feofun.Localization.Service;
 using SuperMaxim.Messaging;
-using Survivors.Cheats.Installer;
-using Survivors.Analytics;
-using Survivors.Location;
-using Survivors.Modifiers;
-using Survivors.Player.Installer;
-using Survivors.Reward.Installer;
-using Survivors.Squad.Installer;
-using Survivors.UI;
-using Survivors.Units.Installer;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.App
+namespace DinoWorldSurvival.App
 {
     public class MainSceneMonoInstaller : MonoInstaller
     {

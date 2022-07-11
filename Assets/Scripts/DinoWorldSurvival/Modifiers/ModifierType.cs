@@ -1,4 +1,4 @@
-﻿namespace Survivors.Modifiers
+﻿namespace DinoWorldSurvival.Modifiers
 {
     public enum ModifierType
     {

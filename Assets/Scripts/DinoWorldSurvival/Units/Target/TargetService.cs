@@ -3,7 +3,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Survivors.Units.Target
+namespace DinoWorldSurvival.Units.Target
 {
     [PublicAPI]
     public class TargetService

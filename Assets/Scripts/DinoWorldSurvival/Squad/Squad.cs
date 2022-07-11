@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Modifiers;
+using DinoWorldSurvival.Squad.Component;
+using DinoWorldSurvival.Squad.Formation;
+using DinoWorldSurvival.Squad.Model;
+using DinoWorldSurvival.Units;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Player.Attack;
+using DinoWorldSurvival.Units.Player.Config;
+using DinoWorldSurvival.Units.Service;
 using EasyButtons;
 using Feofun.Components;
 using Feofun.Config;
 using Feofun.Modifiers;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
-using Survivors.Extension;
-using Survivors.Location;
-using Survivors.Modifiers;
-using Survivors.Squad.Component;
-using Survivors.Squad.Formation;
-using Survivors.Squad.Model;
-using Survivors.Units;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Player.Attack;
-using Survivors.Units.Player.Config;
-using Survivors.Units.Service;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;
-using Unit = Survivors.Units.Unit;
+using Unit = DinoWorldSurvival.Units.Unit;
 
-namespace Survivors.Squad
+namespace DinoWorldSurvival.Squad
 {
     public class Squad : MonoBehaviour, IWorldScope
     {

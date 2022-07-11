@@ -2,7 +2,7 @@
 using Feofun.Config;
 using Feofun.Modifiers.Config;
 
-namespace Survivors.Modifiers.Config
+namespace DinoWorldSurvival.Modifiers.Config
 {
     public class ParameterUpgradeConfig : ICollectionItem<string>
     {

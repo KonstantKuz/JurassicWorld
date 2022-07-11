@@ -1,12 +1,11 @@
+using DinoWorldSurvival.UI.Screen.Main;
+using DinoWorldSurvival.Units.Enemy;
 using Feofun.App.Init;
 using Feofun.UI.Screen;
 using JetBrains.Annotations;
-using Survivors.UI.Screen.Main;
-using Survivors.UI.Screen.World;
-using Survivors.Units.Enemy;
 using Zenject;
 
-namespace Survivors.App
+namespace DinoWorldSurvival.App
 {
     [PublicAPI]
     public class StartGameInitStep : AppInitStep

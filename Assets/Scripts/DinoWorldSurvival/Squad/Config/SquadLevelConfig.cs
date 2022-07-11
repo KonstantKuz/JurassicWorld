@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Feofun.Config;
 
-namespace Survivors.Squad.Config
+namespace DinoWorldSurvival.Squad.Config
 {
     [DataContract]
     public class SquadLevelConfig : ICollectionItem<string>

@@ -1,11 +1,11 @@
-﻿using EasyButtons;
+﻿using DinoWorldSurvival.Squad.Service;
+using EasyButtons;
 using Feofun.UI.Components;
-using Survivors.Squad.Service;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Screen.World.SquadProgress
+namespace DinoWorldSurvival.UI.Screen.World.SquadProgress
 {
     public class SquadProgressView : MonoBehaviour
     {

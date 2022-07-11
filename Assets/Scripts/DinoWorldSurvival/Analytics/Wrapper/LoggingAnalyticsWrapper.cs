@@ -2,7 +2,7 @@
 using System.Linq;
 using Logger.Extension;
 
-namespace Survivors.Analytics.Wrapper
+namespace DinoWorldSurvival.Analytics.Wrapper
 {
     public class LoggingAnalyticsWrapper : IAnalyticsImpl
     {

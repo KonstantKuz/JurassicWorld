@@ -1,8 +1,8 @@
-﻿using Survivors.Analytics.Wrapper;
-using Survivors.App;
+﻿using DinoWorldSurvival.Analytics.Wrapper;
+using DinoWorldSurvival.App;
 using Zenject;
 
-namespace Survivors.Analytics
+namespace DinoWorldSurvival.Analytics
 {
     public class AnalyticsInstaller
     {

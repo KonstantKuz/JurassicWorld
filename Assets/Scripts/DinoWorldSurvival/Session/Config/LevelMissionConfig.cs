@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Feofun.Config;
 
-namespace Survivors.Session.Config
+namespace DinoWorldSurvival.Session.Config
 {
     [DataContract]
     public class LevelMissionConfig : ICollectionItem<string>

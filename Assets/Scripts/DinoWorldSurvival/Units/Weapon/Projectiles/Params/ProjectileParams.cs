@@ -1,4 +1,4 @@
-﻿namespace Survivors.Units.Weapon.Projectiles.Params
+﻿namespace DinoWorldSurvival.Units.Weapon.Projectiles.Params
 {
     public class ProjectileParams : IProjectileParams
     {

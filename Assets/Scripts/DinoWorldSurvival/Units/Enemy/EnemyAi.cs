@@ -1,15 +1,15 @@
-﻿using Feofun.Components;
+﻿using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Units.Component.TargetSearcher;
+using DinoWorldSurvival.Units.Enemy.Model;
+using DinoWorldSurvival.Units.Target;
+using Feofun.Components;
 using JetBrains.Annotations;
-using Survivors.Extension;
-using Survivors.Location;
-using Survivors.Units.Component.TargetSearcher;
-using Survivors.Units.Enemy.Model;
-using Survivors.Units.Target;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
-namespace Survivors.Units.Enemy
+namespace DinoWorldSurvival.Units.Enemy
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyAi : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent, IUnitDeactivateEventReceiver

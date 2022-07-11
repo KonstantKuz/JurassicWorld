@@ -1,8 +1,8 @@
 ﻿using System;
-using Survivors.Squad.Service;
+using DinoWorldSurvival.Squad.Service;
 using UniRx;
 
-namespace Survivors.UI.Screen.World.SquadProgress
+namespace DinoWorldSurvival.UI.Screen.World.SquadProgress
 {
     public class SquadProgressModel
     {

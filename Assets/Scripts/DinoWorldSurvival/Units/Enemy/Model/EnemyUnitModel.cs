@@ -1,10 +1,9 @@
-﻿using Feofun.Modifiers;
-using Survivors.Units.Enemy.Config;
-using Survivors.Units.Model;
+﻿using DinoWorldSurvival.Units.Enemy.Config;
+using DinoWorldSurvival.Units.Model;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Survivors.Units.Enemy.Model
+namespace DinoWorldSurvival.Units.Enemy.Model
 {
     public class EnemyUnitModel : IUnitModel
     {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Survivors.Cheats.Data
+namespace DinoWorldSurvival.Cheats.Data
 {
     [DataContract]
     public class CheatSettings

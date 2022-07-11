@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Survivors.Location.Service;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Target;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Target;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public class Explosion : MonoBehaviour
     {

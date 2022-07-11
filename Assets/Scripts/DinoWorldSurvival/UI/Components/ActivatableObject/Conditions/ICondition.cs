@@ -1,6 +1,6 @@
 using System;
 
-namespace Survivors.UI.Components.ActivatableObject.Conditions
+namespace DinoWorldSurvival.UI.Components.ActivatableObject.Conditions
 {
     public interface ICondition
     {

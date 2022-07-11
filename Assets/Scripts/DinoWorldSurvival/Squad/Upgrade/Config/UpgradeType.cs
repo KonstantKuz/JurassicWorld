@@ -1,4 +1,4 @@
-﻿namespace Survivors.Squad.Upgrade.Config
+﻿namespace DinoWorldSurvival.Squad.Upgrade.Config
 {
     public enum UpgradeType
     {

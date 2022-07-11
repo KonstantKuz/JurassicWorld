@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Survivors.Player.Wallet;
-using Survivors.Reward.Model;
-using Survivors.Session.Model;
+using DinoWorldSurvival.Player.Wallet;
+using DinoWorldSurvival.Reward.Model;
+using DinoWorldSurvival.Session.Model;
 
-namespace Survivors.UI.Screen.Debriefing.Model
+namespace DinoWorldSurvival.UI.Screen.Debriefing.Model
 {
     public class DebriefingScreenModel
     {

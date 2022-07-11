@@ -1,13 +1,13 @@
 ﻿using System;
-using Survivors.Extension;
-using Survivors.Location.Service;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public class BallLightning : Projectile
     {

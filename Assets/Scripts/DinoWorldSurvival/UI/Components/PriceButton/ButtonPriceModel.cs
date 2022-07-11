@@ -1,6 +1,6 @@
 using System;
 
-namespace Survivors.UI.Components.PriceButton
+namespace DinoWorldSurvival.UI.Components.PriceButton
 {
     public class PriceButtonModel
     {

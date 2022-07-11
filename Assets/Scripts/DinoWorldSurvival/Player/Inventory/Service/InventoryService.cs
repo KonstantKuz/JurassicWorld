@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Survivors.Player.Inventory.Service
+namespace DinoWorldSurvival.Player.Inventory.Service
 {
     public class InventoryService
     {

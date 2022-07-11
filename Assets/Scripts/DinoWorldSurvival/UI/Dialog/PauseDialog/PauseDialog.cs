@@ -1,12 +1,12 @@
 ﻿using System;
+using DinoWorldSurvival.Location;
 using Feofun.UI.Dialog;
-using Survivors.Location;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine.EventSystems;
 using Zenject;
 
-namespace Survivors.UI.Dialog.PauseDialog
+namespace DinoWorldSurvival.UI.Dialog.PauseDialog
 {
     public class PauseDialog : BaseDialog
     {

@@ -1,6 +1,6 @@
 using Feofun.Repository;
 
-namespace Survivors.Session.Service
+namespace DinoWorldSurvival.Session.Service
 {
     public class SessionRepository : SingleModelRepository<Model.Session>
     {

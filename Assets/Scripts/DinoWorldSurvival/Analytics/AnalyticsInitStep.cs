@@ -1,7 +1,7 @@
 ﻿using Feofun.App.Init;
 using Zenject;
 
-namespace Survivors.Analytics
+namespace DinoWorldSurvival.Analytics
 {
     public class AnalyticsInitStep: AppInitStep
     {

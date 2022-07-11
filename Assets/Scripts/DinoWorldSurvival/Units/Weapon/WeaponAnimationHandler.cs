@@ -2,7 +2,7 @@
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class WeaponAnimationHandler : MonoBehaviour
     {

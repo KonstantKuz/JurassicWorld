@@ -1,7 +1,7 @@
-﻿using Feofun.Repository;
-using Survivors.Cheats.Data;
+﻿using DinoWorldSurvival.Cheats.Data;
+using Feofun.Repository;
 
-namespace Survivors.Cheats.Repository
+namespace DinoWorldSurvival.Cheats.Repository
 {
     public class CheatRepository : LocalPrefsSingleRepository<CheatSettings>
     {

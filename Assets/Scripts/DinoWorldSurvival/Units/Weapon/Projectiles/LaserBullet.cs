@@ -1,9 +1,9 @@
 ﻿using System;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public class LaserBullet : Bullet
     {

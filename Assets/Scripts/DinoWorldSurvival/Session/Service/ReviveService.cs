@@ -1,12 +1,12 @@
 ﻿using System.Linq;
+using DinoWorldSurvival.App.Config;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Units;
+using DinoWorldSurvival.Units.Service;
 using ModestTree;
-using Survivors.App.Config;
-using Survivors.Location;
-using Survivors.Units;
-using Survivors.Units.Service;
 using Zenject;
 
-namespace Survivors.Session.Service
+namespace DinoWorldSurvival.Session.Service
 {
     public class ReviveService
     {

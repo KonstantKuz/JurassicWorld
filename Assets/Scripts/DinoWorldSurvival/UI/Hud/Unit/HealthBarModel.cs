@@ -1,8 +1,8 @@
 ﻿using System;
-using Survivors.Units.Component;
+using DinoWorldSurvival.Units.Component;
 using UniRx;
 
-namespace Survivors.UI.Hud.Unit
+namespace DinoWorldSurvival.UI.Hud.Unit
 {
     public class HealthBarModel
     {

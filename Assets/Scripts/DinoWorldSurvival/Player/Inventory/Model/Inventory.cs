@@ -1,4 +1,4 @@
-﻿namespace Survivors.Player.Inventory.Model
+﻿namespace DinoWorldSurvival.Player.Inventory.Model
 {
     public class Inventory
     {

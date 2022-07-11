@@ -1,6 +1,6 @@
 ﻿using Feofun.Repository;
 
-namespace Survivors.Squad.Progress
+namespace DinoWorldSurvival.Squad.Progress
 {
     public class SquadProgressRepository : SingleModelRepository<SquadProgress>
     {

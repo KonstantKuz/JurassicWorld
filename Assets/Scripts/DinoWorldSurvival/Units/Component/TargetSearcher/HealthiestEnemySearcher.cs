@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Units.Service;
+using DinoWorldSurvival.Units.Target;
 using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
-using Survivors.Units.Service;
-using Survivors.Units.Target;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Component.TargetSearcher
+namespace DinoWorldSurvival.Units.Component.TargetSearcher
 {
     public class HealthiestEnemySearcher : MonoBehaviour, ITargetSearcher, IInitializable<IUnit>
     {

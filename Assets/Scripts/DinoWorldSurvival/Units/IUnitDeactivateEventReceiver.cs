@@ -1,4 +1,4 @@
-﻿namespace Survivors.Units
+﻿namespace DinoWorldSurvival.Units
 {
     public interface IUnitDeactivateEventReceiver
     {

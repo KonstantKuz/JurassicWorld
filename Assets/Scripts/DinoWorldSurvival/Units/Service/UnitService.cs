@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Units.Messages;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
 using SuperMaxim.Messaging;
-using Survivors.Units.Messages;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Service
+namespace DinoWorldSurvival.Units.Service
 {
     [PublicAPI]
     public class UnitService

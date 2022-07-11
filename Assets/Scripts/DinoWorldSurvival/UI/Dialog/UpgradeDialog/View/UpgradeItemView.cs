@@ -1,11 +1,11 @@
-﻿using Feofun.UI.Components;
+﻿using DinoWorldSurvival.UI.Dialog.UpgradeDialog.Model;
+using DinoWorldSurvival.Util;
+using Feofun.UI.Components;
 using Feofun.UI.Components.Button;
-using Survivors.UI.Dialog.UpgradeDialog.Model;
-using Survivors.Util;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Survivors.UI.Dialog.UpgradeDialog.View
+namespace DinoWorldSurvival.UI.Dialog.UpgradeDialog.View
 {
     public class UpgradeItemView : MonoBehaviour
     {

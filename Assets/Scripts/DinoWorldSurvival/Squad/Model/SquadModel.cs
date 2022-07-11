@@ -1,13 +1,13 @@
-﻿using Feofun.Modifiers;
+﻿using DinoWorldSurvival.Modifiers;
+using DinoWorldSurvival.Squad.Config;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Service;
+using Feofun.Modifiers;
 using Feofun.Modifiers.Modifiers;
 using Feofun.Modifiers.Parameters;
-using Survivors.Modifiers;
-using Survivors.Squad.Config;
-using Survivors.Units.Model;
-using Survivors.Units.Service;
 using UniRx;
 
-namespace Survivors.Squad.Model
+namespace DinoWorldSurvival.Squad.Model
 {
     public class SquadModel : ModifiableParameterOwner
     {

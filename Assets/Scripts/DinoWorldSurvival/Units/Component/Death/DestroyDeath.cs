@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Survivors.Units.Component.Death
+namespace DinoWorldSurvival.Units.Component.Death
 {
     public class DestroyDeath : MonoBehaviour, IUnitDeath
     {

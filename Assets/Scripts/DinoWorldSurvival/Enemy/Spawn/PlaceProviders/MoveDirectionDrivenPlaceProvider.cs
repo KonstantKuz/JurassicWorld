@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using Survivors.Enemy.Spawn.Config;
-using Survivors.Extension;
+﻿using System.Linq;
+using DinoWorldSurvival.Enemy.Spawn.Config;
+using DinoWorldSurvival.Extension;
 using UnityEngine;
 
-namespace Survivors.Enemy.Spawn.PlaceProviders
+namespace DinoWorldSurvival.Enemy.Spawn.PlaceProviders
 {
     public class MoveDirectionDrivenPlaceProvider : ISpawnPlaceProvider
     {

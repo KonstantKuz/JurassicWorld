@@ -1,14 +1,12 @@
 using System;
-using Feofun.Modifiers.Modifiers;
-using Survivors.Extension;
-using Survivors.Location.Service;
-using Survivors.Modifiers;
-using Survivors.Units.Weapon.Projectiles;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Weapon.Projectiles;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class IceWaveWeapon : MonoBehaviour
     {

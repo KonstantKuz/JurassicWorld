@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Cheats.Installer
+namespace DinoWorldSurvival.Cheats.Installer
 {
     public class CheatsInstaller : MonoBehaviour
     {

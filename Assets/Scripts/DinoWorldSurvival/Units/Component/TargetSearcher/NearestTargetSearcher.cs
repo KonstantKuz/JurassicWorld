@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Target;
 using Feofun.Components;
 using JetBrains.Annotations;
-using Survivors.Extension;
-using Survivors.Units.Model;
-using Survivors.Units.Target;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Component.TargetSearcher
+namespace DinoWorldSurvival.Units.Component.TargetSearcher
 {
     [RequireComponent(typeof(ITarget))]
     public class NearestTargetSearcher : MonoBehaviour, IInitializable<IUnit>, ITargetSearcher

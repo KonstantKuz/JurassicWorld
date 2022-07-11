@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Feofun.Config;
 
-namespace Survivors.Shop.Config
+namespace DinoWorldSurvival.Shop.Config
 {
     [DataContract]
     public class UpgradeProductConfig : ICollectionItem<string>

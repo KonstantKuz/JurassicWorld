@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using DinoWorldSurvival.Modifiers;
+using DinoWorldSurvival.Modifiers.Config;
+using DinoWorldSurvival.Squad.Upgrade;
+using DinoWorldSurvival.Squad.Upgrade.Config;
 using Feofun.Config;
 using Feofun.Extension;
 using Feofun.Localization;
-using Survivors.Config;
-using Survivors.Modifiers;
-using Survivors.Modifiers.Config;
-using Survivors.Squad.Upgrade;
-using Survivors.Squad.Upgrade.Config;
-using Zenject;
 
-namespace Survivors.UI.Dialog.UpgradeDialog.Model
+namespace DinoWorldSurvival.UI.Dialog.UpgradeDialog.Model
 {
     public class UpgradeDialogModel
     {

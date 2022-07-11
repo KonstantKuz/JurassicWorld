@@ -1,6 +1,6 @@
 ﻿using DG.Tweening;
 
-namespace Survivors.App
+namespace DinoWorldSurvival.App
 {
     public static class DOTweenInitializer
     {

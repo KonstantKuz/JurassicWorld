@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Survivors.Analytics.Wrapper
+namespace DinoWorldSurvival.Analytics.Wrapper
 {
     public class AppMetricaAnalyticsWrapper : IAnalyticsImpl
     {

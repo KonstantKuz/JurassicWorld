@@ -1,4 +1,4 @@
-namespace Survivors.Config
+namespace DinoWorldSurvival.Config
 {
     public static class Configs
     {

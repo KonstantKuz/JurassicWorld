@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Survivors.Units
+namespace DinoWorldSurvival.Units
 {
     public enum UnitType
     {

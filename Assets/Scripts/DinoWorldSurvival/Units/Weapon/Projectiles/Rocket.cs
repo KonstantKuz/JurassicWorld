@@ -1,12 +1,12 @@
 ﻿using System;
-using Survivors.Location.Service;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public sealed class Rocket : Projectile
     {

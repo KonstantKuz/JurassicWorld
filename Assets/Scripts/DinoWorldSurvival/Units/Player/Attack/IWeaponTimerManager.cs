@@ -1,7 +1,7 @@
 ﻿using System;
-using Survivors.Units.Model;
+using DinoWorldSurvival.Units.Model;
 
-namespace Survivors.Units.Player.Attack
+namespace DinoWorldSurvival.Units.Player.Attack
 {
     public interface IWeaponTimerManager
     {

@@ -1,8 +1,8 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace Survivors.App
+namespace DinoWorldSurvival.App
 {
     public class UpdateManager : MonoBehaviour
     {

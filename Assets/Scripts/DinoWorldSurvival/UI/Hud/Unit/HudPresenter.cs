@@ -1,10 +1,10 @@
+using DinoWorldSurvival.Squad.Component.Hud;
+using DinoWorldSurvival.Units.Component;
 using Feofun.UI;
-using Survivors.Squad.Component.Hud;
-using Survivors.Units.Component;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Hud.Unit
+namespace DinoWorldSurvival.UI.Hud.Unit
 {
     public class HudPresenter : MonoBehaviour
     {

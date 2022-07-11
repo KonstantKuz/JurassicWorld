@@ -1,4 +1,4 @@
-﻿namespace Survivors.Util
+﻿namespace DinoWorldSurvival.Util
 {
     public class IconPath
     {

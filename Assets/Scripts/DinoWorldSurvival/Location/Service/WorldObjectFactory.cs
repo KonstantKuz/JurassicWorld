@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Location.Model;
 using JetBrains.Annotations;
-using Survivors.Location.Model;
-using Survivors.Session;
-using UnityEngine;
-using Zenject;
 using UniRx;
 using UniRx.Triggers;
+using UnityEngine;
+using Zenject;
 
-namespace Survivors.Location.Service
+namespace DinoWorldSurvival.Location.Service
 {
     public class WorldObjectFactory : MonoBehaviour, IWorldScope
     {

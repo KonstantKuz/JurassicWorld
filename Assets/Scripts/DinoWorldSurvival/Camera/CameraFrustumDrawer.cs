@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Survivors.Location;
+using DinoWorldSurvival.Location;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Camera
+namespace DinoWorldSurvival.Camera
 {
     [RequireComponent(typeof(UnityEngine.Camera))]
     public class CameraFrustumDrawer : MonoBehaviour

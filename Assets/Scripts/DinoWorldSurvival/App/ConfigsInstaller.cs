@@ -1,23 +1,23 @@
-﻿using Feofun.Config;
+﻿using DinoWorldSurvival.App.Config;
+using DinoWorldSurvival.Config;
+using DinoWorldSurvival.Enemy.Spawn.Config;
+using DinoWorldSurvival.Loot.Config;
+using DinoWorldSurvival.Modifiers.Config;
+using DinoWorldSurvival.Reward.Config;
+using DinoWorldSurvival.Session.Config;
+using DinoWorldSurvival.Session.Model;
+using DinoWorldSurvival.Shop.Config;
+using DinoWorldSurvival.Squad.Config;
+using DinoWorldSurvival.Squad.Upgrade.Config;
+using DinoWorldSurvival.Squad.UpgradeSelection.Config;
+using DinoWorldSurvival.Units.Enemy.Config;
+using DinoWorldSurvival.Units.Player.Config;
+using Feofun.Config;
 using Feofun.Config.Serializers;
 using Feofun.Localization.Config;
-using Survivors.App.Config;
-using Survivors.Config;
-using Survivors.Enemy.Spawn.Config;
-using Survivors.Loot.Config;
-using Survivors.Modifiers.Config;
-using Survivors.Reward.Config;
-using Survivors.Session.Config;
-using Survivors.Session.Model;
-using Survivors.Shop.Config;
-using Survivors.Units.Enemy.Config;
-using Survivors.Squad.Config;
-using Survivors.Squad.Upgrade.Config;
-using Survivors.Squad.UpgradeSelection.Config;
-using Survivors.Units.Player.Config;
 using Zenject;
 
-namespace Survivors.App
+namespace DinoWorldSurvival.App
 {
     public class ConfigsInstaller
     {

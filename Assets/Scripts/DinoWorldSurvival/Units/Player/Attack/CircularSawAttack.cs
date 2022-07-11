@@ -1,16 +1,16 @@
 using System;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Player.Model;
+using DinoWorldSurvival.Units.Weapon;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using Feofun.Components;
 using Logger.Extension;
-using Survivors.Extension;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Player.Model;
-using Survivors.Units.Weapon;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Survivors.Units.Player.Attack
+namespace DinoWorldSurvival.Units.Player.Attack
 {
     public class CircularSawAttack : MonoBehaviour, IInitializable<IUnit>, IUnitDeathEventReceiver, IInitializable<Squad.Squad>
     {

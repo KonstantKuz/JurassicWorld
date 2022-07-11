@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using UnityEngine;
 
-namespace Survivors.Units.Enemy.Config
+namespace DinoWorldSurvival.Units.Enemy.Config
 {
     [DataContract]
     public class EnemyScaleConfig

@@ -1,12 +1,12 @@
-﻿using Feofun.Components;
+﻿using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Enemy.Model;
+using DinoWorldSurvival.Units.Weapon;
+using Feofun.Components;
 using Logger.Extension;
-using Survivors.Extension;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Enemy.Model;
-using Survivors.Units.Weapon;
 using UnityEngine;
 
-namespace Survivors.Units.Enemy
+namespace DinoWorldSurvival.Units.Enemy
 {
     [RequireComponent(typeof(EnemyAi))]
     public class EnemyAttack : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent

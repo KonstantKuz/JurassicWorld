@@ -1,12 +1,12 @@
 ﻿using System;
+using DinoWorldSurvival.Units.Model;
 using Feofun.Extension;
 using Logger.Extension;
-using Survivors.Units.Model;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Survivors.Units.Component.Health
+namespace DinoWorldSurvival.Units.Component.Health
 {
     public class Health : MonoBehaviour, IDamageable, IHealthBarOwner
     {

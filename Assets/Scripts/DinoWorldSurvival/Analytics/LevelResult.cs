@@ -1,4 +1,4 @@
-﻿namespace Survivors.Analytics
+﻿namespace DinoWorldSurvival.Analytics
 {
     public static class LevelResult
     {

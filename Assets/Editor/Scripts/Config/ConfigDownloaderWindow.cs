@@ -1,4 +1,4 @@
-﻿using Survivors.Config;
+﻿using DinoWorldSurvival.Config;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,12 +6,12 @@ namespace Editor.Scripts.Config
 {
     public class ConfigDownloaderWindow : EditorWindow
     {
-        private string _mainUrl = "https://docs.google.com/spreadsheets/d/1odalSr6hH_8yq5N4KE5EhJvO-ie0lbax57vAQCt6lzg";
+        private string _mainUrl = "https://docs.google.com/spreadsheets/d/1Z--m3yV_njdcRhjxrCQ_-IxC6v6oj5IFlSFxCq3Xzc4";
 
         private const int MAIN_SHEET_ID_LIST = 515831250; //id of sheet that contains list of all other sheets
         private const string MAIN_CONFIG_PATH = "Resources/Configs";
 
-        [MenuItem("Survivors/Download Configs")]
+        [MenuItem("App/Download Configs")]
         public static void ShowWindow()
         {
             GetWindow(typeof(ConfigDownloaderWindow));

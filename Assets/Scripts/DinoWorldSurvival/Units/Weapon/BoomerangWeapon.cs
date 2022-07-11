@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Survivors.Units.Model;
-using Survivors.Units.Player.Attack;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Player.Attack;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class BoomerangWeapon : RangedWeapon, IWeaponTimerManager
     {

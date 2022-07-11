@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Survivors.Player.Inventory.Model
+namespace DinoWorldSurvival.Player.Inventory.Model
 {
     public class UnitsMetaUpgrades
     {

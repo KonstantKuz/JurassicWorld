@@ -1,12 +1,12 @@
-﻿using EasyButtons;
+﻿using DinoWorldSurvival.Player.Wallet;
+using EasyButtons;
 using Feofun.UI.Components;
 using Feofun.Util.SerializableDictionary;
-using Survivors.Player.Wallet;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Screen.Header
+namespace DinoWorldSurvival.UI.Screen.Header
 {
     public class WalletWidgetPresenter : MonoBehaviour
     {

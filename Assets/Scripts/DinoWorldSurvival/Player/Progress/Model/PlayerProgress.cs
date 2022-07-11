@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Survivors.Player.Progress.Model
+namespace DinoWorldSurvival.Player.Progress.Model
 {
     public class PlayerProgress
     {

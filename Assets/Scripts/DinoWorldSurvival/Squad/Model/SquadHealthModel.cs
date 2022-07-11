@@ -1,11 +1,11 @@
-﻿using Feofun.Modifiers;
+﻿using DinoWorldSurvival.Modifiers;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Service;
+using Feofun.Modifiers;
 using Feofun.Modifiers.Parameters;
-using Survivors.Modifiers;
-using Survivors.Units.Model;
-using Survivors.Units.Service;
 using UniRx;
 
-namespace Survivors.Squad.Model
+namespace DinoWorldSurvival.Squad.Model
 {
     public class SquadHealthModel : IHealthModel
     {

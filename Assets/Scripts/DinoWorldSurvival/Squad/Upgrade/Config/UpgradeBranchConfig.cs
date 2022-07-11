@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Survivors.Squad.UpgradeSelection;
+using DinoWorldSurvival.Squad.UpgradeSelection;
 
-namespace Survivors.Squad.Upgrade.Config
+namespace DinoWorldSurvival.Squad.Upgrade.Config
 {
     public class UpgradeBranchConfig
     {

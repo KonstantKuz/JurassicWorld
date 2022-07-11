@@ -1,9 +1,8 @@
-﻿using System;
+﻿using DinoWorldSurvival.Extension;
 using EasyButtons;
-using Survivors.Extension;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     // source https://forum.unity.com/threads/how-to-make-a-mesh-for-fov.152317/ 
 

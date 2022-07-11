@@ -1,10 +1,10 @@
 ﻿using System;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using JetBrains.Annotations;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public abstract class BaseWeapon : MonoBehaviour
     {

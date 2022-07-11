@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Survivors.UI.Components.ActivatableObject
+namespace DinoWorldSurvival.UI.Components.ActivatableObject
 {
     public class ActivatableObject : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Survivors.Units.Target
+namespace DinoWorldSurvival.Units.Target
 {
     /// <summary>
     /// Для сущностей которые могут использоваться в качестве целей для атак, перемещения

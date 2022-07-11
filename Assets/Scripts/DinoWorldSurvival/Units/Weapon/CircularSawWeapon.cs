@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Feofun.Extension;
-using Survivors.Extension;
-using Survivors.Location;
-using Survivors.Location.Service;
-using Survivors.Session;
-using Survivors.Squad.Formation;
-using Survivors.Units.Weapon.Projectiles;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Weapon.Projectiles;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class CircularSawWeapon : MonoBehaviour
     {

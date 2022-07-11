@@ -1,8 +1,8 @@
 ﻿using System;
+using DinoWorldSurvival.Squad.Config;
 using Feofun.Config;
-using Survivors.Squad.Config;
 
-namespace Survivors.Squad.Progress
+namespace DinoWorldSurvival.Squad.Progress
 {
     public class SquadProgress
     {

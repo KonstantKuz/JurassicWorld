@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DinoWorldSurvival.UI.Screen;
 using Logger.Extension;
-using Survivors.UI.Screen;
 using UnityEngine;
 
 namespace Feofun.UI.Screen

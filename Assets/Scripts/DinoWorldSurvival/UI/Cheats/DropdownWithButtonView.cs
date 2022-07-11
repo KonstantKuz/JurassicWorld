@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Survivors.UI.Cheats
+namespace DinoWorldSurvival.UI.Cheats
 {
     public class DropdownWithButtonView : MonoBehaviour
     {

@@ -2,7 +2,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Survivors.Units.Component.Death
+namespace DinoWorldSurvival.Units.Component.Death
 {
     public class DeathAnimation : MonoBehaviour, IUnitDeath
     { 

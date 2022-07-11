@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using DinoWorldSurvival.Squad.Component;
+using DinoWorldSurvival.Units.Target;
 using Feofun.Components;
 using JetBrains.Annotations;
-using Survivors.Squad.Component;
-using Survivors.Units.Target;
 using UnityEngine;
 
-namespace Survivors.Units.Component.TargetSearcher
+namespace DinoWorldSurvival.Units.Component.TargetSearcher
 {
     public class SquadUnitTargetSearcher : MonoBehaviour, ITargetSearcher, IInitializable<IUnit>, IInitializable<Squad.Squad>
     {

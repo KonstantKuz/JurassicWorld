@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Modifiers.Config;
+using DinoWorldSurvival.Shop.Service;
+using DinoWorldSurvival.Squad.Upgrade;
+using DinoWorldSurvival.UI.Components.PriceButton;
+using DinoWorldSurvival.Util;
 using Feofun.Config;
 using Feofun.Localization;
-using Survivors.Modifiers.Config;
-using Survivors.Shop.Service;
-using Survivors.Squad.Upgrade;
-using Survivors.UI.Components.PriceButton;
-using Survivors.Util;
 using UniRx;
 
-namespace Survivors.UI.Screen.Main.MetaUpgrade.Model
+namespace DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.Model
 {
     public class MetaUpgradeModel
     {

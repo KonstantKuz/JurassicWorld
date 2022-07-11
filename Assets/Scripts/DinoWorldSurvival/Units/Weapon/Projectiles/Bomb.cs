@@ -1,14 +1,14 @@
 using System;
 using DG.Tweening;
-using Survivors.Extension;
-using Survivors.Location.Service;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public class Bomb : Projectile
     {

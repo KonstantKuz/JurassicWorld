@@ -1,10 +1,10 @@
 ﻿using System;
+using DinoWorldSurvival.Extension;
 using JetBrains.Annotations;
-using Survivors.Extension;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Survivors.Units.Player.Movement
+namespace DinoWorldSurvival.Units.Player.Movement
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class MovementController : MonoBehaviour, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver

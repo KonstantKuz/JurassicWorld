@@ -1,4 +1,4 @@
-﻿namespace Survivors.Location.Model
+﻿namespace DinoWorldSurvival.Location.Model
 {
     public enum ObjectType
     {

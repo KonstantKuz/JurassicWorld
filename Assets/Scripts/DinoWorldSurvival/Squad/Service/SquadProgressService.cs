@@ -1,14 +1,14 @@
 ﻿using System;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Squad.Config;
+using DinoWorldSurvival.Squad.Progress;
 using Feofun.Config;
 using JetBrains.Annotations;
-using Survivors.Location;
-using Survivors.Squad.Config;
-using Survivors.Squad.Progress;
 using UniRx;
 using UnityEngine.Assertions;
 using Zenject;
 
-namespace Survivors.Squad.Service
+namespace DinoWorldSurvival.Squad.Service
 {
     public class SquadProgressService : IWorldScope
     {

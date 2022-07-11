@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Survivors.Units.Enemy.Config
+namespace DinoWorldSurvival.Units.Enemy.Config
 {
     [DataContract]
     public class EnemyAttackConfig

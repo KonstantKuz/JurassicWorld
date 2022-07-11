@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Feofun.Config;
 
-namespace Survivors.Loot.Config
+namespace DinoWorldSurvival.Loot.Config
 {
     [DataContract]
     public class DroppingLootConfig : ICollectionItem<string>

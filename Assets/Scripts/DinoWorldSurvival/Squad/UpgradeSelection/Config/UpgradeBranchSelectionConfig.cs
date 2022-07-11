@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Survivors.Squad.UpgradeSelection.Config
+namespace DinoWorldSurvival.Squad.UpgradeSelection.Config
 {
     public class UpgradeBranchSelectionConfig
     {

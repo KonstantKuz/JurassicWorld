@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Units;
+using DinoWorldSurvival.Units.Component.TargetSearcher;
+using DinoWorldSurvival.Units.Target;
 using Feofun.Components;
-using Survivors.Units;
-using Survivors.Units.Component.TargetSearcher;
-using Survivors.Units.Target;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Squad.Component
+namespace DinoWorldSurvival.Squad.Component
 {
     public class SquadTargetProvider : MonoBehaviour, IInitializable<Squad>
     {

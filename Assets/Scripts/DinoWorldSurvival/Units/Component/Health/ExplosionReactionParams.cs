@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Survivors.Units.Component.Health
+namespace DinoWorldSurvival.Units.Component.Health
 {
     [Serializable]
     public struct ExplosionReactionParams

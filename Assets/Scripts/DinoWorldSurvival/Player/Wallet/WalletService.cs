@@ -4,7 +4,7 @@ using System.Linq;
 using UniRx;
 using UnityEngine.Assertions;
 
-namespace Survivors.Player.Wallet
+namespace DinoWorldSurvival.Player.Wallet
 {
     public class WalletService
     {

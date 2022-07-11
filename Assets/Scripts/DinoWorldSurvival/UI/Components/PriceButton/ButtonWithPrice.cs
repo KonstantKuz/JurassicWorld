@@ -5,7 +5,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Survivors.UI.Components.PriceButton
+namespace DinoWorldSurvival.UI.Components.PriceButton
 {
     public sealed class ButtonWithPrice : MonoBehaviour
     {

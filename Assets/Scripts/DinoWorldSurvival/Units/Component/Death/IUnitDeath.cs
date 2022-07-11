@@ -1,4 +1,4 @@
-﻿namespace Survivors.Units.Component.Death
+﻿namespace DinoWorldSurvival.Units.Component.Death
 {
     public interface IUnitDeath
     {

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Survivors.Enemy.Spawn.Config
+namespace DinoWorldSurvival.Enemy.Spawn.Config
 {
     public class HpsSpawnerConfig
     {

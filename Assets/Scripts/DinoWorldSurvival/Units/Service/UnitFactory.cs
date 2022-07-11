@@ -1,13 +1,13 @@
-﻿using Feofun.Config;
+﻿using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Enemy.Config;
+using DinoWorldSurvival.Units.Enemy.Model;
+using Feofun.Config;
 using ModestTree;
-using Survivors.Extension;
-using Survivors.Location;
-using Survivors.Location.Service;
-using Survivors.Units.Enemy.Config;
-using Survivors.Units.Enemy.Model;
 using Zenject;
 
-namespace Survivors.Units.Service
+namespace DinoWorldSurvival.Units.Service
 {
     public class UnitFactory
     {

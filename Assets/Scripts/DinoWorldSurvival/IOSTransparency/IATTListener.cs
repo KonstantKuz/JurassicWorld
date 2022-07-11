@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Survivors.IOSTransparency
+namespace DinoWorldSurvival.IOSTransparency
 {
     public interface IATTListener
     { 

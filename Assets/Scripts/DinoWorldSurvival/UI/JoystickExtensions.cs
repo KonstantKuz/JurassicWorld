@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Survivors.UI
+namespace DinoWorldSurvival.UI
 {
     public static class JoystickExtensions
     {

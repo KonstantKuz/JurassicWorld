@@ -1,8 +1,8 @@
-﻿using Survivors.Enemy.Spawn.Config;
-using Survivors.Location;
+﻿using DinoWorldSurvival.Enemy.Spawn.Config;
+using DinoWorldSurvival.Location;
 using UnityEngine;
 
-namespace Survivors.Enemy.Spawn.PlaceProviders
+namespace DinoWorldSurvival.Enemy.Spawn.PlaceProviders
 {
     public class CompositeSpawnPlaceProvider : ISpawnPlaceProvider
     {

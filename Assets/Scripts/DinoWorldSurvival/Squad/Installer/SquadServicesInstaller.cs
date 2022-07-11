@@ -1,10 +1,10 @@
-using Survivors.Squad.Progress;
-using Survivors.Squad.Service;
-using Survivors.Squad.Upgrade;
-using Survivors.Squad.UpgradeSelection;
+using DinoWorldSurvival.Squad.Progress;
+using DinoWorldSurvival.Squad.Service;
+using DinoWorldSurvival.Squad.Upgrade;
+using DinoWorldSurvival.Squad.UpgradeSelection;
 using Zenject;
 
-namespace Survivors.Squad.Installer
+namespace DinoWorldSurvival.Squad.Installer
 {
     public class SquadServicesInstaller
     {

@@ -1,4 +1,4 @@
-﻿namespace Survivors.Session.Model
+﻿namespace DinoWorldSurvival.Session.Model
 {
     public enum SessionResult
     {

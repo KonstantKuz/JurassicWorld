@@ -2,7 +2,7 @@
 using UniRx;
 using UnityEngine;
 
-namespace Survivors.Units.Player.Attack
+namespace DinoWorldSurvival.Units.Player.Attack
 {
     public class WeaponTimer
     {

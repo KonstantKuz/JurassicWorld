@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Survivors.Squad.Formation
+namespace DinoWorldSurvival.Squad.Formation
 {
     public interface ISquadFormation
     {

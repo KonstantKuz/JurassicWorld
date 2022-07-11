@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Analytics;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Player.Progress.Service;
+using DinoWorldSurvival.Session.Config;
+using DinoWorldSurvival.Session.Service;
+using DinoWorldSurvival.Squad.Component;
+using DinoWorldSurvival.Squad.Service;
+using DinoWorldSurvival.Squad.Upgrade;
+using DinoWorldSurvival.Units.Service;
 using Feofun.Config;
-using Survivors.Analytics;
-using Survivors.Location;
-using Survivors.Player.Progress.Service;
-using Survivors.Session.Config;
-using Survivors.Session.Service;
-using Survivors.Squad.Component;
-using Survivors.Squad.Service;
-using Survivors.Squad.Upgrade;
-using Survivors.Units.Service;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;
 
-namespace Survivors.App
+namespace DinoWorldSurvival.App
 {
     public class AnalyticsEventParamProvider: IEventParamProvider
     {

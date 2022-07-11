@@ -1,6 +1,6 @@
 using UniRx;
 
-namespace Survivors.Units.Model
+namespace DinoWorldSurvival.Units.Model
 {
     public interface IAttackModel
     {

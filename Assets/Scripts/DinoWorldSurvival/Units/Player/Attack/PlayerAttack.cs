@@ -1,18 +1,18 @@
 ﻿using System.Linq;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Component.TargetSearcher;
+using DinoWorldSurvival.Units.Player.Model;
+using DinoWorldSurvival.Units.Player.Movement;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon;
 using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
-using Survivors.Extension;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Component.TargetSearcher;
-using Survivors.Units.Player.Model;
-using Survivors.Units.Player.Movement;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon;
 using UniRx;
 using UnityEngine;
 
-namespace Survivors.Units.Player.Attack
+namespace DinoWorldSurvival.Units.Player.Attack
 {
     [RequireComponent(typeof(ITargetSearcher))]
     [RequireComponent(typeof(MovementController))]

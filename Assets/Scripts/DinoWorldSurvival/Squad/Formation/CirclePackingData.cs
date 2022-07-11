@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Survivors.Squad.Formation
+namespace DinoWorldSurvival.Squad.Formation
 {
 
     public class CirclePackingData: ScriptableObject

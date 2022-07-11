@@ -1,12 +1,12 @@
 ﻿using System;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Enemy.Model;
 using Feofun.Components;
-using Survivors.Extension;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Enemy.Model;
 using UniRx;
 using UnityEngine;
 
-namespace Survivors.Units.Enemy
+namespace DinoWorldSurvival.Units.Enemy
 {
     public class EnemySizeChanger : MonoBehaviour, IInitializable<IUnit>
     {

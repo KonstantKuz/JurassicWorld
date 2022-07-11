@@ -1,5 +1,5 @@
 
-namespace Survivors.Units.Model
+namespace DinoWorldSurvival.Units.Model
 {
     public interface IUnitModel
     {

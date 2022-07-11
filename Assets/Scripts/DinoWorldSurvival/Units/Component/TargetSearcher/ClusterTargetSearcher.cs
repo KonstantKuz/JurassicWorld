@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Units.Player.Model;
+using DinoWorldSurvival.Units.Target;
 using Feofun.Components;
-using Survivors.Units.Model;
-using Survivors.Units.Player.Model;
-using Survivors.Units.Target;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Component.TargetSearcher
+namespace DinoWorldSurvival.Units.Component.TargetSearcher
 {
     public class ClusterTargetSearcher : MonoBehaviour, ITargetSearcher, IInitializable<IUnit>
     {

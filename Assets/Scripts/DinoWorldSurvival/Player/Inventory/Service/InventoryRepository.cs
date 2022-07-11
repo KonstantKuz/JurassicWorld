@@ -1,6 +1,6 @@
 ﻿using Feofun.Repository;
 
-namespace Survivors.Player.Inventory.Service
+namespace DinoWorldSurvival.Player.Inventory.Service
 {
     public class InventoryRepository : LocalPrefsSingleRepository<Model.Inventory>
     {

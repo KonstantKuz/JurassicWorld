@@ -1,17 +1,17 @@
 using System;
 using System.Linq;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Loot.Config;
+using DinoWorldSurvival.Squad.Service;
+using DinoWorldSurvival.Units;
+using DinoWorldSurvival.Units.Service;
 using Feofun.Config;
 using Logger.Extension;
-using Survivors.Location;
-using Survivors.Location.Service;
-using Survivors.Loot.Config;
-using Survivors.Squad.Service;
-using Survivors.Units;
-using Survivors.Units.Service;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Survivors.Loot.Service
+namespace DinoWorldSurvival.Loot.Service
 {
     public class DroppingLootService : IWorldScope
     {

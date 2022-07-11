@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Survivors.Squad.Upgrade.Config;
+using DinoWorldSurvival.Squad.Upgrade.Config;
 
-namespace Survivors.Squad.Upgrade
+namespace DinoWorldSurvival.Squad.Upgrade
 {
     public class SquadUpgradeState
     {

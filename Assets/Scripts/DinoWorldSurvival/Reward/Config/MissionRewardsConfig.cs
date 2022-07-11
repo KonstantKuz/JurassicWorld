@@ -1,8 +1,8 @@
 ﻿using System.Runtime.Serialization;
+using DinoWorldSurvival.Session.Model;
 using Feofun.Config;
-using Survivors.Session.Model;
 
-namespace Survivors.Reward.Config
+namespace DinoWorldSurvival.Reward.Config
 {
     [DataContract]
     public class MissionRewardsConfig : ICollectionItem<SessionResult>

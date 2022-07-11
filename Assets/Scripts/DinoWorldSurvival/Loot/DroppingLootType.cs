@@ -1,4 +1,4 @@
-﻿namespace Survivors.Loot
+﻿namespace DinoWorldSurvival.Loot
 {
     public enum DroppingLootType
     {

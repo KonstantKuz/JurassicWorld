@@ -1,10 +1,10 @@
 ﻿using System;
-using Survivors.Player.Progress.Service;
+using DinoWorldSurvival.Player.Progress.Service;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Components.ActivatableObject.Conditions
+namespace DinoWorldSurvival.UI.Components.ActivatableObject.Conditions
 {
     public class GameCountCondition : MonoBehaviour, ICondition
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using DinoWorldSurvival.Player.Wallet;
+using DinoWorldSurvival.Reward.Model;
 using Feofun.Extension;
 using JetBrains.Annotations;
-using Survivors.Player.Wallet;
-using Survivors.Reward.Model;
 using Zenject;
 
-namespace Survivors.Reward.Service
+namespace DinoWorldSurvival.Reward.Service
 {
     [PublicAPI]
     public class RewardApplyService : IRewardApplyService

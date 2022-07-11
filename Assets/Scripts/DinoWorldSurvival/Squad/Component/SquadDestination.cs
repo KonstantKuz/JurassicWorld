@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Survivors.Squad.Component
+namespace DinoWorldSurvival.Squad.Component
 {
     public class SquadDestination : MonoBehaviour
     {

@@ -1,8 +1,8 @@
 ﻿using System;
+using DinoWorldSurvival.UI.Components.PriceButton;
 using Feofun.Localization;
-using Survivors.UI.Components.PriceButton;
 
-namespace Survivors.UI.Screen.Main.MetaUpgrade.Model
+namespace DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.Model
 {
     public class MetaUpgradeItemModel
     {

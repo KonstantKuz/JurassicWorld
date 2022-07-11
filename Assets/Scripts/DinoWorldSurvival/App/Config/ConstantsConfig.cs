@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Survivors.App.Config
+namespace DinoWorldSurvival.App.Config
 {
     public class ConstantsConfig
     {

@@ -1,22 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Squad.Service;
+using DinoWorldSurvival.Squad.Upgrade;
+using DinoWorldSurvival.Squad.Upgrade.Config;
+using DinoWorldSurvival.Squad.UpgradeSelection.Config;
+using DinoWorldSurvival.UI.Dialog.PauseDialog;
+using DinoWorldSurvival.UI.Dialog.UpgradeDialog;
+using DinoWorldSurvival.UI.Dialog.UpgradeDialog.Model;
 using Feofun.Extension;
 using Feofun.UI.Dialog;
 using Logger.Extension;
 using ModestTree;
-using Survivors.Location;
-using Survivors.Squad.Service;
-using Survivors.Squad.Upgrade;
-using Survivors.Squad.Upgrade.Config;
-using Survivors.Squad.UpgradeSelection.Config;
-using Survivors.UI.Dialog.PauseDialog;
-using Survivors.UI.Dialog.UpgradeDialog;
-using Survivors.UI.Dialog.UpgradeDialog.Model;
 using UniRx;
 using Zenject;
-using ILogger = Logger.ILogger;
 
-namespace Survivors.Squad.UpgradeSelection
+namespace DinoWorldSurvival.Squad.UpgradeSelection
 {
     public class UpgradeSelectionService : IWorldScope
     {

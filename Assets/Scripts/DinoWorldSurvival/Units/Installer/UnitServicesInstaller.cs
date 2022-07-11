@@ -1,8 +1,8 @@
-﻿using Survivors.Units.Service;
-using Survivors.Units.Target;
+﻿using DinoWorldSurvival.Units.Service;
+using DinoWorldSurvival.Units.Target;
 using Zenject;
 
-namespace Survivors.Units.Installer
+namespace DinoWorldSurvival.Units.Installer
 {
     public class UnitServicesInstaller
     {

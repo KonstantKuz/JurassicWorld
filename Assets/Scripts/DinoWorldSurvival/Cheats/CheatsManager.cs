@@ -1,15 +1,14 @@
 using System;
+using DinoWorldSurvival.Cheats.Data;
+using DinoWorldSurvival.Cheats.Repository;
+using DinoWorldSurvival.Squad.Service;
+using DinoWorldSurvival.Squad.Upgrade;
 using Feofun.Localization.Service;
 using Logger.Extension;
-using Survivors.Cheats.Data;
-using Survivors.Cheats.Repository;
-using Survivors.Player.Inventory.Service;
-using Survivors.Squad.Service;
-using Survivors.Squad.Upgrade;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Cheats
+namespace DinoWorldSurvival.Cheats
 {
     public class CheatsManager : MonoBehaviour
     {

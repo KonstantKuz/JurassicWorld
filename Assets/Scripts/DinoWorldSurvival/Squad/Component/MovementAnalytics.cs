@@ -1,8 +1,8 @@
-﻿using Survivors.Location;
+﻿using DinoWorldSurvival.Location;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Squad.Component
+namespace DinoWorldSurvival.Squad.Component
 {
     public class MovementAnalytics : MonoBehaviour, IWorldScope
     {

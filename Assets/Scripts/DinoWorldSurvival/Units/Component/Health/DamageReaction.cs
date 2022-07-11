@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Survivors.Units.Component.Health
+namespace DinoWorldSurvival.Units.Component.Health
 {
     [RequireComponent(typeof(IDamageable))]
     public class DamageReaction : MonoBehaviour

@@ -1,8 +1,8 @@
 ﻿using DG.Tweening;
-using Survivors.Extension;
+using DinoWorldSurvival.Extension;
 using UnityEngine;
 
-namespace Survivors.Units.Component.Health
+namespace DinoWorldSurvival.Units.Component.Health
 {
     [RequireComponent(typeof(Unit))]
     [RequireComponent(typeof(IDamageable))]

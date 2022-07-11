@@ -1,24 +1,24 @@
 ﻿using System;
-using Survivors.Extension;
+using DinoWorldSurvival.App;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Location.Model;
+using DinoWorldSurvival.Units.Component.Death;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Player.Model;
+using DinoWorldSurvival.Units.Player.Movement;
+using DinoWorldSurvival.Units.Service;
+using DinoWorldSurvival.Units.Target;
 using EasyButtons;
 using Feofun.Components;
 using Feofun.Modifiers;
 using JetBrains.Annotations;
 using Logger.Extension;
 using SuperMaxim.Core.Extensions;
-using Survivors.App;
-using Survivors.Location.Model;
-using Survivors.Units.Component.Death;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Service;
-using Survivors.Units.Target;
-using Zenject;
-using Survivors.Units.Model;
-using Survivors.Units.Player.Model;
-using Survivors.Units.Player.Movement;
 using UnityEngine;
+using Zenject;
 
-namespace Survivors.Units
+namespace DinoWorldSurvival.Units
 {
     public class Unit : WorldObject, IUnit
     {

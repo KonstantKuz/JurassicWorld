@@ -1,17 +1,17 @@
-﻿using Feofun.Config;
+﻿using DinoWorldSurvival.App.Config;
+using DinoWorldSurvival.Config;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Modifiers.Config;
+using DinoWorldSurvival.Player.Inventory.Model;
+using DinoWorldSurvival.Player.Inventory.Service;
+using Feofun.Config;
 using Feofun.Modifiers;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;
-using Survivors.App.Config;
-using Survivors.Config;
-using Survivors.Location;
-using Survivors.Modifiers.Config;
-using Survivors.Player.Inventory.Model;
-using Survivors.Player.Inventory.Service;
 using Zenject;
 
-namespace Survivors.Squad.Upgrade
+namespace DinoWorldSurvival.Squad.Upgrade
 {
     [PublicAPI]
     public class MetaUpgradeService

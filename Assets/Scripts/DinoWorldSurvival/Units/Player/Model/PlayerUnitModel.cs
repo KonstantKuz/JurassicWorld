@@ -1,9 +1,9 @@
-﻿using Feofun.Modifiers;
-using Survivors.Units.Model;
-using Survivors.Units.Player.Config;
-using Survivors.Units.Service;
+﻿using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Player.Config;
+using DinoWorldSurvival.Units.Service;
+using Feofun.Modifiers;
 
-namespace Survivors.Units.Player.Model
+namespace DinoWorldSurvival.Units.Player.Model
 {
     public class PlayerUnitModel : ModifiableParameterOwner, IUnitModel
     {

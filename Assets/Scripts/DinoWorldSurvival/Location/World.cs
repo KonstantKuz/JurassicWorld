@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
 using UnityEngine;
 
-namespace Survivors.Location
+namespace DinoWorldSurvival.Location
 {
     public class World : RootContainer
     {

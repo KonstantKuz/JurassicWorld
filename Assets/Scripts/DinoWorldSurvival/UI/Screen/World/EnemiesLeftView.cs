@@ -1,11 +1,11 @@
 ﻿using System;
+using DinoWorldSurvival.Session.Service;
 using Feofun.UI.Components;
-using Survivors.Session.Service;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Screen.World
+namespace DinoWorldSurvival.UI.Screen.World
 {
     public class EnemiesLeftView : MonoBehaviour
     {

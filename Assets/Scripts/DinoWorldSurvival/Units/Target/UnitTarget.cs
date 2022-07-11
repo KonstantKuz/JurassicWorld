@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Target
+namespace DinoWorldSurvival.Units.Target
 {
     public class UnitTarget : MonoBehaviour, ITarget, IUnitDeathEventReceiver
     {

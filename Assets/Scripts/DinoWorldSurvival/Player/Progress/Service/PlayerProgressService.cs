@@ -1,10 +1,10 @@
-﻿using SuperMaxim.Messaging;
-using Survivors.Player.Progress.Model;
-using Survivors.Session.Messages;
-using Survivors.Session.Model;
+﻿using DinoWorldSurvival.Player.Progress.Model;
+using DinoWorldSurvival.Session.Messages;
+using DinoWorldSurvival.Session.Model;
+using SuperMaxim.Messaging;
 using UniRx;
 
-namespace Survivors.Player.Progress.Service
+namespace DinoWorldSurvival.Player.Progress.Service
 {
     public class PlayerProgressService
     {

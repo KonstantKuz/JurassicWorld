@@ -1,9 +1,9 @@
-﻿using Survivors.Units.Enemy.Config;
-using Survivors.Units.Model;
+﻿using DinoWorldSurvival.Units.Enemy.Config;
+using DinoWorldSurvival.Units.Model;
 using UniRx;
 using UnityEngine;
 
-namespace Survivors.Units.Enemy.Model
+namespace DinoWorldSurvival.Units.Enemy.Model
 {
     public class EnemyAttackModel : IAttackModel
     {

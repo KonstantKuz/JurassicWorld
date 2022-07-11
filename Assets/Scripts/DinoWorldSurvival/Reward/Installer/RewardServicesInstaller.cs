@@ -1,7 +1,7 @@
-﻿using Survivors.Reward.Service;
+﻿using DinoWorldSurvival.Reward.Service;
 using Zenject;
 
-namespace Survivors.Reward.Installer
+namespace DinoWorldSurvival.Reward.Installer
 {
     public class RewardServicesInstaller
     {

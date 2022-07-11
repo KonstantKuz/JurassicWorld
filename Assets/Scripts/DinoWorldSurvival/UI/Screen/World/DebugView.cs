@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using Survivors.Units;
-using Survivors.Units.Service;
+using DinoWorldSurvival.Units;
+using DinoWorldSurvival.Units.Service;
 using TMPro;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Screen.World
+namespace DinoWorldSurvival.UI.Screen.World
 {
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class DebugView : MonoBehaviour

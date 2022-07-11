@@ -1,4 +1,4 @@
-﻿namespace Survivors.Reward.Model
+﻿namespace DinoWorldSurvival.Reward.Model
 {
     public class RewardItem
     {

@@ -1,29 +1,28 @@
 ﻿using System.Linq;
+using DinoWorldSurvival.App.Config;
+using DinoWorldSurvival.Enemy.Spawn;
+using DinoWorldSurvival.Enemy.Spawn.Config;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Player.Progress.Model;
+using DinoWorldSurvival.Player.Progress.Service;
+using DinoWorldSurvival.Session.Config;
+using DinoWorldSurvival.Session.Messages;
+using DinoWorldSurvival.Session.Model;
+using DinoWorldSurvival.Squad;
+using DinoWorldSurvival.UI.Dialog.ReviveDialog;
+using DinoWorldSurvival.Units;
+using DinoWorldSurvival.Units.Service;
 using Feofun.Config;
 using Feofun.Extension;
 using Feofun.UI.Dialog;
 using Logger.Extension;
-
 using SuperMaxim.Messaging;
-using Survivors.App.Config;
-using Survivors.Enemy.Spawn;
-using Survivors.Enemy.Spawn.Config;
-using Survivors.Location;
-using Survivors.Player.Progress.Model;
-using Survivors.Player.Progress.Service;
-using Survivors.Session.Config;
-using Survivors.Session.Messages;
-using Survivors.Session.Model;
-using Survivors.Squad;
-using Survivors.UI.Dialog.ReviveDialog;
-using Survivors.Units;
-using Survivors.Units.Service;
 using UniRx;
 using UnityEngine;
-using Zenject;
 using UnityEngine.Assertions;
+using Zenject;
 
-namespace Survivors.Session.Service
+namespace DinoWorldSurvival.Session.Service
 {
     public class SessionService : IWorldScope
     {

@@ -1,10 +1,10 @@
-﻿using Feofun.UI.Components;
-using Survivors.App.Config;
+﻿using DinoWorldSurvival.App.Config;
+using Feofun.UI.Components;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Hud.Unit
+namespace DinoWorldSurvival.UI.Hud.Unit
 {
     public class HealthBarView : MonoBehaviour
     {

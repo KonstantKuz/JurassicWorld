@@ -1,9 +1,9 @@
 ﻿using System;
-using Survivors.Extension;
-using Survivors.Units.Component.Health;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Component.Health;
 using UnityEngine;
 
-namespace Survivors.Units.Player.Damageable
+namespace DinoWorldSurvival.Units.Player.Damageable
 {
     public class DamageableChild : MonoBehaviour, IDamageable
     {

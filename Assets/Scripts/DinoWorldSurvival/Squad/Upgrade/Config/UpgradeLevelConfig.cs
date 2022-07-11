@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using JetBrains.Annotations;
 
-namespace Survivors.Squad.Upgrade.Config
+namespace DinoWorldSurvival.Squad.Upgrade.Config
 {
     public class UpgradeLevelConfig
     {

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections;
+using DinoWorldSurvival.Enemy.Spawn.Config;
+using DinoWorldSurvival.Session.Messages;
+using DinoWorldSurvival.Units.Enemy.Config;
 using Feofun.Config;
 using Logger.Extension;
 using SuperMaxim.Messaging;
-using Survivors.Enemy.Spawn.Config;
-using Survivors.Session.Messages;
-using Survivors.Units.Enemy.Config;
 using UnityEngine;
 using Zenject;
 using Random = UnityEngine.Random;
 
-namespace Survivors.Enemy.Spawn
+namespace DinoWorldSurvival.Enemy.Spawn
 {
     public class EnemyHpsSpawner : MonoBehaviour
     {

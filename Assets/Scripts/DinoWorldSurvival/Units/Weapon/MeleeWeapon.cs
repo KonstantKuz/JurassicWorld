@@ -1,11 +1,11 @@
 ﻿using System;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using Logger.Extension;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class MeleeWeapon : BaseWeapon
     {

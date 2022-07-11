@@ -1,4 +1,4 @@
-﻿namespace Survivors.Location
+﻿namespace DinoWorldSurvival.Location
 {
     public interface IWorldScope
     {

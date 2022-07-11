@@ -1,7 +1,7 @@
-﻿using Feofun.Repository;
-using Survivors.Player.Progress.Model;
+﻿using DinoWorldSurvival.Player.Progress.Model;
+using Feofun.Repository;
 
-namespace Survivors.Player.Progress.Service
+namespace DinoWorldSurvival.Player.Progress.Service
 {
     public class PlayerProgressRepository : LocalPrefsSingleRepository<PlayerProgress>
     {

@@ -1,9 +1,9 @@
 using System.Collections;
+using DinoWorldSurvival.Session.Service;
+using DinoWorldSurvival.UI.Screen.Menu;
+using DinoWorldSurvival.UI.Screen.World;
 using Feofun.UI.Screen;
 using JetBrains.Annotations;
-using Survivors.Session.Service;
-using Survivors.UI.Screen.Menu;
-using Survivors.UI.Screen.World;
 using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
@@ -11,7 +11,7 @@ using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using Zenject;
 
-namespace Survivors.UI.Screen.Main
+namespace DinoWorldSurvival.UI.Screen.Main
 {
     public class MainScreen : BaseScreen
     {

@@ -1,7 +1,7 @@
-﻿using Feofun.Components;
-using Survivors.Units.Component.Health;
+﻿using DinoWorldSurvival.Units.Component.Health;
+using Feofun.Components;
 
-namespace Survivors.Squad.Component
+namespace DinoWorldSurvival.Squad.Component
 {
     public class SquadWithHealth : Health, IInitializable<Squad>
     {

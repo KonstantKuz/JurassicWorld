@@ -1,10 +1,10 @@
 ﻿using System.Linq;
+using DinoWorldSurvival.UI.Components.ActivatableObject.Conditions;
 using SuperMaxim.Core.Extensions;
-using Survivors.UI.Components.ActivatableObject.Conditions;
 using UniRx;
 using UnityEngine;
 
-namespace Survivors.UI.Components.ActivatableObject
+namespace DinoWorldSurvival.UI.Components.ActivatableObject
 {
     public class ActivatableConditionObject : MonoBehaviour
     {

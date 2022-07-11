@@ -1,10 +1,10 @@
-using Survivors.Player.Inventory.Service;
-using Survivors.Player.Progress.Service;
-using Survivors.Player.Wallet;
-using Survivors.Shop.Service;
+using DinoWorldSurvival.Player.Inventory.Service;
+using DinoWorldSurvival.Player.Progress.Service;
+using DinoWorldSurvival.Player.Wallet;
+using DinoWorldSurvival.Shop.Service;
 using Zenject;
 
-namespace Survivors.Player.Installer
+namespace DinoWorldSurvival.Player.Installer
 {
     public class PlayerServicesInstaller
     {

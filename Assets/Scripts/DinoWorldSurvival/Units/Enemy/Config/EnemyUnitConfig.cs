@@ -1,8 +1,8 @@
 using System.Runtime.Serialization;
+using DinoWorldSurvival.Loot.Config;
 using Feofun.Config;
-using Survivors.Loot.Config;
 
-namespace Survivors.Units.Enemy.Config
+namespace DinoWorldSurvival.Units.Enemy.Config
 {
     public class EnemyUnitConfig : ICollectionItem<string>
     {

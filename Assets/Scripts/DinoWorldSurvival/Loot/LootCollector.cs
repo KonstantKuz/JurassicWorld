@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Loot.Service;
+using DinoWorldSurvival.Session.Service;
 using Feofun.Components;
-using Survivors.Location;
-using Survivors.Loot.Service;
-using Survivors.Session.Service;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Loot
+namespace DinoWorldSurvival.Loot
 {
     public class LootCollector : MonoBehaviour, IInitializable<Squad.Squad>
     {

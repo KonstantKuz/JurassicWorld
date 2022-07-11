@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Component.TargetSearcher;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using Feofun.Extension;
-using Survivors.Extension;
-using Survivors.Units.Component.TargetSearcher;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class MultiTargetRangedWeapon: RangedWeapon
     {

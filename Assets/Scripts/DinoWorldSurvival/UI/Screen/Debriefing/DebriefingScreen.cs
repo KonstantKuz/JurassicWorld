@@ -1,15 +1,15 @@
-﻿using Feofun.UI.Components.Button;
+﻿using DinoWorldSurvival.Reward.Service;
+using DinoWorldSurvival.Session.Model;
+using DinoWorldSurvival.UI.Screen.Debriefing.Model;
+using DinoWorldSurvival.UI.Screen.Main;
+using DinoWorldSurvival.UI.Screen.Menu;
+using Feofun.UI.Components.Button;
 using Feofun.UI.Screen;
 using JetBrains.Annotations;
-using Survivors.Reward.Service;
-using Survivors.Session.Model;
-using Survivors.UI.Screen.Main;
-using Survivors.UI.Screen.Debriefing.Model;
-using Survivors.UI.Screen.Menu;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Screen.Debriefing
+namespace DinoWorldSurvival.UI.Screen.Debriefing
 {
     public class DebriefingScreen : BaseScreen
     {

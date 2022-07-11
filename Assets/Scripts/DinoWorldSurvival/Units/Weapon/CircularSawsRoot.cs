@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using Feofun.Components;
-using Survivors.Units.Weapon.Projectiles;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class CircularSawsRoot : MonoBehaviour, IInitializable<Squad.Squad>
     {

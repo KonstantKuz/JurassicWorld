@@ -1,6 +1,6 @@
-﻿using Survivors.Session.Model;
+﻿using DinoWorldSurvival.Session.Model;
 
-namespace Survivors.UI.Screen.Debriefing.Model
+namespace DinoWorldSurvival.UI.Screen.Debriefing.Model
 {
     public class ResultPanelModel
     {

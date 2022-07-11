@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Survivors.Location
+namespace DinoWorldSurvival.Location
 {
     public class RootContainer : MonoBehaviour
     {

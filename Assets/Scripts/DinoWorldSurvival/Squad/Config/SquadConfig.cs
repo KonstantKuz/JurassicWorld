@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Survivors.Squad.Config
+namespace DinoWorldSurvival.Squad.Config
 {
     public class SquadConfig
     {

@@ -1,13 +1,13 @@
-﻿using Feofun.Modifiers;
+﻿using DinoWorldSurvival.Modifiers;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Player.Config;
+using DinoWorldSurvival.Units.Service;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
+using Feofun.Modifiers;
 using Feofun.Modifiers.Parameters;
-using Survivors.Modifiers;
-using Survivors.Units.Model;
-using Survivors.Units.Player.Config;
-using Survivors.Units.Service;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UniRx;
 
-namespace Survivors.Units.Player.Model
+namespace DinoWorldSurvival.Units.Player.Model
 {
     public class PlayerAttackModel : IAttackModel
     {

@@ -1,7 +1,7 @@
 using Logger;
 using UnityEngine;
 
-namespace Survivors.Logger
+namespace DinoWorldSurvival.Logger
 {
     public static class LoggerInitializer
     {

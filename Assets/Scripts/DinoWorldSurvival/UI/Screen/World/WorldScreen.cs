@@ -1,19 +1,16 @@
 ﻿using System.Collections;
-using Feofun.UI.Dialog;
+using DinoWorldSurvival.Session.Messages;
+using DinoWorldSurvival.Session.Model;
+using DinoWorldSurvival.Session.Service;
+using DinoWorldSurvival.UI.Screen.Debriefing;
+using DinoWorldSurvival.UI.Screen.Debriefing.Model;
 using Feofun.UI.Screen;
 using JetBrains.Annotations;
 using SuperMaxim.Messaging;
-using Survivors.Session.Messages;
-using Survivors.Session.Model;
-using Survivors.Session.Service;
-using Survivors.UI.Screen.Debriefing;
-using Survivors.UI.Screen.Debriefing.Model;
-using UniRx;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Zenject;
 
-namespace Survivors.UI.Screen.World
+namespace DinoWorldSurvival.UI.Screen.World
 {
     public class WorldScreen : BaseScreen
     {

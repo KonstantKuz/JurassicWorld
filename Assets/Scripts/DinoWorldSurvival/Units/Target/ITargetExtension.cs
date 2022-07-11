@@ -1,4 +1,4 @@
-﻿namespace Survivors.Units.Target
+﻿namespace DinoWorldSurvival.Units.Target
 {
     public static class TargetExtension
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine.AI;
 
-namespace Survivors.Units.Enemy
+namespace DinoWorldSurvival.Units.Enemy
 {
     public static class NavMeshInitializer
     {

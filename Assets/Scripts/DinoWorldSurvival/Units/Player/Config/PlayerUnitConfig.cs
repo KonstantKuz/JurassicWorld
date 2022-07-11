@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Feofun.Config;
 
-namespace Survivors.Units.Player.Config
+namespace DinoWorldSurvival.Units.Player.Config
 {
     [DataContract]
     public class PlayerUnitConfig : ICollectionItem<string>

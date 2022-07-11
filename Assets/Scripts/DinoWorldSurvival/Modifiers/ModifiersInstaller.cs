@@ -2,7 +2,7 @@
 using Feofun.Modifiers.Modifiers;
 using Zenject;
 
-namespace Survivors.Modifiers
+namespace DinoWorldSurvival.Modifiers
 {
     public static class ModifiersInstaller
     {

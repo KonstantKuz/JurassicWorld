@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
+using DinoWorldSurvival.Player.Wallet;
+using DinoWorldSurvival.Reward.Config;
+using DinoWorldSurvival.Reward.Model;
+using DinoWorldSurvival.Session.Model;
 using Feofun.Config;
 using JetBrains.Annotations;
-using Survivors.Player.Wallet;
-using Survivors.Reward.Config;
-using Survivors.Reward.Model;
-using Survivors.Session.Model;
 using Zenject;
 
-namespace Survivors.Reward.Service
+namespace DinoWorldSurvival.Reward.Service
 {
     [PublicAPI]
     public class MissionResultRewardService

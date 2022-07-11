@@ -1,11 +1,11 @@
-﻿using Survivors.Enemy.Spawn;
-using Survivors.Location.Service;
-using Survivors.Loot.Service;
-using Survivors.Session.Service;
+﻿using DinoWorldSurvival.Enemy.Spawn;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Loot.Service;
+using DinoWorldSurvival.Session.Service;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Location
+namespace DinoWorldSurvival.Location
 {
     public class WorldServicesInstaller : MonoBehaviour
     {

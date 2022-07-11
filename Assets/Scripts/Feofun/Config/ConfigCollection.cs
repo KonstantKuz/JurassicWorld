@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using Feofun.Config.Csv;
 using JetBrains.Annotations;
-using Survivors.Config;
 
 namespace Feofun.Config
 {

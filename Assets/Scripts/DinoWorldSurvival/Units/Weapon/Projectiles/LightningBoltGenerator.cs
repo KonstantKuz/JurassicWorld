@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using DigitalRuby.ThunderAndLightning;
-using Survivors.Location.Service;
+using DinoWorldSurvival.Location.Service;
 using UnityEngine;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public class LightningBoltGenerator : MonoBehaviour
     {

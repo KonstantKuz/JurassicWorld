@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using DinoWorldSurvival.Units.Model;
 using Feofun.Components;
 using SuperMaxim.Core.Extensions;
-using Survivors.Units.Model;
 using UnityEngine;
 
-namespace Survivors.Units.Player.Attack
+namespace DinoWorldSurvival.Units.Player.Attack
 {
     public class WeaponTimerManager : MonoBehaviour, IWeaponTimerManager, IInitializable<Squad.Squad>
     {

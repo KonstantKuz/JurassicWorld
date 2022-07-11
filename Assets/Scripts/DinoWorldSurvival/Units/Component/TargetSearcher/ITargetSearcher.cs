@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using DinoWorldSurvival.Units.Target;
 using JetBrains.Annotations;
-using Survivors.Units.Target;
 
-namespace Survivors.Units.Component.TargetSearcher
+namespace DinoWorldSurvival.Units.Component.TargetSearcher
 {
     public interface ITargetSearcher
     {

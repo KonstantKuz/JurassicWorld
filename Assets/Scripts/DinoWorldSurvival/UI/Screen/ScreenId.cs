@@ -1,4 +1,4 @@
-﻿namespace Survivors.UI.Screen
+﻿namespace DinoWorldSurvival.UI.Screen
 {
     public enum ScreenId
     {

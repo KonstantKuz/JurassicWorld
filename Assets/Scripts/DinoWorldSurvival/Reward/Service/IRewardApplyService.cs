@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Survivors.Reward.Model;
+using DinoWorldSurvival.Reward.Model;
 
-namespace Survivors.Reward.Service
+namespace DinoWorldSurvival.Reward.Service
 {
     public interface IRewardApplyService
     {

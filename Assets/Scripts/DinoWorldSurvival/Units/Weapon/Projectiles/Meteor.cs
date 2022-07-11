@@ -1,11 +1,11 @@
 ﻿using System;
-using Survivors.Location.Service;
-using Survivors.Units.Component.Health;
-using Survivors.Units.Weapon.Projectiles.Params;
+using DinoWorldSurvival.Location.Service;
+using DinoWorldSurvival.Units.Component.Health;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.Units.Weapon.Projectiles
+namespace DinoWorldSurvival.Units.Weapon.Projectiles
 {
     public class Meteor : MonoBehaviour
     {

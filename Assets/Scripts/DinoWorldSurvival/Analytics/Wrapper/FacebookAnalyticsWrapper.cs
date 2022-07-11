@@ -2,9 +2,8 @@
 using Facebook.Unity;
 using Logger.Extension;
 using UnityEngine;
-using ILogger = Logger.ILogger;
 
-namespace Survivors.Analytics.Wrapper
+namespace DinoWorldSurvival.Analytics.Wrapper
 {
     public class FacebookAnalyticsWrapper : IAnalyticsImpl
     {

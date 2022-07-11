@@ -3,13 +3,13 @@ using System.Linq;
 using AppsFlyerSDK;
 using Logger.Extension;
 
-namespace Survivors.Analytics.Wrapper
+namespace DinoWorldSurvival.Analytics.Wrapper
 {
     public class AppsFlyerAnalyticsWrapper : IAnalyticsImpl
     {
         
-        private const string DEV_KEY = "9gdCn4p9McTuPMAjnzTk4Y";
-        private const string APP_ID = "1626072143";
+        private const string DEV_KEY = "-";
+        private const string APP_ID = "-";
 
         public void Init()
         {

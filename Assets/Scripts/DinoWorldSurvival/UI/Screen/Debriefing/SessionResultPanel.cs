@@ -1,10 +1,10 @@
 using System.Collections;
-using UnityEngine;
+using DinoWorldSurvival.Session.Model;
+using DinoWorldSurvival.UI.Screen.Debriefing.Model;
 using Feofun.UI.Components;
-using Survivors.Session.Model;
-using Survivors.UI.Screen.Debriefing.Model;
+using UnityEngine;
 
-namespace Survivors.UI.Screen.Debriefing
+namespace DinoWorldSurvival.UI.Screen.Debriefing
 {
     public class SessionResultPanel : MonoBehaviour
     {

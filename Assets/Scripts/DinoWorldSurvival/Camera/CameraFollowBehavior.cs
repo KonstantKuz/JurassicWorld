@@ -4,7 +4,7 @@ using Feofun.Components;
 using UniRx;
 using UnityEngine;
 
-namespace Survivors.Camera
+namespace DinoWorldSurvival.Camera
 {
     public class CameraFollowBehavior : MonoBehaviour, IInitializable<Squad.Squad>
     {

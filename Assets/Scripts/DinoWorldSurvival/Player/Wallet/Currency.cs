@@ -1,5 +1,5 @@
 ﻿
-namespace Survivors.Player.Wallet
+namespace DinoWorldSurvival.Player.Wallet
 {
     public enum Currency
     {

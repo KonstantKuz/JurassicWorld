@@ -1,7 +1,7 @@
 ﻿using Feofun.UI.Screen;
 using UnityEngine;
 
-namespace Survivors.UI.Screen.Menu
+namespace DinoWorldSurvival.UI.Screen.Menu
 {
     [RequireComponent(typeof(ScreenSwitcher))]
     public class MenuScreen : BaseScreen

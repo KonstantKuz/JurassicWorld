@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Survivors.Units.Player.Config
+namespace DinoWorldSurvival.Units.Player.Config
 {
     [DataContract]
     public class PlayerAttackConfig

@@ -4,7 +4,7 @@ using Feofun.UI.Screen;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI
+namespace DinoWorldSurvival.UI
 {
     public class UIInstaller : MonoBehaviour
     {

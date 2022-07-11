@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Survivors.Analytics
+namespace DinoWorldSurvival.Analytics
 {
     public interface IEventParamProvider
     {

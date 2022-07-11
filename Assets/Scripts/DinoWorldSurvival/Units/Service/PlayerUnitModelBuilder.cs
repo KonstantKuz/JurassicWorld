@@ -1,15 +1,15 @@
-﻿using Feofun.Config;
+﻿using DinoWorldSurvival.Config;
+using DinoWorldSurvival.Modifiers.Config;
+using DinoWorldSurvival.Player.Inventory.Service;
+using DinoWorldSurvival.Units.Model;
+using DinoWorldSurvival.Units.Player.Config;
+using DinoWorldSurvival.Units.Player.Model;
+using Feofun.Config;
 using Feofun.Modifiers;
 using JetBrains.Annotations;
-using Survivors.Config;
-using Survivors.Modifiers.Config;
-using Survivors.Player.Inventory.Service;
-using Survivors.Units.Model;
-using Survivors.Units.Player.Config;
-using Survivors.Units.Player.Model;
 using Zenject;
 
-namespace Survivors.Units.Service
+namespace DinoWorldSurvival.Units.Service
 {
     [PublicAPI]
     public class PlayerUnitModelBuilder

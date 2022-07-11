@@ -1,6 +1,6 @@
-﻿using Survivors.Units.Player.Model;
+﻿using DinoWorldSurvival.Units.Player.Model;
 
-namespace Survivors.Units.Weapon.Projectiles.Params
+namespace DinoWorldSurvival.Units.Weapon.Projectiles.Params
 {
     public class PlayerProjectileParams : IProjectileParams
     {

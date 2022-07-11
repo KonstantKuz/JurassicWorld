@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Extension;
+using DinoWorldSurvival.Units.Target;
+using DinoWorldSurvival.Units.Weapon.Projectiles;
+using DinoWorldSurvival.Units.Weapon.Projectiles.Params;
 using ModestTree;
-using Survivors.Extension;
-using Survivors.Units.Target;
-using Survivors.Units.Weapon.Projectiles;
-using Survivors.Units.Weapon.Projectiles.Params;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Survivors.Units.Weapon
+namespace DinoWorldSurvival.Units.Weapon
 {
     public class BombWeapon : RangedWeapon
     {
