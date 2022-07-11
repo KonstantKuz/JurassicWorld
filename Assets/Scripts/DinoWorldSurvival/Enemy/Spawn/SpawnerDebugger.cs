@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Survivors.Enemy.Spawn
+namespace DinoWorldSurvival.Enemy.Spawn
 {
     public class SpawnerDebugger : MonoBehaviour
     {

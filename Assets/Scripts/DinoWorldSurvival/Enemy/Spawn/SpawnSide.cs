@@ -1,4 +1,4 @@
-﻿namespace Survivors.Enemy.Spawn
+﻿namespace DinoWorldSurvival.Enemy.Spawn
 {
     public enum SpawnSide
     {

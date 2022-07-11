@@ -1,22 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Enemy.Spawn.Config;
+using DinoWorldSurvival.Enemy.Spawn.PlaceProviders;
+using DinoWorldSurvival.Location;
+using DinoWorldSurvival.Session.Messages;
+using DinoWorldSurvival.Units.Enemy;
+using DinoWorldSurvival.Units.Enemy.Config;
+using DinoWorldSurvival.Units.Service;
 using Feofun.Config;
 using Logger.Extension;
 using SuperMaxim.Messaging;
-using Survivors.Enemy.Spawn.Config;
-using Survivors.Enemy.Spawn.PlaceProviders;
-using Survivors.Location;
-using Survivors.Session.Messages;
-using Survivors.Units.Enemy;
-using Survivors.Units.Enemy.Config;
-using Survivors.Units.Service;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
-using ILogger = Logger.ILogger;
 
-namespace Survivors.Enemy.Spawn
+namespace DinoWorldSurvival.Enemy.Spawn
 {
     public class EnemyWavesSpawner : MonoBehaviour
     {

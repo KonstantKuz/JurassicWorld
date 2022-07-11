@@ -1,11 +1,11 @@
 ﻿using System;
+using DinoWorldSurvival.Enemy.Spawn.Config;
+using DinoWorldSurvival.Location;
 using Feofun.Extension;
-using Survivors.Enemy.Spawn.Config;
-using Survivors.Location;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Survivors.Enemy.Spawn.PlaceProviders
+namespace DinoWorldSurvival.Enemy.Spawn.PlaceProviders
 {
     public class RandomDrivenPlaceProvider : ISpawnPlaceProvider
     {
