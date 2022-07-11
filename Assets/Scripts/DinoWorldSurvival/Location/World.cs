@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DinoWorldSurvival.Units;
 using Feofun.App;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
@@ -16,11 +17,9 @@ namespace DinoWorldSurvival.Location
 
         public Transform Ground => _ground;
         public GameObject Spawn => _spawn;
-    
-        [CanBeNull]
-        public Squad.Squad Squad { get; set; }
 
         public bool IsPaused => Time.timeScale == 0;
+        public Unit Player { get; set; }
 
         public Vector3 GetGroundIntersection(Ray withRay)
         {
@@ -47,7 +46,6 @@ namespace DinoWorldSurvival.Location
         public void CleanUp()
         {
             GetAllOf<IWorldScope>().ForEach(it => it.OnWorldCleanUp());
-            Squad = null;
         }
 
         private IEnumerable<T> GetAllOf<T>()

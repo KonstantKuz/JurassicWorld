@@ -6,8 +6,6 @@ using DinoWorldSurvival.Location;
 using DinoWorldSurvival.Player.Progress.Service;
 using DinoWorldSurvival.Session.Config;
 using DinoWorldSurvival.Session.Service;
-using DinoWorldSurvival.Squad.Component;
-using DinoWorldSurvival.Squad.Service;
 using DinoWorldSurvival.Units.Service;
 using Feofun.Config;
 using UnityEngine;
@@ -21,7 +19,6 @@ namespace DinoWorldSurvival.App
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
-        [Inject] private SquadProgressService _squadProgressService;
         [Inject] private UnitService _unitService;
         [Inject] private World _world;
         
@@ -41,7 +38,6 @@ namespace DinoWorldSurvival.App
                 EventParams.LEVEL_ID => _sessionService.LevelId,
                 EventParams.LEVEL_NUMBER => GetLevelNumber(),
                 EventParams.LEVEL_LOOP => GetLevelLoop(),
-                EventParams.SQUAD_LEVEL => _squadProgressService.Level.Value,
                 EventParams.ENEMY_KILLED => _sessionService.Kills.Value,
                 EventParams.TIME_SINCE_LEVEL_START => _sessionService.SessionTime,
                 EventParams.PASS_NUMBER => GetPassNumber(),
@@ -94,9 +90,7 @@ namespace DinoWorldSurvival.App
         
         private float GetStandRatio()
         {
-            Assert.IsNotNull(_world.Squad, "Should call this method only inside game session");
-            return _world.Squad.GetComponent<MovementAnalytics>().StandingTime /
-                   _sessionService.SessionTime;
+            throw new NotImplementedException();
         }
     }
 }

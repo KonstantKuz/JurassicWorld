@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DinoWorldSurvival.Location;
 using DinoWorldSurvival.Loot.Service;
@@ -7,13 +8,15 @@ using Feofun.Components;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using Unit = DinoWorldSurvival.Units.Unit;
 
 namespace DinoWorldSurvival.Loot
 {
-    public class LootCollector : MonoBehaviour, IInitializable<Squad.Squad>
+    public class LootCollector : MonoBehaviour
     {
         private const float LOOT_DESTROY_DISTANCE = 1f;
-        
+        [SerializeField] 
+        private float _collectRadius = 5f;
         [SerializeField]
         private float _collectSpeed = 1;
         [SerializeField]
@@ -26,16 +29,13 @@ namespace DinoWorldSurvival.Loot
         [Inject] 
         private World _world;
 
-        private Squad.Squad _squad;
+        private Unit _unit;
         private CompositeDisposable _disposable;
         private List<DroppingLoot> _movingLoots = new List<DroppingLoot>();
-        
-        public void Init(Squad.Squad squad)
+
+        private void Awake()
         {
-            _squad = squad;
-            _disposable?.Dispose();
-            _disposable = new CompositeDisposable();
-            squad.Model.CollectRadius.Subscribe(radius => _collider.radius = radius).AddTo(_disposable);
+            _collider.radius = _collectRadius;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -59,7 +59,7 @@ namespace DinoWorldSurvival.Loot
         private void Move(DroppingLoot loot)
         {
             var moveDirection = (transform.position - loot.transform.position).normalized;
-            var speed = _collectSpeed + _squad.Model.Speed.Value;
+            var speed = _collectSpeed;
             loot.transform.position += moveDirection * speed * Time.deltaTime;
         }
 

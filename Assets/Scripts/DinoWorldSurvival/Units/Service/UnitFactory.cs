@@ -16,22 +16,11 @@ namespace DinoWorldSurvival.Units.Service
         [Inject] private StringKeyedConfigCollection<EnemyUnitConfig> _enemyUnitConfigs;
         [Inject] private PlayerUnitModelBuilder _playerUnitModelBuilder;
         
-        public void CreatePlayerUnits(string unitId, int count)
-        {
-            for (int i = 0; i < count; i++) {
-                CreatePlayerUnit(unitId);
-            }
-        }
-
-        private void CheckSquad() => Assert.IsNotNull(_world.Squad, "Squad is null, should call this method only inside game session");
-
         public Unit CreatePlayerUnit(string unitId)
         {
-            CheckSquad();
             var unit = _worldObjectFactory.CreateObject(unitId).RequireComponent<Unit>();
             var model = _playerUnitModelBuilder.BuildUnit(unitId);
             unit.Init(model);
-            _world.Squad.AddUnit(unit);
             return unit;
         }
         

@@ -12,13 +12,11 @@ using UnityEngine.Assertions;
 
 namespace DinoWorldSurvival.Units.Player.Attack
 {
-    public class CircularSawAttack : MonoBehaviour, IInitializable<IUnit>, IUnitDeathEventReceiver, IInitializable<Squad.Squad>
+    public class CircularSawAttack : MonoBehaviour, IInitializable<IUnit>, IUnitDeathEventReceiver
     {
-        
         [SerializeField] private CircularSawWeapon _circularSawWeapon;
         
         private Unit _ownerUnit;
-        private Squad.Squad _squad;
         private PlayerAttackModel _attackModel;
         private CompositeDisposable _disposable;
         
@@ -33,34 +31,21 @@ namespace DinoWorldSurvival.Units.Player.Attack
                 throw new ArgumentException($"Unit must be a player unit, gameObj:= {gameObject.name}");
             }
             _attackModel = attackModel;
-        }
-        public void Init(Squad.Squad squad)
-        {
-            Assert.IsNotNull(_ownerUnit);      
-            Assert.IsNotNull(_attackModel);
-            _squad = squad;
             _attackModel.ShotCount.Subscribe(CreateSaws).AddTo(_disposable);
-            _squad.UnitsCount.Subscribe(UpdateRadius).AddTo(_disposable);
+            UpdateRadius();
         }
         
         private void CreateSaws(int count)
         {
-            var projectileParams = GetSawParamsForSquad();
+            var projectileParams = _attackModel.CreateProjectileParams();
             var targetType = _ownerUnit.TargetUnitType;
             _circularSawWeapon.Init(targetType, projectileParams, DoDamage);
         }
 
-        private void UpdateRadius(int squadCount)
+        private void UpdateRadius()
         {
-            var projectileParams = GetSawParamsForSquad();
+            var projectileParams = _attackModel.CreateProjectileParams();
             _circularSawWeapon.OnParamsChanged(projectileParams);
-        }
-
-        private PlayerProjectileParams GetSawParamsForSquad()
-        {
-            var projectileParams = _attackModel.CreatePlayerProjectileParams();
-            projectileParams.AdditionalAttackDistance += _squad.SquadRadius;
-            return projectileParams;
         }
 
         public void OnDeath(DeathCause deathCause)
@@ -81,7 +66,6 @@ namespace DinoWorldSurvival.Units.Player.Attack
             _disposable?.Dispose();
             _disposable = null;
             _ownerUnit = null;
-            _squad = null;
         }
     }
 }

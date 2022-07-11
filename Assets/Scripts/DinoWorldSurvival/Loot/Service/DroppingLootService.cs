@@ -3,7 +3,6 @@ using System.Linq;
 using DinoWorldSurvival.Location;
 using DinoWorldSurvival.Location.Service;
 using DinoWorldSurvival.Loot.Config;
-using DinoWorldSurvival.Squad.Service;
 using DinoWorldSurvival.Units;
 using DinoWorldSurvival.Units.Service;
 using Feofun.Config;
@@ -16,7 +15,6 @@ namespace DinoWorldSurvival.Loot.Service
     public class DroppingLootService : IWorldScope
     {
         [Inject] private World _world;
-        [Inject] private SquadProgressService _squadProgressService;
         [Inject] private UnitService _unitService;
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private StringKeyedConfigCollection<DroppingLootConfig> _droppingLoots;
@@ -55,7 +53,7 @@ namespace DinoWorldSurvival.Loot.Service
             switch (collectedLoot.Type)
             {
                 case DroppingLootType.Exp:
-                    _squadProgressService.AddExp(collectedLoot.Amount);
+                    throw new NotImplementedException();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

@@ -20,7 +20,7 @@ namespace DinoWorldSurvival.Units.Weapon
         [Inject] private World _world;
         [Inject] private WorldObjectFactory _worldObjectFactory;
 
-        private CircularSawsRoot SawsRoot => _sawsRoot ??= _world.Squad.GetComponentInChildren<CircularSawsRoot>();
+        private CircularSawsRoot SawsRoot => _sawsRoot ??= _world.Player.GetComponentInChildren<CircularSawsRoot>();
         public IReadOnlyList<CircularSaw> OwnedSaws => _ownedSaws;
 
         public void Init(UnitType targetType, IProjectileParams projectileParams, Action<GameObject> hitCallback)

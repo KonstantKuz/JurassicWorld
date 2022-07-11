@@ -5,7 +5,6 @@ using DinoWorldSurvival.Modifiers.Config;
 using DinoWorldSurvival.Reward.Config;
 using DinoWorldSurvival.Session.Config;
 using DinoWorldSurvival.Session.Model;
-using DinoWorldSurvival.Squad.Config;
 using DinoWorldSurvival.Units.Enemy.Config;
 using DinoWorldSurvival.Units.Player.Config;
 using Feofun.Config;
@@ -24,8 +23,6 @@ namespace DinoWorldSurvival.App
                 .RegisterStringKeyedCollection<PlayerUnitConfig>(Configs.PLAYER_UNIT)
                 .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)
                 .RegisterStringKeyedCollection<DroppingLootConfig>(Configs.DROPPING_LOOT)
-                .RegisterStringKeyedCollection<SquadLevelConfig>(Configs.SQUAD_LEVEL)
-                .RegisterSingleObjectConfig<SquadConfig>(Configs.SQUAD)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.META_UPGRADES, true)
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)

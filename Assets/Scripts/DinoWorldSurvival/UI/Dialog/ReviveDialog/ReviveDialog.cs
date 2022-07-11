@@ -39,7 +39,6 @@ namespace DinoWorldSurvival.UI.Dialog.ReviveDialog
 
         private void Restart()
         {
-            _world.Squad.Kill();
             Hide();
         }
     }

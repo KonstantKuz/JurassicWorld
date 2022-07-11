@@ -6,16 +6,16 @@ using UnityEngine;
 
 namespace DinoWorldSurvival.Units.Weapon
 {
-    public class CircularSawsRoot : MonoBehaviour, IInitializable<Squad.Squad>
+    public class CircularSawsRoot : MonoBehaviour, IInitializable<IUnit>
     {
         private Transform _rotationCenter;
         private IProjectileParams _projectileParams;
         private readonly List<CircularSawWeapon> _activeWeapons = new List<CircularSawWeapon>();
         private bool Initialized => _projectileParams != null && _rotationCenter != null;
 
-        public void Init(Squad.Squad squad)
+        public void Init(IUnit unit)
         {
-            _rotationCenter = squad.Destination.transform;
+            _rotationCenter = unit.GameObject.transform;
         }
 
         public void OnWeaponInit(CircularSawWeapon owner)

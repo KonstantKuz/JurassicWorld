@@ -8,12 +8,11 @@ using UnityEngine;
 
 namespace DinoWorldSurvival.Units.Player.Attack
 {
-    public class IceWaveAttack : MonoBehaviour, IInitializable<IUnit>, IInitializable<Squad.Squad>
+    public class IceWaveAttack : MonoBehaviour, IInitializable<IUnit>
     {
         [SerializeField] private IceWaveWeapon _iceWaveWeapon;
 
         private Unit _owner;
-        private Squad.Squad _squad;
         private IWeaponTimerManager _weaponTimer;
         private PlayerAttackModel _playerAttackModel;
         
@@ -21,18 +20,13 @@ namespace DinoWorldSurvival.Units.Player.Attack
         {
             _owner = (Unit) unit;
             _playerAttackModel = (PlayerAttackModel) unit.Model.AttackModel;
-        }
-        
-        public void Init(Squad.Squad squad)
-        {
-            _squad = squad;
-            _weaponTimer = squad.WeaponTimerManager;
+            _weaponTimer = _owner.GameObject.RequireComponentInChildren<IWeaponTimerManager>();
             _weaponTimer.Subscribe(_owner.ObjectId, _playerAttackModel, OnAttackReady);
         }
 
         private void OnAttackReady()
         {
-            var parent = _squad.Destination.transform;
+            var parent = _owner.transform;
             var projectileParams = _playerAttackModel.CreateProjectileParams();
             var targetType = _owner.TargetUnitType;
             _iceWaveWeapon.Fire(parent, targetType, projectileParams, DoDamage);

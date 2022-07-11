@@ -7,35 +7,27 @@ using UnityEngine;
 
 namespace DinoWorldSurvival.Units.Player.Attack
 {
-    public class WeaponTimerManager : MonoBehaviour, IWeaponTimerManager, IInitializable<Squad.Squad>
+    public class WeaponTimerManager : MonoBehaviour, IWeaponTimerManager
     {
-        private Dictionary<string, WeaponTimer> _timers;
+        private WeaponTimer _timer;
         
-        public void Init(Squad.Squad owner)
-        {
-            _timers = new Dictionary<string, WeaponTimer>();
-        }
         public void Subscribe(string weaponId, IAttackModel attackModel, Action onAttackReady)
         {
-            if (!_timers.ContainsKey(weaponId)) {
-                AddTimer(weaponId, attackModel);
-            } 
-            _timers[weaponId].OnAttackReady += onAttackReady;
+            if (_timer == null) {
+                _timer = new WeaponTimer(attackModel.AttackInterval);
+            }
+            _timer.OnAttackReady += onAttackReady;
         }
         public void Unsubscribe(string weaponId, Action onAttackReady)
         {
-            if (_timers == null || !_timers.ContainsKey(weaponId)) {
+            if (_timer == null) {
                 return;
             }
-            _timers[weaponId].OnAttackReady -= onAttackReady;
-        }
-        private void AddTimer(string unitTypeId, IAttackModel attackModel)
-        {
-            _timers[unitTypeId] = new WeaponTimer(attackModel.AttackInterval);;
+            _timer.OnAttackReady -= onAttackReady;
         }
         private void Update()
         {
-            _timers?.Values.ForEach(it => it.OnTick());
+            _timer?.OnTick();
         }
     }
 }

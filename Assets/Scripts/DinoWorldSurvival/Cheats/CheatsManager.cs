@@ -1,7 +1,6 @@
 using System;
 using DinoWorldSurvival.Cheats.Data;
 using DinoWorldSurvival.Cheats.Repository;
-using DinoWorldSurvival.Squad.Service;
 using Feofun.Localization.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -15,7 +14,6 @@ namespace DinoWorldSurvival.Cheats
         private readonly CheatRepository _repository = new CheatRepository();
         
         [Inject] private LocalizationService _localizationService;     
-        [Inject] private SquadProgressService _squadProgressService;
 
         [SerializeField] private GameObject _fpsMonitor;
         [SerializeField] private GameObject _debugConsole;
@@ -36,8 +34,6 @@ namespace DinoWorldSurvival.Cheats
             Application.Quit();
         }
         
-        public void IncreaseSquadLevel() => _squadProgressService.IncreaseLevel();
-
         public void LogTestMessage()
         {
             var logger = this.Logger();

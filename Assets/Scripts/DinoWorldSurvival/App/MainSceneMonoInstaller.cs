@@ -4,7 +4,6 @@ using DinoWorldSurvival.Location;
 using DinoWorldSurvival.Modifiers;
 using DinoWorldSurvival.Player.Installer;
 using DinoWorldSurvival.Reward.Installer;
-using DinoWorldSurvival.Squad.Installer;
 using DinoWorldSurvival.UI;
 using DinoWorldSurvival.Units.Installer;
 using Feofun.Localization.Service;
@@ -41,7 +40,6 @@ namespace DinoWorldSurvival.App
             ModifiersInstaller.Install(Container);  
             
             UnitServicesInstaller.Install(Container);
-            SquadServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container); 
             
