@@ -19,9 +19,7 @@ namespace DinoWorldSurvival.UI.Cheats
         [SerializeField] private ActionToggle _toggleConsoleButton;
         [SerializeField] private ActionToggle _toggleFPSButton;
 
-        [SerializeField] private ActionButton _increaseSquadLevelButton; 
-        [SerializeField] private ActionButton _applyAllUpgradesButton;
-        [SerializeField] private ActionButton _addRandomSquadUpgrade; 
+        [SerializeField] private ActionButton _increaseSquadLevelButton;
         [SerializeField] private ActionButton _resetProgressButton;
 
         [SerializeField] private InputField _inputField;
@@ -32,31 +30,21 @@ namespace DinoWorldSurvival.UI.Cheats
         
         [SerializeField] private ActionButton _testLogButton;    
         
-        [SerializeField] private DropdownWithButtonView _addUnitsView;
-        [SerializeField] private DropdownWithButtonView _addMetaUpgradeView;
 
         [Inject] private CheatsManager _cheatsManager;
         [Inject] private CheatsActivator _cheatsActivator;
         
-        [Inject]
-        private StringKeyedConfigCollection<PlayerUnitConfig> _playerUnitConfigs;     
-        [Inject(Id = Configs.META_UPGRADES)]
-        private StringKeyedConfigCollection<ParameterUpgradeConfig> _modifierConfigs;
 
         private void OnEnable()
         {
-            _addUnitsView.Init(_playerUnitConfigs.Keys, _cheatsManager.AddUnit);   
-            _addMetaUpgradeView.Init(_modifierConfigs.Keys, _cheatsManager.AddMetaUpgrade);
-            
+
             _closeButton.Init(HideCheatsScreen);
             _hideButton.Init(DisableCheats);
 
             _toggleConsoleButton.Init(_cheatsManager.IsConsoleEnabled, value => { _cheatsManager.IsConsoleEnabled = value; });
             _toggleFPSButton.Init(_cheatsManager.IsFPSMonitorEnabled, value => { _cheatsManager.IsFPSMonitorEnabled = value; });
           
-            _increaseSquadLevelButton.Init(_cheatsManager.IncreaseSquadLevel);     
-            _addRandomSquadUpgrade.Init(_cheatsManager.AddRandomSquadUpgrade);
-            _applyAllUpgradesButton.Init(_cheatsManager.ApplyAllSquadUpgrades);
+            _increaseSquadLevelButton.Init(_cheatsManager.IncreaseSquadLevel);
             _resetProgressButton.Init(_cheatsManager.ResetProgress);
             
             _setLanguage.Init(() => _cheatsManager.SetLanguage(_inputField.text));

@@ -1,4 +1,4 @@
-﻿using DinoWorldSurvival.Enemy.Spawn;
+﻿
 using DinoWorldSurvival.Location.Service;
 using DinoWorldSurvival.Loot.Service;
 using DinoWorldSurvival.Session.Service;
@@ -11,9 +11,7 @@ namespace DinoWorldSurvival.Location
     {
         [SerializeField] private World _world;
         [SerializeField] private WorldObjectFactory _worldObjectFactory;
-        [SerializeField] private EnemyWavesSpawner _enemyWavesSpawner;
-        [SerializeField] private EnemyHpsSpawner _enemyHpsSpawner;
-        
+
         public void Install(DiContainer container)
         {
             _worldObjectFactory.Init();
@@ -24,8 +22,6 @@ namespace DinoWorldSurvival.Location
             container.BindInterfacesAndSelfTo<ReviveService>().AsSingle();
             container.Bind<SessionRepository>().AsSingle();
             
-            container.Bind<EnemyWavesSpawner>().FromInstance(_enemyWavesSpawner);
-            container.Bind<EnemyHpsSpawner>().FromInstance(_enemyHpsSpawner).AsSingle();
             container.BindInterfacesAndSelfTo<DroppingLootService>().AsSingle();
         }
     }

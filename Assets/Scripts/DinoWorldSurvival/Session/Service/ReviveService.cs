@@ -13,16 +13,14 @@ namespace DinoWorldSurvival.Session.Service
         [Inject] private World _world;     
         [Inject] private UnitService _unitService;
         [Inject] private ConstantsConfig _constantsConfig;  
-        [Inject] private SessionService _sessionService;    
-        [Inject] private Analytics.Analytics _analytics;        
-        
+        [Inject] private SessionService _sessionService;
+
         public void Revive()
         {
             Assert.IsNotNull(_world.Squad, "Should call this method only inside game session");
             _world.Squad.RestoreHealth();
             KillEnemiesAroundSquad();
             _sessionService.AddRevive();
-            _analytics.ReportRevive();            
         }
         
         private void KillEnemiesAroundSquad()

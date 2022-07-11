@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &9176101873856465677
 RectTransform:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4284063596463564159, guid: 8227309e96039ee4982a70748576a35d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 5135331769656174514, guid: 8227309e96039ee4982a70748576a35d, type: 3}
       propertyPath: m_Pivot.x
@@ -319,15 +319,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5992403658545702906, guid: 8227309e96039ee4982a70748576a35d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: -14.759069
       objectReference: {fileID: 0}
     - target: {fileID: 6590354211116058704, guid: 8227309e96039ee4982a70748576a35d, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 83.53
       objectReference: {fileID: 0}
     - target: {fileID: 6590354211116058704, guid: 8227309e96039ee4982a70748576a35d, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 38.57
       objectReference: {fileID: 0}
     - target: {fileID: 7595574091857187859, guid: 8227309e96039ee4982a70748576a35d, type: 3}
       propertyPath: m_Name

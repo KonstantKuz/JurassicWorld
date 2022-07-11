@@ -26,13 +26,11 @@ namespace DinoWorldSurvival.UI.Screen.World
         [Inject] private ScreenSwitcher _screenSwitcher;     
         [Inject] private Location.World _world;
         [Inject] private Joystick _joystick;
-        [Inject] private Analytics.Analytics _analytics;
 
         [PublicAPI]
         public void Init()
         {
             _world.UnPause();
-            _analytics.ReportLevelStart();
             _joystick.Attach(transform);
             _messenger.Subscribe<SessionEndMessage>(OnSessionFinished);
         }

@@ -2,7 +2,6 @@ using System;
 using DinoWorldSurvival.Cheats.Data;
 using DinoWorldSurvival.Cheats.Repository;
 using DinoWorldSurvival.Squad.Service;
-using DinoWorldSurvival.Squad.Upgrade;
 using Feofun.Localization.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -17,8 +16,6 @@ namespace DinoWorldSurvival.Cheats
         
         [Inject] private LocalizationService _localizationService;     
         [Inject] private SquadProgressService _squadProgressService;
-        [Inject] private UpgradeService _upgradeService;
-        [Inject] private MetaUpgradeService _metaUpgradeService;
 
         [SerializeField] private GameObject _fpsMonitor;
         [SerializeField] private GameObject _debugConsole;
@@ -40,10 +37,6 @@ namespace DinoWorldSurvival.Cheats
         }
         
         public void IncreaseSquadLevel() => _squadProgressService.IncreaseLevel();
-        public void AddRandomSquadUpgrade() => _upgradeService.AddRandomUpgrade();   
-        public void ApplyAllSquadUpgrades() => _upgradeService.ApplyAllUpgrades();  
-        public void AddUnit(string unitId) => _upgradeService.AddUnit(unitId);
-        public void AddMetaUpgrade(string upgradeId) => _metaUpgradeService.Upgrade(upgradeId);
 
         public void LogTestMessage()
         {

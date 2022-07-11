@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using DinoWorldSurvival.App.Config;
-using DinoWorldSurvival.Enemy.Spawn;
-using DinoWorldSurvival.Enemy.Spawn.Config;
 using DinoWorldSurvival.Location;
 using DinoWorldSurvival.Player.Progress.Model;
 using DinoWorldSurvival.Player.Progress.Service;
@@ -29,9 +27,6 @@ namespace DinoWorldSurvival.Session.Service
         
         private readonly IntReactiveProperty _kills = new IntReactiveProperty(0);
         
-        [Inject] private EnemyWavesSpawner _enemyWavesSpawner;
-        [Inject] private EnemyHpsSpawner _enemyHpsSpawner;
-        [Inject] private EnemyWavesConfig _enemyWavesConfig;
         [Inject] private UnitFactory _unitFactory;     
         [Inject] private SquadFactory _squadFactory; 
         [Inject] private World _world;
@@ -40,7 +35,6 @@ namespace DinoWorldSurvival.Session.Service
         [Inject] private SessionRepository _repository;
         [Inject] private readonly StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
         [Inject] private PlayerProgressService _playerProgressService;
-        [Inject] private Analytics.Analytics _analytics;
         [Inject] private ConstantsConfig _constantsConfig;
         [Inject] private DialogManager _dialogManager;
         
@@ -98,8 +92,6 @@ namespace DinoWorldSurvival.Session.Service
         {
             Assert.IsNotNull(_world.Squad, "Squad is null, should call this method only inside game session");
             CreatePlayerUnits(_world.Squad.Model.StartingUnitCount.Value);
-            _enemyWavesSpawner.StartSpawn(_enemyWavesConfig); 
-            _enemyHpsSpawner.StartSpawn();
         }
 
         private void ResetKills() => _kills.Value = 0;
@@ -133,8 +125,7 @@ namespace DinoWorldSurvival.Session.Service
             
             _unitService.DeactivateAll();
             _world.Squad.IsActive = false;
-
-            _analytics.ReportLevelFinished(Session.Result == SessionResult.Win);
+            
             _messenger.Publish(new SessionEndMessage(Session.Result.Value));
 
         }

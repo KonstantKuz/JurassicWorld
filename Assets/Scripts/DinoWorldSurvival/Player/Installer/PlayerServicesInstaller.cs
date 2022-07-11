@@ -1,7 +1,6 @@
 using DinoWorldSurvival.Player.Inventory.Service;
 using DinoWorldSurvival.Player.Progress.Service;
 using DinoWorldSurvival.Player.Wallet;
-using DinoWorldSurvival.Shop.Service;
 using Zenject;
 
 namespace DinoWorldSurvival.Player.Installer
@@ -19,7 +18,6 @@ namespace DinoWorldSurvival.Player.Installer
             container.Bind<InventoryService>().AsSingle();
             container.Bind<InventoryRepository>().AsSingle();       
             
-            container.Bind<UpgradeShopService>().AsSingle();
         }
     }
 }
