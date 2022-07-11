@@ -1,7 +1,6 @@
 ﻿using System;
-using Feofun.Localization;
 
-namespace Survivors.UI.Dialog.UpgradeDialog.Model
+namespace DinoWorldSurvival.UI.Dialog.UpgradeDialog.Model
 {
     public class UpgradeItemModel
     {

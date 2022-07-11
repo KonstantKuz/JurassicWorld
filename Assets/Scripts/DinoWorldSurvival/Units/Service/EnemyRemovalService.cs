@@ -2,14 +2,11 @@
 using System.Linq;
 using ModestTree;
 using SuperMaxim.Messaging;
-using Survivors.Location;
-using Survivors.Units.Enemy.Model;
-using Survivors.Units.Messages;
 using UnityEngine;
 using Zenject;
 using Assert = UnityEngine.Assertions.Assert;
 
-namespace Survivors.Units.Service
+namespace DinoWorldSurvival.Units.Service
 {
     public class EnemyRemovalService : MonoBehaviour, IWorldScope
     {

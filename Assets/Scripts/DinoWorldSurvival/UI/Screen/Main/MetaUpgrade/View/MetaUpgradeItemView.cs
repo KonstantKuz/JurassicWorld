@@ -1,11 +1,8 @@
-﻿using Feofun.UI.Components;
-using Survivors.UI.Components.PriceButton;
-using Survivors.UI.Screen.Main.MetaUpgrade.Model;
-using Survivors.Util;
+﻿using DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.Model;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Survivors.UI.Screen.Main.MetaUpgrade.View
+namespace DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.View
 {
     public class MetaUpgradeItemView : MonoBehaviour
     {

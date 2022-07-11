@@ -1,10 +1,8 @@
 ﻿using System;
-using Feofun.Config;
-using Survivors.Player.Wallet;
-using Survivors.Shop.Config;
+using DinoWorldSurvival.Shop.Config;
 using Zenject;
 
-namespace Survivors.Shop.Service
+namespace DinoWorldSurvival.Shop.Service
 {
     public class UpgradeShopService
     {

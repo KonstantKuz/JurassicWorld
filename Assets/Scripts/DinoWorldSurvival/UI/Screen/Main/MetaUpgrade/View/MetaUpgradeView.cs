@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Feofun.Extension;
+using DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.Model;
 using SuperMaxim.Core.Extensions;
-using Survivors.UI.Screen.Main.MetaUpgrade.Model;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Screen.Main.MetaUpgrade.View
+namespace DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.View
 {
     public class MetaUpgradeView : MonoBehaviour
     {

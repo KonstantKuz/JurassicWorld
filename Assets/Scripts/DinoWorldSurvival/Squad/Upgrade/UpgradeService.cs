@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Feofun.Config;
-using Feofun.Extension;
-using Feofun.Modifiers;
+using DinoWorldSurvival.Squad.Upgrade.Config;
+using DinoWorldSurvival.Squad.UpgradeSelection;
 using JetBrains.Annotations;
-using Survivors.Config;
 using Logger.Extension;
-using Survivors.Location;
-using Survivors.Modifiers;
-using Survivors.Modifiers.Config;
-using Survivors.Squad.Upgrade.Config;
-using Survivors.Squad.UpgradeSelection;
-using Survivors.Units;
-using Survivors.Units.Service;
 using UnityEngine.Assertions;
 using Zenject;
 
-namespace Survivors.Squad.Upgrade
+namespace DinoWorldSurvival.Squad.Upgrade
 {
     [PublicAPI]
     public class UpgradeService : IWorldScope

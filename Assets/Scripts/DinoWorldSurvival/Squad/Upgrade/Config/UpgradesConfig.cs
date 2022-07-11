@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Feofun.Config;
-using Feofun.Config.Csv;
+using DinoWorldSurvival.Squad.UpgradeSelection;
 using JetBrains.Annotations;
-using Survivors.Squad.UpgradeSelection;
 
-namespace Survivors.Squad.Upgrade.Config
+namespace DinoWorldSurvival.Squad.Upgrade.Config
 {
     [PublicAPI]
     public class UpgradesConfig : ILoadableConfig

@@ -1,16 +1,11 @@
-﻿using Feofun.Config;
-using Feofun.UI.Components;
-using Feofun.UI.Dialog;
-using Survivors.Config;
-using Survivors.Modifiers.Config;
-using Survivors.Squad.Upgrade;
-using Survivors.Squad.Upgrade.Config;
-using Survivors.UI.Dialog.UpgradeDialog.Model;
-using Survivors.UI.Dialog.UpgradeDialog.View;
+﻿using DinoWorldSurvival.Squad.Upgrade;
+using DinoWorldSurvival.Squad.Upgrade.Config;
+using DinoWorldSurvival.UI.Dialog.UpgradeDialog.Model;
+using DinoWorldSurvival.UI.Dialog.UpgradeDialog.View;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Dialog.UpgradeDialog
+namespace DinoWorldSurvival.UI.Dialog.UpgradeDialog
 {
     public class UpgradeDialog : BaseDialog, IUiInitializable<UpgradeDialogInitModel>
     {

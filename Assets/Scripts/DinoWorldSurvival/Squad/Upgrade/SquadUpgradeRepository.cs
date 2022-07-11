@@ -1,6 +1,4 @@
-﻿using Feofun.Repository;
-
-namespace Survivors.Squad.Upgrade
+﻿namespace DinoWorldSurvival.Squad.Upgrade
 {
     public class SquadUpgradeRepository : SingleModelRepository<SquadUpgradeState>
     {

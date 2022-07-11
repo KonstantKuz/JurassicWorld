@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using Feofun.Extension;
-using Feofun.UI.Components;
+using DinoWorldSurvival.UI.Dialog.UpgradeDialog.Model;
 using SuperMaxim.Core.Extensions;
-using Survivors.UI.Dialog.UpgradeDialog.Model;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Dialog.UpgradeDialog.View
+namespace DinoWorldSurvival.UI.Dialog.UpgradeDialog.View
 {
     public class UpgradeView : MonoBehaviour
     {

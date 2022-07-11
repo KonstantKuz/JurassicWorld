@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
-using Survivors.Player.Wallet;
 
-namespace Survivors.Shop.Config
+namespace DinoWorldSurvival.Shop.Config
 {
     [DataContract]
     public class ProductConfig 

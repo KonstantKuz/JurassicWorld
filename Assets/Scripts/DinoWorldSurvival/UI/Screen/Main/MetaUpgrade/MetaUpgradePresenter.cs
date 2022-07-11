@@ -1,15 +1,12 @@
-﻿using Feofun.Config;
+﻿using DinoWorldSurvival.Shop.Service;
+using DinoWorldSurvival.Squad.Upgrade;
+using DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.Model;
+using DinoWorldSurvival.UI.Screen.Main.MetaUpgrade.View;
 using Logger.Extension;
-using Survivors.Config;
-using Survivors.Modifiers.Config;
-using Survivors.Shop.Service;
-using Survivors.Squad.Upgrade;
-using Survivors.UI.Screen.Main.MetaUpgrade.Model;
-using Survivors.UI.Screen.Main.MetaUpgrade.View;
 using UnityEngine;
 using Zenject;
 
-namespace Survivors.UI.Screen.Main.MetaUpgrade
+namespace DinoWorldSurvival.UI.Screen.Main.MetaUpgrade
 {
     public class MetaUpgradePresenter : MonoBehaviour
     {

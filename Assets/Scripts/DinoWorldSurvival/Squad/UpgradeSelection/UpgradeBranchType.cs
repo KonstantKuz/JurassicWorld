@@ -1,4 +1,4 @@
-﻿namespace Survivors.Squad.UpgradeSelection
+﻿namespace DinoWorldSurvival.Squad.UpgradeSelection
 {
     public enum UpgradeBranchType
     {
