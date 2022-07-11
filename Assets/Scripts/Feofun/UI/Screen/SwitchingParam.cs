@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using DinoWorldSurvival.UI.Screen;
+using Dino.UI.Screen;
 
 namespace Feofun.UI.Screen
 {

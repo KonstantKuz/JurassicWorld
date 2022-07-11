@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Text.RegularExpressions;
-using DinoWorldSurvival.Logger;
+using Dino.Logger;
 using UnityEngine;
 
 namespace Editor.Scripts.PreProcess

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DinoWorldSurvival.UI.Screen;
+using Dino.UI.Screen;
 using Logger.Extension;
 using UnityEngine;
 
