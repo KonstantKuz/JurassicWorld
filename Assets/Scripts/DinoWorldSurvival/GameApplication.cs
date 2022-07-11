@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using Zenject;
 #if UNITY_IOS
-using Survivors.IOSTransparency;
+using DinoWorldSurvival.IOSTransparency;
 #endif
 
 namespace DinoWorldSurvival
