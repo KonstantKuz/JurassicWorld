@@ -16,7 +16,7 @@ namespace Dino.Units.Player.Attack
 {
     [RequireComponent(typeof(ITargetSearcher))]
     [RequireComponent(typeof(MovementController))]
-    public class PlayerAttack : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent, IInitializable<Squad.Squad>
+    public class PlayerAttack : MonoBehaviour, IUpdatableComponent, IInitializable<IUnit>
     {
         private static readonly int AttackSpeedMultiplierHash = Animator.StringToHash("AttackSpeedMultiplier");
         private static readonly int AttackHash = Animator.StringToHash("Attack");
@@ -43,7 +43,6 @@ namespace Dino.Units.Player.Attack
         
         private bool IsTargetInvalid => !_target.IsTargetValidAndAlive();
         private bool HasWeaponAnimationHandler => _weaponAnimationHandler != null;
-
         public void Init(IUnit unit)
         {
             Dispose();
@@ -55,18 +54,12 @@ namespace Dino.Units.Player.Attack
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent += Fire;
             }
-        }
-        public void Init(Squad.Squad owner)
-        {
-            InitWeaponTimer(owner);
+            InitWeaponTimer();
         }
 
-        private void InitWeaponTimer(Squad.Squad squad)
+        private void InitWeaponTimer()
         {
-            _timerManager = _weapon.TryGetComponent(out IWeaponTimerManager ownTimerManager)
-                ? ownTimerManager
-                : squad.WeaponTimerManager;
-
+            _timerManager = _weapon.GetComponent<IWeaponTimerManager>() ?? _owner.GetComponent<IWeaponTimerManager>();
             _timerManager.Subscribe(_owner.ObjectId, _playerAttackModel, OnAttackReady);
         }
         

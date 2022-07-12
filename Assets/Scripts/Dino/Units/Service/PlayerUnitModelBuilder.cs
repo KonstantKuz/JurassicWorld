@@ -14,7 +14,7 @@ namespace Dino.Units.Service
     [PublicAPI]
     public class PlayerUnitModelBuilder
     {
-        [Inject(Id = Configs.META_UPGRADES)]
+        [Inject(Id = Configs.MODIFIERS)]
         private readonly StringKeyedConfigCollection<ParameterUpgradeConfig> _modifierConfigs;
         [Inject]
         private readonly StringKeyedConfigCollection<PlayerUnitConfig> _playerUnitConfigs;

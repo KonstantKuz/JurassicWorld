@@ -57,6 +57,5 @@ namespace Dino.Units.Player.Model
                     Count = ShotCount.Value
             };
         }
-        public PlayerProjectileParams CreatePlayerProjectileParams() => new PlayerProjectileParams(this);
     }
 }
