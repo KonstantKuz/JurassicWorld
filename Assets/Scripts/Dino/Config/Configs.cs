@@ -7,7 +7,6 @@ namespace Dino.Config
         public const string ENEMY_UNIT = "EnemyUnit";
         public const string DROPPING_LOOT = "DroppingLoot";
         public const string MODIFIERS = "Modifiers";
-        public const string META_UPGRADES = "MetaUpgrades";
         public const string CONSTANTS = "Constants";
         public const string LEVEL_MISSION = "LevelMission";   
         public const string MISSION_REWARDS = "MissionRewards";

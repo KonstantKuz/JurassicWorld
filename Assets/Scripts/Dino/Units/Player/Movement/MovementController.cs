@@ -9,7 +9,7 @@ using Zenject;
 namespace Dino.Units.Player.Movement
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class MovementController : MonoBehaviour, IUpdatableComponent, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
+    public class MovementController : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
     {
         private readonly int _runHash = Animator.StringToHash("Run");
         private readonly int _idleHash = Animator.StringToHash("Idle");
@@ -35,6 +35,11 @@ namespace Dino.Units.Player.Movement
             _agent = GetComponent<NavMeshAgent>();
         }
 
+        public void Init(IUnit unit)
+        {
+            _agent.speed = unit.Model.MoveSpeed;
+        }
+        
         public void OnTick()
         {
             _agent.isStopped = !IsMoving;

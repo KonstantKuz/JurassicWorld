@@ -24,7 +24,6 @@ namespace Dino.App
                 .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)
                 .RegisterStringKeyedCollection<DroppingLootConfig>(Configs.DROPPING_LOOT)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
-                .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.META_UPGRADES, true)
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)
                 .RegisterStringKeyedCollection<LevelMissionConfig>(Configs.LEVEL_MISSION)
                 .RegisterCollection<SessionResult, MissionRewardsConfig>(Configs.MISSION_REWARDS);
