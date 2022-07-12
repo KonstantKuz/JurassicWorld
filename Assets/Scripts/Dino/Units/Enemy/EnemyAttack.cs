@@ -45,14 +45,13 @@ namespace Dino.Units.Enemy
 
         private bool CanAttack()
         {
-            return _enemyAi.CurrentTarget != null 
-                   && _enemyAi.DistanceToTarget <= _attackModel.AttackDistance 
+            return _enemyAi.DistanceToTarget <= _attackModel.AttackDistance 
                    && _attackTimer >= _attackModel.AttackInterval.Value;
         }
         
         private void Attack()
         {
-            _weapon.Fire(_enemyAi.CurrentTarget, null, DoDamage);
+            _weapon.Fire(_enemyAi.Target, null, DoDamage);
             _attackTimer = 0;
         }
 
