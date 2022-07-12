@@ -31,7 +31,7 @@ namespace Dino.Units.Enemy
 
         [Inject] private World _world;
 
-        private Vector3 SquadPosition => _world.Squad.Destination.transform.position;
+        private Vector3 SquadPosition => _world.Player.transform.position;
         private float AgentRadiusAfar => _agentRadiusAfar / Scale;   
         private float AgentRadiusNear => _agentRadiusNear / Scale;
         private float Scale => transform.localScale.x;
@@ -76,7 +76,7 @@ namespace Dino.Units.Enemy
 
         public void OnTick()
         {
-            if (_world.Squad == null) return;
+            if (_world.Player == null) return;
             
             UpdateAgentRadius();
             

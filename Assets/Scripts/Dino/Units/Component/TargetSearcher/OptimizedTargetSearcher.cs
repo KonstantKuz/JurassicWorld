@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Dino.Squad.Component;
+using Dino.Extension;
 using Dino.Units.Target;
 using Feofun.Components;
 using JetBrains.Annotations;
@@ -7,18 +7,14 @@ using UnityEngine;
 
 namespace Dino.Units.Component.TargetSearcher
 {
-    public class SquadUnitTargetSearcher : MonoBehaviour, ITargetSearcher, IInitializable<IUnit>, IInitializable<Squad.Squad>
+    public class OptimizedTargetSearcher : MonoBehaviour, ITargetSearcher, IInitializable<IUnit>
     {
         private IUnit _owner;
-        private SquadTargetProvider _targetProvider;
+        private OptimizedTargetProvider _targetProvider;
         public void Init(IUnit owner)
         {
             _owner = owner;
-        }
-
-        public void Init(Squad.Squad owner)
-        {
-            _targetProvider = owner.TargetProvider;
+            _targetProvider = _owner.GameObject.RequireComponent<OptimizedTargetProvider>();
         }
 
         [CanBeNull]

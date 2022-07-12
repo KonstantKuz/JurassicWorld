@@ -4,7 +4,6 @@ using Dino.Location;
 using Dino.Modifiers;
 using Dino.Player.Installer;
 using Dino.Reward.Installer;
-using Dino.Squad.Installer;
 using Dino.UI;
 using Dino.Units.Installer;
 using Feofun.Localization.Service;
@@ -41,7 +40,6 @@ namespace Dino.App
             ModifiersInstaller.Install(Container);  
             
             UnitServicesInstaller.Install(Container);
-            SquadServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container); 
             

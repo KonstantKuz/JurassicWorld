@@ -1,13 +1,15 @@
 ﻿using System;
 using Dino.Extension;
+using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AI;
+using Zenject;
 
 namespace Dino.Units.Player.Movement
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class MovementController : MonoBehaviour, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
+    public class MovementController : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
     {
         private readonly int _runHash = Animator.StringToHash("Run");
         private readonly int _idleHash = Animator.StringToHash("Idle");
@@ -19,19 +21,43 @@ namespace Dino.Units.Player.Movement
         private float _rotationSpeed = 10;
         
         private Animator _animator;
+        private NavMeshAgent _agent;
+
+        [Inject] private Joystick _joystick;
+        
+        public bool IsMoving => _joystick.Direction.sqrMagnitude > 0;
+        public Vector3 MoveDirection => new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
         public bool HasTarget { get; private set; }
 
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
+            _agent = GetComponent<NavMeshAgent>();
         }
 
-        public void UpdateAnimation(Vector3 moveDirection)
+        public void Init(IUnit unit)
         {
-            PlayAnimation(moveDirection.sqrMagnitude > 0);
-            UpdateAnimationRotateValues(moveDirection);
+            _agent.speed = unit.Model.MoveSpeed;
+        }
+        
+        public void OnTick()
+        {
+            _agent.isStopped = !IsMoving;
+            SetDestination();
+            UpdateAnimation();
+        }
+
+        private void SetDestination()
+        {
+            _agent.SetDestination(transform.position + MoveDirection);
+        }
+
+        private void UpdateAnimation()
+        {
+            PlayAnimation(IsMoving);
+            UpdateAnimationRotateValues(MoveDirection);
             if (HasTarget) return;
-            RotateTo(transform.position + moveDirection);
+            RotateTo(transform.position + MoveDirection);
         }
 
         private void PlayAnimation(bool isMoving)

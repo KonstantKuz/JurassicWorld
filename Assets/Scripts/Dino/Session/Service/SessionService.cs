@@ -5,18 +5,14 @@ using Dino.Player.Progress.Model;
 using Dino.Player.Progress.Service;
 using Dino.Session.Config;
 using Dino.Session.Messages;
-using Dino.Squad;
-using Dino.UI.Dialog.ReviveDialog;
 using Dino.Units;
 using Dino.Units.Service;
 using Feofun.Config;
-using Feofun.Extension;
 using Feofun.UI.Dialog;
 using Logger.Extension;
 using SuperMaxim.Messaging;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Assertions;
 using Zenject;
 
 namespace Dino.Session.Service
@@ -27,7 +23,6 @@ namespace Dino.Session.Service
         private readonly IntReactiveProperty _kills = new IntReactiveProperty(0);
         
         [Inject] private UnitFactory _unitFactory;     
-        [Inject] private SquadFactory _squadFactory; 
         [Inject] private World _world;
         [Inject] private IMessenger _messenger;       
         [Inject] private UnitService _unitService;
@@ -59,8 +54,7 @@ namespace Dino.Session.Service
         public void Start()
         {
             CreateSession();
-            CreateSquad();
-            SpawnUnits();
+            CreatePlayer();
         }
 
         private void CreateSession()
@@ -72,25 +66,11 @@ namespace Dino.Session.Service
             this.Logger().Debug($"Kill enemies:= {levelConfig.KillCount}");
         }
     
-        private void CreateSquad()
+        private void CreatePlayer()
         {
-            var squad = _squadFactory.CreateSquad();
-            _world.Squad = squad;
-            squad.OnZeroHealth += OnSquadZeroHealth;
-            squad.OnDeath += OnSquadDeath;
-            squad.Model.StartingUnitCount.Diff().Subscribe(CreatePlayerUnits).AddTo(_disposable);
-        }
-
-        private void CreatePlayerUnits(int count)
-        {
-            Assert.IsTrue(count >= 0, "Should add non-negative count of units");
-            _unitFactory.CreatePlayerUnits(_constantsConfig.FirstUnit, count);
-        }
-
-        private void SpawnUnits()
-        {
-            Assert.IsNotNull(_world.Squad, "Squad is null, should call this method only inside game session");
-            CreatePlayerUnits(_world.Squad.Model.StartingUnitCount.Value);
+            var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit);
+            _world.Player = player;
+            player.OnDeath += OnDeath;
         }
 
         private void ResetKills() => _kills.Value = 0;
@@ -107,12 +87,7 @@ namespace Dino.Session.Service
             }
         }
 
-        private void OnSquadZeroHealth()
-        {
-            _dialogManager.Show<ReviveDialog>();
-        }
-
-        private void OnSquadDeath()
+        private void OnDeath(IUnit unit, DeathCause deathCause)
         {
             EndSession(UnitType.ENEMY);
         }
@@ -123,21 +98,15 @@ namespace Dino.Session.Service
             Session.SetResultByUnitType(winner);
             
             _unitService.DeactivateAll();
-            _world.Squad.IsActive = false;
             
             _messenger.Publish(new SessionEndMessage(Session.Result.Value));
-
         }
+        
         private void Dispose()
         {
             _disposable?.Dispose();
             _disposable = null;
             _unitService.OnEnemyUnitDeath -= OnEnemyUnitDeath;
-            var squad = _world.Squad;
-            if (squad != null) {
-                squad.OnZeroHealth -= OnSquadZeroHealth;
-                squad.OnDeath -= OnSquadDeath;
-            }
         }
         public void OnWorldCleanUp()
         {

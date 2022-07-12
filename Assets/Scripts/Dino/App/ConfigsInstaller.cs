@@ -5,7 +5,6 @@ using Dino.Modifiers.Config;
 using Dino.Reward.Config;
 using Dino.Session.Config;
 using Dino.Session.Model;
-using Dino.Squad.Config;
 using Dino.Units.Enemy.Config;
 using Dino.Units.Player.Config;
 using Feofun.Config;
@@ -24,10 +23,7 @@ namespace Dino.App
                 .RegisterStringKeyedCollection<PlayerUnitConfig>(Configs.PLAYER_UNIT)
                 .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)
                 .RegisterStringKeyedCollection<DroppingLootConfig>(Configs.DROPPING_LOOT)
-                .RegisterStringKeyedCollection<SquadLevelConfig>(Configs.SQUAD_LEVEL)
-                .RegisterSingleObjectConfig<SquadConfig>(Configs.SQUAD)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
-                .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.META_UPGRADES, true)
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)
                 .RegisterStringKeyedCollection<LevelMissionConfig>(Configs.LEVEL_MISSION)
                 .RegisterCollection<SessionResult, MissionRewardsConfig>(Configs.MISSION_REWARDS);

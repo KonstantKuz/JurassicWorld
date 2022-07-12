@@ -6,12 +6,12 @@ using Dino.Location;
 using Dino.Player.Progress.Service;
 using Dino.Session.Config;
 using Dino.Session.Service;
-using Dino.Squad.Component;
-using Dino.Squad.Service;
+
+
 using Dino.Units.Service;
 using Feofun.Config;
 using UnityEngine;
-using UnityEngine.Assertions;
+
 using Zenject;
 
 namespace Dino.App
@@ -21,7 +21,7 @@ namespace Dino.App
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
-        [Inject] private SquadProgressService _squadProgressService;
+
         [Inject] private UnitService _unitService;
         [Inject] private World _world;
         
@@ -41,7 +41,7 @@ namespace Dino.App
                 EventParams.LEVEL_ID => _sessionService.LevelId,
                 EventParams.LEVEL_NUMBER => GetLevelNumber(),
                 EventParams.LEVEL_LOOP => GetLevelLoop(),
-                EventParams.SQUAD_LEVEL => _squadProgressService.Level.Value,
+
                 EventParams.ENEMY_KILLED => _sessionService.Kills.Value,
                 EventParams.TIME_SINCE_LEVEL_START => _sessionService.SessionTime,
                 EventParams.PASS_NUMBER => GetPassNumber(),
@@ -94,9 +94,7 @@ namespace Dino.App
         
         private float GetStandRatio()
         {
-            Assert.IsNotNull(_world.Squad, "Should call this method only inside game session");
-            return _world.Squad.GetComponent<MovementAnalytics>().StandingTime /
-                   _sessionService.SessionTime;
+            throw new NotImplementedException();
         }
     }
 }

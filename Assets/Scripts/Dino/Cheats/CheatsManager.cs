@@ -1,7 +1,6 @@
 using System;
 using Dino.Cheats.Data;
 using Dino.Cheats.Repository;
-using Dino.Squad.Service;
 using Feofun.Localization.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -15,7 +14,7 @@ namespace Dino.Cheats
         private readonly CheatRepository _repository = new CheatRepository();
         
         [Inject] private LocalizationService _localizationService;     
-        [Inject] private SquadProgressService _squadProgressService;
+
 
         [SerializeField] private GameObject _fpsMonitor;
         [SerializeField] private GameObject _debugConsole;
@@ -36,7 +35,7 @@ namespace Dino.Cheats
             Application.Quit();
         }
         
-        public void IncreaseSquadLevel() => _squadProgressService.IncreaseLevel();
+
 
         public void LogTestMessage()
         {

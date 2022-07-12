@@ -40,7 +40,6 @@ namespace Dino.UI.Cheats
             _toggleConsoleButton.Init(_cheatsManager.IsConsoleEnabled, value => { _cheatsManager.IsConsoleEnabled = value; });
             _toggleFPSButton.Init(_cheatsManager.IsFPSMonitorEnabled, value => { _cheatsManager.IsFPSMonitorEnabled = value; });
           
-            _increaseSquadLevelButton.Init(_cheatsManager.IncreaseSquadLevel);
             _resetProgressButton.Init(_cheatsManager.ResetProgress);
             
             _setLanguage.Init(() => _cheatsManager.SetLanguage(_inputField.text));

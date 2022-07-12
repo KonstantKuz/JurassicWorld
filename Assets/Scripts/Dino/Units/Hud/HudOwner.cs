@@ -4,10 +4,9 @@ using Feofun.Components;
 using UniRx;
 using UnityEngine;
 using Zenject;
-
-namespace Dino.Squad.Component.Hud
+namespace Dino.Units.Hud
 {
-    public class HudOwner : MonoBehaviour, IInitializable<Squad>
+    public class HudOwner : MonoBehaviour, IInitializable<Unit>
     {
         [SerializeField] private HudPresenter _hudPrefab;
         [SerializeField] private Transform _hudPlace;
@@ -22,11 +21,10 @@ namespace Dino.Squad.Component.Hud
 
         public IHealthBarOwner HealthBarOwner => _healthBarOwner ?? GetComponent<IHealthBarOwner>();
 
-        public void Init(Squad squad)
+        public void Init(Unit unit)
         {
             CleanUp();
             _disposable = new CompositeDisposable();
-            squad.UnitsCount.Subscribe(it => UpdateHudPlaceOffset(squad.SquadRadius)).AddTo(_disposable);
             _hudPresenter = _container.InstantiatePrefabForComponent<HudPresenter>(_hudPrefab);
             _hudPresenter.Init(this, _hudPlace);
         }

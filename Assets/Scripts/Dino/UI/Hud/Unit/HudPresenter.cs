@@ -1,5 +1,5 @@
-using Dino.Squad.Component.Hud;
 using Dino.Units.Component;
+using Dino.Units.Hud;
 using Feofun.UI;
 using UnityEngine;
 using Zenject;

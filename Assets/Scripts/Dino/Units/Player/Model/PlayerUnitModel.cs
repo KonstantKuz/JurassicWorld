@@ -18,6 +18,7 @@ namespace Dino.Units.Player.Model
         }
 
         public string Id => _config.Id;
+        public float MoveSpeed => _config.MoveSpeed;
         public IHealthModel HealthModel { get; }
         public IAttackModel AttackModel => _playerAttackModel;
     }
