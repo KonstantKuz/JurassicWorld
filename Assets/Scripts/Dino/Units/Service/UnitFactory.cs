@@ -1,5 +1,4 @@
 ﻿using Dino.Extension;
-using Dino.Location;
 using Dino.Location.Service;
 using Dino.Units.Enemy.Config;
 using Dino.Units.Enemy.Model;
@@ -10,7 +9,6 @@ namespace Dino.Units.Service
 {
     public class UnitFactory
     {
-        [Inject] private World _world;
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private StringKeyedConfigCollection<EnemyUnitConfig> _enemyUnitConfigs;
         [Inject] private PlayerUnitModelBuilder _playerUnitModelBuilder;

@@ -1,7 +1,7 @@
 ﻿using Dino.Extension;
 using Dino.Units.Component.Health;
 using Dino.Units.Enemy.Model;
-using Dino.Units.Weapon;
+using Dino.Weapon;
 using Feofun.Components;
 using Logger.Extension;
 using UnityEngine;
@@ -13,14 +13,14 @@ namespace Dino.Units.Enemy
     {
         private EnemyAi _enemyAi;
         private BaseWeapon _weapon;
-        private EnemyAttackModel _attackModel;
+        private EnemyWeapon _weapon;
 
         private float _attackTimer;
 
         
         public void Init(IUnit unit)
         {
-            _attackModel = (EnemyAttackModel) unit.Model.AttackModel;
+            _attackModel = (EnemyWeapon) unit.Model.AttackModel;
         }
 
         private void Awake()

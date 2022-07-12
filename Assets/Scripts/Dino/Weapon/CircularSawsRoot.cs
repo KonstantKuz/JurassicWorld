@@ -1,0 +1,59 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dino.Units;
+using Dino.Weapon.Projectiles.Params;
+using Feofun.Components;
+using UnityEngine;
+
+namespace Dino.Weapon
+{
+    public class CircularSawsRoot : MonoBehaviour, IInitializable<IUnit>
+    {
+        private Transform _rotationCenter;
+        private IProjectileParams _projectileParams;
+        private readonly List<CircularSawWeapon> _activeWeapons = new List<CircularSawWeapon>();
+        private bool Initialized => _projectileParams != null && _rotationCenter != null;
+
+        public void Init(IUnit unit)
+        {
+            _rotationCenter = unit.GameObject.transform;
+        }
+
+        public void OnWeaponInit(CircularSawWeapon owner)
+        {
+            _activeWeapons.Add(owner);
+            PlaceSaws();
+        }
+        
+        public void OnWeaponCleanUp(CircularSawWeapon owner)
+        {
+            _activeWeapons.Remove(owner);
+            PlaceSaws();
+        }
+
+        public void OnParamsChanged(IProjectileParams projectileParams)
+        {
+            _projectileParams = projectileParams;
+            PlaceSaws();
+        }
+
+        private void PlaceSaws()
+        {
+            var saws = _activeWeapons.SelectMany(owner => owner.OwnedSaws).ToList();
+            var angleStep = 360f / saws.Count;
+            var currentPlaceAngle = 0f;
+            foreach (var saw in saws)
+            {
+                saw.SetLocalPlaceByAngle(currentPlaceAngle);                                        
+                currentPlaceAngle += angleStep;
+            }
+        }
+
+        private void Update()
+        {
+            if(!Initialized) return;
+            transform.position = _rotationCenter.position;
+            transform.localRotation *= Quaternion.Euler(0, _projectileParams.Speed * Time.deltaTime, 0);
+        }
+    }
+}

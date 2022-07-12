@@ -1,0 +1,23 @@
+﻿using Dino.Units.Enemy.Config;
+using Dino.Units.Model;
+using UniRx;
+using UnityEngine;
+
+namespace Dino.Units.Enemy.Model
+{
+    public class EnemyWeapon : IWeapon
+    {
+        public EnemyWeapon(EnemyAttackConfig config)
+        {
+            TargetSearchRadius = Mathf.Infinity;
+            AttackDistance = config.AttackRange;
+            AttackDamage = config.AttackDamage;
+            AttackInterval = new ReactiveProperty<float>(config.AttackInterval);
+        }
+
+        public float TargetSearchRadius { get; }
+        public float AttackDistance { get; }
+        public float AttackDamage { get; }
+        public IReadOnlyReactiveProperty<float> AttackInterval { get; }
+    }
+}

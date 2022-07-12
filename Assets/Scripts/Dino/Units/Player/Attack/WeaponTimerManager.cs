@@ -8,10 +8,10 @@ namespace Dino.Units.Player.Attack
     {
         private WeaponTimer _timer;
         
-        public void Subscribe(string weaponId, IAttackModel attackModel, Action onAttackReady)
+        public void Subscribe(string weaponId, IWeapon weapon, Action onAttackReady)
         {
             if (_timer == null) {
-                _timer = new WeaponTimer(attackModel.AttackInterval);
+                _timer = new WeaponTimer(weapon.AttackInterval);
             }
             _timer.OnAttackReady += onAttackReady;
         }

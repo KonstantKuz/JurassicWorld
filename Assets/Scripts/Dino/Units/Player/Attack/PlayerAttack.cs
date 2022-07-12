@@ -5,7 +5,8 @@ using Dino.Units.Component.TargetSearcher;
 using Dino.Units.Player.Model;
 using Dino.Units.Player.Movement;
 using Dino.Units.Target;
-using Dino.Units.Weapon;
+using Dino.Weapon;
+using Dino.Weapon.Model;
 using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
@@ -27,7 +28,7 @@ namespace Dino.Units.Player.Attack
         private string _attackAnimationName;
         
         private BaseWeapon _weapon;
-        private PlayerAttackModel _playerAttackModel;
+        private WeaponModel _weaponModel;
         private Animator _animator;
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
@@ -48,9 +49,9 @@ namespace Dino.Units.Player.Attack
             Dispose();
             _disposable = new CompositeDisposable();
             _owner = (Unit) unit;
-            _playerAttackModel = (PlayerAttackModel) unit.Model.AttackModel;
+            _weaponModel = (WeaponModel) unit.Model.AttackModel;
             
-            _playerAttackModel.AttackInterval.Subscribe(UpdateAnimationSpeed).AddTo(_disposable);
+            _weaponModel.AttackInterval.Subscribe(UpdateAnimationSpeed).AddTo(_disposable);
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent += Fire;
             }
@@ -60,7 +61,7 @@ namespace Dino.Units.Player.Attack
         private void InitWeaponTimer()
         {
             _timerManager = _weapon.GetComponent<IWeaponTimerManager>() ?? _owner.GetComponent<IWeaponTimerManager>();
-            _timerManager.Subscribe(_owner.ObjectId, _playerAttackModel, OnAttackReady);
+            _timerManager.Subscribe(_owner.ObjectId, _weaponModel, OnAttackReady);
         }
         
         private void Awake()
@@ -114,13 +115,13 @@ namespace Dino.Units.Player.Attack
             if (IsTargetInvalid) {
                 return;
             }
-            _weapon.Fire(_target, _playerAttackModel.CreateProjectileParams(), DoDamage);
+            _weapon.Fire(_target, _weaponModel.CreateProjectileParams(), DoDamage);
         }
 
         private void DoDamage(GameObject target)
         {
             var damageable = target.RequireComponent<IDamageable>();
-            damageable.TakeDamage(_playerAttackModel.AttackDamage);
+            damageable.TakeDamage(_weaponModel.AttackDamage);
             this.Logger().Trace($"Damage applied, target:= {target.name}");
         }
 
