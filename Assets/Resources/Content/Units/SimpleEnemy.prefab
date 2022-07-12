@@ -18,7 +18,6 @@ GameObject:
   - component: {fileID: 4491497861294361367}
   - component: {fileID: 7769037132543265669}
   - component: {fileID: 158354064725451873}
-  - component: {fileID: 7094039851140565474}
   - component: {fileID: 5316809173621734762}
   - component: {fileID: 8473987040358760045}
   m_Layer: 6
@@ -149,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitType: 0
-  _centerTarget: {fileID: 0}
+  _centerTarget: {fileID: 1697590413581288705}
   _rootTarget: {fileID: 1228820858336296983}
 --- !u!114 &7769037132543265669
 MonoBehaviour:
@@ -178,18 +177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2ae061fe8e59146b8e5c080348d6fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7094039851140565474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047533565645016285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db81620c98d454184b056940050610a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5316809173621734762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,7 +193,7 @@ MonoBehaviour:
   _scalePunchDuration: 0.2
   _colorBlinkDuration: 0.05
   _blinkColor: {r: 0.57602674, g: 0, b: 0.8490566, a: 1}
-  _renderer: {fileID: 0}
+  _renderer: {fileID: 4699191313327408708}
 --- !u!114 &8473987040358760045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,10 +340,19 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 84c8fbb6876129f41a1991c976827731, type: 2}
+    - target: {fileID: 7630249657377229117, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 3186b949f8b973a47948333f20d6031e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
 --- !u!4 &1697590413581288705 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4540819704217457479, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
+  m_PrefabInstance: {fileID: 2921488203437758022}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &4699191313327408708 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7619483162201919490, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
   m_PrefabInstance: {fileID: 2921488203437758022}
   m_PrefabAsset: {fileID: 0}
