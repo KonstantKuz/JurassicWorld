@@ -15,5 +15,10 @@ namespace Dino.Location
         {
             return GetComponentsInChildren<Transform>(true).Select(it => it.gameObject).ToList();
         }
+
+        public List<T> GetChildrenComponents<T>()
+        {
+            return GetChildrenObjects().Select(it => it.GetComponent<T>()).Where(it=> it != null).ToList();
+        }
     }
 }
