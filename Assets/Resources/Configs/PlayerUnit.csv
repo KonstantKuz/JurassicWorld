@@ -1,2 +1,2 @@
-Id,Health,MoveSpeed,AttackDistance,DamageRadius,AttackDamage,AttackInterval,ProjectileSpeed
-StandardUnit,500,5,10,0,1000,0.6,30
+Id,Health,MoveSpeed
+StandardUnit,500,5
