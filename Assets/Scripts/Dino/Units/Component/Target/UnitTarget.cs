@@ -1,8 +1,9 @@
 ﻿using System;
+using Dino.Units.Target;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.Units.Target
+namespace Dino.Units.Component.Target
 {
     public class UnitTarget : MonoBehaviour, ITarget, IUnitDeathEventReceiver
     {

@@ -3,7 +3,7 @@ using Dino.Extension;
 using Dino.Units.Component.Health;
 using UnityEngine;
 
-namespace Dino.Units.Player.Damageable
+namespace Dino.Units.Component.Damageable
 {
     public class DamageableChild : MonoBehaviour, IDamageable
     {

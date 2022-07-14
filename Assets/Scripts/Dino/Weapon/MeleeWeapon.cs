@@ -1,6 +1,6 @@
 ﻿using System;
 using Dino.Units.Component.Health;
-using Dino.Units.Target;
+using Dino.Units.Component.Target;
 using Dino.Weapon.Model;
 using Logger.Extension;
 using UnityEngine;

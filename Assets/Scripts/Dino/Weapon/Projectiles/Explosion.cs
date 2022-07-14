@@ -3,6 +3,7 @@ using System.Linq;
 using Dino.Location.Service;
 using Dino.Units;
 using Dino.Units.Component.Health;
+using Dino.Units.Component.Target;
 using Dino.Units.Target;
 using UnityEngine;
 

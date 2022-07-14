@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Units;
 using Feofun.App;
+using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
 using UnityEngine;
 
@@ -18,6 +19,8 @@ namespace Dino.Location
         public GameObject Spawn => _spawn;
 
         public bool IsPaused => Time.timeScale == 0;
+       
+        [CanBeNull]
         public Unit Player { get; set; }
 
         public Vector3 GetGroundIntersection(Ray withRay)

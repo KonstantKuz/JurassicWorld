@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Dino.Extension;
 using Dino.Units.Component.Health;
+using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
 using Dino.Units.Player.Movement;
 using Dino.Units.Target;

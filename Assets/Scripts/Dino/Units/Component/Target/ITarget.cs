@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Dino.Units.Target
+namespace Dino.Units.Component.Target
 {
     /// <summary>
     /// Для сущностей которые могут использоваться в качестве целей для атак, перемещения

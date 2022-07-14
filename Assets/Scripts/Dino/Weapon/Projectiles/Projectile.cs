@@ -1,6 +1,7 @@
 ﻿using System;
 using Dino.Units;
 using Dino.Units.Component.Health;
+using Dino.Units.Component.Target;
 using Dino.Units.Model;
 using Dino.Units.Target;
 using Dino.Weapon.Model;

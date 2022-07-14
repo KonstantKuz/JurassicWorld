@@ -1,5 +1,6 @@
 ﻿using System;
 using Dino.Location.Service;
+using Dino.Units.Component.Target;
 using Dino.Units.Target;
 using Dino.Weapon.Model;
 using UnityEngine;

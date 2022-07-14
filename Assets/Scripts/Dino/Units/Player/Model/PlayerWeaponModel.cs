@@ -1,5 +1,4 @@
-﻿using Dino.Units.Model;
-using Dino.Weapon.Config;
+﻿using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 
 namespace Dino.Units.Player.Model

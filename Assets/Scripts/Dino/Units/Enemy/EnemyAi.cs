@@ -1,10 +1,8 @@
 ﻿using Dino.Extension;
 using Dino.Location;
-using Dino.Units.Component.TargetSearcher;
-using Dino.Units.Enemy.Model;
+using Dino.Units.Component.Target;
 using Dino.Units.Target;
 using Feofun.Components;
-using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;

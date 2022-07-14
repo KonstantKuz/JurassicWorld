@@ -1,6 +1,6 @@
 using Dino.Analytics;
 using Dino.Cheats.Installer;
-using Dino.Core.Config;
+using Dino.Config;
 using Dino.Location;
 using Dino.Modifiers;
 using Dino.Player.Installer;

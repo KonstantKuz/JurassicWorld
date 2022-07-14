@@ -4,16 +4,14 @@ using Dino.Extension;
 using Dino.Location.Model;
 using Dino.Units.Component.Death;
 using Dino.Units.Component.Health;
+using Dino.Units.Component.Target;
 using Dino.Units.Model;
-using Dino.Units.Player.Model;
 using Dino.Units.Player.Movement;
 using Dino.Units.Service;
 using Dino.Units.Target;
 using EasyButtons;
 using Feofun.Components;
-using Feofun.Modifiers;
 using JetBrains.Annotations;
-using Logger.Extension;
 using SuperMaxim.Core.Extensions;
 using UnityEngine;
 using Zenject;
@@ -31,7 +29,6 @@ namespace Dino.Units
         private MovementController _movementController;
         private bool _isActive;
         private float _spawnTime;
-        private Collider _collider;
 
         [Inject]
         private UnitService _unitService;
@@ -61,7 +58,6 @@ namespace Dino.Units
         public float LifeTime => Time.time - _spawnTime;
         [CanBeNull]
         public Health Health { get; private set; }
-        public Bounds Bounds => _collider.bounds;
 
         public void Init(IUnitModel model)
         {
@@ -80,9 +76,7 @@ namespace Dino.Units
             }
 
             IsActive = true;
-            _spawnTime = Time.time;
             Health = GetComponent<Health>();
-            _collider = GetComponent<CapsuleCollider>();
 
             foreach (var component in GetComponentsInChildren<IInitializable<IUnit>>()) {
                 component.Init(this);
@@ -126,14 +120,6 @@ namespace Dino.Units
             _unitService.Remove(this);
             _updateManager.StopUpdate(UpdateComponents);
         }
-
-        public void AddModifier(IModifier modifier)
-        {
-            if (!(Model is PlayerUnitModel playerUnitModel)) {
-                this.Logger().Error($"Unit model must be the PlayerUnitModel, current model:= {Model.GetType().Name}");
-                return;
-            }
-            playerUnitModel.AddModifier(modifier);
-        }
+        
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Dino.Units.Target
+﻿namespace Dino.Units.Component.Target
 {
     public interface ITargetProvider
     {

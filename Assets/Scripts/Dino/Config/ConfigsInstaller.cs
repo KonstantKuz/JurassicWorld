@@ -1,5 +1,4 @@
-﻿using Dino.Config;
-using Dino.Loot.Config;
+﻿using Dino.Loot.Config;
 using Dino.Modifiers.Config;
 using Dino.Reward.Config;
 using Dino.Session.Config;
@@ -12,7 +11,7 @@ using Feofun.Config.Serializers;
 using Feofun.Localization.Config;
 using Zenject;
 
-namespace Dino.Core.Config
+namespace Dino.Config
 {
     public class ConfigsInstaller
     {
@@ -22,11 +21,13 @@ namespace Dino.Core.Config
                 .RegisterSingle<LocalizationConfig>(Configs.LOCALIZATION)
                 .RegisterStringKeyedCollection<PlayerUnitConfig>(Configs.PLAYER_UNIT)
                 .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)
+                .RegisterStringKeyedCollection<WeaponConfig>(Configs.WEAPONS)
+                .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)
+                
+           
                 .RegisterStringKeyedCollection<DroppingLootConfig>(Configs.DROPPING_LOOT)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
-                .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)
-                .RegisterStringKeyedCollection<LevelMissionConfig>(Configs.LEVEL_MISSION)           
-                .RegisterStringKeyedCollection<WeaponConfig>(Configs.LEVEL_MISSION)
+                .RegisterStringKeyedCollection<LevelMissionConfig>(Configs.LEVEL_MISSION)
                 .RegisterCollection<SessionResult, MissionRewardsConfig>(Configs.MISSION_REWARDS);
         }
     }

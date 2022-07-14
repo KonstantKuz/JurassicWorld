@@ -1,4 +1,5 @@
 ﻿using System;
+using Dino.Units.Component.Target;
 using Dino.Units.Target;
 using Dino.Weapon.Model;
 using JetBrains.Annotations;

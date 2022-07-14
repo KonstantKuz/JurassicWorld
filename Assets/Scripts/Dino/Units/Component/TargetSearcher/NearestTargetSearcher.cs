@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Dino.Extension;
-using Dino.Units.Model;
+using Dino.Units.Component.Target;
 using Dino.Units.Target;
 using Dino.Weapon.Model;
 using Feofun.Components;

@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Dino.Units.Target
+namespace Dino.Units.Component.Target
 {
     public static class TargetExtension
     {

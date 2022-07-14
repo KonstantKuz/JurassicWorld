@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Dino.Units.Player.Inventory
+namespace Dino.Inventory.Components
 {
     public class InventoryOwner : MonoBehaviour
     {
