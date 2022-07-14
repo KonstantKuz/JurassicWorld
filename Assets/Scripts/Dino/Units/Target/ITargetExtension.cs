@@ -1,10 +1,12 @@
-﻿namespace Dino.Units.Target
+﻿using JetBrains.Annotations;
+
+namespace Dino.Units.Target
 {
     public static class TargetExtension
     {
-        public static bool IsTargetValidAndAlive(this ITarget target)
+        public static bool IsTargetValidAndAlive([CanBeNull] this ITarget target)
         {
-            return target is { IsAlive: true };
+            return target is {IsAlive: true};
         }
     }
 }

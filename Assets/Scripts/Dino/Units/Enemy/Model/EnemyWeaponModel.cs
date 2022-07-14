@@ -5,9 +5,9 @@ using UnityEngine;
 
 namespace Dino.Units.Enemy.Model
 {
-    public class EnemyWeapon : IWeapon
+    public class EnemyWeaponModel : IWeaponModel
     {
-        public EnemyWeapon(EnemyAttackConfig config)
+        public EnemyWeaponModel(EnemyAttackConfig config)
         {
             TargetSearchRadius = Mathf.Infinity;
             AttackDistance = config.AttackRange;

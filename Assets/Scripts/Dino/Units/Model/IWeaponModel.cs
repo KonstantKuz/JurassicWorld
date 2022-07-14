@@ -1,7 +1,7 @@
 
 namespace Dino.Units.Model
 {
-    public interface IWeapon
+    public interface IWeaponModel
     {
         float TargetSearchRadius { get; }
         float AttackDistance { get; }

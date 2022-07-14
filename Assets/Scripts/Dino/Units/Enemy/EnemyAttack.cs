@@ -13,14 +13,14 @@ namespace Dino.Units.Enemy
     {
         private EnemyAi _enemyAi;
         private BaseWeapon _weapon;
-        private EnemyWeapon _weapon;
+        private EnemyWeaponModel _weaponModel;
 
         private float _attackTimer;
 
         
         public void Init(IUnit unit)
         {
-            _attackModel = (EnemyWeapon) unit.Model.AttackModel;
+            _attackModel = (EnemyWeaponModel) unit.Model.AttackModel;
         }
 
         private void Awake()

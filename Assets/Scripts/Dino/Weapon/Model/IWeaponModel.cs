@@ -1,13 +1,12 @@
-﻿using Dino.Units.Model;
-using Dino.Weapon.Config;
+﻿using Dino.Weapon.Config;
 
 namespace Dino.Weapon.Model
 {
-    public class WeaponModel : IWeapon
+    public class IWeaponModel : Units.Model.IWeaponModel
     {
         private readonly WeaponConfig _config;
 
-        public WeaponModel(WeaponConfig config)
+        public IWeaponModel(WeaponConfig config)
         {
             _config = config;
         }

@@ -2,7 +2,6 @@
 using Dino.Extension;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.TargetSearcher;
-using Dino.Units.Player.Model;
 using Dino.Units.Player.Movement;
 using Dino.Units.Target;
 using Dino.Weapon;
@@ -10,75 +9,58 @@ using Dino.Weapon.Model;
 using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
-using UniRx;
 using UnityEngine;
 
 namespace Dino.Units.Player.Attack
 {
     [RequireComponent(typeof(ITargetSearcher))]
     [RequireComponent(typeof(MovementController))]
-    public class PlayerAttack : MonoBehaviour, IUpdatableComponent, IInitializable<IUnit>
+    public class PlayerAttack : MonoBehaviour, IUpdatableComponent
     {
         private static readonly int AttackSpeedMultiplierHash = Animator.StringToHash("AttackSpeedMultiplier");
         private static readonly int AttackHash = Animator.StringToHash("Attack");
-        
+
         [SerializeField]
         private bool _rotateToTarget = true;
         [SerializeField]
         private string _attackAnimationName;
-        
-        private BaseWeapon _weapon;
-        private WeaponModel _weaponModel;
+
         private Animator _animator;
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
-        private Unit _owner;
-        private IWeaponTimerManager _timerManager;
-        private CompositeDisposable _disposable;
-        
-        
+
+        [CanBeNull]
+        private ChangeableWeapon _weapon;
         [CanBeNull]
         private WeaponAnimationHandler _weaponAnimationHandler;
         [CanBeNull]
         private ITarget _target;
-        
+
         private bool IsTargetInvalid => !_target.IsTargetValidAndAlive();
         private bool HasWeaponAnimationHandler => _weaponAnimationHandler != null;
-        public void Init(IUnit unit)
-        {
-            Dispose();
-            _disposable = new CompositeDisposable();
-            _owner = (Unit) unit;
-            _weaponModel = (WeaponModel) unit.Model.AttackModel;
-            
-            _weaponModel.AttackInterval.Subscribe(UpdateAnimationSpeed).AddTo(_disposable);
-            if (HasWeaponAnimationHandler) {
-                _weaponAnimationHandler.OnFireEvent += Fire;
-            }
-            InitWeaponTimer();
-        }
 
-        private void InitWeaponTimer()
-        {
-            _timerManager = _weapon.GetComponent<IWeaponTimerManager>() ?? _owner.GetComponent<IWeaponTimerManager>();
-            _timerManager.Subscribe(_owner.ObjectId, _weaponModel, OnAttackReady);
-        }
-        
         private void Awake()
         {
-            _weapon = gameObject.RequireComponentInChildren<BaseWeapon>();
             _animator = gameObject.RequireComponentInChildren<Animator>();
             _targetSearcher = GetComponent<ITargetSearcher>();
             _movementController = GetComponent<MovementController>();
-
             _weaponAnimationHandler = GetComponentInChildren<WeaponAnimationHandler>();
-        }
-        private void OnAttackReady()
-        {
-            if (CanAttack(_target)) {
-                Attack();
+            if (HasWeaponAnimationHandler) {
+                _weaponAnimationHandler.OnFireEvent += Fire;
             }
         }
+
+        public void SetWeapon(IWeaponModel weaponModel, BaseWeapon weapon)
+        {
+            _weapon = new ChangeableWeapon() {
+                    Weapon = weapon,
+                    Model = weaponModel,
+                    Timer = new WeaponTimer(weaponModel.AttackInterval),
+            };
+            UpdateAnimationSpeed(weaponModel.AttackInterval);
+        }
+
+        public void DeleteWeapon() => _weapon = null;
 
         private void UpdateAnimationSpeed(float attackInterval)
         {
@@ -89,22 +71,32 @@ namespace Dino.Units.Player.Attack
             }
             _animator.SetFloat(AttackSpeedMultiplierHash, attackClipLength / attackInterval);
         }
-        
         [CanBeNull]
         private ITarget FindTarget() => _targetSearcher.Find();
 
         public void OnTick()
         {
-            _target = FindTarget();
+            if (_weapon == null) {
+                return;
+            }
+            var target = FindTarget();
             if (_rotateToTarget) {
-                _movementController.RotateToTarget(_target?.Center);
+                _movementController.RotateToTarget(target?.Center);
+            }
+            if (CanAttack(target)) {
+                Attack(target);
             }
         }
-        private bool CanAttack([CanBeNull] ITarget target) => target != null;
+        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady;
 
-        private void Attack()
+        private void Attack(ITarget target)
         {
+            if (!CheckWeapon()) {
+                return;
+            }
+            _target = target;
             _animator.SetTrigger(AttackHash);
+            _weapon.Timer.OnAttack();
             if (!HasWeaponAnimationHandler) {
                 Fire();
             }
@@ -113,9 +105,23 @@ namespace Dino.Units.Player.Attack
         private void Fire()
         {
             if (IsTargetInvalid) {
+                _weaponTimer.CancelLastTimer();
                 return;
             }
-            _weapon.Fire(_target, _weaponModel.CreateProjectileParams(), DoDamage);
+            if (_weapon == null) {
+                this.Logger().Error("Weapon is not setted");
+                return;
+            }
+            _weapon.Fire(_target, _weaponModel, DoDamage);
+        }
+
+        private bool CheckWeapon()
+        {
+            if (_weapon != null) {
+                return true;
+            }
+            this.Logger().Error("Weapon is not setted");
+            return false;
         }
 
         private void DoDamage(GameObject target)
@@ -127,16 +133,17 @@ namespace Dino.Units.Player.Attack
 
         private void OnDestroy()
         {
-            Dispose();
+            DeleteWeapon();
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent -= Fire;
             }
-            _timerManager.Unsubscribe(_owner.ObjectId, OnAttackReady);
         }
-        private void Dispose()
+
+        private class ChangeableWeapon
         {
-            _disposable?.Dispose();
-            _disposable = null;
+            public BaseWeapon Weapon { get; set; }
+            public IWeaponModel Model { get; set; }
+            public WeaponTimer Timer { get; set; }
         }
     }
 }

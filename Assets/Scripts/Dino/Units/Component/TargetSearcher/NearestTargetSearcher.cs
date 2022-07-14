@@ -16,15 +16,15 @@ namespace Dino.Units.Component.TargetSearcher
         [Inject]
         private TargetService _targetService;
 
-        private IWeapon _weapon;    
+        private IWeaponModel _weaponModel;    
         private ITarget _selfTarget;
         private UnitType _targetType;
 
-        private float SearchDistance => _weapon.TargetSearchRadius;
+        private float SearchDistance => _weaponModel.TargetSearchRadius;
 
         public void Init(IUnit unit)
         {
-            _weapon = unit.Model.AttackModel;
+            _weaponModel = unit.Model.AttackModel;
             _selfTarget = gameObject.RequireComponent<ITarget>();
             _targetType = _selfTarget.UnitType.GetTargetUnitType();
         }

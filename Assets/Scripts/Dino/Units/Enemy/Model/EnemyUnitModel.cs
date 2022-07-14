@@ -12,7 +12,7 @@ namespace Dino.Units.Enemy.Model
         public float MoveSpeed { get; }
         public int Level { get; }
         public IHealthModel HealthModel { get; }
-        public IWeapon Weapon { get; }
+        public IWeaponModel WeaponModel { get; }
 
         public EnemyUnitModel(EnemyUnitConfig config, int level = 1)
         {
@@ -22,7 +22,7 @@ namespace Dino.Units.Enemy.Model
             MoveSpeed = config.MoveSpeed;
             Level = level;
             HealthModel = new EnemyHealthModel(config.GetHealthForLevel(level));
-            Weapon = new EnemyWeapon(config.EnemyAttackConfig);
+            WeaponModel = new EnemyWeaponModel(config.EnemyAttackConfig);
         }
         public int CalculateLevelOfHealth(float currentHealth)
         {
