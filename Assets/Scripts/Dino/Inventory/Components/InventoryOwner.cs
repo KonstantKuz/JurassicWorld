@@ -5,13 +5,15 @@ namespace Dino.Inventory.Components
     public class InventoryOwner : MonoBehaviour
     {
         [SerializeField]
-        private Transform Container;
-
+        private Transform _container;
+        
+        public Transform Container => _container;
 
         public void SetInventory(GameObject item)
         {
             item.transform.SetParent(Container);
-            item.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
+            item.transform.localPosition = Vector3.zero;
+            item.transform.localRotation = Quaternion.identity;
         }
     }
 }

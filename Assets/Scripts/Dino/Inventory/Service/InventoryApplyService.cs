@@ -18,10 +18,10 @@ namespace Dino.Inventory.Service
             CheckPlayer();
             var player = _world.Player;
             var inventoryOwner = player.GameObject.RequireComponent<InventoryOwner>();
-            var item = _worldObjectFactory.CreateObject(inventoryId, inventoryOwner.transform);
+            var item = _worldObjectFactory.CreateObject(inventoryId, inventoryOwner.Container);
             inventoryOwner.SetInventory(item);
 
         }
-        private void CheckPlayer() => Assert.IsNotNull(_world.Player, "Squad is null, should call this method only inside game session");
+        private void CheckPlayer() => Assert.IsNotNull(_world.Player, "Player is null, should call this method only inside game session");
     }
 }
