@@ -6,8 +6,6 @@ namespace Dino.Units.Enemy.Config
 {
     public class EnemyUnitConfig : ICollectionItem<string>
     {
-        public const int MIN_LEVEL = 1;        
-        
         [DataMember(Name = "Id")] 
         private string _id;
         [DataMember] 
@@ -18,16 +16,7 @@ namespace Dino.Units.Enemy.Config
         public EnemyAttackConfig EnemyAttackConfig;
         [DataMember] 
         public DroppingLootConfig DroppingLootConfig;      
-        [DataMember] 
-        public EnemyScaleConfig EnemyScaleConfig;
-        [DataMember] 
-        public int HealthStep;
         
         public string Id => _id; 
-        
-        public int GetHealthForLevel(int level) => Health + (level - MIN_LEVEL) * HealthStep;
-        public float CalculateScale(int level) => EnemyScaleConfig.CalculateScale(level);
-
-
     }
 }

@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateToTarget: 1
-  _attackAnimationName: Throw
+  _attackAnimationName: SwordAttack
 --- !u!114 &6725277663089351701
 MonoBehaviour:
   m_ObjectHideFlags: 0

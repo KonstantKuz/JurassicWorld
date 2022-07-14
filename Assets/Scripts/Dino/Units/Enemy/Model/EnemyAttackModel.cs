@@ -10,7 +10,7 @@ namespace Dino.Units.Enemy.Model
         public EnemyAttackModel(EnemyAttackConfig config)
         {
             TargetSearchRadius = Mathf.Infinity;
-            AttackDistance = config.AttackRange;
+            AttackDistance = config.AttackDistance;
             AttackDamage = config.AttackDamage;
             AttackInterval = new ReactiveProperty<float>(config.AttackInterval);
         }

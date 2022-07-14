@@ -21,7 +21,8 @@ namespace Dino.Session.Service
     {
         
         private readonly IntReactiveProperty _kills = new IntReactiveProperty(0);
-        
+
+        [Inject] private EnemyInitService _enemyInitService;
         [Inject] private UnitFactory _unitFactory;     
         [Inject] private World _world;
         [Inject] private IMessenger _messenger;       
@@ -55,6 +56,7 @@ namespace Dino.Session.Service
         {
             CreateSession();
             CreatePlayer();
+            InitEnemies();
         }
 
         private void CreateSession()
@@ -65,12 +67,17 @@ namespace Dino.Session.Service
             _playerProgressService.OnSessionStarted(levelConfig.Level);
             this.Logger().Debug($"Kill enemies:= {levelConfig.KillCount}");
         }
-    
+
         private void CreatePlayer()
         {
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit);
             _world.Player = player;
             player.OnDeath += OnDeath;
+        }
+
+        private void InitEnemies()
+        {
+            _enemyInitService.InitEnemies();
         }
 
         private void ResetKills() => _kills.Value = 0;
