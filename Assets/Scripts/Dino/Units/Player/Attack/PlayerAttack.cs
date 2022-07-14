@@ -25,7 +25,7 @@ namespace Dino.Units.Player.Attack
         private bool _rotateToTarget = true;
         [SerializeField]
         private string _attackAnimationName;
-
+        
         private Animator _animator;
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
