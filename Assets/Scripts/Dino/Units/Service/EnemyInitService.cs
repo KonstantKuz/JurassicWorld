@@ -18,20 +18,18 @@ namespace Dino.Units.Service
             var units = _world.GetChildrenComponents<Unit>();
             foreach (var unit in units)
             {
-                EnemyUnitConfig config = null;
-                foreach (var id in _enemyUnitConfigs.Keys)
+                if (!unit.gameObject.activeSelf)
                 {
-                    if (unit.ObjectId != id || !unit.gameObject.activeSelf) continue;
-                    
-                    config = _enemyUnitConfigs.Get(id);
-                    var model = new EnemyUnitModel(config);
-                    unit.Init(model);
+                    continue;
                 }
-
+                var config = _enemyUnitConfigs.Find(unit.ObjectId);
                 if (config == null)
                 {
                     this.Logger().Warn($"There is no suitable config for {unit.ObjectId}");
+                    continue;
                 }
+                var model = new EnemyUnitModel(config);
+                unit.Init(model);
             }
         }
     }
