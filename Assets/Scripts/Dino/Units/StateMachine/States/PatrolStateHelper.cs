@@ -1,31 +1,20 @@
 ﻿using Dino.Location;
-using Dino.Units.Enemy.Model;
 using UnityEngine;
-using UnityEngine.Assertions;
 using Zenject;
 
-namespace Dino.Units.StateMachine
+namespace Dino.Units.StateMachine.States
 {
-    public partial class EnemyStateMachine : UnitStateMachine
+    public class PatrolStateHelper : MonoBehaviour
     {
-        private EnemyBehaviourModel _behaviourModel;
         private PatrolPath _patrolPath;
 
-        [Inject] protected World _world;
+        [Inject] private World _world;
 
-        public override void Init(IUnit unit)
+        public PatrolPath PatrolPath => _patrolPath;
+
+        public void Awake()
         {
-            base.Init(unit);
-            
-            var enemyModel = (EnemyUnitModel) _owner.Model;
-            Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel");
-            _behaviourModel = enemyModel.EnemyBehaviourModel;
-            Target = _world.Player.SelfTarget;
-                
-            unit.OnDeath += OnDeath;
-            
             InitPatrolPath();
-            SetState(new PatrolState(this));
         }
 
         private void InitPatrolPath()

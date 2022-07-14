@@ -2,9 +2,9 @@
 
 namespace Dino.Units.Enemy.Model
 {
-    public class EnemyBehaviourModel
+    public class PatrolStateModel
     {
-        public EnemyBehaviourModel(EnemyBehaviourConfig config)
+        public PatrolStateModel(PatrolStateConfig config)
         {
             FieldOfViewAngle = config.FieldOfViewAngle;
             FieldOfViewDistance = config.FieldOfViewDistance;

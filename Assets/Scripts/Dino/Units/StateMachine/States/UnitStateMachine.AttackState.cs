@@ -2,6 +2,7 @@
 using Dino.Units.Component.Health;
 using Dino.Units.Model;
 using Dino.Units.Player.Attack;
+using Dino.Units.Target;
 using Dino.Units.Weapon;
 using Logger.Extension;
 using UnityEngine;
@@ -16,21 +17,25 @@ namespace Dino.Units.StateMachine
 
             private BaseWeapon _weapon;
             private IAttackModel _attackModel;
+            private ITargetProvider _targetProvider;
             private IWeaponTimerManager _weaponTimer;
             
             private Unit Owner => StateMachine._owner;
-
+            private ITarget Target => _targetProvider.Target;
+            private bool IsTargetInvalid => !Target.IsTargetValidAndAlive();
+            
             public AttackState(UnitStateMachine stateMachine) : base(stateMachine)
             {
                 _attackModel = Owner.Model.AttackModel;
                 _weapon = Owner.gameObject.RequireComponentInChildren<BaseWeapon>();
+                _targetProvider = Owner.gameObject.RequireComponent<ITargetProvider>();
                 _weaponTimer = _weapon.GetComponent<IWeaponTimerManager>() ?? Owner.gameObject.GetComponent<IWeaponTimerManager>();
             }
 
             public override void OnEnterState()
             {
                 StateMachine._animationWrapper.PlayIdleSmooth();
-                StateMachine._agent.isStopped = true;
+                StateMachine._movementController.IsStopped = true;
                 
                 _weaponTimer.Subscribe(Owner.ObjectId, _attackModel, Attack);
                 if (HasWeaponAnimationHandler)
@@ -50,19 +55,19 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
-                if (StateMachine.IsTargetInvalid)
+                if (IsTargetInvalid)
                 {
-                    StateMachine.SetState(new IdleState(StateMachine));
+                    StateMachine.SetState(UnitState.Idle);
                     return;
                 }
                 
                 if (!IsTargetInRange())
                 {
-                    StateMachine.SetState(new ChaseState(StateMachine));
+                    StateMachine.SetState(UnitState.Chase);
                     return;
                 }
                 
-                RotateTo(StateMachine.Target.Root.position);
+                StateMachine._movementController.RotateTo(Target.Root.position);
             }
             
             private void Attack()
@@ -76,21 +81,14 @@ namespace Dino.Units.StateMachine
             
             private void Fire()
             {
-                if (StateMachine.IsTargetInvalid) return;
-                _weapon.Fire(StateMachine.Target, null, DoDamage);
+                if (IsTargetInvalid) return;
+                _weapon.Fire(Target, null, DoDamage);
             }
             
-            private void RotateTo(Vector3 targetPos)
-            {
-                var transform = StateMachine.transform;
-                var lookAtDirection = (targetPos - transform.position).XZ().normalized;
-                var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
-                transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * StateMachine._rotationSpeed);
-            }
 
             private bool IsTargetInRange()
             {
-                return Vector3.Distance(StateMachine.Target.Root.position, Owner.transform.position) < _attackModel.AttackDistance;
+                return Vector3.Distance(Target.Root.position, Owner.transform.position) < _attackModel.AttackDistance;
             }
 
             private void DoDamage(GameObject target)

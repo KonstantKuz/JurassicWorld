@@ -17,9 +17,12 @@ namespace Dino.Units.Player.Attack
         public WeaponTimer(IReadOnlyReactiveProperty<float> attackInterval)
         {
             _attackInterval = attackInterval;
-            _timer = attackInterval.Value - FIRST_ATTACK_DELAY;
         }
 
+        public void Init()
+        {
+            _timer = AttackInterval - FIRST_ATTACK_DELAY;
+        }
         public void OnTick()
         {
             _timer += Time.deltaTime;

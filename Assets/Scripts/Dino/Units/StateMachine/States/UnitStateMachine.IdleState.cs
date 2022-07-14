@@ -13,7 +13,7 @@ namespace Dino.Units.StateMachine
 
             public override void OnEnterState()
             {
-                StateMachine._agent.isStopped = true;
+                StateMachine._movementController.IsStopped = true;
                 StateMachine._animationWrapper.PlayIdleSmooth();
             }
 

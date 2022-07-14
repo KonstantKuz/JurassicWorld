@@ -1,5 +1,6 @@
 ﻿using System;
 using Dino.Extension;
+using Dino.Units.Component;
 using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -9,7 +10,7 @@ using Zenject;
 namespace Dino.Units.Player.Movement
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class MovementController : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
+    public class MovementController : MonoBehaviour, IMovementController, IInitializable<IUnit>, IUpdatableComponent, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
     {
         private readonly int _runHash = Animator.StringToHash("Run");
         private readonly int _idleHash = Animator.StringToHash("Idle");
@@ -24,7 +25,12 @@ namespace Dino.Units.Player.Movement
         private NavMeshAgent _agent;
 
         [Inject] private Joystick _joystick;
-        
+
+        public bool IsStopped
+        {
+            get => _agent.isStopped;
+            set => _agent.isStopped = value;
+        }
         public bool IsMoving => _joystick.Direction.sqrMagnitude > 0;
         public Vector3 MoveDirection => new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
         public bool HasTarget { get; private set; }
@@ -42,14 +48,14 @@ namespace Dino.Units.Player.Movement
         
         public void OnTick()
         {
-            _agent.isStopped = !IsMoving;
-            SetDestination();
+            IsStopped = !IsMoving;
+            MoveTo(transform.position + MoveDirection);
             UpdateAnimation();
         }
 
-        private void SetDestination()
+        public void MoveTo(Vector3 position)
         {
-            _agent.SetDestination(transform.position + MoveDirection);
+            _agent.SetDestination(position);
         }
 
         private void UpdateAnimation()
@@ -65,9 +71,9 @@ namespace Dino.Units.Player.Movement
             _animator.Play(isMoving ? _runHash : _idleHash);
         }
 
-        private void RotateTo(Vector3 targetPos)
+        public void RotateTo(Vector3 position)
         {
-            var lookAtDirection = (targetPos - transform.position).XZ().normalized;
+            var lookAtDirection = (position - transform.position).XZ().normalized;
             if (lookAtDirection == Vector3.zero) { return; }
             var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
             transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * _rotationSpeed);

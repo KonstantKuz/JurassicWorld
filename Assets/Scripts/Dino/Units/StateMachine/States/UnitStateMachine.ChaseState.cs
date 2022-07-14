@@ -1,4 +1,6 @@
-﻿using Dino.Units.Model;
+﻿using Dino.Extension;
+using Dino.Units.Model;
+using Dino.Units.Target;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine
@@ -8,18 +10,21 @@ namespace Dino.Units.StateMachine
         protected class ChaseState : BaseState
         {
             private IAttackModel _attackModel;
+            private ITargetProvider _targetProvider;
             private Unit Owner => StateMachine._owner;
 
-            private Vector3 TargetPosition => StateMachine.Target.Root.position;
+            private Vector3 TargetPosition => _targetProvider.Target.Root.position;
             private float DistanceToTarget => Vector3.Distance(Owner.transform.position, TargetPosition);
+            private float OwnerSize => Owner.transform.lossyScale.x * Owner.Bounds.extents.x;
+            
             public ChaseState(UnitStateMachine stateMachine) : base(stateMachine)
             {
                 _attackModel = Owner.Model.AttackModel;
+                _targetProvider = Owner.gameObject.RequireComponent<ITargetProvider>();
             }            
 
             public override void OnEnterState()
             {
-                StateMachine._agent.isStopped = false;
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
             }
 
@@ -29,13 +34,15 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
-                if (DistanceToTarget < _attackModel.AttackDistance + StateMachine._agent.radius)
+                Debug.DrawRay(Owner.transform.position + Vector3.up, Owner.transform.forward * OwnerSize, Color.red);
+                
+                if (DistanceToTarget < _attackModel.AttackDistance + OwnerSize)
                 {
-                    StateMachine.SetState(new AttackState(StateMachine));
+                    StateMachine.SetState(UnitState.Attack);
                     return;
                 }
 
-                StateMachine._agent.SetDestination(TargetPosition);
+                StateMachine._movementController.MoveTo(TargetPosition);
             }
         }
     }

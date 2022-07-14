@@ -114,7 +114,7 @@ namespace Dino.Units.Weapon.Projectiles
             return angle <= maxAngle;
         }
 
-        private static bool IsInsideDistanceRange(Vector3 target, Vector3 origin, float distanceMin, float distanceMax)
+        public static bool IsInsideDistanceRange(Vector3 target, Vector3 origin, float distanceMin, float distanceMax)
         {
             var distance = Vector3.Distance(origin, target);
             return distance > distanceMin && distance < distanceMax;

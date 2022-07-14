@@ -10,7 +10,7 @@
 
             public override void OnEnterState()
             {
-                StateMachine._agent.isStopped = true;
+                StateMachine._movementController.IsStopped = true;
             }
 
             public override void OnTick()

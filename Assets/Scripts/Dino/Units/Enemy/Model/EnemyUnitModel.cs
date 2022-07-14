@@ -11,7 +11,7 @@ namespace Dino.Units.Enemy.Model
         public float MoveSpeed { get; }
         public IHealthModel HealthModel { get; }
         public IAttackModel AttackModel { get; }
-        public EnemyBehaviourModel EnemyBehaviourModel { get; }
+        public PatrolStateModel PatrolStateModel { get; }
         
         public EnemyUnitModel(EnemyUnitConfig config)
         {
@@ -19,7 +19,7 @@ namespace Dino.Units.Enemy.Model
             MoveSpeed = config.MoveSpeed;
             HealthModel = new EnemyHealthModel(config.Health);
             AttackModel = new EnemyAttackModel(config.EnemyAttackConfig);
-            EnemyBehaviourModel = new EnemyBehaviourModel(config.EnemyBehaviourConfig);
+            PatrolStateModel = new PatrolStateModel(config.PatrolStateConfig);
         }
     }
 }

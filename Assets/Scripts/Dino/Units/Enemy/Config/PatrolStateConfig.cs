@@ -3,7 +3,7 @@
 namespace Dino.Units.Enemy.Config
 {
     [DataContract]
-    public class EnemyBehaviourConfig
+    public class PatrolStateConfig
     {
         [DataMember] 
         public float FieldOfViewAngle;

@@ -15,7 +15,7 @@ namespace Dino.Units.Enemy.Config
         [DataMember] 
         public EnemyAttackConfig EnemyAttackConfig;
         [DataMember] 
-        public EnemyBehaviourConfig EnemyBehaviourConfig;
+        public PatrolStateConfig PatrolStateConfig;
         [DataMember] 
         public DroppingLootConfig DroppingLootConfig;      
         

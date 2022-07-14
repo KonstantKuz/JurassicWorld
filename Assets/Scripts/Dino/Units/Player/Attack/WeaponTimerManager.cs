@@ -14,6 +14,7 @@ namespace Dino.Units.Player.Attack
             if (_timer == null) {
                 _timer = new WeaponTimer(attackModel.AttackInterval);
             }
+            _timer.Init();
             _timer.OnAttackReady += onAttackReady;
         }
         public void Unsubscribe(string weaponId, Action onAttackReady)

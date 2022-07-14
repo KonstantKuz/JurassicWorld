@@ -1,6 +1,7 @@
+using System;
 using Dino.Extension;
+using Dino.Units.Component;
 using Dino.Units.Component.Animation;
-using Dino.Units.Target;
 using Dino.Units.Weapon;
 using Feofun.Components;
 using JetBrains.Annotations;
@@ -12,52 +13,38 @@ namespace Dino.Units.StateMachine
     public partial class UnitStateMachine : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent
     {
         //can be move to unit config, if game-designer would like to setup it
+        [SerializeField] private UnitState _initialState;
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private string _currentStateName;
         
         private BaseState _currentState;
 
-        protected internal Unit _owner;
-        protected internal NavMeshAgent _agent;
+        private Unit _owner;
+        private IMovementController _movementController;
         private Animator _animator;
-        protected internal MoveAnimationWrapper _animationWrapper;
-        
+        private MoveAnimationWrapper _animationWrapper;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
-        [CanBeNull] private ITarget _target;
-
-        private bool IsTargetInvalid => !Target.IsTargetValidAndAlive();
-
-        public ITarget Target
-        {
-            get => _target;
-            protected set
-            {
-                if (_target == value) return;
-                if (_target != null)
-                {
-                    _target.OnTargetInvalid -= ClearTarget;
-                }
-                _target = value;
-                if (_target != null)
-                {
-                    _target.OnTargetInvalid += ClearTarget;
-                }
-            }
-        }
 
         public virtual void Init(IUnit unit)
         {
             CacheComponents(unit);
-            _agent.speed = _owner.Model.MoveSpeed;
+            SetInitialState();
         }
 
         private void CacheComponents(IUnit unit)
         {
             _owner = (Unit) unit;
-            _agent = _owner.gameObject.RequireComponent<NavMeshAgent>();
+            _movementController = _owner.gameObject.RequireComponent<IMovementController>();
             _animator = _owner.gameObject.RequireComponentInChildren<Animator>();
             _animationWrapper = new MoveAnimationWrapper(_animator);
             _weaponAnimationHandler = _owner.gameObject.GetComponentInChildren<WeaponAnimationHandler>();
+
+            _owner.OnDeath += OnDeath;
+        }
+
+        private void SetInitialState()
+        {
+            SetState(_initialState);
         }
 
         public void OnTick()
@@ -65,7 +52,12 @@ namespace Dino.Units.StateMachine
             _currentState?.OnTick();
         }
 
-        protected internal void SetState(BaseState newState)
+        private void SetState(UnitState state)
+        {
+            SetState(BuildState(state));
+        }
+        
+        private void SetState(BaseState newState)
         {
             _currentState?.OnExitState();
             _currentState = newState;
@@ -73,15 +65,29 @@ namespace Dino.Units.StateMachine
             _currentState.OnEnterState();
         }
 
-        protected virtual void OnDeath(IUnit unit, DeathCause deathCause)
+        private void OnDeath(IUnit unit, DeathCause deathCause)
         {
             unit.OnDeath -= OnDeath;
-            SetState(new DeathState(this));
+            SetState(UnitState.Death);
         }
 
-        private void ClearTarget()
+        private BaseState BuildState(UnitState state)
         {
-            Target = null;
+            switch (state)
+            {
+                case UnitState.Idle:
+                    return new IdleState(this);
+                case UnitState.Patrol:
+                    return new PatrolState(this);
+                case UnitState.Chase:
+                    return new ChaseState(this);
+                case UnitState.Attack:
+                    return new AttackState(this);
+                case UnitState.Death:
+                    return new DeathState(this);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
+            }
         }
     }
 }

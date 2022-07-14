@@ -1,45 +1,45 @@
 ﻿using Dino.Extension;
 using Dino.Location;
+using Dino.Units.Component.TargetSearcher;
 using Dino.Units.Enemy.Model;
-using Dino.Units.Model;
-using Dino.Units.Weapon;
-using Dino.Units.Weapon.Projectiles;
+using Dino.Units.StateMachine.States;
+using Dino.Units.Target;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Zenject;
 
 namespace Dino.Units.StateMachine
 {
-    public partial class EnemyStateMachine
+    public partial class UnitStateMachine
     {
         private class PatrolState : BaseState
         {
             private const float PRECISION_DISTANCE = 0.2f;
 
-            private PatrolPath _patrolPath;
-            private EnemyBehaviourModel _behaviourModel;
+            private readonly PatrolPath _patrolPath;
+            private readonly PatrolStateModel _stateModel;
+            private readonly ITargetProvider _targetProvider;
             
             private float _waitTimer;
+            private PatrolStateHelper _stateHelper;
 
             private Unit Owner => StateMachine._owner;
-            private Vector3 TargetPosition => StateMachine.Target.Root.position;
+            private PatrolStateHelper StateHelper => _stateHelper ??= Owner.gameObject.RequireComponent<PatrolStateHelper>();
             private Transform NextPathPoint { get; set; }
             private float DistanceToPathPoint => Vector3.Distance(Owner.transform.position, NextPathPoint.position);
-            
-            public PatrolState(EnemyStateMachine stateMachine) : base(stateMachine)
+            private bool IsTimeToGo => _waitTimer >= _stateModel.PatrolIdleTime;
+
+            public PatrolState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                _patrolPath = stateMachine._patrolPath;
-                _behaviourModel = stateMachine._behaviourModel;
-                var coneRenderer = StateMachine._owner.GetComponentInChildren<RangeConeRenderer>();
-                coneRenderer.Build(_behaviourModel.FieldOfViewAngle / 2, _behaviourModel.FieldOfViewDistance);
+                var enemyModel = (EnemyUnitModel) Owner.Model;
+                Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
+                _stateModel = enemyModel.PatrolStateModel;
+                _patrolPath = StateHelper.PatrolPath;
+                _targetProvider = Owner.gameObject.RequireComponent<ITargetProvider>();
             }
             
             public override void OnEnterState()
             {
-                StateMachine._agent.isStopped = true;
-                StateMachine._animationWrapper.PlayIdleSmooth();
-
-                GotoNextPoint();
+                GoToNextPoint();
             }
 
             public override void OnExitState()
@@ -48,63 +48,46 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
-                SearchPlayer();
+                if (_targetProvider.Target != null)
+                {
+                    StateMachine.SetState(UnitState.Chase);
+                }
                 if (DistanceToPathPoint > PRECISION_DISTANCE)
                 {
                     return;
                 }
                 Wait();
-            }
-
-            private void SearchPlayer()
-            {
-                var isPlayerInView =
-                    IsInsideCone(TargetPosition, Owner.transform.position,
-                        Owner.transform.forward, _behaviourModel.FieldOfViewAngle / 2) && 
-                    IsInsideDistanceRange(TargetPosition, Owner.transform.position, 0, _behaviourModel.FieldOfViewDistance);
-                
-                if (isPlayerInView)
+                if (IsTimeToGo)
                 {
-                    StateMachine.SetState(new ChaseState(StateMachine));
+                    GoToNextPoint();
+                    TryResetWaitTimer();
                 }
             }
 
             private void Wait()
             {
-                StateMachine._agent.isStopped = true;
-                
                 _waitTimer += Time.deltaTime;
-                if (_waitTimer >= _behaviourModel.PatrolIdleTime)
-                {
-                    GotoNextPoint();
-                }
+
+                if(StateMachine._movementController.IsStopped) return;
+                
+                StateMachine._movementController.IsStopped = true;
+                StateMachine._animationWrapper.PlayIdleSmooth();
             }
 
-            private void GotoNextPoint()
+            private void GoToNextPoint()
             {
                 NextPathPoint = _patrolPath.Pop();
-                StateMachine._agent.SetDestination(NextPathPoint.position);
-                StateMachine._agent.isStopped = false;
+                StateMachine._movementController.MoveTo(NextPathPoint.position);
+                StateMachine._animationWrapper.PlayMoveForwardSmooth();
+            }
 
+            private void TryResetWaitTimer()
+            {
                 if (_patrolPath.WaitOnEveryPoint || _patrolPath.IsEndOfPath(NextPathPoint))
                 {
                     _waitTimer = 0f;
                 }
             }
-
-            private static bool IsInsideCone(Vector3 target, Vector3 coneOrigin, Vector3 coneDirection, float maxAngle)
-            {
-                var targetDirection = target - coneOrigin;
-                var angle = Vector3.Angle(coneDirection, targetDirection.XZ());
-                return angle <= maxAngle;
-            }
-
-            private static bool IsInsideDistanceRange(Vector3 target, Vector3 origin, float distanceMin, float distanceMax)
-            {
-                var distance = Vector3.Distance(origin, target);
-                return distance > distanceMin && distance < distanceMax;
-            }
         }
     }
-
 }
