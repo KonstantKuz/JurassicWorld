@@ -15,7 +15,7 @@ namespace Dino.Inventory.Components
             item.transform.SetParent(Container);
             item.transform.ResetLocalTransform();
         }
-        public void Delete()
+        public void Remove()
         {
             _container.DetachChildren();
         }

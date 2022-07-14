@@ -9,6 +9,7 @@ using Dino.Weapon.Model;
 using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
+using ModestTree;
 using UnityEngine;
 
 namespace Dino.Units.Player.Attack
@@ -52,6 +53,7 @@ namespace Dino.Units.Player.Attack
 
         public void SetWeapon(IWeaponModel playerWeaponModel, BaseWeapon weapon)
         {
+            Assert.IsNull(_weapon, $"Player weapon is not null, should delete the previous weapon");
             _weapon = new ChangeableWeapon() {
                     Weapon = weapon,
                     Model = playerWeaponModel,

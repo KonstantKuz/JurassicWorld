@@ -3,7 +3,6 @@ using Dino.Inventory.Components;
 using Dino.Location;
 using Dino.Location.Service;
 using Dino.Units;
-using Dino.Units.Player.Attack;
 using Dino.Weapon.Service;
 using Zenject;
 
@@ -21,26 +20,21 @@ namespace Dino.Inventory.Service
 
         private Unit Player => _world.GetPlayer();
 
-        public void Apply(string inventoryId)
+        public void Set(string inventoryId)
         {
-            Delete();
+            Remove();
             var inventoryOwner = Player.GameObject.RequireComponent<InventoryOwner>();
             var item = _worldObjectFactory.CreateObject(inventoryId, inventoryOwner.Container);
             inventoryOwner.Set(item);
+            _weaponService.Set(inventoryId);
         }
 
-        public void Delete()
+        private void Remove()
         {
-            var attack = Player.GameObject.RequireComponent<PlayerAttack>();
-            attack.DeleteWeapon();
+            _weaponService.Remove();
             var inventoryOwner = Player.GameObject.RequireComponent<InventoryOwner>();
-            inventoryOwner.Delete();
+            inventoryOwner.Remove();
         }
 
-        private void AddWeapon(string inventoryId)
-        {
-            
-        }
-        
     }
 }
