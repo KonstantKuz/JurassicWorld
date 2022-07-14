@@ -2,6 +2,7 @@
 using Dino.Location;
 using Dino.Units.Enemy.Model;
 using Dino.Units.Model;
+using Dino.Units.Weapon;
 using Dino.Units.Weapon.Projectiles;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -29,6 +30,8 @@ namespace Dino.Units.StateMachine
             {
                 _patrolPath = stateMachine._patrolPath;
                 _behaviourModel = stateMachine._behaviourModel;
+                var coneRenderer = StateMachine._owner.GetComponentInChildren<RangeConeRenderer>();
+                coneRenderer.Build(_behaviourModel.FieldOfViewAngle / 2, _behaviourModel.FieldOfViewDistance);
             }
             
             public override void OnEnterState()
