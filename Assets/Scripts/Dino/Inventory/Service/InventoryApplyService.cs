@@ -29,7 +29,7 @@ namespace Dino.Inventory.Service
             _weaponService.Set(inventoryId);
         }
 
-        private void Remove()
+        public void Remove()
         {
             _weaponService.Remove();
             var inventoryOwner = Player.GameObject.RequireComponent<InventoryOwner>();

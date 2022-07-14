@@ -258,7 +258,7 @@ MonoBehaviour:
   Animations:
     _map:
     - _key: StickAttack
-      _value: {fileID: 7400000, guid: 20d2f844df041f547bc429bce9277e4f, type: 2}
+      _value: {fileID: 7400000, guid: 180e5be503e334c439f61f9525b26c76, type: 2}
 --- !u!1 &4302532041753703325
 GameObject:
   m_ObjectHideFlags: 0
