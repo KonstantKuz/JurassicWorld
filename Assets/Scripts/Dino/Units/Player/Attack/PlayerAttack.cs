@@ -71,6 +71,7 @@ namespace Dino.Units.Player.Attack
             }
             _animator.SetFloat(AttackSpeedMultiplierHash, attackClipLength / attackInterval);
         }
+
         [CanBeNull]
         private ITarget FindTarget() => _targetSearcher.Find();
 
@@ -87,11 +88,12 @@ namespace Dino.Units.Player.Attack
                 Attack(target);
             }
         }
+
         private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady;
 
         private void Attack(ITarget target)
         {
-            if (!CheckWeapon()) {
+            if (!HasWeapon()) {
                 return;
             }
             _target = target;
@@ -104,18 +106,17 @@ namespace Dino.Units.Player.Attack
 
         private void Fire()
         {
+            if (!HasWeapon()) {
+                return;
+            }
             if (IsTargetInvalid) {
-                _weaponTimer.CancelLastTimer();
+                _weapon.Timer.CancelLastTimer();
                 return;
             }
-            if (_weapon == null) {
-                this.Logger().Error("Weapon is not setted");
-                return;
-            }
-            _weapon.Fire(_target, _weaponModel, DoDamage);
+            _weapon.Weapon.Fire(_target, _weapon.Model, DoDamage);
         }
 
-        private bool CheckWeapon()
+        private bool HasWeapon()
         {
             if (_weapon != null) {
                 return true;
@@ -126,8 +127,11 @@ namespace Dino.Units.Player.Attack
 
         private void DoDamage(GameObject target)
         {
+            if (!HasWeapon()) {
+                return;
+            }
             var damageable = target.RequireComponent<IDamageable>();
-            damageable.TakeDamage(_weaponModel.AttackDamage);
+            damageable.TakeDamage(_weapon.Model.AttackDamage);
             this.Logger().Trace($"Damage applied, target:= {target.name}");
         }
 
