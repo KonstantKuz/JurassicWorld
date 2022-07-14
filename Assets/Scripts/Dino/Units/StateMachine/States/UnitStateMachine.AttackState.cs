@@ -15,10 +15,10 @@ namespace Dino.Units.StateMachine
         {
             private readonly int _attackHash = Animator.StringToHash("Attack");
 
-            private BaseWeapon _weapon;
-            private IAttackModel _attackModel;
-            private ITargetProvider _targetProvider;
-            private IWeaponTimerManager _weaponTimer;
+            private readonly BaseWeapon _weapon;
+            private readonly IAttackModel _attackModel;
+            private readonly ITargetProvider _targetProvider;
+            private readonly IWeaponTimerManager _weaponTimer;
             
             private Unit Owner => StateMachine._owner;
             private ITarget Target => _targetProvider.Target;
@@ -57,11 +57,11 @@ namespace Dino.Units.StateMachine
             {
                 if (IsTargetInvalid)
                 {
-                    StateMachine.SetState(UnitState.Idle);
+                    StateMachine.SetState(UnitState.Patrol);
                     return;
                 }
                 
-                if (!IsTargetInRange())
+                if (!IsTargetInAttackRange())
                 {
                     StateMachine.SetState(UnitState.Chase);
                     return;
@@ -85,8 +85,7 @@ namespace Dino.Units.StateMachine
                 _weapon.Fire(Target, null, DoDamage);
             }
             
-
-            private bool IsTargetInRange()
+            private bool IsTargetInAttackRange()
             {
                 return Vector3.Distance(Target.Root.position, Owner.transform.position) < _attackModel.AttackDistance;
             }

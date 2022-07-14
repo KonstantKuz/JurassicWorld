@@ -9,8 +9,9 @@ namespace Dino.Units.StateMachine
     {
         protected class ChaseState : BaseState
         {
-            private IAttackModel _attackModel;
-            private ITargetProvider _targetProvider;
+            private readonly IAttackModel _attackModel;
+            private readonly ITargetProvider _targetProvider;
+            
             private Unit Owner => StateMachine._owner;
 
             private Vector3 TargetPosition => _targetProvider.Target.Root.position;
