@@ -2,8 +2,9 @@
 {
     public enum ObjectType
     {
-        NONE,
-        UNIT,
-        LOOT,
+        None,
+        Unit,
+        Loot,
+        Inventory,
     }
 }

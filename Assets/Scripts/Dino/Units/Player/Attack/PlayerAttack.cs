@@ -2,7 +2,6 @@
 using Dino.Extension;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.TargetSearcher;
-using Dino.Units.Model;
 using Dino.Units.Player.Movement;
 using Dino.Units.Target;
 using Dino.Weapon;
