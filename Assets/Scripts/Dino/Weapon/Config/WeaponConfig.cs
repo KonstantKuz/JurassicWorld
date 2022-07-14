@@ -5,7 +5,7 @@ using Feofun.Config;
 namespace Dino.Weapon.Config
 {
     [DataContract]
-    public class WeaponConfig : ICollectionItem<string>
+    public class WeaponConfig : ICollectionItem<WeaponId>
     {
         [DataMember(Name = "Id")]
         private WeaponId _id;
@@ -34,6 +34,6 @@ namespace Dino.Weapon.Config
         public string Animation => _animation;       
         public string Ammo => _ammo;
 
-        public string Id => _id.ToString();
+        public WeaponId Id => _id;
     }
 }

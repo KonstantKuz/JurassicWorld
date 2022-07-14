@@ -1,2 +1,2 @@
-Id,AttackDistance,AttackDamage,AttackInterval
-Stick,4,50,0.6
+Id,AttackDistance,AttackDamage,AttackInterval,Animation,Ammo
+Stick,4,50,1,,

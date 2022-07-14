@@ -47,7 +47,6 @@ MonoBehaviour:
   _barrel: {fileID: 1143356745896943787}
   _aimInXZPlane: 0
   _ammo: {fileID: 460837788804016623, guid: ee9d5b56f51a94240abb3f70fb881720, type: 3}
-  _angleBetweenShots: 3
 --- !u!1 &3254496561695502929
 GameObject:
   m_ObjectHideFlags: 0
@@ -66,6 +65,7 @@ GameObject:
   - component: {fileID: 595948899592933727}
   - component: {fileID: 967547193443741266}
   - component: {fileID: 6829410825127991752}
+  - component: {fileID: 5140416381467973248}
   m_Layer: 0
   m_Name: StandardUnit
   m_TagString: Untagged
@@ -221,6 +221,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 8559560586870761239}
+--- !u!114 &5140416381467973248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254496561695502929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71904749c6648c89b87b28b5c4731dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3337903664774207016
 MonoBehaviour:
   m_ObjectHideFlags: 0

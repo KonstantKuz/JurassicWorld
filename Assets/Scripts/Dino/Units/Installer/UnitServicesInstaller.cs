@@ -1,6 +1,7 @@
 ﻿using Dino.Inventory.Service;
 using Dino.Units.Service;
 using Dino.Units.Target;
+using Dino.Weapon.Service;
 using Zenject;
 
 namespace Dino.Units.Installer
@@ -14,7 +15,8 @@ namespace Dino.Units.Installer
             container.Bind<UnitService>().AsSingle();     
             container.Bind<PlayerUnitModelBuilder>().AsSingle();    
             
-            container.Bind<InventoryApplyService>().AsSingle();
+            container.Bind<InventoryApplyService>().AsSingle();        
+            container.Bind<WeaponService>().AsSingle();
         }
     }
 }
