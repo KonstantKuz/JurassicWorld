@@ -6,7 +6,7 @@ namespace Dino.Units.Enemy.Config
     public class EnemyAttackConfig
     {
         [DataMember]
-        public float AttackRange;
+        public float AttackDistance;
         [DataMember]
         public int AttackDamage;
         [DataMember]

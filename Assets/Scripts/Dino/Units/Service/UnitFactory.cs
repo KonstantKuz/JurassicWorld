@@ -21,11 +21,11 @@ namespace Dino.Units.Service
             return unit;
         }
         
-        public Unit CreateEnemy(string unitId, int level)
+        public Unit CreateEnemy(string unitId)
         {
             var enemy = _worldObjectFactory.CreateObject(unitId).RequireComponent<Unit>();
             var config = _enemyUnitConfigs.Get(unitId);
-            var model = new EnemyUnitModel(config, level);
+            var model = new EnemyUnitModel(config);
             enemy.Init(model);
             return enemy;
         }

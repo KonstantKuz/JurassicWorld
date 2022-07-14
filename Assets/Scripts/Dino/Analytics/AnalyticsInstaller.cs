@@ -1,5 +1,5 @@
 ﻿using Dino.Analytics.Wrapper;
-using Dino.App;
+using Dino.Core;
 using Zenject;
 
 namespace Dino.Analytics

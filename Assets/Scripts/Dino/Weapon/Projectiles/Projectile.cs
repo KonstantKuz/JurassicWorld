@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Linq;
 using Dino.Units;
 using Dino.Units.Component.Health;
+using Dino.Units.Model;
 using Dino.Units.Target;
-using Dino.Weapon.Projectiles.Params;
+using Dino.Weapon.Model;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -12,17 +12,21 @@ namespace Dino.Weapon.Projectiles
 {
     public abstract class Projectile : MonoBehaviour
     {
+        [SerializeField]
+        private float _speed;
+        
         protected Action<GameObject> HitCallback;
         protected UnitType TargetType;
-        protected IProjectileParams Params;
-        protected float Speed => Params.Speed;
+        protected IWeaponModel Params;
 
-        public virtual void Launch(ITarget target, IProjectileParams projectileParams, Action<GameObject> hitCallback)
+        public float Speed => _speed;
+        
+        public virtual void Launch(ITarget target, IWeaponModel model, Action<GameObject> hitCallback)
         {
             Assert.IsNotNull(target);
             HitCallback = hitCallback;
             TargetType = target.UnitType;
-            Params = projectileParams;
+            Params = model;
         }
 
         public static bool CanDamageTarget(Collider targetCollider, UnitType type, [CanBeNull] out ITarget target)
@@ -43,36 +47,8 @@ namespace Dino.Weapon.Projectiles
         protected virtual void TryHit(GameObject target, Vector3 hitPos, Vector3 collisionNorm)
         {
             HitCallback?.Invoke(target);
-            TryHitTargetsInRadius(target.transform.position, Params.DamageRadius, TargetType, target, HitCallback);
         }
-
-        public static void TryHitTargetsInRadius(Vector3 hitPosition,
-                                                 float damageRadius,
-                                                 UnitType targetType,
-                                                 GameObject excludedTarget,
-                                                 Action<GameObject> hitCallback)
-        {
-            var hits = GetHits(hitPosition, damageRadius, targetType);
-            foreach (var hit in hits) {
-                if (hit.gameObject == excludedTarget) {
-                    continue;
-                }
-                if (hit.TryGetComponent(out IDamageable damageable)) {
-                    hitCallback?.Invoke(hit.gameObject);
-                }
-            }
-        }
-
-        public static Collider[] GetHits(Vector3 position, float damageRadius, UnitType targetType)
-        {
-            var hits = Physics.OverlapSphere(position, damageRadius);
-            return hits.Where(go => {
-                           var target = go.GetComponent<ITarget>();
-                           return target.IsTargetValidAndAlive() && target.UnitType == targetType;
-                       })
-                       .ToArray();
-        }
-
+        
         private void OnTriggerEnter(Collider other)
         {
             if (!CanDamageTarget(other, TargetType, out var target)) {

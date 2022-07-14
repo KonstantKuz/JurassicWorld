@@ -2,6 +2,7 @@
 using Dino.Extension;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.TargetSearcher;
+using Dino.Units.Model;
 using Dino.Units.Player.Movement;
 using Dino.Units.Target;
 using Dino.Weapon;
@@ -50,14 +51,14 @@ namespace Dino.Units.Player.Attack
             }
         }
 
-        public void SetWeapon(IWeaponModel weaponModel, BaseWeapon weapon)
+        public void SetWeapon(IWeaponModel playerWeaponModel, BaseWeapon weapon)
         {
             _weapon = new ChangeableWeapon() {
                     Weapon = weapon,
-                    Model = weaponModel,
-                    Timer = new WeaponTimer(weaponModel.AttackInterval),
+                    Model = playerWeaponModel,
+                    Timer = new WeaponTimer(playerWeaponModel.AttackInterval),
             };
-            UpdateAnimationSpeed(weaponModel.AttackInterval);
+            UpdateAnimationSpeed(playerWeaponModel.AttackInterval);
         }
 
         public void DeleteWeapon() => _weapon = null;
@@ -73,7 +74,7 @@ namespace Dino.Units.Player.Attack
         }
 
         [CanBeNull]
-        private ITarget FindTarget() => _targetSearcher.Find();
+        private ITarget FindTarget() => _targetSearcher.Find(_weapon.Model.TargetSearchRadius);
 
         public void OnTick()
         {

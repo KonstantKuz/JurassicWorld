@@ -1,7 +1,7 @@
 ﻿using System;
 using Dino.Units.Component.Health;
 using Dino.Units.Target;
-using Dino.Weapon.Projectiles.Params;
+using Dino.Weapon.Model;
 using Logger.Extension;
 using UnityEngine;
 
@@ -9,18 +9,14 @@ namespace Dino.Weapon
 {
     public class MeleeWeapon : BaseWeapon
     {
-        
-        public override void Fire(ITarget target, IProjectileParams chargeParams, Action<GameObject> hitCallback)
+        public override void Fire(ITarget target, IWeaponModel weaponModel, Action<GameObject> hitCallback)
         {
             var targetObj = target as MonoBehaviour;
-            if (targetObj == null)
-            {
+            if (targetObj == null) {
                 this.Logger().Warn("Target is not a monobehaviour");
                 return;
             }
-
-            if (targetObj.GetComponent<IDamageable>() == null)
-            {
+            if (targetObj.GetComponent<IDamageable>() == null) {
                 this.Logger().Warn("Target has no damageable component");
                 return;
             }

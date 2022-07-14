@@ -1,6 +1,6 @@
 ﻿using System;
-using Dino.Units.Model;
 using Dino.Units.Target;
+using Dino.Weapon.Model;
 using JetBrains.Annotations;
 using UnityEngine;
 

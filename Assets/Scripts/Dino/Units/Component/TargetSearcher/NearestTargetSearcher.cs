@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dino.Extension;
 using Dino.Units.Model;
 using Dino.Units.Target;
+using Dino.Weapon.Model;
 using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -19,21 +19,19 @@ namespace Dino.Units.Component.TargetSearcher
         private IWeaponModel _weaponModel;    
         private ITarget _selfTarget;
         private UnitType _targetType;
-
-        private float SearchDistance => _weaponModel.TargetSearchRadius;
+        
 
         public void Init(IUnit unit)
         {
-            _weaponModel = unit.Model.AttackModel;
             _selfTarget = gameObject.RequireComponent<ITarget>();
             _targetType = _selfTarget.UnitType.GetTargetUnitType();
         }
 
         [CanBeNull]
-        public ITarget Find()
+        public ITarget Find(float searchDistance)
         {
             var targets = _targetService.AllTargetsOfType(_targetType);
-            return Find(targets, _selfTarget.Root.position, SearchDistance);
+            return Find(targets, _selfTarget.Root.position, searchDistance);
         }
 
         [CanBeNull]
@@ -52,15 +50,5 @@ namespace Dino.Units.Component.TargetSearcher
             
             return result;
         }
-
-        public IEnumerable<ITarget> GetAllOrderedByDistance()
-        {
-            return _targetService.AllTargetsOfType(_targetType)
-                .Where(IsDistanceReached)
-                .OrderBy(it => Vector3.Distance(it.Root.position, _selfTarget.Root.position));
-        }
-
-        private bool IsDistanceReached(ITarget target) => 
-            Vector3.Distance(target.Root.position, _selfTarget.Root.position) <= SearchDistance;
     }
 }

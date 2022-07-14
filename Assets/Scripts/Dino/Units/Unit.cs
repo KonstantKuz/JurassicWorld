@@ -1,5 +1,5 @@
 ﻿using System;
-using Dino.App;
+using Dino.Core;
 using Dino.Extension;
 using Dino.Location.Model;
 using Dino.Units.Component.Death;

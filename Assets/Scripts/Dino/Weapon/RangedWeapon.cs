@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Dino.Extension;
 using Dino.Location.Service;
+using Dino.Units.Model;
 using Dino.Units.Target;
+using Dino.Weapon.Model;
 using Dino.Weapon.Projectiles;
-using Dino.Weapon.Projectiles.Params;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;
@@ -19,8 +18,6 @@ namespace Dino.Weapon
         [SerializeField]
         private bool _aimInXZPlane;
         [SerializeField]
-        private bool _supportShotCount = true;
-        [SerializeField]
         private Projectile _ammo;
         [SerializeField]
         private float _angleBetweenShots;
@@ -28,50 +25,28 @@ namespace Dino.Weapon
         protected WorldObjectFactory ObjectFactory;
 
         protected Transform Barrel => _barrel;
+        
         protected Vector3 BarrelPos; //Seems that in some cases unity cannot correctly take position inside animation event
         
         protected bool AimInXZPlane => _aimInXZPlane;
         protected Projectile Ammo => _ammo;
         protected float AngleBetweenShots => _angleBetweenShots;
 
-        public override void Fire(ITarget target, IProjectileParams projectileParams, Action<GameObject> hitCallback)
+        public override void Fire(ITarget target, IWeaponModel weaponModel, Action<GameObject> hitCallback)
         {
-            Assert.IsNotNull(projectileParams);
+            Assert.IsNotNull(weaponModel);
             var rotationToTarget = GetShootRotation(BarrelPos, target.Center.position, _aimInXZPlane);
-            if (!_supportShotCount)
-            {
-                FireSingleShot(rotationToTarget, target, projectileParams, hitCallback);
-            }
-            else
-            {
-                FireMultipleShots(rotationToTarget, target, projectileParams, hitCallback);
-            }
+            FireSingleShot(rotationToTarget, target, weaponModel, hitCallback);
         }
-        
-        protected virtual void FireSingleShot(Quaternion rotation, ITarget target, IProjectileParams projectileParams, Action<GameObject> hitCallback)
+
+        protected virtual void FireSingleShot(Quaternion rotation, ITarget target, IWeaponModel weaponModel, Action<GameObject> hitCallback)
         {
             var projectile = CreateProjectile();
             projectile.transform.SetPositionAndRotation(BarrelPos, rotation);
-            projectile.Launch(target, projectileParams, hitCallback);
+            projectile.Launch(target, weaponModel, hitCallback);
         }
 
-        private void FireMultipleShots(Quaternion rotationToTarget, ITarget target, IProjectileParams projectileParams, Action<GameObject> hitCallback)
-        {
-            var spreadAngles = GetSpreadInAngle(projectileParams.Count).ToList();
-            for (int i = 0; i < projectileParams.Count; i++) {
-                var rotation = rotationToTarget * Quaternion.Euler(0, spreadAngles[i], 0);
-                FireSingleShot(rotation, target, projectileParams, hitCallback);
-            }
-        }
-
-        private IEnumerable<float> GetSpreadInAngle(int count)
-        {
-            for (int i = 0; i < count; i++) {
-                yield return _angleBetweenShots * (2 * i + 1 - count) / 2;
-            }
-        }
-
-        public static Quaternion GetShootRotation(Vector3 shootPos, Vector3 targetPos, bool aimInXZPlane)
+        protected static Quaternion GetShootRotation(Vector3 shootPos, Vector3 targetPos, bool aimInXZPlane)
         {
             var shootDirection = GetShootDirection(shootPos, targetPos);
             if (aimInXZPlane) {
@@ -90,7 +65,6 @@ namespace Dino.Weapon
         {
             return ObjectFactory.CreateObject(_ammo.gameObject).GetComponent<Projectile>();
         }
-
         private void LateUpdate()
         {
             BarrelPos = _barrel.position;

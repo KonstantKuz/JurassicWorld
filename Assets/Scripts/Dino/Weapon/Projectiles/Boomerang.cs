@@ -1,7 +1,7 @@
 ﻿using System;
 using Dino.Extension;
 using Dino.Units.Target;
-using Dino.Weapon.Projectiles.Params;
+using Dino.Weapon.Model;
 using UnityEngine;
 
 namespace Dino.Weapon.Projectiles
@@ -27,13 +27,11 @@ namespace Dino.Weapon.Projectiles
         private bool IsTargetPositionReached => Vector3.Distance(transform.position, TargetPosition) < STOPPING_DISTANCE;
         private Vector3 TargetPosition => GetCurrentState() == BoomerangState.ReturnBack ? _returnPoint.position : _initialTargetPosition;
 
-        public void Launch(Transform returnPoint, ITarget target, IProjectileParams projectileParams, Action<GameObject> hitCallback, Action<Boomerang> destroyCallBack)
+        public void Launch(Transform returnPoint, ITarget target, IWeaponModel model, Action<GameObject> hitCallback, Action<Boomerang> destroyCallBack)
         {
-            base.Launch(target, projectileParams, hitCallback);
+            base.Launch(target, model, hitCallback);
 
             _initialTargetPosition = transform.position + transform.forward * Params.AttackDistance;
-            transform.localScale *= Params.DamageRadius;
-            
             _destroyCallback = destroyCallBack;
             _returnPoint = returnPoint;
             _startTime = Time.time;
