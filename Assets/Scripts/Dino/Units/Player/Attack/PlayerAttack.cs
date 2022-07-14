@@ -27,6 +27,7 @@ namespace Dino.Units.Player.Attack
         private string _attackAnimationName;
         
         private Animator _animator;
+        private AnimationSwitcher _animationSwitcher;
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
 
@@ -43,6 +44,7 @@ namespace Dino.Units.Player.Attack
         private void Awake()
         {
             _animator = gameObject.RequireComponentInChildren<Animator>();
+            _animationSwitcher = gameObject.RequireComponentInChildren<AnimationSwitcher>();
             _targetSearcher = GetComponent<ITargetSearcher>();
             _movementController = GetComponent<MovementController>();
             _weaponAnimationHandler = GetComponentInChildren<WeaponAnimationHandler>();
@@ -51,23 +53,29 @@ namespace Dino.Units.Player.Attack
             }
         }
 
-        public void SetWeapon(IWeaponModel playerWeaponModel, BaseWeapon weapon)
+        public void SetWeapon(IWeaponModel weaponModel, BaseWeapon weapon)
         {
             Assert.IsNull(_weapon, $"Player weapon is not null, should delete the previous weapon");
             _weapon = new ChangeableWeapon() {
                     Weapon = weapon,
-                    Model = playerWeaponModel,
-                    Timer = new WeaponTimer(playerWeaponModel.AttackInterval),
+                    Model = weaponModel,
+                    Timer = new WeaponTimer(weaponModel.AttackInterval),
             };
-            UpdateAnimationSpeed(playerWeaponModel.AttackInterval);
+            OverrideAnimation(weaponModel.Animation);
+            UpdateAnimationSpeed(weaponModel.AttackInterval, weaponModel.Animation);
+        }
+
+        private void OverrideAnimation(string animationId)
+        {
+            _animationSwitcher.OverrideAnimation(_attackAnimationName, animationId);
         }
 
         public void DeleteWeapon() => _weapon = null;
 
-        private void UpdateAnimationSpeed(float attackInterval)
+        private void UpdateAnimationSpeed(float attackInterval, string animationId)
         {
             var clips = _animator.runtimeAnimatorController.animationClips;
-            var attackClipLength = clips.First(it => it.name == _attackAnimationName).length;
+            var attackClipLength = clips.First(it => it.name == _animationSwitcher.GetAnimationName(animationId)).length;
             if (attackInterval >= attackClipLength) {
                 return;
             }

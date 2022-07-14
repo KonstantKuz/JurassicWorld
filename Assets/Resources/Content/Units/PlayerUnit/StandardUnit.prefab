@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1857399476509109112}
-  - component: {fileID: 4331444546958184133}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -32,21 +31,6 @@ Transform:
   m_Father: {fileID: 7626905009210850996}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4331444546958184133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 106005451642109113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88e047fd1ac7403baecbb859c7f5710c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _barrel: {fileID: 1143356745896943787}
-  _aimInXZPlane: 0
-  _ammo: {fileID: 460837788804016623, guid: ee9d5b56f51a94240abb3f70fb881720, type: 3}
 --- !u!1 &3254496561695502929
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,6 +48,7 @@ GameObject:
   - component: {fileID: 507659729570458952}
   - component: {fileID: 595948899592933727}
   - component: {fileID: 967547193443741266}
+  - component: {fileID: 2882508133449692622}
   - component: {fileID: 6829410825127991752}
   - component: {fileID: 5140416381467973248}
   m_Layer: 0
@@ -139,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateToTarget: 1
-  _attackAnimationName: SwordAttack
+  _attackAnimationName: StickAttack
 --- !u!114 &3254496561695502943
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +193,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 20
+--- !u!114 &2882508133449692622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254496561695502929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5b1210386e6416dae63b4c2866fdeec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _barrel: {fileID: 1143356745896943787}
 --- !u!114 &6829410825127991752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +243,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a403e78fb60a4119895031136f8e7b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3707670492891247229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3502657725538741022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c74ef21166e445c893ecbd7753fc6d14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animations:
+    _map:
+    - _key: StickAttack
+      _value: {fileID: 7400000, guid: 20d2f844df041f547bc429bce9277e4f, type: 2}
 --- !u!1 &4302532041753703325
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,14 +625,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5974065568409977542, guid: 3e6397ee7e5312c4b99a584c09f8d24d, type: 3}
   m_PrefabInstance: {fileID: 7094247343622593431}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3502657725538741020 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5974065570421780619, guid: 3e6397ee7e5312c4b99a584c09f8d24d, type: 3}
-  m_PrefabInstance: {fileID: 7094247343622593431}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3502657725538741022 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5974065570421780617, guid: 3e6397ee7e5312c4b99a584c09f8d24d, type: 3}
+  m_PrefabInstance: {fileID: 7094247343622593431}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3502657725538741020 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5974065570421780619, guid: 3e6397ee7e5312c4b99a584c09f8d24d, type: 3}
   m_PrefabInstance: {fileID: 7094247343622593431}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &3502657725835850820 stripped

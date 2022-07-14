@@ -54,29 +54,28 @@ namespace Dino.Units
         [CanBeNull]
         public Health Health { get; private set; }
 
-        public void Init(IUnitModel model)
+        private void Awake()
         {
-            Model = model;
-
             _updatables = GetComponentsInChildren<IUpdatableComponent>();
             _damageable = gameObject.RequireComponent<IDamageable>();
             _death = gameObject.RequireComponent<IUnitDeath>();
             _selfTarget = gameObject.RequireComponent<ITarget>();
             _deathEventReceivers = GetComponentsInChildren<IUnitDeathEventReceiver>();
             _deactivateEventReceivers = GetComponentsInChildren<IUnitDeactivateEventReceiver>();
+            Health = GetComponent<Health>();
+        }
 
-            if (UnitType == UnitType.ENEMY)
-            {
+        public void Init(IUnitModel model)
+        {
+            Model = model;
+            
+            if (UnitType == UnitType.ENEMY) {
                 _damageable.OnZeroHealth += DieOnZeroHealth;
             }
-
             IsActive = true;
-            Health = GetComponent<Health>();
-
             foreach (var component in GetComponentsInChildren<IInitializable<IUnit>>()) {
                 component.Init(this);
             }
-
             _unitService.Add(this);
             _updateManager.StartUpdate(UpdateComponents);
         }
