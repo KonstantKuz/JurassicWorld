@@ -2,11 +2,11 @@
 {
     public partial class UnitStateMachine
     {
-        private abstract class BaseState
+        public abstract class BaseState
         {
-            protected readonly StateMachine.UnitStateMachine StateMachine;
+            protected readonly UnitStateMachine StateMachine;
 
-            protected BaseState(StateMachine.UnitStateMachine stateMachine)
+            protected BaseState(UnitStateMachine stateMachine)
             {
                 StateMachine = stateMachine;
             }

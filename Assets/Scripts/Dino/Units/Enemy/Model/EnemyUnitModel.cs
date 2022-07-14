@@ -11,13 +11,15 @@ namespace Dino.Units.Enemy.Model
         public float MoveSpeed { get; }
         public IHealthModel HealthModel { get; }
         public IAttackModel AttackModel { get; }
-
+        public EnemyBehaviourModel EnemyBehaviourModel { get; }
+        
         public EnemyUnitModel(EnemyUnitConfig config)
         {
             Id = config.Id;
             MoveSpeed = config.MoveSpeed;
             HealthModel = new EnemyHealthModel(config.Health);
             AttackModel = new EnemyAttackModel(config.EnemyAttackConfig);
+            EnemyBehaviourModel = new EnemyBehaviourModel(config.EnemyBehaviourConfig);
         }
     }
 }

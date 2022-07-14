@@ -5,7 +5,7 @@ namespace Dino.Units.StateMachine
 {
     public partial class UnitStateMachine
     {
-        private class ChaseState : BaseState
+        protected class ChaseState : BaseState
         {
             private IAttackModel _attackModel;
             private Unit Owner => StateMachine._owner;

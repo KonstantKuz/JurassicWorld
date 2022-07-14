@@ -15,6 +15,8 @@ namespace Dino.Units.Enemy.Config
         [DataMember] 
         public EnemyAttackConfig EnemyAttackConfig;
         [DataMember] 
+        public EnemyBehaviourConfig EnemyBehaviourConfig;
+        [DataMember] 
         public DroppingLootConfig DroppingLootConfig;      
         
         public string Id => _id; 

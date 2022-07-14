@@ -50,9 +50,15 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
-                if (StateMachine.IsTargetInvalid || !IsTargetInRange())
+                if (StateMachine.IsTargetInvalid)
                 {
                     StateMachine.SetState(new IdleState(StateMachine));
+                    return;
+                }
+                
+                if (!IsTargetInRange())
+                {
+                    StateMachine.SetState(new ChaseState(StateMachine));
                     return;
                 }
                 
@@ -86,8 +92,7 @@ namespace Dino.Units.StateMachine
             {
                 return Vector3.Distance(StateMachine.Target.Root.position, Owner.transform.position) < _attackModel.AttackDistance;
             }
-            
-            
+
             private void DoDamage(GameObject target)
             {
                 var damageable = target.RequireComponent<IDamageable>();

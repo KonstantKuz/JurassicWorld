@@ -4,7 +4,7 @@
     {
         private class DeathState : BaseState
         {
-            public DeathState(StateMachine.UnitStateMachine stateMachine) : base(stateMachine)
+            public DeathState(UnitStateMachine stateMachine) : base(stateMachine)
             {
             }
 

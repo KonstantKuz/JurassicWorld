@@ -1,5 +1,4 @@
 using Dino.Extension;
-using Dino.Location;
 using Dino.Units.Component.Animation;
 using Dino.Units.Target;
 using Dino.Units.Weapon;
@@ -7,7 +6,6 @@ using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AI;
-using Zenject;
 
 namespace Dino.Units.StateMachine
 {
@@ -16,22 +14,23 @@ namespace Dino.Units.StateMachine
         //can be move to unit config, if game-designer would like to setup it
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private string _currentStateName;
-        private BaseState _currentState;
         
-        private Unit _owner;
-        private NavMeshAgent _agent;
+        private BaseState _currentState;
+
+        protected internal Unit _owner;
+        protected internal NavMeshAgent _agent;
         private Animator _animator;
-        private MoveAnimationWrapper _animationWrapper;
+        protected internal MoveAnimationWrapper _animationWrapper;
         
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
         [CanBeNull] private ITarget _target;
 
-        [Inject] private World _world;
-        
+        private bool IsTargetInvalid => !Target.IsTargetValidAndAlive();
+
         public ITarget Target
         {
             get => _target;
-            private set
+            protected set
             {
                 if (_target == value) return;
                 if (_target != null)
@@ -46,17 +45,10 @@ namespace Dino.Units.StateMachine
             }
         }
 
-        public bool IsTargetInvalid => !Target.IsTargetValidAndAlive();
-
-        public void Init(IUnit unit)
+        public virtual void Init(IUnit unit)
         {
             CacheComponents(unit);
-            
             _agent.speed = _owner.Model.MoveSpeed;
-            Target = _world.Player.SelfTarget;
-            
-            unit.OnDeath += OnDeath;
-            SetState(new IdleState(this));
         }
 
         private void CacheComponents(IUnit unit)
@@ -73,7 +65,7 @@ namespace Dino.Units.StateMachine
             _currentState?.OnTick();
         }
 
-        private void SetState(BaseState newState)
+        protected internal void SetState(BaseState newState)
         {
             _currentState?.OnExitState();
             _currentState = newState;
@@ -81,7 +73,7 @@ namespace Dino.Units.StateMachine
             _currentState.OnEnterState();
         }
 
-        private void OnDeath(IUnit unit, DeathCause deathCause)
+        protected virtual void OnDeath(IUnit unit, DeathCause deathCause)
         {
             unit.OnDeath -= OnDeath;
             SetState(new DeathState(this));
