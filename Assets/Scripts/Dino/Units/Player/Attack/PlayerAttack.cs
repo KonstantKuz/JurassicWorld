@@ -4,7 +4,6 @@ using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
 using Dino.Units.Player.Movement;
-using Dino.Units.Target;
 using Dino.Weapon;
 using Dino.Weapon.Model;
 using Feofun.Components;

@@ -2,7 +2,9 @@
 using Dino.Inventory.Components;
 using Dino.Location;
 using Dino.Location.Service;
-using ModestTree;
+using Dino.Units;
+using Dino.Units.Player.Attack;
+using Dino.Weapon.Service;
 using Zenject;
 
 namespace Dino.Inventory.Service
@@ -11,17 +13,34 @@ namespace Dino.Inventory.Service
     {
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
-        [Inject] private World _world;
-        
+
+        [Inject]
+        private World _world;    
+        [Inject]
+        private WeaponService _weaponService;
+
+        private Unit Player => _world.GetPlayer();
+
         public void Apply(string inventoryId)
         {
-            CheckPlayer();
-            var player = _world.Player;
-            var inventoryOwner = player.GameObject.RequireComponent<InventoryOwner>();
+            Delete();
+            var inventoryOwner = Player.GameObject.RequireComponent<InventoryOwner>();
             var item = _worldObjectFactory.CreateObject(inventoryId, inventoryOwner.Container);
-            inventoryOwner.SetInventory(item);
-
+            inventoryOwner.Set(item);
         }
-        private void CheckPlayer() => Assert.IsNotNull(_world.Player, "Player is null, should call this method only inside game session");
+
+        public void Delete()
+        {
+            var attack = Player.GameObject.RequireComponent<PlayerAttack>();
+            attack.DeleteWeapon();
+            var inventoryOwner = Player.GameObject.RequireComponent<InventoryOwner>();
+            inventoryOwner.Delete();
+        }
+
+        private void AddWeapon(string inventoryId)
+        {
+            
+        }
+        
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Feofun.Extension;
+using UnityEngine;
 
 namespace Dino.Inventory.Components
 {
@@ -9,11 +10,14 @@ namespace Dino.Inventory.Components
         
         public Transform Container => _container;
 
-        public void SetInventory(GameObject item)
+        public void Set(GameObject item)
         {
             item.transform.SetParent(Container);
-            item.transform.localPosition = Vector3.zero;
-            item.transform.localRotation = Quaternion.identity;
+            item.transform.ResetLocalTransform();
+        }
+        public void Delete()
+        {
+            _container.DetachChildren();
         }
     }
 }

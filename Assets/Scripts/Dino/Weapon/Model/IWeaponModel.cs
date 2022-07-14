@@ -7,5 +7,7 @@ namespace Dino.Weapon.Model
         float AttackDistance { get; }
         float AttackDamage { get; } 
         float AttackInterval { get; }
+        string Animation { get; }
+        string Ammo { get; }
     }
 }

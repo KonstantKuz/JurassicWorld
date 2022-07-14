@@ -2,8 +2,6 @@
 using Dino.Extension;
 using Dino.Location.Service;
 using Dino.Units.Component.Target;
-using Dino.Units.Model;
-using Dino.Units.Target;
 using Dino.Weapon.Model;
 using Dino.Weapon.Projectiles;
 using UnityEngine;
@@ -20,18 +18,12 @@ namespace Dino.Weapon
         private bool _aimInXZPlane;
         [SerializeField]
         private Projectile _ammo;
-        [SerializeField]
-        private float _angleBetweenShots;
         [Inject]
         protected WorldObjectFactory ObjectFactory;
-
-        protected Transform Barrel => _barrel;
+        
         
         protected Vector3 BarrelPos; //Seems that in some cases unity cannot correctly take position inside animation event
         
-        protected bool AimInXZPlane => _aimInXZPlane;
-        protected Projectile Ammo => _ammo;
-        protected float AngleBetweenShots => _angleBetweenShots;
 
         public override void Fire(ITarget target, IWeaponModel weaponModel, Action<GameObject> hitCallback)
         {

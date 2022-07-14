@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Units;
-using Feofun.App;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
 using UnityEngine;
+using AppContext = Feofun.App.AppContext;
 
 namespace Dino.Location
 {
@@ -22,7 +23,15 @@ namespace Dino.Location
        
         [CanBeNull]
         public Unit Player { get; set; }
+        
+        public Unit GetPlayer() 
+        {
+            if (Player == null) {
+                throw new NullReferenceException("Player is null, should call this method only inside game session");
+            }
 
+            return Player;
+        }
         public Vector3 GetGroundIntersection(Ray withRay)
         {
             var plane = new Plane(Ground.up, Ground.position);

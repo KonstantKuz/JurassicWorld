@@ -8,12 +8,10 @@ using Dino.Units.Component.Target;
 using Dino.Units.Model;
 using Dino.Units.Player.Movement;
 using Dino.Units.Service;
-using Dino.Units.Target;
 using EasyButtons;
 using Feofun.Components;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
-using UnityEngine;
 using Zenject;
 
 namespace Dino.Units
@@ -28,7 +26,6 @@ namespace Dino.Units
         private IUnitDeactivateEventReceiver[] _deactivateEventReceivers;
         private MovementController _movementController;
         private bool _isActive;
-        private float _spawnTime;
 
         [Inject]
         private UnitService _unitService;
@@ -53,9 +50,7 @@ namespace Dino.Units
         public IUnitModel Model { get; private set; }
         public event Action<IUnit, DeathCause> OnDeath;
         public event Action<IUnit> OnUnitDestroyed;
-        public MovementController MovementController => _movementController ??= GetComponent<MovementController>();
-
-        public float LifeTime => Time.time - _spawnTime;
+        
         [CanBeNull]
         public Health Health { get; private set; }
 

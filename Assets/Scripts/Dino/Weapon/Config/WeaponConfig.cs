@@ -17,14 +17,22 @@ namespace Dino.Weapon.Config
         private int _attackDamage;
         
         [DataMember(Name = "AttackInterval")]
-        private float _attackInterval;
+        private float _attackInterval;     
         
+        [DataMember(Name = "Animation")]
+        private string _animation;    
+        
+        [DataMember(Name = "Ammo")]
+        private string _ammo;
         
         public float AttackDistance => _attackDistance;
         
         public int AttackDamage => _attackDamage;
         
         public float AttackInterval => _attackInterval;
+
+        public string Animation => _animation;       
+        public string Ammo => _ammo;
 
         public string Id => _id.ToString();
     }

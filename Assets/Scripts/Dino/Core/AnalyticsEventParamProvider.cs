@@ -43,7 +43,6 @@ namespace Dino.Core
                 EventParams.TIME_SINCE_LEVEL_START => _sessionService.SessionTime,
                 EventParams.PASS_NUMBER => GetPassNumber(),
                 EventParams.TOTAL_ENEMY_HEALTH => GetTotalEnemyHealth(),
-                EventParams.AVERAGE_ENEMY_LIFETIME => GetAverageEnemyLifetime(),
                 EventParams.STAND_RATIO => GetStandRatio(),
                 EventParams.TOTAL_KILLS => playerProgress.Kills,
                 EventParams.WINS => playerProgress.WinCount,
@@ -81,12 +80,6 @@ namespace Dino.Core
                 .Select(it => it.Health)
                 .Where(it => it != null).
                 Sum(it => it.CurrentValue.Value);
-        }
-
-        private float GetAverageEnemyLifetime()
-        {
-            var enemies = _unitService.GetEnemyUnits().ToList();
-            return enemies.Average(it => it.LifeTime);
         }
         
         private float GetStandRatio()
