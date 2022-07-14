@@ -3,6 +3,7 @@ using Dino.Extension;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
+using Dino.Units.Player.Model;
 using Dino.Units.Player.Movement;
 using Dino.Weapon;
 using Dino.Weapon.Model;
@@ -53,7 +54,7 @@ namespace Dino.Units.Player.Attack
             }
         }
 
-        public void SetWeapon(IWeaponModel weaponModel, BaseWeapon weapon)
+        public void SetWeapon(PlayerWeaponModel weaponModel, BaseWeapon weapon)
         {
             Assert.IsNull(_weapon, $"Player weapon is not null, should delete the previous weapon");
             _weapon = new ChangeableWeapon() {
@@ -151,6 +152,21 @@ namespace Dino.Units.Player.Attack
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent -= Fire;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (_weapon == null) {
+                return;
+            }
+            DrawAttackDistance();
+        }
+        private void DrawAttackDistance()
+        {
+            var color = Color.green;
+            color.a /= 4;
+            Gizmos.color = color;
+            Gizmos.DrawSphere(transform.position, _weapon.Model.AttackDistance);
         }
 
         private class ChangeableWeapon
