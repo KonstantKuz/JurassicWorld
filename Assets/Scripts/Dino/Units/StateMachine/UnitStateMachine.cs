@@ -1,5 +1,6 @@
 using Dino.Extension;
 using Dino.Location;
+using Dino.Units.Component.Animation;
 using Dino.Units.Target;
 using Dino.Units.Weapon;
 using Feofun.Components;
@@ -20,6 +21,8 @@ namespace Dino.Units.StateMachine
         private Unit _owner;
         private NavMeshAgent _agent;
         private Animator _animator;
+        private MoveAnimationWrapper _animationWrapper;
+        
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
         [CanBeNull] private ITarget _target;
 
@@ -61,6 +64,7 @@ namespace Dino.Units.StateMachine
             _owner = (Unit) unit;
             _agent = _owner.gameObject.RequireComponent<NavMeshAgent>();
             _animator = _owner.gameObject.RequireComponentInChildren<Animator>();
+            _animationWrapper = new MoveAnimationWrapper(_animator);
             _weaponAnimationHandler = _owner.gameObject.GetComponentInChildren<WeaponAnimationHandler>();
         }
 

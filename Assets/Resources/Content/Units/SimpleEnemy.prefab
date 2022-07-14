@@ -71,7 +71,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 300
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -205,6 +205,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpRotationAngle: 50
   _jumpRotationTimeRatio: 0.9
+--- !u!114 &638447233856610415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073025614946721723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a403e78fb60a4119895031136f8e7b9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3753810788131279791
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,9 +352,14 @@ PrefabInstance:
     - target: {fileID: 7630249657377229117, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 3186b949f8b973a47948333f20d6031e, type: 2}
+      objectReference: {fileID: 9100000, guid: 8f5ba8da1223beb4da3b87f924d3b2d5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
+--- !u!1 &2073025614946721723 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3769490738564925949, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
+  m_PrefabInstance: {fileID: 2921488203437758022}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1697590413581288705 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4540819704217457479, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}

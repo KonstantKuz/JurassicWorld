@@ -25,14 +25,14 @@ namespace Dino.Units.StateMachine
                 _attackModel = Owner.Model.AttackModel;
                 _weapon = Owner.gameObject.RequireComponentInChildren<BaseWeapon>();
                 _weaponTimer = _weapon.GetComponent<IWeaponTimerManager>() ?? Owner.gameObject.GetComponent<IWeaponTimerManager>();
-                
-                _weaponTimer.Subscribe(Owner.ObjectId, _attackModel, Attack);
             }
 
             public override void OnEnterState()
             {
+                StateMachine._animationWrapper.PlayIdleSmooth();
                 StateMachine._agent.isStopped = true;
                 
+                _weaponTimer.Subscribe(Owner.ObjectId, _attackModel, Attack);
                 if (HasWeaponAnimationHandler)
                 {
                     StateMachine._weaponAnimationHandler.OnFireEvent += Fire;
@@ -41,6 +41,7 @@ namespace Dino.Units.StateMachine
 
             public override void OnExitState()
             {
+                _weaponTimer.Unsubscribe(Owner.ObjectId, Attack);
                 if (HasWeaponAnimationHandler)
                 {
                     StateMachine._weaponAnimationHandler.OnFireEvent -= Fire;

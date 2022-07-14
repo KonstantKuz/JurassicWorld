@@ -1,10 +1,11 @@
 ﻿using System;
 using Dino.Units.Model;
+using Feofun.Components;
 using UnityEngine;
 
 namespace Dino.Units.Player.Attack
 {
-    public class WeaponTimerManager : MonoBehaviour, IWeaponTimerManager
+    public class WeaponTimerManager : MonoBehaviour, IUpdatableComponent, IWeaponTimerManager
     {
         private WeaponTimer _timer;
         
@@ -22,7 +23,7 @@ namespace Dino.Units.Player.Attack
             }
             _timer.OnAttackReady -= onAttackReady;
         }
-        private void Update()
+        public void OnTick()
         {
             _timer?.OnTick();
         }

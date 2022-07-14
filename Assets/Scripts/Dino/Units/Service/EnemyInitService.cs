@@ -21,7 +21,7 @@ namespace Dino.Units.Service
                 EnemyUnitConfig config = null;
                 foreach (var id in _enemyUnitConfigs.Keys)
                 {
-                    if (unit.ObjectId != id) continue;
+                    if (unit.ObjectId != id || !unit.gameObject.activeSelf) continue;
                     
                     config = _enemyUnitConfigs.Get(id);
                     var model = new EnemyUnitModel(config);
