@@ -1,6 +1,6 @@
 ﻿using Dino.Inventory.Service;
+using Dino.Units.Component.Target;
 using Dino.Units.Service;
-using Dino.Units.Target;
 using Dino.Weapon.Service;
 using Zenject;
 

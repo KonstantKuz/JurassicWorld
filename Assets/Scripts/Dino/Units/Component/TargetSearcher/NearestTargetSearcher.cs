@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
 using Dino.Extension;
 using Dino.Units.Component.Target;
-using Dino.Units.Target;
+using Dino.Weapon.Model;
 using Feofun.Components;
 using JetBrains.Annotations;
+using Logger.Extension;
 using UnityEngine;
 using Zenject;
 
 namespace Dino.Units.Component.TargetSearcher
 {
     [RequireComponent(typeof(ITarget))]
-    public class NearestTargetSearcher : MonoBehaviour, IInitializable<IUnit>, ITargetSearcher
+    public class NearestTargetSearcher : MonoBehaviour, IInitializable<IUnit>, IInitializable<IWeaponModel>, ITargetSearcher
     {
         [Inject]
         private TargetService _targetService;
         
+        private float? _searchDistance;
         private ITarget _selfTarget;
         private UnitType _targetType;
-        
+
 
         public void Init(IUnit unit)
         {
@@ -25,15 +27,26 @@ namespace Dino.Units.Component.TargetSearcher
             _targetType = _selfTarget.UnitType.GetTargetUnitType();
         }
 
-        [CanBeNull]
-        public ITarget Find(float searchDistance)
+        public void Init(IWeaponModel weaponModel)
         {
-            var targets = _targetService.AllTargetsOfType(_targetType);
-            return Find(targets, _selfTarget.Root.position, searchDistance);
+            _searchDistance = weaponModel.TargetSearchRadius;
         }
 
         [CanBeNull]
-        public static ITarget Find(IEnumerable<ITarget> targets, Vector3 from, float searchDistance)
+        public ITarget Find()
+        {
+            if (_searchDistance == null)
+            {
+                this.Logger().Warn("Searcher need search distance");
+                return null;
+            }
+            
+            var targets = _targetService.AllTargetsOfType(_targetType);
+            return Find(targets, _selfTarget.Root.position, _searchDistance.Value);
+        }
+
+        [CanBeNull]
+        private static ITarget Find(IEnumerable<ITarget> targets, Vector3 from, float searchDistance)
         {
             ITarget result = null;
             var minDistance = Mathf.Infinity;

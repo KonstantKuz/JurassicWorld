@@ -6,6 +6,6 @@ namespace Dino.Units.Component.TargetSearcher
     public interface ITargetSearcher
     {
         [CanBeNull]
-        ITarget Find(float searchDistance);
+        ITarget Find();
     }
 }

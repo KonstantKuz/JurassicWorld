@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dino.Units.Component.Target;
 using JetBrains.Annotations;
 using UnityEngine;
 
-namespace Dino.Units.Target
+namespace Dino.Units.Component.Target
 {
     [PublicAPI]
     public class TargetService

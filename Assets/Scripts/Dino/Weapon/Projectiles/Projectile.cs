@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Dino.Units;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
-using Dino.Units.Model;
-using Dino.Units.Target;
 using Dino.Weapon.Model;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -56,6 +55,16 @@ namespace Dino.Weapon.Projectiles
                 return;
             }
             TryHit(other.gameObject, transform.position, -transform.forward);
+        }
+        
+        public static Collider[] GetHits(Vector3 position, float damageRadius, UnitType targetType)
+        {
+            var hits = Physics.OverlapSphere(position, damageRadius);
+            return hits.Where(go => {
+                    var target = go.GetComponent<ITarget>();
+                    return target.IsTargetValidAndAlive() && target.UnitType == targetType;
+                })
+                .ToArray();
         }
     }
 }

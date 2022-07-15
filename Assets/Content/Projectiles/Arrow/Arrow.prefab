@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5251207788646004907}
   - component: {fileID: 6721616754510473569}
   - component: {fileID: 5036716921013799638}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,11 +59,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b120911a6040e49aaf4126c58410d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 10
-  _followTarget: 1
+  _speed: 15
+  _followTarget: 0
   _rotationSpeed: 0
-  _maxLifeTime: 5
-  _initialCourseTime: 1
+  _maxLifeTime: 4
+  _initialCourseTime: 0
 --- !u!1 &3982098900121719653
 GameObject:
   m_ObjectHideFlags: 0
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 7521927197468741309}
   - component: {fileID: 6106709822546667473}
   - component: {fileID: 115635184603652671}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3982098900121719653}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.50000006
   m_Height: 1.9999998
@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 4319345202196988277}
   - component: {fileID: 7359914874295459792}
   - component: {fileID: 6598814490397533759}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -25,8 +25,12 @@ namespace Dino.Weapon
         
         protected Vector3 BarrelPos; //Seems that in some cases unity cannot correctly take position inside animation event
 
-        public override void Init(WeaponOwner weaponOwner)
+        private void Awake()
         {
+            var weaponOwner = GetComponentInParent<WeaponOwner>();
+            if (weaponOwner == null) {
+                return;
+            }
             _barrel = weaponOwner.Barrel;
         }
 

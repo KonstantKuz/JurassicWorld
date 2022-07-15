@@ -64,7 +64,6 @@ namespace Dino.Weapon.Service
             var model = CreateModel(weaponId);
             var inventoryOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
             var weapon = inventoryOwner.CurrentItem.RequireComponent<BaseWeapon>();
-            weapon.Init(Player.GameObject.RequireComponent<WeaponOwner>());
             var attack = Player.GameObject.RequireComponent<PlayerAttack>();
             attack.SetWeapon(model, weapon);
         }

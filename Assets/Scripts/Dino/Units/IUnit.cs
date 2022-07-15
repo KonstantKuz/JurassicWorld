@@ -1,7 +1,6 @@
 ﻿using System;
 using Dino.Units.Component.Target;
 using Dino.Units.Model;
-using Dino.Units.Target;
 using UnityEngine;
 
 namespace Dino.Units

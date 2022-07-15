@@ -18,7 +18,7 @@ namespace Dino.Units.Player.Attack
         {
             _lastAttackTime = Time.time;
         }
-        public void CancelLastTimer()
+        public void SetAttackAsReady()
         {
             _lastAttackTime = Time.time - AttackInterval;
         }

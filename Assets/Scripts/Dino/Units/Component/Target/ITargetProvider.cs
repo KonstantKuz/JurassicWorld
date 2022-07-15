@@ -2,6 +2,6 @@
 {
     public interface ITargetProvider
     {
-        public ITarget Target { get; }
+        public ITarget Target { get; set; }
     }
 }
