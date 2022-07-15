@@ -1,9 +1,11 @@
 ﻿using Dino.Extension;
 using Dino.Units.Component.Health;
+using Dino.Units.Component.Target;
+using Dino.Units.Enemy.Model;
 using Dino.Units.Model;
 using Dino.Units.Player.Attack;
-using Dino.Units.Target;
 using Dino.Units.Weapon;
+using Dino.Weapon;
 using Logger.Extension;
 using UnityEngine;
 
@@ -16,7 +18,7 @@ namespace Dino.Units.StateMachine
             private readonly int _attackHash = Animator.StringToHash("Attack");
 
             private readonly BaseWeapon _weapon;
-            private readonly IAttackModel _attackModel;
+            private readonly EnemyAttackModel _attackModel;
             private readonly WeaponTimer _weaponTimer;
             
             private Unit Owner => StateMachine._owner;
@@ -25,9 +27,16 @@ namespace Dino.Units.StateMachine
             
             public AttackState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                _attackModel = Owner.Model.AttackModel;
+                var enemyModel = Owner.Model as EnemyUnitModel;
+                if (enemyModel == null)
+                {
+                    this.Logger().Error("Unit model must be EnemyUnitModel");
+                    return;
+                }
+                _attackModel = enemyModel.AttackModel;
                 _weapon = Owner.gameObject.RequireComponentInChildren<BaseWeapon>();
-                _weaponTimer = new WeaponTimer(_attackModel.AttackInterval.Value);
+                _weaponTimer = new WeaponTimer(_attackModel.AttackInterval);
+                _weaponTimer.SetAttackAsReady();
             }
 
             public override void OnEnterState()

@@ -1,6 +1,7 @@
 ﻿using Dino.Extension;
+using Dino.Units.Enemy.Model;
 using Dino.Units.Model;
-using Dino.Units.Target;
+using Logger.Extension;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine
@@ -9,7 +10,7 @@ namespace Dino.Units.StateMachine
     {
         protected class ChaseState : BaseState
         {
-            private readonly IAttackModel _attackModel;
+            private readonly EnemyAttackModel _attackModel;
             
             private Unit Owner => StateMachine._owner;
 
@@ -18,7 +19,13 @@ namespace Dino.Units.StateMachine
             
             public ChaseState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                _attackModel = Owner.Model.AttackModel;
+                var enemyModel = Owner.Model as EnemyUnitModel;
+                if (enemyModel == null)
+                {
+                    this.Logger().Error("Unit model must be EnemyUnitModel");
+                    return;
+                }
+                _attackModel = enemyModel.AttackModel;
             }            
 
             public override void OnEnterState()

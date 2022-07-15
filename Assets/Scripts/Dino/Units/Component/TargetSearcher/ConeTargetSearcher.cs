@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using Dino.Extension;
+using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model;
-using Dino.Units.Target;
-using Dino.Units.Weapon.Projectiles;
+using Dino.Weapon.Projectiles;
 using Feofun.Components;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -40,11 +40,6 @@ namespace Dino.Units.Component.TargetSearcher
                 IsInsideDistanceRange(target.transform.position, transform.position, 0, _stateModel.FieldOfViewDistance);
         }
 
-        public IEnumerable<ITarget> GetAllOrderedByDistance()
-        {
-            throw new System.NotImplementedException();
-        }
-        
         private static bool IsInsideCone(Vector3 target, Vector3 coneOrigin, Vector3 coneDirection, float maxAngle)
         {
             var targetDirection = target - coneOrigin;

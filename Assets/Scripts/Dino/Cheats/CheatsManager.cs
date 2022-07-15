@@ -1,6 +1,7 @@
 using System;
 using Dino.Cheats.Data;
 using Dino.Cheats.Repository;
+using Dino.Inventory.Service;
 using Feofun.Localization.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace Dino.Cheats
         private const string TEST_LOG_MESSAGE = "Test log message";
         private readonly CheatRepository _repository = new CheatRepository();
         
-        [Inject] private LocalizationService _localizationService;     
+        [Inject] private LocalizationService _localizationService;    
+        [Inject] private ActiveItemService _activeItemService;     
 
 
         [SerializeField] private GameObject _fpsMonitor;
@@ -34,9 +36,16 @@ namespace Dino.Cheats
             PlayerPrefs.DeleteAll();
             Application.Quit();
         }
+
+        public void SetActiveItem(string itemId)
+        {
+            _activeItemService.Set(itemId);
+        } 
+        public void RemoveActiveItem()
+        {
+            _activeItemService.Remove();
+        }
         
-
-
         public void LogTestMessage()
         {
             var logger = this.Logger();

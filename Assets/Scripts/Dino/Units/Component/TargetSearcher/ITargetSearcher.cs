@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Dino.Units.Target;
+﻿using Dino.Units.Component.Target;
 using JetBrains.Annotations;
 
 namespace Dino.Units.Component.TargetSearcher
@@ -8,7 +7,5 @@ namespace Dino.Units.Component.TargetSearcher
     {
         [CanBeNull]
         ITarget Find();
-        // TODO: remove later. used only for multi target ranged weapon for sniper unit.
-        IEnumerable<ITarget> GetAllOrderedByDistance();
     }
 }

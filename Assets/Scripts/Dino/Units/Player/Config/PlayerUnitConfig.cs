@@ -14,7 +14,5 @@ namespace Dino.Units.Player.Config
         public int Health;
         [DataMember]
         public float MoveSpeed;
-        [DataMember]
-        public PlayerAttackConfig PlayerAttackConfig;
     }
 }

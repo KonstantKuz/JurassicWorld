@@ -1,4 +1,4 @@
-﻿using Dino.App;
+﻿using Dino.Core.InitStep;
 using Feofun.App;
 using Feofun.App.Init;
 using JetBrains.Annotations;

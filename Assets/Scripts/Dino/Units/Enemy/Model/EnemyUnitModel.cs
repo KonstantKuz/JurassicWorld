@@ -10,9 +10,9 @@ namespace Dino.Units.Enemy.Model
         public string Id { get; }
         public float MoveSpeed { get; }
         public IHealthModel HealthModel { get; }
-        public IAttackModel AttackModel { get; }
+        public EnemyAttackModel AttackModel { get; }
         public PatrolStateModel PatrolStateModel { get; }
-        
+
         public EnemyUnitModel(EnemyUnitConfig config)
         {
             Id = config.Id;

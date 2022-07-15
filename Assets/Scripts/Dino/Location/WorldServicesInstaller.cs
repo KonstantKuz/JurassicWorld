@@ -21,7 +21,6 @@ namespace Dino.Location
             container.Bind<EnemyInitService>().FromInstance(_enemyInitService);
   
             container.BindInterfacesAndSelfTo<SessionService>().AsSingle();
-            container.BindInterfacesAndSelfTo<ReviveService>().AsSingle();
             container.Bind<SessionRepository>().AsSingle();
             
             container.BindInterfacesAndSelfTo<DroppingLootService>().AsSingle();

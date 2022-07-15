@@ -1,43 +1,52 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Dino.Extension;
-using Dino.Units.Model;
-using Dino.Units.Target;
+using Dino.Units.Component.Target;
+using Dino.Weapon.Model;
 using Feofun.Components;
 using JetBrains.Annotations;
+using Logger.Extension;
 using UnityEngine;
 using Zenject;
 
 namespace Dino.Units.Component.TargetSearcher
 {
     [RequireComponent(typeof(ITarget))]
-    public class NearestTargetSearcher : MonoBehaviour, IInitializable<IUnit>, ITargetSearcher
+    public class NearestTargetSearcher : MonoBehaviour, IInitializable<IUnit>, IInitializable<IWeaponModel>, ITargetSearcher
     {
         [Inject]
         private TargetService _targetService;
-
-        private IAttackModel _attackModel;    
+        
+        private float? _searchDistance;
         private ITarget _selfTarget;
         private UnitType _targetType;
 
-        private float SearchDistance => _attackModel.TargetSearchRadius;
 
         public void Init(IUnit unit)
         {
-            _attackModel = unit.Model.AttackModel;
             _selfTarget = gameObject.RequireComponent<ITarget>();
             _targetType = _selfTarget.UnitType.GetTargetUnitType();
+        }
+
+        public void Init(IWeaponModel weaponModel)
+        {
+            _searchDistance = weaponModel.TargetSearchRadius;
         }
 
         [CanBeNull]
         public ITarget Find()
         {
+            if (_searchDistance == null)
+            {
+                this.Logger().Warn("Searcher need search distance");
+                return null;
+            }
+            
             var targets = _targetService.AllTargetsOfType(_targetType);
-            return Find(targets, _selfTarget.Root.position, SearchDistance);
+            return Find(targets, _selfTarget.Root.position, _searchDistance.Value);
         }
 
         [CanBeNull]
-        public static ITarget Find(IEnumerable<ITarget> targets, Vector3 from, float searchDistance)
+        private static ITarget Find(IEnumerable<ITarget> targets, Vector3 from, float searchDistance)
         {
             ITarget result = null;
             var minDistance = Mathf.Infinity;
@@ -52,15 +61,5 @@ namespace Dino.Units.Component.TargetSearcher
             
             return result;
         }
-
-        public IEnumerable<ITarget> GetAllOrderedByDistance()
-        {
-            return _targetService.AllTargetsOfType(_targetType)
-                .Where(IsDistanceReached)
-                .OrderBy(it => Vector3.Distance(it.Root.position, _selfTarget.Root.position));
-        }
-
-        private bool IsDistanceReached(ITarget target) => 
-            Vector3.Distance(target.Root.position, _selfTarget.Root.position) <= SearchDistance;
     }
 }

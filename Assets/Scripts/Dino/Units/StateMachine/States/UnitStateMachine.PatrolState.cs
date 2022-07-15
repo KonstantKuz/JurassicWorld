@@ -1,7 +1,6 @@
 ﻿using Dino.Extension;
 using Dino.Units.Enemy.Model;
 using Dino.Units.StateMachine.States;
-using Dino.Units.Weapon;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -21,7 +20,7 @@ namespace Dino.Units.StateMachine
 
             private Unit Owner => StateMachine._owner;
             private PatrolPathProvider PathProvider => _pathProvider ??= Owner.gameObject.RequireComponent<PatrolPathProvider>();
-            public bool HasPath => PathProvider.PatrolPath != null;
+            private bool HasPath => PathProvider.PatrolPath != null;
             [CanBeNull]
             private Transform NextPathPoint { get; set; }
             private float DistanceToPathPoint => Vector3.Distance(Owner.transform.position, NextPathPoint.position);
@@ -36,6 +35,8 @@ namespace Dino.Units.StateMachine
             
             public override void OnEnterState()
             {
+                if (!HasPath) return;
+                
                 GoToNextPoint();
             }
 

@@ -1,6 +1,6 @@
 using Dino.Extension;
+using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
-using Dino.Units.Target;
 using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
