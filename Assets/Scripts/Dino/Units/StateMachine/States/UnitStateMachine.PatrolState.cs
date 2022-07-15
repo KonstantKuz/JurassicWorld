@@ -2,6 +2,7 @@
 using Dino.Units.Enemy.Model;
 using Dino.Units.StateMachine.States;
 using Dino.Units.Weapon;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -20,10 +21,12 @@ namespace Dino.Units.StateMachine
 
             private Unit Owner => StateMachine._owner;
             private PatrolPathProvider PathProvider => _pathProvider ??= Owner.gameObject.RequireComponent<PatrolPathProvider>();
+            public bool HasPath => PathProvider.PatrolPath != null;
+            [CanBeNull]
             private Transform NextPathPoint { get; set; }
             private float DistanceToPathPoint => Vector3.Distance(Owner.transform.position, NextPathPoint.position);
             private bool IsTimeToGo => _waitTimer >= _stateModel.PatrolIdleTime;
-
+            
             public PatrolState(UnitStateMachine stateMachine) : base(stateMachine)
             {
                 var enemyModel = (EnemyUnitModel) Owner.Model;
@@ -46,7 +49,7 @@ namespace Dino.Units.StateMachine
                 {
                     StateMachine.SetState(UnitState.Chase);
                 }
-                if (DistanceToPathPoint > PRECISION_DISTANCE)
+                if (!HasPath || DistanceToPathPoint > PRECISION_DISTANCE)
                 {
                     return;
                 }
@@ -70,11 +73,6 @@ namespace Dino.Units.StateMachine
 
             private void GoToNextPoint()
             {
-                if (PathProvider.PatrolPath == null)
-                {
-                    return;
-                }
-                
                 NextPathPoint = PathProvider.Pop();
                 StateMachine._movementController.MoveTo(NextPathPoint.position);
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
@@ -82,11 +80,6 @@ namespace Dino.Units.StateMachine
 
             private void TryResetWaitTimer()
             {
-                if (PathProvider.PatrolPath == null)
-                {
-                    return;
-                }
-
                 if (PathProvider.PatrolPath.IsEndOfPath(NextPathPoint))
                 {
                     _waitTimer = 0f;

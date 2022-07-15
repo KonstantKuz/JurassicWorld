@@ -32,6 +32,19 @@ namespace Dino.Units.StateMachine.States
 
         private void InitPatrolPath()
         {
+            _patrolPath = FindNearestFreePath();
+            if (_patrolPath == null)
+            {
+                this.Logger().Warn($"Patrol path was not found for {gameObject.name}");
+                return;
+            }
+            _patrolPath.IsBusy = true;
+        }
+
+        [CanBeNull]
+        private PatrolPath FindNearestFreePath()
+        {
+            PatrolPath freePath = null;
             var patrolPaths = _world.GetChildrenComponents<PatrolPath>();
             var minDistance = Mathf.Infinity;
             foreach (var path in patrolPaths)
@@ -45,17 +58,11 @@ namespace Dino.Units.StateMachine.States
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    _patrolPath = path;
+                    freePath = path;
                 }
             }
 
-            if (_patrolPath == null)
-            {
-                this.Logger().Warn($"Patrol path was not found for {gameObject.name}");
-                return;
-            }
-            
-            _patrolPath.IsBusy = true;
+            return freePath;
         }
         
         public Transform Pop()
