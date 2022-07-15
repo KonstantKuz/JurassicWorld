@@ -1,3 +1,4 @@
+using System.Linq;
 using Dino.Location;
 using Dino.Units.Enemy.Config;
 using Dino.Units.Enemy.Model;
@@ -15,7 +16,8 @@ namespace Dino.Units.Service
         
         public void InitEnemies()
         {
-            var units = _world.GetChildrenComponents<Unit>();
+            var units = _world.GetChildrenComponents<Unit>()
+                              .Where(it => it.UnitType == UnitType.ENEMY);
             foreach (var unit in units)
             {
                 var config = _enemyUnitConfigs.Find(unit.ObjectId);

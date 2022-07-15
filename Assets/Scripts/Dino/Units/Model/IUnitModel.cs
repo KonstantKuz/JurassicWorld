@@ -6,6 +6,5 @@ namespace Dino.Units.Model
         string Id { get; }
         float MoveSpeed { get; }
         IHealthModel HealthModel { get; }
-        IAttackModel AttackModel { get; }
     }
 }

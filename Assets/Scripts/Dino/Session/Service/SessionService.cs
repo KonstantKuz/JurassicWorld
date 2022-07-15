@@ -1,5 +1,6 @@
 ﻿using System.Linq;
-using Dino.App.Config;
+using Dino.Config;
+using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Player.Progress.Model;
 using Dino.Player.Progress.Service;
@@ -8,7 +9,6 @@ using Dino.Session.Messages;
 using Dino.Units;
 using Dino.Units.Service;
 using Feofun.Config;
-using Feofun.UI.Dialog;
 using Logger.Extension;
 using SuperMaxim.Messaging;
 using UniRx;
@@ -31,8 +31,8 @@ namespace Dino.Session.Service
         [Inject] private readonly StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private ConstantsConfig _constantsConfig;
-        [Inject] private DialogManager _dialogManager;
-        
+        [Inject] private ActiveItemService _activeItemService;
+
         private CompositeDisposable _disposable;
         
         private PlayerProgress PlayerProgress => _playerProgressService.Progress;
@@ -73,6 +73,8 @@ namespace Dino.Session.Service
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit);
             _world.Player = player;
             player.OnDeath += OnDeath;
+            _activeItemService.Set(_constantsConfig.FirstItem);
+            
         }
 
         private void InitEnemies()
@@ -118,11 +120,6 @@ namespace Dino.Session.Service
         public void OnWorldCleanUp()
         {
             Dispose();
-        }
-
-        public void AddRevive()
-        {
-            Session.AddRevive();
         }
     }
 }

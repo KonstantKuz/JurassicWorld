@@ -1,7 +1,5 @@
 ﻿using Dino.Units.Enemy.Config;
 using Dino.Units.Model;
-using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.Units.Enemy.Model
 {
@@ -10,7 +8,7 @@ namespace Dino.Units.Enemy.Model
         public string Id { get; }
         public float MoveSpeed { get; }
         public IHealthModel HealthModel { get; }
-        public IAttackModel AttackModel { get; }
+        public EnemyAttackModel AttackModel { get; }
 
         public EnemyUnitModel(EnemyUnitConfig config)
         {
