@@ -6,10 +6,10 @@ using Dino.Location;
 using Dino.Units;
 using Dino.Units.Player.Attack;
 using Dino.Units.Player.Model;
+using Dino.Weapon.Components;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Config;
-using Feofun.Extension;
 using Logger.Extension;
 using Zenject;
 
@@ -30,7 +30,8 @@ namespace Dino.Weapon.Service
         public WeaponService()
         {
             Weapons = new Dictionary<WeaponId, Action<WeaponId>>() {
-                    {WeaponId.Stick, SetWeapon}
+                    {WeaponId.Stick, SetWeapon},        
+                    {WeaponId.Bow, SetRangedWeapon}
             };
         }
 
@@ -55,6 +56,15 @@ namespace Dino.Weapon.Service
             var model = CreateModel(weaponId);
             var inventoryOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
             var weapon = inventoryOwner.CurrentItem.RequireComponent<BaseWeapon>();
+            var attack = Player.GameObject.RequireComponent<PlayerAttack>();
+            attack.SetWeapon(model, weapon);
+        }
+        private void SetRangedWeapon(WeaponId weaponId)
+        {
+            var model = CreateModel(weaponId);
+            var inventoryOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
+            var weapon = inventoryOwner.CurrentItem.RequireComponent<BaseWeapon>();
+            weapon.Init(Player.GameObject.RequireComponent<WeaponOwner>());
             var attack = Player.GameObject.RequireComponent<PlayerAttack>();
             attack.SetWeapon(model, weapon);
         }
