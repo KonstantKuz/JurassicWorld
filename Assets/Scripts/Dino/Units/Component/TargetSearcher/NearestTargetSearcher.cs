@@ -2,7 +2,6 @@
 using Dino.Extension;
 using Dino.Units.Component.Target;
 using Dino.Units.Target;
-using Dino.Weapon.Model;
 using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -15,8 +14,7 @@ namespace Dino.Units.Component.TargetSearcher
     {
         [Inject]
         private TargetService _targetService;
-
-        private IWeaponModel _weaponModel;    
+        
         private ITarget _selfTarget;
         private UnitType _targetType;
         

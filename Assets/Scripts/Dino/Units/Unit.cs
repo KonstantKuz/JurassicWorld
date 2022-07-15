@@ -68,10 +68,7 @@ namespace Dino.Units
         public void Init(IUnitModel model)
         {
             Model = model;
-            
-            if (UnitType == UnitType.ENEMY) {
-                _damageable.OnZeroHealth += DieOnZeroHealth;
-            }
+            _damageable.OnZeroHealth += DieOnZeroHealth;
             IsActive = true;
             foreach (var component in GetComponentsInChildren<IInitializable<IUnit>>()) {
                 component.Init(this);

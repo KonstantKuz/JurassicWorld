@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Dino.Extension;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
@@ -124,7 +125,7 @@ namespace Dino.Units.Player.Attack
                 _weapon.Timer.CancelLastTimer();
                 return;
             }
-            _weapon.Weapon.Fire(_target, _weapon.Model, DoDamage);
+            _weapon.Fire(_target, DoDamage);
         }
 
         private bool HasWeapon()
@@ -174,6 +175,11 @@ namespace Dino.Units.Player.Attack
             public BaseWeapon Weapon { get; set; }
             public IWeaponModel Model { get; set; }
             public WeaponTimer Timer { get; set; }
+
+            public void Fire(ITarget target, Action<GameObject> hitCallback)
+            {
+                Weapon.Fire(target, Model, hitCallback);
+            }
         }
     }
 }

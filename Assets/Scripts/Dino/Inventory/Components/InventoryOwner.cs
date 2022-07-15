@@ -11,33 +11,33 @@ namespace Dino.Inventory.Components
         [SerializeField]
         private Transform _container;
 
-        private GameObject _inventoryItem;
+        private GameObject _currentItem;
 
         [CanBeNull]
-        public GameObject InventoryItem
+        public GameObject CurrentItem
         {
             get
             {
-                if (_inventoryItem == null) {
+                if (_currentItem == null) {
                     throw new NullReferenceException("InventoryItem is null, should set inventory item");
                 }
-                return _inventoryItem;
+                return _currentItem;
             }
-            private set => _inventoryItem = value;
+            private set => _currentItem = value;
         }
         public Transform Container => _container;
 
         public void Set(GameObject item)
         {
-            Assert.IsNull(_inventoryItem, "Player inventory item is not null, should delete the previous inventory item");
-            InventoryItem = item;
+            Assert.IsNull(_currentItem, "Player inventory item is not null, should delete the previous inventory item");
+            CurrentItem = item;
             item.transform.SetParent(Container);
             item.transform.ResetLocalTransform();
         }
 
         public void Remove()
         {
-            InventoryItem = null;
+            CurrentItem = null;
             _container.DestroyAllChildren();
         }
     }

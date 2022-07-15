@@ -73,7 +73,7 @@ namespace Dino.Session.Service
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit);
             _world.Player = player;
             player.OnDeath += OnDeath;
-            _inventoryApplyService.Set(_constantsConfig.FirstInventory);
+            _inventoryApplyService.Set(_constantsConfig.FirstItem);
             
         }
 

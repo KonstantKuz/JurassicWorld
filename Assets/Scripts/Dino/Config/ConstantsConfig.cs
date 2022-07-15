@@ -7,10 +7,10 @@ namespace Dino.Config
         [DataMember(Name = "FirstUnit")]
         private string _firstUnit;      
         
-        [DataMember(Name = "FirstInventory")]
-        private string _firstInventory;
+        [DataMember(Name = "FirstItem")]
+        private string _firstItem;
         
         public string FirstUnit => _firstUnit;       
-        public string FirstInventory => _firstInventory;
+        public string FirstItem => _firstItem;
     }
 }
