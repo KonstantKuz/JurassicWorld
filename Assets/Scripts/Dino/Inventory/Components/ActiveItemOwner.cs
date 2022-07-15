@@ -19,7 +19,7 @@ namespace Dino.Inventory.Components
             get
             {
                 if (_currentItem == null) {
-                    throw new NullReferenceException("InventoryItem is null, should set inventory item");
+                    throw new NullReferenceException("Active item is null, should set active item on unit");
                 }
                 return _currentItem;
             }
@@ -29,7 +29,7 @@ namespace Dino.Inventory.Components
 
         public void Set(GameObject item)
         {
-            Assert.IsNull(_currentItem, "Player inventory item is not null, should delete the previous inventory item");
+            Assert.IsNull(_currentItem, "Unit active item is not null, should delete the previous unit active item");
             CurrentItem = item;
             item.transform.SetParent(Container);
             item.transform.ResetLocalTransform();

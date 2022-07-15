@@ -5,6 +5,6 @@
         None,
         Unit,
         Loot,
-        Inventory,
+        InventoryItem,
     }
 }

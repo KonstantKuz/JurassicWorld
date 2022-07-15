@@ -1,11 +1,12 @@
-﻿using Dino.Extension;
+﻿using System;
+using Dino.Extension;
 using Dino.Inventory.Components;
 using Dino.Location;
 using Dino.Location.Service;
 using Dino.Units;
 using Dino.Weapon.Model;
 using Dino.Weapon.Service;
-using Feofun.Extension;
+using Logger.Extension;
 using Zenject;
 
 namespace Dino.Inventory.Service
@@ -28,11 +29,18 @@ namespace Dino.Inventory.Service
             var itemOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
             var item = _worldObjectFactory.CreateObject(itemId, itemOwner.Container);
             itemOwner.Set(item);
-            var weaponId = GetWeaponId(itemId);
-            _weaponService.Set(weaponId);
+            
+            if (IsWeapon(itemId, out var weaponId)) {
+                _weaponService.Set(weaponId);
+            } else {
+                this.Logger().Debug($"Active Item:= {itemId} is not Weapon");
+            }
+    
         }
-        private WeaponId GetWeaponId(string itemId) => EnumExt.ValueOf<WeaponId>(itemId);
-   
+        private bool IsWeapon(string itemId, out WeaponId weaponId)
+        {
+            return Enum.TryParse(itemId, out weaponId);
+        }
         public void Remove()
         {
             _weaponService.Remove();
