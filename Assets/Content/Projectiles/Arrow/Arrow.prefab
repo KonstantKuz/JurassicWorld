@@ -62,7 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 20
   _followTarget: 1
-  _rotationSpeed: 20
+  _rotationSpeed: 50
   _maxLifeTime: 4
   _initialCourseTime: 0
 --- !u!54 &5621858703522617530
