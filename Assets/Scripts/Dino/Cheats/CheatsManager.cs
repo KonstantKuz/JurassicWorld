@@ -15,7 +15,7 @@ namespace Dino.Cheats
         private readonly CheatRepository _repository = new CheatRepository();
         
         [Inject] private LocalizationService _localizationService;    
-        [Inject] private InventoryApplyService _inventoryApplyService;     
+        [Inject] private ActiveItemService _activeItemService;     
 
 
         [SerializeField] private GameObject _fpsMonitor;
@@ -37,13 +37,13 @@ namespace Dino.Cheats
             Application.Quit();
         }
 
-        public void SetInventory(string inventoryId)
+        public void SetActiveItem(string itemId)
         {
-            _inventoryApplyService.Set(inventoryId);
+            _activeItemService.Set(itemId);
         } 
-        public void RemoveInventoryItem()
+        public void RemoveActiveItem()
         {
-            _inventoryApplyService.Remove();
+            _activeItemService.Remove();
         }
         
         public void LogTestMessage()

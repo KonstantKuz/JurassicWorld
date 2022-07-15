@@ -30,7 +30,7 @@ namespace Dino.Weapon.Service
         public WeaponService()
         {
             Weapons = new Dictionary<WeaponId, Action<WeaponId>>() {
-                    {WeaponId.Stick, CreateMelee}
+                    {WeaponId.Stick, SetWeapon}
             };
         }
 
@@ -43,23 +43,17 @@ namespace Dino.Weapon.Service
             var createAction = Weapons[weaponId];
             createAction.Invoke(weaponId);
         }
-
-        public void Set(string inventoryId)
-        {
-            var weaponId = EnumExt.ValueOf<WeaponId>(inventoryId);
-            Set(weaponId);
-        }
-
+        
         public void Remove()
         {
             var attack = Player.GameObject.RequireComponent<PlayerAttack>();
             attack.DeleteWeapon();
         }
 
-        private void CreateMelee(WeaponId weaponId)
+        private void SetWeapon(WeaponId weaponId)
         {
             var model = CreateModel(weaponId);
-            var inventoryOwner = Player.GameObject.RequireComponent<InventoryOwner>();
+            var inventoryOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
             var weapon = inventoryOwner.CurrentItem.RequireComponent<BaseWeapon>();
             var attack = Player.GameObject.RequireComponent<PlayerAttack>();
             attack.SetWeapon(model, weapon);

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Dino.Inventory.Components
 {
-    public class InventoryOwner : MonoBehaviour
+    public class ActiveItemOwner : MonoBehaviour
     {
         [SerializeField]
         private Transform _container;

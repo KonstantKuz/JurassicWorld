@@ -31,7 +31,7 @@ namespace Dino.Session.Service
         [Inject] private readonly StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private ConstantsConfig _constantsConfig;
-        [Inject] private InventoryApplyService _inventoryApplyService;
+        [Inject] private ActiveItemService _activeItemService;
 
         private CompositeDisposable _disposable;
         
@@ -73,7 +73,7 @@ namespace Dino.Session.Service
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit);
             _world.Player = player;
             player.OnDeath += OnDeath;
-            _inventoryApplyService.Set(_constantsConfig.FirstItem);
+            _activeItemService.Set(_constantsConfig.FirstItem);
             
         }
 
