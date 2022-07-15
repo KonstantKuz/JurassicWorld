@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Dino.Extension;
 using Dino.Units.Enemy.Model;
 using Dino.Units.Target;
-using Dino.Units.Weapon;
 using Dino.Units.Weapon.Projectiles;
 using Feofun.Components;
 using UnityEngine;
@@ -10,9 +9,8 @@ using UnityEngine.Assertions;
 
 namespace Dino.Units.Component.TargetSearcher
 {
-    public class ConeTargetSearcher : MonoBehaviour, IInitializable<IUnit>, ITargetSearcher, IUpdatableComponent
+    public class ConeTargetSearcher : MonoBehaviour, IInitializable<IUnit>, ITargetSearcher
     {
-        private ITargetProvider _targetProvider;
         private PatrolStateModel _stateModel;
 
         public void Init(IUnit owner)
@@ -20,18 +18,6 @@ namespace Dino.Units.Component.TargetSearcher
             var enemyModel = (EnemyUnitModel) owner.Model;
             Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
             _stateModel = enemyModel.PatrolStateModel;
-
-            _targetProvider = owner.GameObject.RequireComponent<ITargetProvider>();
-            var coneRenderer = owner.GameObject.RequireComponentInChildren<RangeConeRenderer>();
-            coneRenderer.Build(_stateModel.FieldOfViewAngle, _stateModel.FieldOfViewDistance);
-        }
-
-        public void OnTick()
-        {
-            if (_targetProvider.Target == null || !_targetProvider.Target.IsTargetValidAndAlive())
-            {
-                _targetProvider.Target = Find();
-            }
         }
 
         public ITarget Find()
@@ -50,13 +36,26 @@ namespace Dino.Units.Component.TargetSearcher
 
         private bool IsInsideFieldOfView(Collider target)
         {
-            return FlameCharge.IsInsideCone(target.transform.position, transform.position, transform.forward, _stateModel.FieldOfViewAngle) && 
-                FlameCharge.IsInsideDistanceRange(target.transform.position, transform.position, 0, _stateModel.FieldOfViewDistance);
+            return IsInsideCone(target.transform.position, transform.position, transform.forward, _stateModel.FieldOfViewAngle) && 
+                IsInsideDistanceRange(target.transform.position, transform.position, 0, _stateModel.FieldOfViewDistance);
         }
 
         public IEnumerable<ITarget> GetAllOrderedByDistance()
         {
             throw new System.NotImplementedException();
+        }
+        
+        private static bool IsInsideCone(Vector3 target, Vector3 coneOrigin, Vector3 coneDirection, float maxAngle)
+        {
+            var targetDirection = target - coneOrigin;
+            var angle = Vector3.Angle(coneDirection, targetDirection.XZ());
+            return angle <= maxAngle;
+        }
+
+        private static bool IsInsideDistanceRange(Vector3 target, Vector3 origin, float distanceMin, float distanceMax)
+        {
+            var distance = Vector3.Distance(origin, target);
+            return distance > distanceMin && distance < distanceMax;
         }
     }
 }

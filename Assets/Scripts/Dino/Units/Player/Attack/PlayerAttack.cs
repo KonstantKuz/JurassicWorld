@@ -32,7 +32,6 @@ namespace Dino.Units.Player.Attack
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
         private Unit _owner;
-        private IWeaponTimerManager _timerManager;
         private CompositeDisposable _disposable;
         
         
@@ -54,13 +53,6 @@ namespace Dino.Units.Player.Attack
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent += Fire;
             }
-            InitWeaponTimer();
-        }
-
-        private void InitWeaponTimer()
-        {
-            _timerManager = _weapon.GetComponent<IWeaponTimerManager>() ?? _owner.GetComponent<IWeaponTimerManager>();
-            _timerManager.Subscribe(_owner.ObjectId, _playerAttackModel, OnAttackReady);
         }
         
         private void Awake()
@@ -130,7 +122,6 @@ namespace Dino.Units.Player.Attack
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent -= Fire;
             }
-            _timerManager.Unsubscribe(_owner.ObjectId, OnAttackReady);
         }
         private void Dispose()
         {

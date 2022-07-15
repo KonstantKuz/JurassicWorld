@@ -1,9 +1,7 @@
 ﻿using Dino.Extension;
-using Dino.Location;
-using Dino.Units.Component.TargetSearcher;
 using Dino.Units.Enemy.Model;
 using Dino.Units.StateMachine.States;
-using Dino.Units.Target;
+using Dino.Units.Weapon;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -15,15 +13,13 @@ namespace Dino.Units.StateMachine
         {
             private const float PRECISION_DISTANCE = 0.2f;
 
-            private readonly PatrolPath _patrolPath;
             private readonly PatrolStateModel _stateModel;
-            private readonly ITargetProvider _targetProvider;
             
             private float _waitTimer;
-            private PatrolStateHelper _stateHelper;
+            private PatrolPathProvider _pathProvider;
 
             private Unit Owner => StateMachine._owner;
-            private PatrolStateHelper StateHelper => _stateHelper ??= Owner.gameObject.RequireComponent<PatrolStateHelper>();
+            private PatrolPathProvider PathProvider => _pathProvider ??= Owner.gameObject.RequireComponent<PatrolPathProvider>();
             private Transform NextPathPoint { get; set; }
             private float DistanceToPathPoint => Vector3.Distance(Owner.transform.position, NextPathPoint.position);
             private bool IsTimeToGo => _waitTimer >= _stateModel.PatrolIdleTime;
@@ -33,8 +29,6 @@ namespace Dino.Units.StateMachine
                 var enemyModel = (EnemyUnitModel) Owner.Model;
                 Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
                 _stateModel = enemyModel.PatrolStateModel;
-                _patrolPath = StateHelper.PatrolPath;
-                _targetProvider = Owner.gameObject.RequireComponent<ITargetProvider>();
             }
             
             public override void OnEnterState()
@@ -48,7 +42,7 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
-                if (_targetProvider.Target != null)
+                if (StateMachine._targetProvider.Target != null)
                 {
                     StateMachine.SetState(UnitState.Chase);
                 }
@@ -76,14 +70,24 @@ namespace Dino.Units.StateMachine
 
             private void GoToNextPoint()
             {
-                NextPathPoint = _patrolPath.Pop();
+                if (PathProvider.PatrolPath == null)
+                {
+                    return;
+                }
+                
+                NextPathPoint = PathProvider.Pop();
                 StateMachine._movementController.MoveTo(NextPathPoint.position);
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
             }
 
             private void TryResetWaitTimer()
             {
-                if (_patrolPath.WaitOnEveryPoint || _patrolPath.IsEndOfPath(NextPathPoint))
+                if (PathProvider.PatrolPath == null)
+                {
+                    return;
+                }
+
+                if (PathProvider.PatrolPath.IsEndOfPath(NextPathPoint))
                 {
                     _waitTimer = 0f;
                 }

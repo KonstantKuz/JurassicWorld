@@ -1,34 +1,26 @@
 ﻿using System;
-using UniRx;
 using UnityEngine;
 
 namespace Dino.Units.Player.Attack
 {
     public class WeaponTimer
     {
-        private const float FIRST_ATTACK_DELAY = 0.1f;
-        private readonly IReadOnlyReactiveProperty<float> _attackInterval;
-        private float _timer;
+        private readonly float _attackInterval;
+        private float _lastAttackTime;
         
-        public event Action OnAttackReady;
-        private bool IsAttackReady => _timer >= AttackInterval;
-        private float AttackInterval => Math.Max(_attackInterval.Value, 0);
-        
-        public WeaponTimer(IReadOnlyReactiveProperty<float> attackInterval)
+        public bool IsAttackReady => Time.time >= _lastAttackTime + AttackInterval;
+        private float AttackInterval => Math.Max(_attackInterval, 0);
+        public WeaponTimer(float attackInterval)
         {
             _attackInterval = attackInterval;
         }
-
-        public void Init()
+        public void OnAttack()
         {
-            _timer = AttackInterval - FIRST_ATTACK_DELAY;
+            _lastAttackTime = Time.time;
         }
-        public void OnTick()
+        public void CancelLastTimer()
         {
-            _timer += Time.deltaTime;
-            if (!IsAttackReady) return;
-            OnAttackReady?.Invoke();
-            _timer = 0f;
+            _lastAttackTime = Time.time - AttackInterval;
         }
     }
 }

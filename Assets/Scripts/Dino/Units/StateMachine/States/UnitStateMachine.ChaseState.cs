@@ -10,18 +10,15 @@ namespace Dino.Units.StateMachine
         protected class ChaseState : BaseState
         {
             private readonly IAttackModel _attackModel;
-            private readonly ITargetProvider _targetProvider;
             
             private Unit Owner => StateMachine._owner;
 
-            private Vector3 TargetPosition => _targetProvider.Target.Root.position;
+            private Vector3 TargetPosition => StateMachine._targetProvider.Target.Root.position;
             private float DistanceToTarget => Vector3.Distance(Owner.transform.position, TargetPosition);
-            private float OwnerSize => Owner.transform.lossyScale.x * Owner.Bounds.extents.x;
             
             public ChaseState(UnitStateMachine stateMachine) : base(stateMachine)
             {
                 _attackModel = Owner.Model.AttackModel;
-                _targetProvider = Owner.gameObject.RequireComponent<ITargetProvider>();
             }            
 
             public override void OnEnterState()
@@ -35,9 +32,7 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
-                Debug.DrawRay(Owner.transform.position + Vector3.up, Owner.transform.forward * OwnerSize, Color.red);
-                
-                if (DistanceToTarget < _attackModel.AttackDistance + OwnerSize)
+                if (DistanceToTarget < _attackModel.AttackDistance)
                 {
                     StateMachine.SetState(UnitState.Attack);
                     return;

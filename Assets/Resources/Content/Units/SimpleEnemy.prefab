@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 3102595488552592063}
   - component: {fileID: 2176592503537403704}
   - component: {fileID: 7792710414609505496}
+  - component: {fileID: 3004815264010337206}
+  - component: {fileID: 6406870356685673006}
   - component: {fileID: 2390559964527263311}
   - component: {fileID: 696692703190226417}
   - component: {fileID: 6629324333623088289}
-  - component: {fileID: 5720923565730208007}
   - component: {fileID: 529098970374765359}
   - component: {fileID: 1737704295038407037}
   - component: {fileID: 4491497861294361367}
@@ -22,7 +23,6 @@ GameObject:
   - component: {fileID: 158354064725451873}
   - component: {fileID: 5316809173621734762}
   - component: {fileID: 8473987040358760045}
-  - component: {fileID: 6406870356685673006}
   m_Layer: 6
   m_Name: SimpleEnemy
   m_TagString: Untagged
@@ -84,6 +84,31 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 1
+--- !u!114 &3004815264010337206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047533565645016285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 475b67db216887a458e1c0feb9554b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6406870356685673006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047533565645016285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8afe2c4b0784fbea9c2aa5e3c6e1623, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _patrolBehaviourType: 1
 --- !u!114 &2390559964527263311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _initialState: 1
-  _rotationSpeed: 10
   _currentStateName: 
 --- !u!114 &6629324333623088289
 MonoBehaviour:
@@ -126,18 +150,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: SimpleEnemy
   _objectType: 1
---- !u!114 &5720923565730208007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047533565645016285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b204d47d2f64e7287be18256191d9ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &529098970374765359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,18 +247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpRotationAngle: 50
   _jumpRotationTimeRatio: 0.9
---- !u!114 &6406870356685673006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047533565645016285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8afe2c4b0784fbea9c2aa5e3c6e1623, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &638447233856610415
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -17,19 +17,17 @@ namespace Dino.Units.StateMachine
 
             private readonly BaseWeapon _weapon;
             private readonly IAttackModel _attackModel;
-            private readonly ITargetProvider _targetProvider;
-            private readonly IWeaponTimerManager _weaponTimer;
+            private readonly WeaponTimer _weaponTimer;
             
             private Unit Owner => StateMachine._owner;
-            private ITarget Target => _targetProvider.Target;
+            private ITarget Target => StateMachine._targetProvider.Target;
             private bool IsTargetInvalid => !Target.IsTargetValidAndAlive();
             
             public AttackState(UnitStateMachine stateMachine) : base(stateMachine)
             {
                 _attackModel = Owner.Model.AttackModel;
                 _weapon = Owner.gameObject.RequireComponentInChildren<BaseWeapon>();
-                _targetProvider = Owner.gameObject.RequireComponent<ITargetProvider>();
-                _weaponTimer = _weapon.GetComponent<IWeaponTimerManager>() ?? Owner.gameObject.GetComponent<IWeaponTimerManager>();
+                _weaponTimer = new WeaponTimer(_attackModel.AttackInterval.Value);
             }
 
             public override void OnEnterState()
@@ -37,7 +35,6 @@ namespace Dino.Units.StateMachine
                 StateMachine._animationWrapper.PlayIdleSmooth();
                 StateMachine._movementController.IsStopped = true;
                 
-                _weaponTimer.Subscribe(Owner.ObjectId, _attackModel, Attack);
                 if (HasWeaponAnimationHandler)
                 {
                     StateMachine._weaponAnimationHandler.OnFireEvent += Fire;
@@ -46,7 +43,6 @@ namespace Dino.Units.StateMachine
 
             public override void OnExitState()
             {
-                _weaponTimer.Unsubscribe(Owner.ObjectId, Attack);
                 if (HasWeaponAnimationHandler)
                 {
                     StateMachine._weaponAnimationHandler.OnFireEvent -= Fire;
@@ -66,8 +62,13 @@ namespace Dino.Units.StateMachine
                     StateMachine.SetState(UnitState.Chase);
                     return;
                 }
-                
+
                 StateMachine._movementController.RotateTo(Target.Root.position);
+
+                if (_weaponTimer.IsAttackReady)
+                {
+                    Attack();
+                }
             }
             
             private void Attack()
@@ -76,7 +77,9 @@ namespace Dino.Units.StateMachine
                 {
                     Fire();
                 }
-                StateMachine._animator.SetTrigger(_attackHash);                
+
+                StateMachine._animator.SetTrigger(_attackHash);
+                _weaponTimer.OnAttack();
             }
             
             private void Fire()

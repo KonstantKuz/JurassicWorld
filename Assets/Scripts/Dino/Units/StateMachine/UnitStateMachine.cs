@@ -2,6 +2,7 @@ using System;
 using Dino.Extension;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
+using Dino.Units.Target;
 using Dino.Units.Weapon;
 using Feofun.Components;
 using JetBrains.Annotations;
@@ -14,12 +15,12 @@ namespace Dino.Units.StateMachine
     {
         //can be move to unit config, if game-designer would like to setup it
         [SerializeField] private UnitState _initialState;
-        [SerializeField] private float _rotationSpeed;
         [SerializeField] private string _currentStateName;
         
         private BaseState _currentState;
 
         private Unit _owner;
+        private ITargetProvider _targetProvider;
         private IMovementController _movementController;
         private Animator _animator;
         private MoveAnimationWrapper _animationWrapper;
@@ -34,6 +35,7 @@ namespace Dino.Units.StateMachine
         private void CacheComponents(IUnit unit)
         {
             _owner = (Unit) unit;
+            _targetProvider = _owner.gameObject.RequireComponent<ITargetProvider>();
             _movementController = _owner.gameObject.RequireComponent<IMovementController>();
             _animator = _owner.gameObject.RequireComponentInChildren<Animator>();
             _animationWrapper = new MoveAnimationWrapper(_animator);
