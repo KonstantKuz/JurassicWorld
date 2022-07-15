@@ -63,6 +63,14 @@ namespace Dino.Units.Player.Attack
                     Model = weaponModel,
                     Timer = new WeaponTimer(weaponModel.AttackInterval),
             };
+            var playerSearcher = _targetSearcher as IInitializable<IWeaponModel>;
+            if (playerSearcher == null)
+            {
+                this.Logger().Error("Target searcher on player must be IInintializeble<IWeaponModel>");
+                return;
+            }
+
+            playerSearcher.Init(_weapon.Model);
             OverrideAnimation(weaponModel.Animation);
             UpdateAnimationSpeed(weaponModel.AttackInterval, weaponModel.Animation);
         }
@@ -85,7 +93,7 @@ namespace Dino.Units.Player.Attack
         }
 
         [CanBeNull]
-        private ITarget FindTarget() => _targetSearcher.Find(_weapon.Model.TargetSearchRadius);
+        private ITarget FindTarget() => _targetSearcher.Find();
 
         public void OnTick()
         {
@@ -124,7 +132,7 @@ namespace Dino.Units.Player.Attack
                 return;
             }
             if (IsTargetInvalid) {
-                _weapon.Timer.CancelLastTimer();
+                _weapon.Timer.SetAttackAsReady();
                 return;
             }
             _weapon.Fire(_target, DoDamage);

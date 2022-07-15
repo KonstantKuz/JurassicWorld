@@ -20,6 +20,10 @@ namespace Dino.Units.Service
                               .Where(it => it.UnitType == UnitType.ENEMY);
             foreach (var unit in units)
             {
+                if (!unit.gameObject.activeSelf)
+                {
+                    continue;
+                }
                 var config = _enemyUnitConfigs.Find(unit.ObjectId);
                 if (config == null)
                 {

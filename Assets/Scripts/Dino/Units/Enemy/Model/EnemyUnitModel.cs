@@ -1,5 +1,7 @@
 ﻿using Dino.Units.Enemy.Config;
 using Dino.Units.Model;
+using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Dino.Units.Enemy.Model
 {
@@ -9,6 +11,7 @@ namespace Dino.Units.Enemy.Model
         public float MoveSpeed { get; }
         public IHealthModel HealthModel { get; }
         public EnemyAttackModel AttackModel { get; }
+        public PatrolStateModel PatrolStateModel { get; }
 
         public EnemyUnitModel(EnemyUnitConfig config)
         {
@@ -16,6 +19,7 @@ namespace Dino.Units.Enemy.Model
             MoveSpeed = config.MoveSpeed;
             HealthModel = new EnemyHealthModel(config.Health);
             AttackModel = new EnemyAttackModel(config.EnemyAttackConfig);
+            PatrolStateModel = new PatrolStateModel(config.PatrolStateConfig);
         }
     }
 }
