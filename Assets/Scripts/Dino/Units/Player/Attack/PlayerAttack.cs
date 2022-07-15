@@ -105,7 +105,8 @@ namespace Dino.Units.Player.Attack
 
         private void Attack(ITarget target)
         {
-            if (!HasWeapon()) {
+            if (_weapon == null) {
+                this.Logger().Error("Weapon is not setted");
                 return;
             }
             _target = target;
@@ -118,7 +119,8 @@ namespace Dino.Units.Player.Attack
 
         private void Fire()
         {
-            if (!HasWeapon()) {
+            if (_weapon == null) {
+                this.Logger().Warn("Weapon removed while fire");
                 return;
             }
             if (IsTargetInvalid) {
@@ -127,19 +129,11 @@ namespace Dino.Units.Player.Attack
             }
             _weapon.Fire(_target, DoDamage);
         }
-
-        private bool HasWeapon()
-        {
-            if (_weapon != null) {
-                return true;
-            }
-            this.Logger().Error("Weapon is not setted");
-            return false;
-        }
-
+        
         private void DoDamage(GameObject target)
         {
-            if (!HasWeapon()) {
+            if (_weapon == null) {
+                this.Logger().Warn("Weapon removed while fire");
                 return;
             }
             var damageable = target.RequireComponent<IDamageable>();
