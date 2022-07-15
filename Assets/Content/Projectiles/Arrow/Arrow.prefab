@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5251207788646004907}
   - component: {fileID: 6721616754510473569}
   - component: {fileID: 5036716921013799638}
+  - component: {fileID: 5621858703522617530}
   m_Layer: 3
   m_Name: Arrow
   m_TagString: Untagged
@@ -59,11 +60,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b120911a6040e49aaf4126c58410d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 15
-  _followTarget: 0
-  _rotationSpeed: 0
+  _speed: 20
+  _followTarget: 1
+  _rotationSpeed: 20
   _maxLifeTime: 4
   _initialCourseTime: 0
+--- !u!54 &5621858703522617530
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 799151397082236052}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
 --- !u!1 &3982098900121719653
 GameObject:
   m_ObjectHideFlags: 0

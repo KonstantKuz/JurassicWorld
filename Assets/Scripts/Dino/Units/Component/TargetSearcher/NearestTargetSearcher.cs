@@ -24,7 +24,7 @@ namespace Dino.Units.Component.TargetSearcher
         public void Init(IUnit unit)
         {
             _selfTarget = gameObject.RequireComponent<ITarget>();
-            _targetType = _selfTarget.UnitType.GetTargetUnitType();
+            _targetType = unit.UnitType.GetTargetUnitType();
         }
 
         public void Init(IWeaponModel weaponModel)

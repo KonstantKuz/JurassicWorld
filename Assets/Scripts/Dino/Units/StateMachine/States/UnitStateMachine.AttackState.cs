@@ -4,8 +4,8 @@ using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model;
 using Dino.Units.Model;
 using Dino.Units.Player.Attack;
-using Dino.Units.Weapon;
 using Dino.Weapon;
+using Dino.Weapon.Components;
 using Logger.Extension;
 using UnityEngine;
 

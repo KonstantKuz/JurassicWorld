@@ -1,6 +1,6 @@
 using Dino.Extension;
+using Dino.Units.Component;
 using Dino.Units.Enemy.Model;
-using Dino.Units.Weapon;
 using Feofun.Components;
 using UnityEngine;
 using UnityEngine.Assertions;

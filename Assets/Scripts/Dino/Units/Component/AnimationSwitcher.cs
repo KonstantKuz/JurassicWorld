@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using Feofun.Util.SerializableDictionary;
+using UnityEngine;
 
-namespace Dino.Units.Player.Attack
+namespace Dino.Units.Component
 {
     public class AnimationSwitcher : MonoBehaviour
     {

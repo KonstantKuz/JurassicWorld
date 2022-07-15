@@ -2,7 +2,7 @@
 
 namespace Dino.Weapon.Components
 {
-    public class WeaponOwner : MonoBehaviour
+    public class BarrelOwner : MonoBehaviour
     {
         [SerializeField]
         private Transform _barrel;

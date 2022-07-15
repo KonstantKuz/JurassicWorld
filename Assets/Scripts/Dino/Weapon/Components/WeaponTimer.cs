@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Dino.Units.Player.Attack
+namespace Dino.Weapon.Components
 {
     public class WeaponTimer
     {

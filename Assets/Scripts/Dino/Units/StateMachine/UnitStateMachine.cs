@@ -3,7 +3,6 @@ using Dino.Extension;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
 using Dino.Units.Component.Target;
-using Dino.Units.Weapon;
 using Dino.Weapon;
 using Feofun.Components;
 using JetBrains.Annotations;

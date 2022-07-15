@@ -27,11 +27,11 @@ namespace Dino.Weapon
 
         private void Awake()
         {
-            var weaponOwner = GetComponentInParent<WeaponOwner>();
-            if (weaponOwner == null) {
+            var barrelOwner = GetComponentInParent<BarrelOwner>();
+            if (barrelOwner == null) {
                 return;
             }
-            _barrel = weaponOwner.Barrel;
+            _barrel = barrelOwner.Barrel;
         }
 
         public override void Fire(ITarget target, IWeaponModel weaponModel, Action<GameObject> hitCallback)

@@ -2,7 +2,7 @@
 using EasyButtons;
 using UnityEngine;
 
-namespace Dino.Units.Weapon
+namespace Dino.Units.Component
 {
     // source https://forum.unity.com/threads/how-to-make-a-mesh-for-fov.152317/ 
 

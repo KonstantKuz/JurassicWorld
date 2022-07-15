@@ -50,7 +50,7 @@ namespace Dino.Units
         public IUnitModel Model { get; private set; }
         public event Action<IUnit, DeathCause> OnDeath;
         public event Action<IUnit> OnUnitDestroyed;
-        
+
         [CanBeNull]
         public Health Health { get; private set; }
 
@@ -111,6 +111,5 @@ namespace Dino.Units
             _unitService.Remove(this);
             _updateManager.StopUpdate(UpdateComponents);
         }
-        
     }
 }
