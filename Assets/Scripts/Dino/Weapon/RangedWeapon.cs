@@ -14,23 +14,20 @@ namespace Dino.Weapon
     public class RangedWeapon : BaseWeapon
     {
         [SerializeField]
-        private Transform _barrel;
-        [SerializeField]
         private bool _aimInXZPlane;
         [SerializeField]
         private Projectile _ammo;
+        
         [Inject]
         protected WorldObjectFactory ObjectFactory;
         
+        private Transform _barrel;
         
         protected Vector3 BarrelPos; //Seems that in some cases unity cannot correctly take position inside animation event
 
         private void Awake()
         {
-            var barrelOwner = GetComponentInParent<BarrelOwner>();
-            if (barrelOwner == null) {
-                return;
-            }
+            var barrelOwner = gameObject.RequireComponentInParent<BarrelOwner>();
             _barrel = barrelOwner.Barrel;
         }
 
