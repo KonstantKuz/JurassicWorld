@@ -1,4 +1,4 @@
-﻿namespace Dino.Player.Inventory.Model
+﻿namespace Dino.Inventory.Model
 {
     public class Inventory
     {

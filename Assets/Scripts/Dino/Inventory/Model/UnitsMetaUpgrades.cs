@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Dino.Player.Inventory.Model
+namespace Dino.Inventory.Model
 {
     public class UnitsMetaUpgrades
     {

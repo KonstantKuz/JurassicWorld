@@ -1,4 +1,4 @@
-using Dino.Player.Inventory.Service;
+using Dino.Inventory.Service;
 using Dino.Player.Progress.Service;
 using Dino.Player.Wallet;
 using Zenject;

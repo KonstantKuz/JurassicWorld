@@ -1,6 +1,6 @@
 ﻿using Zenject;
 
-namespace Dino.Player.Inventory.Service
+namespace Dino.Inventory.Service
 {
     public class InventoryService
     {
@@ -17,11 +17,26 @@ namespace Dino.Player.Inventory.Service
                 return _repository.Get();
             }
         }
-        public void AddUpgrade(string upgradeId)
+        public void Add(string upgradeId)
         {
             var inventory = Inventory;
             inventory.UnitsUpgrades.AddUpgrade(upgradeId);
             Set(inventory);
+        }     
+        public void Remove(string upgradeId)
+        {
+            var inventory = Inventory;
+            inventory.UnitsUpgrades.AddUpgrade(upgradeId);
+            Set(inventory);
+        }
+
+        public void Equip(string upgradeId)
+        {
+            
+        } 
+        public void Equip(string upgradeId)
+        {
+            
         }
 
         private void Set(Model.Inventory model)

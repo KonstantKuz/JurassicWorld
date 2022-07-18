@@ -1,6 +1,6 @@
 ﻿using Feofun.Repository;
 
-namespace Dino.Player.Inventory.Service
+namespace Dino.Inventory.Service
 {
     public class InventoryRepository : LocalPrefsSingleRepository<Model.Inventory>
     {
