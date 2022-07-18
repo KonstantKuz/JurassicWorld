@@ -1,4 +1,6 @@
 ﻿using System;
+using Dino.Extension;
+using Dino.Weapon;
 using Feofun.Extension;
 using JetBrains.Annotations;
 using ModestTree;
@@ -34,6 +36,7 @@ namespace Dino.Inventory.Components
             item.transform.SetParent(Container);
             item.transform.ResetLocalTransform();
         }
+        public BaseWeapon GetWeapon() => CurrentItem.RequireComponent<BaseWeapon>();
 
         public void Remove()
         {

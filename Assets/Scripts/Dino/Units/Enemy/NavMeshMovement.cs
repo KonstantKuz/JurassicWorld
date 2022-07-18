@@ -7,7 +7,7 @@ using UnityEngine.AI;
 namespace Dino.Units.Enemy
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class NavMeshMovement : MonoBehaviour, IMovementController, IInitializable<IUnit>
+    public class NavMeshMovement : MonoBehaviour, IMovementController, IInitializable<Unit>
     {
         [SerializeField] private float _rotationSpeed;
         
@@ -19,7 +19,7 @@ namespace Dino.Units.Enemy
             set => _agent.isStopped = value;
         }
         
-        public void Init(IUnit owner)
+        public void Init(Unit owner)
         {
             _agent = GetComponent<NavMeshAgent>();
             _agent.speed = owner.Model.MoveSpeed;

@@ -2,6 +2,7 @@
 {
     public enum WeaponId
     {
-        Stick
+        Stick,
+        Bow,
     }
 }

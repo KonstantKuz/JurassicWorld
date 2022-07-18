@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dino.Extension;
-using Dino.Inventory.Components;
 using Dino.Location;
-using Dino.Units;
-using Dino.Units.Player.Attack;
+using Dino.Units.Player;
 using Dino.Units.Player.Model;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Config;
-using Feofun.Extension;
 using Logger.Extension;
 using Zenject;
 
@@ -17,7 +13,7 @@ namespace Dino.Weapon.Service
 {
     public class WeaponService
     {
-        private readonly Dictionary<WeaponId, Action<WeaponId>> Weapons;
+        private readonly Dictionary<WeaponId, Action<WeaponId, BaseWeapon>> _specialWeapons;
 
         [Inject]
         private ConfigCollection<WeaponId, WeaponConfig> _weaponConfigs;
@@ -25,37 +21,40 @@ namespace Dino.Weapon.Service
         [Inject]
         private World _world;
 
-        private Unit Player => _world.GetPlayer();
+        private PlayerUnit Player => _world.GetPlayer();
 
         public WeaponService()
         {
-            Weapons = new Dictionary<WeaponId, Action<WeaponId>>() {
-                    {WeaponId.Stick, SetWeapon}
-            };
+            _specialWeapons = new Dictionary<WeaponId, Action<WeaponId, BaseWeapon>>();
         }
-
-        public void Set(WeaponId weaponId)
+        public void TrySetWeapon(string itemId, BaseWeapon weapon)
         {
-            if (!Weapons.ContainsKey(weaponId)) {
-                this.Logger().Error($"Weapon:= {weaponId} - is not registered");
-                return;
+            if (IsWeapon(itemId, out var weaponId)) {
+                Set(weaponId, weapon);
+            } else {
+                this.Logger().Debug($"Inventory item:= {itemId} is not Weapon");
             }
-            var createAction = Weapons[weaponId];
-            createAction.Invoke(weaponId);
         }
-        
+        public void Set(WeaponId weaponId, BaseWeapon weapon)
+        {
+            if (_specialWeapons.ContainsKey(weaponId)) {
+                _specialWeapons[weaponId].Invoke(weaponId, weapon);
+            } else {
+                SetWeapon(weaponId, weapon);
+            }
+        }
         public void Remove()
         {
-            var attack = Player.GameObject.RequireComponent<PlayerAttack>();
-            attack.DeleteWeapon();
+            Player.PlayerAttack.DeleteWeapon();
         }
-
-        private void SetWeapon(WeaponId weaponId)
+        private bool IsWeapon(string itemId, out WeaponId weaponId)
+        {
+            return Enum.TryParse(itemId, out weaponId);
+        }
+        private void SetWeapon(WeaponId weaponId, BaseWeapon weapon)
         {
             var model = CreateModel(weaponId);
-            var inventoryOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
-            var weapon = inventoryOwner.CurrentItem.RequireComponent<BaseWeapon>();
-            var attack = Player.GameObject.RequireComponent<PlayerAttack>();
+            var attack = Player.PlayerAttack;
             attack.SetWeapon(model, weapon);
         }
 

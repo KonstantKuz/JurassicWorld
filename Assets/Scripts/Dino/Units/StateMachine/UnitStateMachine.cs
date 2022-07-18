@@ -3,16 +3,15 @@ using Dino.Extension;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
 using Dino.Units.Component.Target;
-using Dino.Units.Weapon;
 using Dino.Weapon;
 using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.AI;
+
 
 namespace Dino.Units.StateMachine
 {
-    public partial class UnitStateMachine : MonoBehaviour, IInitializable<IUnit>, IUpdatableComponent
+    public partial class UnitStateMachine : MonoBehaviour, IInitializable<Unit>, IUpdatableComponent
     {
         //can be move to unit config, if game-designer would like to setup it
         [SerializeField] private UnitState _initialState;
@@ -27,15 +26,15 @@ namespace Dino.Units.StateMachine
         private MoveAnimationWrapper _animationWrapper;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
 
-        public virtual void Init(IUnit unit)
+        public virtual void Init(Unit unit)
         {
             CacheComponents(unit);
             SetInitialState();
         }
 
-        private void CacheComponents(IUnit unit)
+        private void CacheComponents(Unit unit)
         {
-            _owner = (Unit) unit;
+            _owner = unit;
             _targetProvider = _owner.gameObject.RequireComponent<ITargetProvider>();
             _movementController = _owner.gameObject.RequireComponent<IMovementController>();
             _animator = _owner.gameObject.RequireComponentInChildren<Animator>();
@@ -68,7 +67,7 @@ namespace Dino.Units.StateMachine
             _currentState.OnEnterState();
         }
 
-        private void OnDeath(IUnit unit, DeathCause deathCause)
+        private void OnDeath(Unit unit, DeathCause deathCause)
         {
             unit.OnDeath -= OnDeath;
             SetState(UnitState.Death);
