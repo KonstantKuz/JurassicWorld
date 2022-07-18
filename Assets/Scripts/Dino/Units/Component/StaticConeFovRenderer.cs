@@ -8,7 +8,7 @@ namespace Dino.Units.Component
 
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
-    public class RangeConeRenderer : MonoBehaviour
+    public class StaticConeFovRenderer : MonoBehaviour, IFieldOfViewRenderer
     {
         private const int MIN_SEGMENTS_COUNT = 2;
         private const int DEGREES_PER_SEGMENT = 3;
@@ -30,10 +30,10 @@ namespace Dino.Units.Component
         [Button]
         private void CreateTest()
         {
-            Build(130, 10);
+            Init(130, 10);
         }
 
-        public void Build(float angle, float radius)
+        public void Init(float angle, float radius)
         {
             var segmentsCount = CalculateSegments(angle);
 

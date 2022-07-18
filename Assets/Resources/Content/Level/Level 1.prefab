@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 2752592215987075394}
   - component: {fileID: 713932378472130816}
   - component: {fileID: 5578661406009470667}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 694270070918268023}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Obstacles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -369,7 +369,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8064968364063166680}
-  - component: {fileID: 255688338603362628}
   m_Layer: 0
   m_Name: Level 1
   m_TagString: Untagged
@@ -397,22 +396,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &255688338603362628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4616397009248159372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e407e742db459c84e9040236209e8644, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _objectId: Level 1
-  _objectType: 0
-  _start: {fileID: 6009706099961593910}
-  _finish: {fileID: 2622090954451720524}
 --- !u!1 &4896065952829029871
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,7 +661,7 @@ GameObject:
   - component: {fileID: 3206646954160601875}
   - component: {fileID: 3472903198431375890}
   - component: {fileID: 7052767040836241853}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -773,7 +756,7 @@ GameObject:
   - component: {fileID: 266566453029090026}
   - component: {fileID: 241313806638312868}
   - component: {fileID: 3566929826698575119}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

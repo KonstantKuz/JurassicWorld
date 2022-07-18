@@ -12,6 +12,11 @@ public class ConeOfSightRenderer : MonoBehaviour
     
     private void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         MeshRenderer renderer = GetComponent<MeshRenderer>();
         mMaterial = renderer.material;  // This generates a copy of the material
         renderer.material = mMaterial;

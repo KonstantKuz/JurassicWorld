@@ -62,7 +62,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 128
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 5185068404914812128}
   - component: {fileID: 5185068404914812131}
   - component: {fileID: 3612107877014402962}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: ConeOfSight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
