@@ -28,21 +28,7 @@ namespace Dino.Inventory.Service
             var itemOwner = Player.ActiveItemOwner;
             var item = _worldObjectFactory.CreateObject(itemId, itemOwner.Container);
             itemOwner.Set(item);
-            TrySetWeapon(itemId, itemOwner);
-        }
-
-        private void TrySetWeapon(string itemId, ActiveItemOwner itemOwner)
-        {
-            if (IsWeapon(itemId, out var weaponId)) {
-                _weaponService.Set(weaponId, itemOwner.GetWeapon());
-            } else {
-                this.Logger().Debug($"Active Item:= {itemId} is not Weapon");
-            }
-        }
-
-        private bool IsWeapon(string itemId, out WeaponId weaponId)
-        {
-            return Enum.TryParse(itemId, out weaponId);
+            _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
         }
 
         public void Remove()

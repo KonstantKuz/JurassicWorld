@@ -6,6 +6,7 @@ using Dino.Units.Player.Model;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Config;
+using Logger.Extension;
 using Zenject;
 
 namespace Dino.Weapon.Service
@@ -26,27 +27,37 @@ namespace Dino.Weapon.Service
         {
             _specialWeapons = new Dictionary<WeaponId, Action<WeaponId, BaseWeapon>>();
         }
-        public void Set(WeaponId weaponId, BaseWeapon baseWeapon)
+        public void TrySetWeapon(string itemId, BaseWeapon weapon)
         {
-            if (_specialWeapons.ContainsKey(weaponId)) {
-                _specialWeapons[weaponId].Invoke(weaponId, baseWeapon);
-            } 
-            else {
-                SetWeapon(weaponId, baseWeapon);
+            if (IsWeapon(itemId, out var weaponId)) {
+                Set(weaponId, weapon);
+            } else {
+                this.Logger().Debug($"Inventory item:= {itemId} is not Weapon");
             }
         }
-        
+        public void Set(WeaponId weaponId, BaseWeapon weapon)
+        {
+            if (_specialWeapons.ContainsKey(weaponId)) {
+                _specialWeapons[weaponId].Invoke(weaponId, weapon);
+            } else {
+                SetWeapon(weaponId, weapon);
+            }
+        }
         public void Remove()
-        { 
+        {
             Player.PlayerAttack.DeleteWeapon();
         }
-
-        private void SetWeapon(WeaponId weaponId, BaseWeapon baseWeapon)
+        private bool IsWeapon(string itemId, out WeaponId weaponId)
+        {
+            return Enum.TryParse(itemId, out weaponId);
+        }
+        private void SetWeapon(WeaponId weaponId, BaseWeapon weapon)
         {
             var model = CreateModel(weaponId);
             var attack = Player.PlayerAttack;
-            attack.SetWeapon(model, baseWeapon);
+            attack.SetWeapon(model, weapon);
         }
+
         private PlayerWeaponModel CreateModel(WeaponId weaponId)
         {
             var config = _weaponConfigs.Get(weaponId);
