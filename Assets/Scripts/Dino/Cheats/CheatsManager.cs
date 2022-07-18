@@ -39,7 +39,7 @@ namespace Dino.Cheats
 
         public void SetActiveItem(string itemId)
         {
-            _activeItemService.Equip(itemId);
+            _activeItemService.Replace(itemId);
         } 
         public void RemoveActiveItem()
         {

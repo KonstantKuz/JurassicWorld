@@ -25,7 +25,7 @@ namespace Dino.Inventory.Service
         
         private PlayerUnit Player => _world.GetPlayer();
 
-        public void Change(string itemId)
+        public void Replace(string itemId)
         {
             UnEquip();
             Equip(itemId);
@@ -33,17 +33,17 @@ namespace Dino.Inventory.Service
 
         public void Equip(string itemId)
         {
-            if (!_inventoryService.Contains(itemId)) {
-                this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
-                return;
-            }
             if (_activeItemId.Value != null) {
                 this.Logger().Error($"Equip error, active item:= {itemId} is not null, should unEquip the previous active item of unit");
                 return;
             }
-            _activeItemId.SetValueAndForceNotify(itemId);
+            if (!_inventoryService.Contains(itemId)) {
+                this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
+                return;
+            }
             var itemOwner = Player.ActiveItemOwner;
             var item = _worldObjectFactory.CreateObject(itemId, itemOwner.Container);
+            _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(item);
             
             _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
