@@ -409,6 +409,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5185068406071156441, guid: a79439749c9d91d44a976fff72bf9815, type: 3}
+      propertyPath: m_ClearFlags
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6312619438761467544, guid: a79439749c9d91d44a976fff72bf9815, type: 3}
       propertyPath: m_Name
       value: ConeOfSight
