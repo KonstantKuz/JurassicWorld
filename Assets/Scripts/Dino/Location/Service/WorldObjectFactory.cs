@@ -62,12 +62,12 @@ namespace Dino.Location.Service
 
         public List<T> GetObjectComponents<T>()
         {
-            return _createdObjects.Where(go => go.GetComponent<T>() != null).Select(go => go.GetComponent<T>()).ToList();
+            return _createdObjects.Select(go => go.GetComponent<T>()).Where(it => it != null).ToList();
         }
 
         public List<T> GetPrefabComponents<T>()
         {
-            return _prefabs.Values.Where(go => go.GetComponent<T>() != null).Select(go => go.GetComponent<T>()).ToList();
+            return _prefabs.Values.Select(go => go.GetComponent<T>()).Where(it => it != null).ToList();
         }
 
         public void DestroyAllObjects()

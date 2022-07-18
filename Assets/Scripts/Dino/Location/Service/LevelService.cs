@@ -13,7 +13,6 @@ namespace Dino.Location.Service
     public class LevelService
     {
         private List<Level> _levels;
-        private Level _currentLevel;
 
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private PlayerProgressService _playerProgressService;
@@ -22,7 +21,6 @@ namespace Dino.Location.Service
         
         public int CurrentLevelId => GetLevelIndexByWinCount(Levels, PlayerProgress.WinCount);
         public List<Level> Levels => _levels ??= _worldObjectFactory.GetPrefabComponents<Level>();
-        public Level CurrentLevel => _currentLevel;
 
         private int GetLevelIndexByWinCount(List<Level> levels, int winCount)
         {
@@ -34,10 +32,10 @@ namespace Dino.Location.Service
             return levelIndex;
         }
 
-        public void CreateLevel()
+        public Level CreateCurrentLevel()
         {
             var levelPrefab = Levels[CurrentLevelId].gameObject;
-            _currentLevel = _worldObjectFactory.CreateObject(levelPrefab).RequireComponent<Level>();
+            return _worldObjectFactory.CreateObject(levelPrefab).RequireComponent<Level>();
         }
     }
 }

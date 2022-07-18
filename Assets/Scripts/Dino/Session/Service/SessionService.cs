@@ -23,6 +23,8 @@ namespace Dino.Session.Service
     {
         private readonly IntReactiveProperty _kills = new IntReactiveProperty(0);
 
+        private Level _currentLevel;
+        
         [Inject] private LevelService _levelService;
         [Inject] private EnemyInitService _enemyInitService;
         [Inject] private UnitFactory _unitFactory;     
@@ -64,9 +66,9 @@ namespace Dino.Session.Service
 
         private void CreateLevel()
         {
-            _levelService.CreateLevel();
-            _levelService.CurrentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
-            this.Logger().Debug($"Level:= {_levelService.CurrentLevel.gameObject.name}");
+            _currentLevel = _levelService.CreateCurrentLevel();
+            _currentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
+            this.Logger().Debug($"Level:= {_currentLevel.gameObject.name}");
         }
 
         private void OnFinishTriggered()
@@ -76,8 +78,7 @@ namespace Dino.Session.Service
 
         private void CreatePlayer()
         {
-            Assert.That(_levelService.CurrentLevel != null, "Level should be spawned before player.");
-            var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _levelService.CurrentLevel.Start.position);
+            var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _currentLevel.Start.position);
             _world.Player = player;
             player.OnDeath += OnDeath;
             _activeItemService.Set(_constantsConfig.FirstItem);
@@ -110,7 +111,10 @@ namespace Dino.Session.Service
             Session.SetResultByUnitType(winner);
             
             _unitService.DeactivateAll();
-            
+
+            _currentLevel.OnPlayerTriggeredFinish -= OnFinishTriggered;
+            _currentLevel = null;
+
             _messenger.Publish(new SessionEndMessage(Session.Result.Value));
         }
         
