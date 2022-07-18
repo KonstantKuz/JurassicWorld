@@ -1,15 +1,17 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Dino.Config;
+using Dino.Extension;
 using Dino.Inventory.Service;
 using Dino.Location;
+using Dino.Location.Service;
 using Dino.Player.Progress.Model;
 using Dino.Player.Progress.Service;
-using Dino.Session.Config;
 using Dino.Session.Messages;
 using Dino.Units;
 using Dino.Units.Service;
-using Feofun.Config;
 using Logger.Extension;
+using ModestTree;
 using SuperMaxim.Messaging;
 using UniRx;
 using UnityEngine;
@@ -20,28 +22,24 @@ namespace Dino.Session.Service
 {
     public class SessionService : IWorldScope
     {
-        
         private readonly IntReactiveProperty _kills = new IntReactiveProperty(0);
 
+        private Level _currentLevel;
+        
+        [Inject] private LevelService _levelService;
         [Inject] private EnemyInitService _enemyInitService;
         [Inject] private UnitFactory _unitFactory;     
         [Inject] private World _world;
         [Inject] private IMessenger _messenger;       
         [Inject] private UnitService _unitService;
         [Inject] private SessionRepository _repository;
-        [Inject] private readonly StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private ConstantsConfig _constantsConfig;
         [Inject] private ActiveItemService _activeItemService;
 
-        private CompositeDisposable _disposable;
-        
-        private PlayerProgress PlayerProgress => _playerProgressService.Progress;
+        public int CurrentLevelId => _levelService.CurrentLevelId;
         public Model.Session Session => _repository.Require();
-        
         public IReadOnlyReactiveProperty<int> Kills => _kills;
-        public LevelMissionConfig LevelConfig => _levelsConfig.Values[LevelId];
-        public int LevelId => Mathf.Min(PlayerProgress.LevelNumber, _levelsConfig.Count() - 1);
         public float SessionTime => Session.SessionTime;
         public bool SessionCompleted => _repository.Exists() && Session.Completed;
         
@@ -50,32 +48,41 @@ namespace Dino.Session.Service
             Dispose();
             _unitService.OnEnemyUnitDeath += OnEnemyUnitDeath;
             ResetKills();
-            _disposable = new CompositeDisposable();
         }
         
         public void Start()
         {
             CreateSession();
+            CreateLevel();
             CreatePlayer();
             InitEnemies();
         }
 
         private void CreateSession()
         {
-            var levelConfig = LevelConfig;
-            var newSession = Model.Session.Build(levelConfig);
+            var newSession = Model.Session.Build(CurrentLevelId);
             _repository.Set(newSession);
-            _playerProgressService.OnSessionStarted(levelConfig.Level);
-            this.Logger().Debug($"Kill enemies:= {levelConfig.KillCount}");
+            _playerProgressService.OnSessionStarted(CurrentLevelId);
+        }
+
+        private void CreateLevel()
+        {
+            _currentLevel = _levelService.CreateCurrentLevel();
+            _currentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
+            this.Logger().Debug($"Level:= {_currentLevel.gameObject.name}");
+        }
+
+        private void OnFinishTriggered()
+        {
+            EndSession(UnitType.PLAYER);
         }
 
         private void CreatePlayer()
         {
-            var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit);
+            var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _currentLevel.Start.position);
             _world.Player = player;
             player.OnDeath += OnDeath;
             _activeItemService.Set(_constantsConfig.FirstItem);
-            
         }
 
         private void InitEnemies()
@@ -92,9 +99,6 @@ namespace Dino.Session.Service
             _playerProgressService.AddKill();
             _kills.Value = Session.Kills;
             this.Logger().Trace($"Killed enemies:= {Session.Kills}");
-            if (Session.IsMaxKills) {
-                EndSession(UnitType.PLAYER);
-            }
         }
 
         private void OnDeath(Unit unit, DeathCause deathCause)
@@ -108,14 +112,15 @@ namespace Dino.Session.Service
             Session.SetResultByUnitType(winner);
             
             _unitService.DeactivateAll();
-            
+
+            _currentLevel.OnPlayerTriggeredFinish -= OnFinishTriggered;
+            _currentLevel = null;
+
             _messenger.Publish(new SessionEndMessage(Session.Result.Value));
         }
         
         private void Dispose()
         {
-            _disposable?.Dispose();
-            _disposable = null;
             _unitService.OnEnemyUnitDeath -= OnEnemyUnitDeath;
         }
         public void OnWorldCleanUp()

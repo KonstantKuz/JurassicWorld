@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Analytics;
+using Dino.Location.Service;
 using Dino.Player.Progress.Service;
-using Dino.Session.Config;
 using Dino.Session.Service;
-using Feofun.Config;
 using UnityEngine;
 using Zenject;
 
@@ -13,9 +12,10 @@ namespace Dino.Core
 {
     public class AnalyticsEventParamProvider: IEventParamProvider
     {
+        [Inject] private LevelService _levelService;
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
-        [Inject] private StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
+
         
         public Dictionary<string, object> GetParams(IEnumerable<string> paramNames)
         {
@@ -29,7 +29,7 @@ namespace Dino.Core
             
             return paramName switch
             {
-                EventParams.LEVEL_ID => _sessionService.LevelId,
+                EventParams.LEVEL_ID => _sessionService.CurrentLevelId,
                 EventParams.LEVEL_NUMBER => GetLevelNumber(),
                 EventParams.LEVEL_LOOP => GetLevelLoop(),
 
@@ -55,15 +55,14 @@ namespace Dino.Core
         private int GetLevelLoop()
         {
             var playerProgress = _playerProgressService.Progress;
-            return Mathf.Max(0, playerProgress.LevelNumber - _levelsConfig.Keys.Count);
+            return Mathf.Max(0, playerProgress.LevelNumber - _levelService.Levels.Count);
         }
         
 
         private int GetPassNumber()
         {
             var playerProgress = _playerProgressService.Progress;
-            var levelConfig = _levelsConfig.Values[_sessionService.LevelId];
-            return playerProgress.GetPassCount(levelConfig.Level);
+            return playerProgress.GetPassCount(_sessionService.CurrentLevelId);
         }
 
         private float GetStandRatio()
