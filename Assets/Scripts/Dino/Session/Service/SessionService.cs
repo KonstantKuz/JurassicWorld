@@ -21,10 +21,9 @@ namespace Dino.Session.Service
 {
     public class SessionService : IWorldScope
     {
-        private const string LEVELS_PATH = "Content";
         private readonly IntReactiveProperty _kills = new IntReactiveProperty(0);
 
-        [Inject] private WorldObjectFactory _worldObjectFactory;
+        [Inject] private LevelService _levelService;
         [Inject] private EnemyInitService _enemyInitService;
         [Inject] private UnitFactory _unitFactory;     
         [Inject] private World _world;
@@ -35,13 +34,7 @@ namespace Dino.Session.Service
         [Inject] private ConstantsConfig _constantsConfig;
         [Inject] private ActiveItemService _activeItemService;
 
-        private Level _currentLevel;
-        private List<Level> _levels;
-        
-        private PlayerProgress PlayerProgress => _playerProgressService.Progress;
-
-        public List<Level> Levels => _levels ??= Resources.LoadAll<Level>(LEVELS_PATH).ToList();
-        public int LevelId => GetLevelIndexByWinCount(Levels, PlayerProgress.WinCount);
+        public int CurrentLevelId => _levelService.CurrentLevelId;
         public Model.Session Session => _repository.Require();
         public IReadOnlyReactiveProperty<int> Kills => _kills;
         public float SessionTime => Session.SessionTime;
@@ -64,27 +57,16 @@ namespace Dino.Session.Service
 
         private void CreateSession()
         {
-            var newSession = Model.Session.Build(LevelId);
+            var newSession = Model.Session.Build(CurrentLevelId);
             _repository.Set(newSession);
-            _playerProgressService.OnSessionStarted(LevelId);
+            _playerProgressService.OnSessionStarted(CurrentLevelId);
         }
 
         private void CreateLevel()
         {
-            var levelPrefab = Levels[LevelId].gameObject;
-            _currentLevel = _worldObjectFactory.CreateObject(levelPrefab).RequireComponent<Level>();
-            _currentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
-            this.Logger().Debug($"Level:= {_currentLevel.gameObject.name}");
-        }
-        
-        private int GetLevelIndexByWinCount(List<Level> levels, int winCount)
-        {
-            var levelIndex = 0;
-            for (int i = 0; i < winCount; i++)
-            {
-                levelIndex = levelIndex >= levels.Count - 1 ? 0 : levelIndex + 1;
-            }
-            return levelIndex;
+            _levelService.CreateLevel();
+            _levelService.CurrentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
+            this.Logger().Debug($"Level:= {_levelService.CurrentLevel.gameObject.name}");
         }
 
         private void OnFinishTriggered()
@@ -94,9 +76,8 @@ namespace Dino.Session.Service
 
         private void CreatePlayer()
         {
-            Assert.That(_currentLevel != null, "Level should be spawned before player.");
-            var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit);
-            player.transform.position = _currentLevel.Start.position;
+            Assert.That(_levelService.CurrentLevel != null, "Level should be spawned before player.");
+            var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _levelService.CurrentLevel.Start.position);
             _world.Player = player;
             player.OnDeath += OnDeath;
             _activeItemService.Set(_constantsConfig.FirstItem);

@@ -20,6 +20,7 @@ namespace Dino.Location
             container.Bind<World>().FromInstance(_world);
             container.Bind<EnemyInitService>().FromInstance(_enemyInitService);
   
+            container.Bind<LevelService>().AsSingle();
             container.BindInterfacesAndSelfTo<SessionService>().AsSingle();
             container.Bind<SessionRepository>().AsSingle();
             

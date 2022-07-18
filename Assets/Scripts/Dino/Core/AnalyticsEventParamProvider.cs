@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Analytics;
 using Dino.Location;
+using Dino.Location.Service;
 using Dino.Player.Progress.Service;
 using Dino.Session.Service;
 using Dino.Units.Service;
@@ -13,6 +14,7 @@ namespace Dino.Core
 {
     public class AnalyticsEventParamProvider: IEventParamProvider
     {
+        [Inject] private LevelService _levelService;
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
 
@@ -31,7 +33,7 @@ namespace Dino.Core
             
             return paramName switch
             {
-                EventParams.LEVEL_ID => _sessionService.LevelId,
+                EventParams.LEVEL_ID => _sessionService.CurrentLevelId,
                 EventParams.LEVEL_NUMBER => GetLevelNumber(),
                 EventParams.LEVEL_LOOP => GetLevelLoop(),
 
@@ -58,14 +60,14 @@ namespace Dino.Core
         private int GetLevelLoop()
         {
             var playerProgress = _playerProgressService.Progress;
-            return Mathf.Max(0, playerProgress.LevelNumber - _sessionService.Levels.Count);
+            return Mathf.Max(0, playerProgress.LevelNumber - _levelService.Levels.Count);
         }
         
 
         private int GetPassNumber()
         {
             var playerProgress = _playerProgressService.Progress;
-            return playerProgress.GetPassCount(_sessionService.LevelId);
+            return playerProgress.GetPassCount(_sessionService.CurrentLevelId);
         }
         
         private float GetTotalEnemyHealth()

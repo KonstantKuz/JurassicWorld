@@ -65,6 +65,11 @@ namespace Dino.Location.Service
             return _createdObjects.Where(go => go.GetComponent<T>() != null).Select(go => go.GetComponent<T>()).ToList();
         }
 
+        public List<T> GetPrefabComponents<T>()
+        {
+            return _prefabs.Values.Where(go => go.GetComponent<T>() != null).Select(go => go.GetComponent<T>()).ToList();
+        }
+
         public void DestroyAllObjects()
         {
             foreach (var gameObject in _createdObjects) {

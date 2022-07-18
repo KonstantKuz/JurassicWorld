@@ -1,5 +1,6 @@
 using System;
 using Dino.Location.Model;
+using Dino.Units;
 using Dino.Units.Player.Attack;
 using UnityEngine;
 
@@ -20,10 +21,15 @@ namespace Dino.Location
 
         private void OnFinishTriggered(Collider other)
         {
-            if (other.TryGetComponent(out PlayerAttack playerAttack))
+            if (other.TryGetComponent(out Unit unit) && unit.UnitType == UnitType.PLAYER)
             {
                 OnPlayerTriggeredFinish?.Invoke();
             }
+        }
+
+        private void OnDestroy()
+        {
+            _finish.OnTriggerEnterCallback -= OnFinishTriggered;
         }
     }
 }
