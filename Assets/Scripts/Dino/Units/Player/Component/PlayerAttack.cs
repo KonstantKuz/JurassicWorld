@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Dino.Extension;
-using Dino.Units.Component;
+using Dino.Units.Component.Animation;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
 using Dino.Units.Player.Model;
-using Dino.Units.Player.Movement;
 using Dino.Weapon;
 using Dino.Weapon.Components;
 using Dino.Weapon.Model;
@@ -16,7 +15,7 @@ using Logger.Extension;
 using ModestTree;
 using UnityEngine;
 
-namespace Dino.Units.Player.Attack
+namespace Dino.Units.Player.Component
 {
     [RequireComponent(typeof(ITargetSearcher))]
     [RequireComponent(typeof(MovementController))]

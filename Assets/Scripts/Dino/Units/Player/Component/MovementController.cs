@@ -7,10 +7,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
 
-namespace Dino.Units.Player.Movement
+namespace Dino.Units.Player.Component
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class MovementController : MonoBehaviour, IMovementController, IInitializable<IUnit>, IUpdatableComponent, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
+    public class MovementController : MonoBehaviour, IMovementController, IInitializable<Unit>, IUpdatableComponent, IUnitDeathEventReceiver, IUnitDeactivateEventReceiver
     {
         private readonly int _runHash = Animator.StringToHash("Run");
         private readonly int _idleHash = Animator.StringToHash("Idle");
@@ -41,7 +41,7 @@ namespace Dino.Units.Player.Movement
             _agent = GetComponent<NavMeshAgent>();
         }
 
-        public void Init(IUnit unit)
+        public void Init(Unit unit)
         {
             _agent.speed = unit.Model.MoveSpeed;
         }

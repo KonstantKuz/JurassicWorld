@@ -2,7 +2,7 @@
 using Feofun.Util.SerializableDictionary;
 using UnityEngine;
 
-namespace Dino.Units.Component
+namespace Dino.Units.Component.Animation
 {
     public class AnimationSwitcher : MonoBehaviour
     {

@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 3254496561695502942}
   - component: {fileID: 6913699995513354648}
   - component: {fileID: 3254496561695502940}
-  - component: {fileID: 5225966623019145733}
+  - component: {fileID: 8645033335585185423}
   - component: {fileID: 6901569034813441397}
   - component: {fileID: 3254496561695502943}
   - component: {fileID: 8166840625109294545}
@@ -112,7 +112,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5225966623019145733
+--- !u!114 &8645033335585185423
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3254496561695502929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a9c8df7c3c4443a92159f8b894db21, type: 3}
+  m_Script: {fileID: 11500000, guid: 521fbb60df7549418e46172702b6655a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _objectId: StandardUnit
@@ -275,7 +275,7 @@ MonoBehaviour:
     - _key: StickAttack
       _value: {fileID: 7400000, guid: 180e5be503e334c439f61f9525b26c76, type: 2}
     - _key: BowAttack
-      _value: {fileID: -203655887218126122, guid: 599c0e34be9e8914d968536f9664f585, type: 3}
+      _value: {fileID: 7400000, guid: b95d58e441b14e042b4e6dd58f357720, type: 2}
 --- !u!1 &4302532041753703325
 GameObject:
   m_ObjectHideFlags: 0

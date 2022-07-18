@@ -1,9 +1,7 @@
 ﻿using System;
-using Dino.Extension;
-using Dino.Inventory.Components;
 using Dino.Location;
 using Dino.Location.Service;
-using Dino.Units;
+using Dino.Units.Player;
 using Dino.Weapon.Model;
 using Dino.Weapon.Service;
 using Logger.Extension;
@@ -21,15 +19,14 @@ namespace Dino.Inventory.Service
         [Inject]
         private WeaponService _weaponService;
 
-        private Unit Player => _world.GetPlayer();
+        private PlayerUnit Player => _world.GetPlayer();
 
         public void Set(string itemId)
         {
             Remove();
-            var itemOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
+            var itemOwner = Player.ActiveItemOwner;
             var item = _worldObjectFactory.CreateObject(itemId, itemOwner.Container);
             itemOwner.Set(item);
-            
             if (IsWeapon(itemId, out var weaponId)) {
                 _weaponService.Set(weaponId);
             } else {
@@ -44,8 +41,7 @@ namespace Dino.Inventory.Service
         public void Remove()
         {
             _weaponService.Remove();
-            var inventoryOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
-            inventoryOwner.Remove();
+            Player.ActiveItemOwner.Remove();
         }
 
     }

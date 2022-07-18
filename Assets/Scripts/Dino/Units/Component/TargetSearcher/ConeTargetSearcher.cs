@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Dino.Extension;
 using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model;
@@ -9,11 +8,11 @@ using UnityEngine.Assertions;
 
 namespace Dino.Units.Component.TargetSearcher
 {
-    public class ConeTargetSearcher : MonoBehaviour, IInitializable<IUnit>, ITargetSearcher
+    public class ConeTargetSearcher : MonoBehaviour, IInitializable<Unit>, ITargetSearcher
     {
         private PatrolStateModel _stateModel;
 
-        public void Init(IUnit owner)
+        public void Init(Unit owner)
         {
             var enemyModel = (EnemyUnitModel) owner.Model;
             Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");

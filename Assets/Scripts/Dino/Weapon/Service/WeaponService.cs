@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Dino.Extension;
-using Dino.Inventory.Components;
 using Dino.Location;
-using Dino.Units;
-using Dino.Units.Player.Attack;
+using Dino.Units.Player;
+using Dino.Units.Player.Component;
 using Dino.Units.Player.Model;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Config;
-using Logger.Extension;
 using Zenject;
 
 namespace Dino.Weapon.Service
 {
     public class WeaponService
     {
-        private readonly Dictionary<WeaponId, Action<WeaponId>> Weapons;
+        private readonly Dictionary<WeaponId, Action<WeaponId>> _specialWeapons;
 
         [Inject]
         private ConfigCollection<WeaponId, WeaponConfig> _weaponConfigs;
@@ -24,40 +22,35 @@ namespace Dino.Weapon.Service
         [Inject]
         private World _world;
 
-        private Unit Player => _world.GetPlayer();
+        private PlayerUnit Player => _world.GetPlayer();
 
         public WeaponService()
         {
-            Weapons = new Dictionary<WeaponId, Action<WeaponId>>() {
-                    {WeaponId.Stick, SetWeapon},        
-                    {WeaponId.Bow, SetWeapon}
-            };
+            _specialWeapons = new Dictionary<WeaponId, Action<WeaponId>>();
         }
         public void Set(WeaponId weaponId)
         {
-            if (!Weapons.ContainsKey(weaponId)) {
-                this.Logger().Error($"Weapon:= {weaponId} - is not registered");
-                return;
+            if (_specialWeapons.ContainsKey(weaponId)) {
+                _specialWeapons[weaponId].Invoke(weaponId);
+            } 
+            else {
+                SetWeapon(weaponId);
             }
-            var createAction = Weapons[weaponId];
-            createAction.Invoke(weaponId);
         }
         
         public void Remove()
         {
-            var attack = Player.GameObject.RequireComponent<PlayerAttack>();
+            var attack = Player.PlayerAttack;
             attack.DeleteWeapon();
         }
 
         private void SetWeapon(WeaponId weaponId)
         {
             var model = CreateModel(weaponId);
-            var inventoryOwner = Player.GameObject.RequireComponent<ActiveItemOwner>();
-            var weapon = inventoryOwner.GetWeapon();
-            var attack = Player.GameObject.RequireComponent<PlayerAttack>();
+            var weapon = Player.ActiveItemOwner.GetWeapon();
+            var attack = Player.PlayerAttack;
             attack.SetWeapon(model, weapon);
         }
-        
         private PlayerWeaponModel CreateModel(WeaponId weaponId)
         {
             var config = _weaponConfigs.Get(weaponId);
