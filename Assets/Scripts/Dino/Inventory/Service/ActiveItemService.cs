@@ -1,4 +1,5 @@
 ﻿using System;
+using Dino.Inventory.Components;
 using Dino.Location;
 using Dino.Location.Service;
 using Dino.Units.Player;
@@ -15,7 +16,7 @@ namespace Dino.Inventory.Service
         private WorldObjectFactory _worldObjectFactory;
 
         [Inject]
-        private World _world;    
+        private World _world;
         [Inject]
         private WeaponService _weaponService;
 
@@ -27,22 +28,27 @@ namespace Dino.Inventory.Service
             var itemOwner = Player.ActiveItemOwner;
             var item = _worldObjectFactory.CreateObject(itemId, itemOwner.Container);
             itemOwner.Set(item);
+            TrySetWeapon(itemId, itemOwner);
+        }
+
+        private void TrySetWeapon(string itemId, ActiveItemOwner itemOwner)
+        {
             if (IsWeapon(itemId, out var weaponId)) {
-                _weaponService.Set(weaponId);
+                _weaponService.Set(weaponId, itemOwner.GetWeapon());
             } else {
                 this.Logger().Debug($"Active Item:= {itemId} is not Weapon");
             }
-    
         }
+
         private bool IsWeapon(string itemId, out WeaponId weaponId)
         {
             return Enum.TryParse(itemId, out weaponId);
         }
+
         public void Remove()
         {
             _weaponService.Remove();
             Player.ActiveItemOwner.Remove();
         }
-
     }
 }

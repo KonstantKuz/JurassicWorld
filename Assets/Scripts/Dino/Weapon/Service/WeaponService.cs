@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Dino.Extension;
 using Dino.Location;
 using Dino.Units.Player;
-using Dino.Units.Player.Component;
 using Dino.Units.Player.Model;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
@@ -14,7 +12,7 @@ namespace Dino.Weapon.Service
 {
     public class WeaponService
     {
-        private readonly Dictionary<WeaponId, Action<WeaponId>> _specialWeapons;
+        private readonly Dictionary<WeaponId, Action<WeaponId, BaseWeapon>> _specialWeapons;
 
         [Inject]
         private ConfigCollection<WeaponId, WeaponConfig> _weaponConfigs;
@@ -26,30 +24,28 @@ namespace Dino.Weapon.Service
 
         public WeaponService()
         {
-            _specialWeapons = new Dictionary<WeaponId, Action<WeaponId>>();
+            _specialWeapons = new Dictionary<WeaponId, Action<WeaponId, BaseWeapon>>();
         }
-        public void Set(WeaponId weaponId)
+        public void Set(WeaponId weaponId, BaseWeapon baseWeapon)
         {
             if (_specialWeapons.ContainsKey(weaponId)) {
-                _specialWeapons[weaponId].Invoke(weaponId);
+                _specialWeapons[weaponId].Invoke(weaponId, baseWeapon);
             } 
             else {
-                SetWeapon(weaponId);
+                SetWeapon(weaponId, baseWeapon);
             }
         }
         
         public void Remove()
-        {
-            var attack = Player.PlayerAttack;
-            attack.DeleteWeapon();
+        { 
+            Player.PlayerAttack.DeleteWeapon();
         }
 
-        private void SetWeapon(WeaponId weaponId)
+        private void SetWeapon(WeaponId weaponId, BaseWeapon baseWeapon)
         {
             var model = CreateModel(weaponId);
-            var weapon = Player.ActiveItemOwner.GetWeapon();
             var attack = Player.PlayerAttack;
-            attack.SetWeapon(model, weapon);
+            attack.SetWeapon(model, baseWeapon);
         }
         private PlayerWeaponModel CreateModel(WeaponId weaponId)
         {
