@@ -39,11 +39,11 @@ namespace Dino.Cheats
 
         public void SetActiveItem(string itemId)
         {
-            _activeItemService.Set(itemId);
+            _activeItemService.Replace(itemId);
         } 
         public void RemoveActiveItem()
         {
-            _activeItemService.Remove();
+            _activeItemService.UnEquip();
         }
         
         public void LogTestMessage()

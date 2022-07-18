@@ -1,20 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Dino.Config;
-using Dino.Extension;
+﻿using Dino.Config;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
-using Dino.Player.Progress.Model;
 using Dino.Player.Progress.Service;
 using Dino.Session.Messages;
 using Dino.Units;
 using Dino.Units.Service;
 using Logger.Extension;
-using ModestTree;
 using SuperMaxim.Messaging;
 using UniRx;
-using UnityEngine;
 using Zenject;
 using Unit = Dino.Units.Unit;
 
@@ -82,7 +76,8 @@ namespace Dino.Session.Service
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _currentLevel.Start.position);
             _world.Player = player;
             player.OnDeath += OnDeath;
-            _activeItemService.Set(_constantsConfig.FirstItem);
+            
+            _activeItemService.Equip(_constantsConfig.FirstItem);
         }
 
         private void InitEnemies()
@@ -110,22 +105,21 @@ namespace Dino.Session.Service
         {
             Dispose();
             Session.SetResultByUnitType(winner);
-            
             _unitService.DeactivateAll();
-
-            _currentLevel.OnPlayerTriggeredFinish -= OnFinishTriggered;
-            _currentLevel = null;
-
             _messenger.Publish(new SessionEndMessage(Session.Result.Value));
         }
         
         private void Dispose()
         {
             _unitService.OnEnemyUnitDeath -= OnEnemyUnitDeath;
+            if (_currentLevel != null) {
+                _currentLevel.OnPlayerTriggeredFinish -= OnFinishTriggered;
+            }
         }
         public void OnWorldCleanUp()
         {
             Dispose();
+            _currentLevel = null;
         }
     }
 }
