@@ -1,7 +1,6 @@
 ﻿using Dino.Loot.Config;
 using Dino.Modifiers.Config;
 using Dino.Reward.Config;
-using Dino.Session.Config;
 using Dino.Session.Model;
 using Dino.Units.Enemy.Config;
 using Dino.Units.Player.Config;
@@ -28,7 +27,6 @@ namespace Dino.Config
            
                 .RegisterStringKeyedCollection<DroppingLootConfig>(Configs.DROPPING_LOOT)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
-                .RegisterStringKeyedCollection<LevelMissionConfig>(Configs.LEVEL_MISSION)
                 .RegisterCollection<SessionResult, MissionRewardsConfig>(Configs.MISSION_REWARDS);
         }
     }

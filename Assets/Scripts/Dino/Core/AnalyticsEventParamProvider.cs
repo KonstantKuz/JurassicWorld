@@ -4,10 +4,8 @@ using System.Linq;
 using Dino.Analytics;
 using Dino.Location;
 using Dino.Player.Progress.Service;
-using Dino.Session.Config;
 using Dino.Session.Service;
 using Dino.Units.Service;
-using Feofun.Config;
 using UnityEngine;
 using Zenject;
 
@@ -17,7 +15,6 @@ namespace Dino.Core
     {
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
-        [Inject] private StringKeyedConfigCollection<LevelMissionConfig> _levelsConfig;
 
         [Inject] private UnitService _unitService;
         [Inject] private World _world;
@@ -30,7 +27,6 @@ namespace Dino.Core
 
         private object GetValue(string paramName)
         {
-
             var playerProgress = _playerProgressService.Progress;
             
             return paramName switch
@@ -62,15 +58,14 @@ namespace Dino.Core
         private int GetLevelLoop()
         {
             var playerProgress = _playerProgressService.Progress;
-            return Mathf.Max(0, playerProgress.LevelNumber - _levelsConfig.Keys.Count);
+            return Mathf.Max(0, playerProgress.LevelNumber - _sessionService.Levels.Count);
         }
         
 
         private int GetPassNumber()
         {
             var playerProgress = _playerProgressService.Progress;
-            var levelConfig = _levelsConfig.Values[_sessionService.LevelId];
-            return playerProgress.GetPassCount(levelConfig.Level);
+            return playerProgress.GetPassCount(_sessionService.LevelId);
         }
         
         private float GetTotalEnemyHealth()
