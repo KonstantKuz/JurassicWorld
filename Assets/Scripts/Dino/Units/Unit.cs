@@ -6,7 +6,6 @@ using Dino.Units.Component.Death;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Model;
-using Dino.Units.Player.Movement;
 using Dino.Units.Service;
 using EasyButtons;
 using Feofun.Components;
@@ -16,7 +15,7 @@ using Zenject;
 
 namespace Dino.Units
 {
-    public class Unit : WorldObject, IUnit
+    public class Unit : WorldObject
     {
         private IUpdatableComponent[] _updatables;
         private IDamageable _damageable;
@@ -24,7 +23,6 @@ namespace Dino.Units
         private ITarget _selfTarget;
         private IUnitDeathEventReceiver[] _deathEventReceivers;
         private IUnitDeactivateEventReceiver[] _deactivateEventReceivers;
-        private MovementController _movementController;
         private bool _isActive;
 
         [Inject]
@@ -48,13 +46,13 @@ namespace Dino.Units
         public UnitType TargetUnitType => _selfTarget.UnitType.GetTargetUnitType();
         public ITarget SelfTarget => _selfTarget;
         public IUnitModel Model { get; private set; }
-        public event Action<IUnit, DeathCause> OnDeath;
-        public event Action<IUnit> OnUnitDestroyed;
-        
+        public event Action<Unit, DeathCause> OnDeath;
+        public event Action<Unit> OnUnitDestroyed;
+
         [CanBeNull]
         public Health Health { get; private set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             _updatables = GetComponentsInChildren<IUpdatableComponent>();
             _damageable = gameObject.RequireComponent<IDamageable>();
@@ -65,12 +63,12 @@ namespace Dino.Units
             Health = GetComponent<Health>();
         }
 
-        public void Init(IUnitModel model)
+        public virtual void Init(IUnitModel model)
         {
             Model = model;
             _damageable.OnZeroHealth += DieOnZeroHealth;
             IsActive = true;
-            foreach (var component in GetComponentsInChildren<IInitializable<IUnit>>()) {
+            foreach (var component in GetComponentsInChildren<IInitializable<Unit>>()) {
                 component.Init(this);
             }
             _unitService.Add(this);
@@ -111,6 +109,5 @@ namespace Dino.Units
             _unitService.Remove(this);
             _updateManager.StopUpdate(UpdateComponents);
         }
-        
     }
 }

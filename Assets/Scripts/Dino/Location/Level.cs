@@ -1,7 +1,6 @@
 using System;
 using Dino.Location.Model;
 using Dino.Units;
-using Dino.Units.Player.Attack;
 using UnityEngine;
 
 namespace Dino.Location

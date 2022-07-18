@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dino.Units;
+using Dino.Units.Player;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
 using UnityEngine;
@@ -22,9 +22,9 @@ namespace Dino.Location
         public bool IsPaused => Time.timeScale == 0;
        
         [CanBeNull]
-        public Unit Player { get; set; }
+        public PlayerUnit Player { get; set; }
         
-        public Unit GetPlayer() 
+        public PlayerUnit GetPlayer() 
         {
             if (Player == null) {
                 throw new NullReferenceException("Player is null, should call this method only inside game session");

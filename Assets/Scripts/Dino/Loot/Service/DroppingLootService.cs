@@ -25,7 +25,7 @@ namespace Dino.Loot.Service
             _unitService.OnEnemyUnitDeath += TrySpawnLoot;
         }
 
-        private void TrySpawnLoot(IUnit unit, DeathCause deathCause)
+        private void TrySpawnLoot(Unit unit, DeathCause deathCause)
         {
             if (deathCause != DeathCause.Killed) return;
             

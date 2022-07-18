@@ -2,9 +2,9 @@
 
 namespace Dino.Units.Component.Health
 {
-    public class UnitWithHealth : Health, IInitializable<IUnit>
+    public class UnitWithHealth : Health, IInitializable<Unit>
     {
-        public void Init(IUnit unit)
+        public void Init(Unit unit)
         {
             base.Init(unit.Model.HealthModel);
         }

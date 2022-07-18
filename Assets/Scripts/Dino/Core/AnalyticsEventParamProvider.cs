@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Analytics;
-using Dino.Location;
 using Dino.Location.Service;
 using Dino.Player.Progress.Service;
 using Dino.Session.Service;
-using Dino.Units.Service;
 using UnityEngine;
 using Zenject;
 
@@ -18,9 +16,6 @@ namespace Dino.Core
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
 
-        [Inject] private UnitService _unitService;
-        [Inject] private World _world;
-        
         
         public Dictionary<string, object> GetParams(IEnumerable<string> paramNames)
         {
@@ -29,6 +24,7 @@ namespace Dino.Core
 
         private object GetValue(string paramName)
         {
+
             var playerProgress = _playerProgressService.Progress;
             
             return paramName switch
@@ -40,7 +36,6 @@ namespace Dino.Core
                 EventParams.ENEMY_KILLED => _sessionService.Kills.Value,
                 EventParams.TIME_SINCE_LEVEL_START => _sessionService.SessionTime,
                 EventParams.PASS_NUMBER => GetPassNumber(),
-                EventParams.TOTAL_ENEMY_HEALTH => GetTotalEnemyHealth(),
                 EventParams.STAND_RATIO => GetStandRatio(),
                 EventParams.TOTAL_KILLS => playerProgress.Kills,
                 EventParams.WINS => playerProgress.WinCount,
@@ -69,16 +64,7 @@ namespace Dino.Core
             var playerProgress = _playerProgressService.Progress;
             return playerProgress.GetPassCount(_sessionService.CurrentLevelId);
         }
-        
-        private float GetTotalEnemyHealth()
-        {
-            var enemies = _unitService.GetEnemyUnits().ToList();
-            return enemies
-                .Select(it => it.Health)
-                .Where(it => it != null).
-                Sum(it => it.CurrentValue.Value);
-        }
-        
+
         private float GetStandRatio()
         {
             throw new NotImplementedException();

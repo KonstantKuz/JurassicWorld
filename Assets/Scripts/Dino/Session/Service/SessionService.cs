@@ -16,6 +16,7 @@ using SuperMaxim.Messaging;
 using UniRx;
 using UnityEngine;
 using Zenject;
+using Unit = Dino.Units.Unit;
 
 namespace Dino.Session.Service
 {
@@ -90,7 +91,7 @@ namespace Dino.Session.Service
         }
 
         private void ResetKills() => _kills.Value = 0;
-        private void OnEnemyUnitDeath(IUnit unit, DeathCause deathCause)
+        private void OnEnemyUnitDeath(Unit unit, DeathCause deathCause)
         {
             if (deathCause != DeathCause.Killed) return;
             
@@ -100,7 +101,7 @@ namespace Dino.Session.Service
             this.Logger().Trace($"Killed enemies:= {Session.Kills}");
         }
 
-        private void OnDeath(IUnit unit, DeathCause deathCause)
+        private void OnDeath(Unit unit, DeathCause deathCause)
         {
             EndSession(UnitType.ENEMY);
         }

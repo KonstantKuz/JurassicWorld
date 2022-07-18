@@ -13,25 +13,25 @@ namespace Dino.Units.Service
     [PublicAPI]
     public class UnitService
     {
-        private readonly Dictionary<UnitType, HashSet<IUnit>> _units = new Dictionary<UnitType, HashSet<IUnit>>();
-        public event Action<IUnit> OnPlayerUnitDeath;
-        public event Action<IUnit, DeathCause> OnEnemyUnitDeath;
+        private readonly Dictionary<UnitType, HashSet<Unit>> _units = new Dictionary<UnitType, HashSet<Unit>>();
+        public event Action<Unit> OnPlayerUnitDeath;
+        public event Action<Unit, DeathCause> OnEnemyUnitDeath;
 
-        public IEnumerable<IUnit> AllUnits => _units.SelectMany(it => it.Value);
+        public IEnumerable<Unit> AllUnits => _units.SelectMany(it => it.Value);
 
         [Inject] private IMessenger _messenger;
         
-        public void Add(IUnit unit)
+        public void Add(Unit unit)
         {
             if (!_units.ContainsKey(unit.UnitType)) {
-                _units[unit.UnitType] = new HashSet<IUnit>();
+                _units[unit.UnitType] = new HashSet<Unit>();
             }
             _units[unit.UnitType].Add(unit);
             unit.OnDeath += OnDeathUnit;
 
             _messenger.Publish(new UnitSpawnedMessage(unit));
         }
-        public void Remove(IUnit unit)
+        public void Remove(Unit unit)
         {
             _units[unit.UnitType].Remove(unit);
             unit.OnDeath -= OnDeathUnit;
@@ -39,7 +39,7 @@ namespace Dino.Units.Service
         public void DeactivateAll() => AllUnits.ForEach(u => { u.IsActive = false; });
         public bool HasUnitOfType(UnitType unitType) => _units.ContainsKey(unitType) && _units[unitType].Any();
 
-        private void OnDeathUnit(IUnit unit, DeathCause deathCause)
+        private void OnDeathUnit(Unit unit, DeathCause deathCause)
         {
             unit.OnDeath -= OnDeathUnit;
             Remove(unit);
@@ -50,10 +50,9 @@ namespace Dino.Units.Service
             }
         }
 
-        public IEnumerable<IUnit> GetAllUnitsOfType(UnitType unitType) =>
-            _units.ContainsKey(unitType) ? _units[unitType] : Enumerable.Empty<IUnit>();
+        public IEnumerable<Unit> GetAllUnitsOfType(UnitType unitType) =>
+            _units.ContainsKey(unitType) ? _units[unitType] : Enumerable.Empty<Unit>();
         
-        //TODO: seems that there are problems with IUnit interface. Should we get rid of it? 
         public IEnumerable<Unit> GetEnemyUnits()
         {
             return GetAllUnits(UnitType.ENEMY);
