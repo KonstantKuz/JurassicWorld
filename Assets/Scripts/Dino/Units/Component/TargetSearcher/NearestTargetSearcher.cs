@@ -11,7 +11,7 @@ using Zenject;
 namespace Dino.Units.Component.TargetSearcher
 {
     [RequireComponent(typeof(ITarget))]
-    public class NearestTargetSearcher : MonoBehaviour, IInitializable<IUnit>, IInitializable<IWeaponModel>, ITargetSearcher
+    public class NearestTargetSearcher : MonoBehaviour, IInitializable<Unit>, IInitializable<IWeaponModel>, ITargetSearcher
     {
         [Inject]
         private TargetService _targetService;
@@ -21,7 +21,7 @@ namespace Dino.Units.Component.TargetSearcher
         private UnitType _targetType;
 
 
-        public void Init(IUnit unit)
+        public void Init(Unit unit)
         {
             _selfTarget = gameObject.RequireComponent<ITarget>();
             _targetType = _selfTarget.UnitType.GetTargetUnitType();

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Dino.Units.Enemy
 {
-    public class EnemyTargetProvider : MonoBehaviour, ITargetProvider, IInitializable<IUnit>, IUpdatableComponent
+    public class EnemyTargetProvider : MonoBehaviour, ITargetProvider, IInitializable<Unit>, IUpdatableComponent
     {
         private ITargetSearcher _targetSearcher;
         [CanBeNull] private ITarget _target;
@@ -30,7 +30,7 @@ namespace Dino.Units.Enemy
             }
         }
 
-        public void Init(IUnit owner)
+        public void Init(Unit owner)
         {
             _targetSearcher = owner.GameObject.RequireComponent<ITargetSearcher>();
         }

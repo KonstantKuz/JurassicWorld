@@ -9,11 +9,8 @@ namespace Dino.Weapon.Projectiles
     public sealed class Arrow : Projectile
     {
         [SerializeField] private bool _followTarget;
-
         [SerializeField] private float _rotationSpeed;
-
         [SerializeField] private float _maxLifeTime;
-        
         [SerializeField] private float _initialCourseTime;
 
         private Vector3 _lastTargetPos;
@@ -23,32 +20,32 @@ namespace Dino.Weapon.Projectiles
         private float TimeLeft { get; set; }
 
         private float LifeTime => _maxLifeTime - TimeLeft;
-
-        private void Update()
-        {
-            UpdateTargetPosition();
-            UpdatePosition();
-
-            TimeLeft -= Time.deltaTime;
-        }
-
+        
         public override void Launch(ITarget target, IWeaponModel model, Action<GameObject> hitCallback)
         {
             base.Launch(target, model, hitCallback);
             SetTarget(target);
             TimeLeft = _maxLifeTime;
         }
+        private void Update()
+        {
+            UpdateTargetPosition();
+            UpdatePosition();
+
+            TimeLeft -= Time.deltaTime;
+            if (TimeLeft <= 0) {
+                Destroy();
+            }
+        }
 
         private void SetTarget(ITarget target)
         {
             Assert.IsNull(_target, "we are currently supporting only one call to SetTarget on launch");
             Assert.IsNotNull(target);
-            if (!_followTarget)
-            {
+            if (!_followTarget) {
                 _lastTargetPos = target.Center.position;
                 return;
             }
-
             _target = target;
             _target.OnTargetInvalid += ClearTarget;
         }
@@ -85,8 +82,10 @@ namespace Dino.Weapon.Projectiles
 
         private void ClearTarget()
         {
-            if (_target != null) _target.OnTargetInvalid -= ClearTarget;
-            _target = null;
+            if (_target != null) {
+                _target.OnTargetInvalid -= ClearTarget;
+                _target = null;
+            }
         }
     }
 }

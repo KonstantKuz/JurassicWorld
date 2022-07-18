@@ -3,7 +3,6 @@ using System.Linq;
 using Dino.Units;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
-using Dino.Units.Model;
 using Dino.Weapon.Model;
 using JetBrains.Annotations;
 using UnityEngine;
