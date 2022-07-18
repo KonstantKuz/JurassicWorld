@@ -2,9 +2,9 @@
 {
     public readonly struct UnitSpawnedMessage
     {
-        public readonly IUnit Unit;
+        public readonly Unit Unit;
 
-        public UnitSpawnedMessage(IUnit unit)
+        public UnitSpawnedMessage(Unit unit)
         {
             Unit = unit;
         }

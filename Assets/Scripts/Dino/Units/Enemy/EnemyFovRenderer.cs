@@ -1,22 +1,21 @@
 using Dino.Extension;
+using Dino.Units.Component;
 using Dino.Units.Enemy.Model;
-using Dino.Units.Weapon;
 using Feofun.Components;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 namespace Dino.Units.Enemy
 {
-    public class EnemyFovRenderer : MonoBehaviour, IInitializable<IUnit>
+    public class EnemyFovRenderer : MonoBehaviour, IInitializable<Unit>
     {
-        public void Init(IUnit unit)
+        public void Init(Unit unit)
         {
-            var owner = (Unit) unit;
-            var enemyModel = (EnemyUnitModel) owner.Model;
+            var enemyModel = (EnemyUnitModel) unit.Model;
             Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
             var stateModel = enemyModel.PatrolStateModel;
                 
-            var coneRenderer = owner.GameObject.RequireComponentInChildren<RangeConeRenderer>();
+            var coneRenderer = unit.GameObject.RequireComponentInChildren<RangeConeRenderer>();
             coneRenderer.Build(stateModel.FieldOfViewAngle, stateModel.FieldOfViewDistance);
         }
     }

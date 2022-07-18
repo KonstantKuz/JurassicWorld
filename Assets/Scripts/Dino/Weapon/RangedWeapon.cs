@@ -2,6 +2,7 @@
 using Dino.Extension;
 using Dino.Location.Service;
 using Dino.Units.Component.Target;
+using Dino.Weapon.Components;
 using Dino.Weapon.Model;
 using Dino.Weapon.Projectiles;
 using UnityEngine;
@@ -13,21 +14,27 @@ namespace Dino.Weapon
     public class RangedWeapon : BaseWeapon
     {
         [SerializeField]
-        private Transform _barrel;
-        [SerializeField]
         private bool _aimInXZPlane;
         [SerializeField]
         private Projectile _ammo;
+        
         [Inject]
         protected WorldObjectFactory ObjectFactory;
         
+        private Transform _barrel;
         
         protected Vector3 BarrelPos; //Seems that in some cases unity cannot correctly take position inside animation event
-        
+
+        private void Awake()
+        {
+            var barrelOwner = gameObject.RequireComponentInParent<BarrelOwner>();
+            _barrel = barrelOwner.Barrel;
+        }
 
         public override void Fire(ITarget target, IWeaponModel weaponModel, Action<GameObject> hitCallback)
         {
-            Assert.IsNotNull(weaponModel);
+            Assert.IsNotNull(weaponModel);  
+            Assert.IsNotNull(_barrel);
             var rotationToTarget = GetShootRotation(BarrelPos, target.Center.position, _aimInXZPlane);
             FireSingleShot(rotationToTarget, target, weaponModel, hitCallback);
         }
@@ -60,6 +67,7 @@ namespace Dino.Weapon
         }
         private void LateUpdate()
         {
+            if (_barrel == null) return;
             BarrelPos = _barrel.position;
         }
     }

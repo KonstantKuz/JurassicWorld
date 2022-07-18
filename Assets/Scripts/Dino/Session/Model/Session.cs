@@ -1,29 +1,25 @@
-﻿using Dino.Session.Config;
-using Dino.Units;
+﻿using Dino.Units;
 using UnityEngine;
 
 namespace Dino.Session.Model
 {
     public class Session
     {
-        private readonly LevelMissionConfig _levelMissionConfig;
         private readonly float _startTime;        
+        public int LevelId { get; private set; }
         public int Kills { get; private set; }
         public SessionResult? Result { get; private set; }
         public int Revives { get; private set; }
-        
-        public bool IsMaxKills => Kills >= _levelMissionConfig.KillCount;
 
         public bool Completed => Result.HasValue;
 
-        public LevelMissionConfig LevelMissionConfig => _levelMissionConfig;
         
-        private Session(LevelMissionConfig levelMissionConfig)
+        private Session(int levelId)
         {
-            _levelMissionConfig = levelMissionConfig;
             _startTime = Time.time;
+            LevelId = levelId;
         }
-        public static Session Build(LevelMissionConfig levelMissionConfig) => new Session(levelMissionConfig);
+        public static Session Build(int levelId) => new Session(levelId);
         
         public void SetResultByUnitType(UnitType unitType)
         {
