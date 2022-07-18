@@ -1,3 +1,4 @@
+
 Shader "GPUMan/ConeOfSightURP" {
 	Properties{
 		_Color("Color",Color) = (1,1,1,1)
@@ -9,7 +10,7 @@ Shader "GPUMan/ConeOfSightURP" {
 		_InnerCircleSize("InnerCircleSize", Range(0, 1)) = 0.05
 		_CircleStrength("CircleStrength", Float) = 70
 	}
-
+/*
 	Subshader{
 			Tags{
 				"Queue" = "Transparent" 
@@ -130,4 +131,6 @@ Shader "GPUMan/ConeOfSightURP" {
 				ENDHLSL
 			}
 		}
+		*/
 }
+
