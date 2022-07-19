@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Dino.UI.Screen.World.Inventory.Model;
+﻿using Dino.UI.Screen.World.Inventory.Model;
 using Dino.Util;
 using Feofun.UI.Components.Button;
 using Feofun.Util.SerializableDictionary;

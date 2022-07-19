@@ -5,6 +5,7 @@ using Dino.Location;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Config;
+using Logger.Extension;
 using SuperMaxim.Core.Extensions;
 using UniRx;
 using Zenject;
@@ -62,6 +63,15 @@ namespace Dino.Inventory.Service
         public void Remove(string itemId, int number)
         {
             Remove(new InventoryItem(itemId, number));
+        }       
+        public void RemoveLast(string itemId)
+        {
+            var item = _inventory.Value.Items.LastOrDefault(it => it.Id == itemId);
+            if (item == null) {
+                this.Logger().Error($"Inventory remove error, inventory doesn't contain itemId:= {itemId}");
+                return;
+            }
+            Remove(item);
         }  
         public void Remove(InventoryItem item)
         {
@@ -78,6 +88,7 @@ namespace Dino.Inventory.Service
         private void Set(Model.Inventory model)
         {
             _repository.Set(model);
+            _inventory.SetValueAndForceNotify(model);
         }
 
         public void OnWorldCleanUp()

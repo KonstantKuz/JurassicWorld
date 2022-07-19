@@ -45,6 +45,14 @@ namespace Dino.Cheats
         public void RemoveActiveItem()
         {
             _activeItemService.UnEquip();
+        }      
+        public void RemoveInventoryItem(string itemId)
+        { 
+            _inventoryService.RemoveLast(itemId);
+        }  
+        public void AddInventoryItem(string itemId)
+        { 
+            _inventoryService.Add(itemId);
         }
         
         public void LogTestMessage()

@@ -13,7 +13,7 @@ namespace Dino.UI.Cheats
         private Button _button;
 
         private Action<string> _onClick;
-
+        public string CurrentValue => _dropdown.options[_dropdown.value].text;
         public void Init(List<string> dropdownValues, Action<string> onClick)
         {
             _onClick = onClick;
@@ -21,12 +21,15 @@ namespace Dino.UI.Cheats
             _dropdown.AddOptions(dropdownValues);
         }
 
+
         private void OnEnable()
         {
             _button.onClick.AddListener(OnButtonClick);
         }
 
         private void OnDisable() => _button.onClick.RemoveListener(OnButtonClick);
+        
+
 
         private void OnButtonClick()
         {
