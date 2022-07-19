@@ -1,4 +1,3 @@
-using Dino.Player.Inventory.Service;
 using Dino.Player.Progress.Service;
 using Dino.Player.Wallet;
 using Zenject;
@@ -14,10 +13,6 @@ namespace Dino.Player.Installer
             
             container.Bind<WalletService>().AsSingle();            
             container.Bind<WalletRepository>().AsSingle();
-            
-            container.Bind<InventoryService>().AsSingle();
-            container.Bind<InventoryRepository>().AsSingle();       
-            
         }
     }
 }

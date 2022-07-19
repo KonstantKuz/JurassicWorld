@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Dino.Extension;
 using Dino.Player.Progress.Model;
 using Dino.Player.Progress.Service;
-using Logger.Extension;
-using UnityEngine;
 using Zenject;
 
 namespace Dino.Location.Service
