@@ -1,4 +1,7 @@
-﻿using Dino.Location;
+﻿using System;
+using System.Linq;
+using Dino.Inventory.Model;
+using Dino.Location;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Config;
@@ -10,7 +13,7 @@ namespace Dino.Inventory.Service
 {
     public class InventoryService : IWorldScope
     {
-        private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>();
+        private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
 
         [Inject]
         private InventoryRepository _repository;
@@ -27,27 +30,49 @@ namespace Dino.Inventory.Service
             _inventory.SetValueAndForceNotify(Inventory);
             InitForTest();
         }
-        
+
         //todo remove after adding inventory ui
-        private void InitForTest()    
+        private void InitForTest()
         {
             _weaponConfigs.ForEach(it => Add(it.Id.ToString()));
         }
+        public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
+        public InventoryItem Get(string itemId, int number)
+        {
+            var item = new InventoryItem(itemId, number);
+            if (!Contains(item)) {
+                throw new NullReferenceException($"Inventory Get error, inventory doesn't contain item:= {item}");
+            }
+            return Find(itemId, number);
+        }
 
-        public bool Contains(string itemId) => Inventory.Contains(itemId);
-
+        public InventoryItem Find(string itemId, int number)
+        {
+            return Inventory.Items.FirstOrDefault(it => it.Equals(new InventoryItem(itemId, number)));
+        }
+        public bool Contains(InventoryItem item) => Inventory.Contains(item);
+        
         public void Add(string itemId)
         {
             var inventory = Inventory;
-            inventory.Add(itemId);
+            var item = CreateNewItem(itemId);
+            inventory.Add(item);
             Set(inventory);
         }
-
-        public void Remove(string itemId)
+        public void Remove(string itemId, int number)
+        {
+            Remove(new InventoryItem(itemId, number));
+        }  
+        public void Remove(InventoryItem item)
         {
             var inventory = Inventory;
-            inventory.Remove(itemId);
+            inventory.Remove(item);
             Set(inventory);
+        }
+        private InventoryItem CreateNewItem(string id)
+        {
+            var number = Inventory.Items.Count(it => it.Id == id) + 1;
+            return new InventoryItem(id, number);
         }
 
         private void Set(Model.Inventory model)
@@ -57,8 +82,10 @@ namespace Dino.Inventory.Service
 
         public void OnWorldCleanUp()
         {
-            _inventory.Value = null;
+            _inventory.SetValueAndForceNotify(null);
             _repository.Delete();
         }
+
+ 
     }
 }

@@ -16,6 +16,7 @@ namespace Dino.Cheats
         
         [Inject] private LocalizationService _localizationService;    
         [Inject] private ActiveItemService _activeItemService;     
+        [Inject] private InventoryService _inventoryService;     
 
 
         [SerializeField] private GameObject _fpsMonitor;
@@ -39,7 +40,7 @@ namespace Dino.Cheats
 
         public void SetActiveItem(string itemId)
         {
-            _activeItemService.Replace(itemId);
+            _activeItemService.Replace(_inventoryService.Get(itemId, 1));
         } 
         public void RemoveActiveItem()
         {

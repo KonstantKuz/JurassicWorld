@@ -29,7 +29,8 @@ namespace Dino.Session.Service
         [Inject] private SessionRepository _repository;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private ConstantsConfig _constantsConfig;
-        [Inject] private ActiveItemService _activeItemService;
+        [Inject] private ActiveItemService _activeItemService;   
+        [Inject] private InventoryService _inventoryService;
 
         public int CurrentLevelId => _levelService.CurrentLevelId;
         public Model.Session Session => _repository.Require();
@@ -77,7 +78,7 @@ namespace Dino.Session.Service
             _world.Player = player;
             player.OnDeath += OnDeath;
             
-            _activeItemService.Equip(_constantsConfig.FirstItem);
+            _activeItemService.Equip(_inventoryService.Get(_constantsConfig.FirstItem, 1));
         }
 
         private void InitEnemies()

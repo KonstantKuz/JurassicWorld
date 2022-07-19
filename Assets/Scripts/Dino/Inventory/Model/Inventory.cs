@@ -5,21 +5,22 @@ namespace Dino.Inventory.Model
 {
     public class Inventory
     {
-        public List<string> Items { get; } = new List<string>();
+        public List<InventoryItem> Items { get; } = new List<InventoryItem>();
 
-        public void Add(string itemId)
+        public void Add(InventoryItem item)
         {
-            Items.Add(itemId);
+            Items.Add(item);
         }
-        public bool Contains(string itemId) => Items.Contains(itemId);
+        
+        public bool Contains(InventoryItem item) => Items.Contains(item);
 
-        public void Remove(string itemId)
+        public void Remove(InventoryItem item)
         {
-            if (!Items.Contains(itemId)) {
-                this.Logger().Error($"Inventory remove error, inventory doesn't contain item:= {itemId},");
+            if (!Items.Contains(item)) {
+                this.Logger().Error($"Inventory remove error, inventory doesn't contain item:= {item}");
                 return;
             }
-            Items.Add(itemId);
+            Items.Remove(item);
         }
     }
 }
