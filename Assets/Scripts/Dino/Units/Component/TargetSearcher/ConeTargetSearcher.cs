@@ -10,8 +10,11 @@ namespace Dino.Units.Component.TargetSearcher
 {
     public class ConeTargetSearcher : MonoBehaviour, IInitializable<Unit>, ITargetSearcher
     {
+        [SerializeField] private int _checkRaysCount = 3;
+        [SerializeField] private LayerMask _mask;
+        
         private PatrolStateModel _stateModel;
-
+        
         public void Init(Unit owner)
         {
             var enemyModel = (EnemyUnitModel) owner.Model;
@@ -24,7 +27,7 @@ namespace Dino.Units.Component.TargetSearcher
             var hits = Projectile.GetHits(transform.position, _stateModel.FieldOfViewDistance, UnitType.PLAYER);
             foreach (var hit in hits)
             {
-                if (IsInsideFieldOfView(hit) && Projectile.CanDamageTarget(hit, UnitType.PLAYER, out var target))
+                if (IsInsideFieldOfView(hit.transform) && !IsBlocked(hit) && Projectile.CanDamageTarget(hit, UnitType.PLAYER, out var target))
                 {
                     return target;
                 }
@@ -33,17 +36,39 @@ namespace Dino.Units.Component.TargetSearcher
             return null;
         }
 
-        private bool IsInsideFieldOfView(Collider target)
+        private bool IsInsideFieldOfView(Transform target)
         {
-            return IsInsideCone(target.transform.position, transform.position, transform.forward, _stateModel.FieldOfViewAngle) && 
-                IsInsideDistanceRange(target.transform.position, transform.position, 0, _stateModel.FieldOfViewDistance);
+            return IsInsideCone(target.position, transform.position, transform.forward, _stateModel.FieldOfViewAngle) && 
+                IsInsideDistanceRange(target.position, transform.position, 0, _stateModel.FieldOfViewDistance);
+        }
+
+        private bool IsBlocked(Collider target)
+        {
+            var targetWidth = 2 * target.bounds.extents.x;
+            var offsetStep = targetWidth / (_checkRaysCount - 1);
+            var offset = -targetWidth / 2;
+            var blockedRaysCount = 0;
+            for (float i = 0; i <= _checkRaysCount - 1; i++)
+            {
+                var checkPosition = target.transform.position + transform.right * offset;
+                Debug.DrawRay(transform.position, checkPosition - transform.position, Color.red);
+                if (Physics.Linecast(transform.position, checkPosition, _mask.value))
+                {
+                    blockedRaysCount++;
+                }
+
+                offset += offsetStep;
+            }
+
+            var passedRaysCount = _checkRaysCount - blockedRaysCount;
+            return blockedRaysCount >= passedRaysCount;
         }
 
         private static bool IsInsideCone(Vector3 target, Vector3 coneOrigin, Vector3 coneDirection, float maxAngle)
         {
             var targetDirection = target - coneOrigin;
             var angle = Vector3.Angle(coneDirection, targetDirection.XZ());
-            return angle <= maxAngle;
+            return angle <= maxAngle / 2;
         }
 
         private static bool IsInsideDistanceRange(Vector3 target, Vector3 origin, float distanceMin, float distanceMax)
