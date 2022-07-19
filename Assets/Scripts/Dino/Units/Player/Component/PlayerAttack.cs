@@ -84,7 +84,13 @@ namespace Dino.Units.Player.Component
             _animationSwitcher.OverrideAnimation(_attackAnimationName, animationId);
         }
 
-        public void DeleteWeapon() => _weapon = null;
+        public void DeleteWeapon()
+        {
+            _weapon = null;
+            if (_rotateToTarget) {
+                _movementController.RotateToTarget(null);
+            }
+        }
 
         private void UpdateAnimationSpeed(float attackInterval, string animationId)
         {

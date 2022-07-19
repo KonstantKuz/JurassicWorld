@@ -1,5 +1,4 @@
-﻿using System;
-using Dino.Inventory.Model;
+﻿using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.View;
@@ -38,7 +37,6 @@ namespace Dino.UI.Screen.World.Inventory
             }
             _activeItemService.Replace(inventoryItem);
         }
-
         private void OnDisable()
         {
             _model = null;
