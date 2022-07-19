@@ -1,4 +1,6 @@
-﻿using Dino.Inventory.Service;
+﻿using System;
+using Dino.Inventory.Model;
+using Dino.Inventory.Service;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.View;
 using UnityEngine;
@@ -20,8 +22,21 @@ namespace Dino.UI.Screen.World.Inventory
 
         private void OnEnable()
         {
-            _model = new InventoryModel(_inventoryService, _activeItemService);
+            _model = new InventoryModel(_inventoryService, _activeItemService, UpdateActiveItem);
             _view.Init(_model.Items);
+        }
+
+        private void UpdateActiveItem(InventoryItem inventoryItem)
+        {
+            if (!_activeItemService.HasActiveItem()) {
+                _activeItemService.Equip(inventoryItem);
+                return;
+            }
+            if (_activeItemService.ActiveItemId.Value.Equals(inventoryItem)) {
+                _activeItemService.UnEquip();
+                return;
+            }
+            _activeItemService.Replace(inventoryItem);
         }
 
         private void OnDisable()

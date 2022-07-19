@@ -78,6 +78,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _icon: {fileID: 7234923298611955297}
   _button: {fileID: 3086145928263172409}
+  _stateContainers:
+    _map:
+    - _key: 0
+      _value: {fileID: 8250139331603545451}
+    - _key: 1
+      _value: {fileID: 5359419384371050955}
 --- !u!1 &4067708874547224713
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.7740638, b: 0.0141509175, a: 1}
+  m_Color: {r: 1, g: 0.7740638, b: 0.0141509175, a: 0.7372549}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0

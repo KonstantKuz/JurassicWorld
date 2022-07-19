@@ -20,14 +20,16 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
 
-        public Action<InventoryItem> OnClick;
+        private Action<InventoryItem> _onClick;
         
-        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService)
+        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, Action<InventoryItem> onClick)
         {
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
+            _onClick = onClick;
             UpdateItems();
-            _inventoryService.InventoryProperty.Subscribe(it => UpdateItems());
+            _inventoryService.InventoryProperty.Subscribe(it => UpdateItems());   
+            _activeItemService.ActiveItemId.Subscribe(it => UpdateItems());
         }
 
         public void UpdateItems()
@@ -54,7 +56,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
             return new ItemViewModel() {
                     Item = item,
                     State = GetState(item),
-                    OnClick = () => OnClick?.Invoke(item)
+                    OnClick = () => _onClick?.Invoke(item)
             };
         }
 
