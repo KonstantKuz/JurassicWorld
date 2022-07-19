@@ -179,7 +179,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5753142263740602138}
-  - {fileID: 5672285109265238230}
+  - {fileID: 2176662905397306478}
   - {fileID: 7379972397343241296}
   - {fileID: 6635278574423242557}
   m_Father: {fileID: 7358095759732566729}
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1001 &4633480301678229504
+--- !u!1001 &1207074553634428088
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -353,20 +353,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5359419384371050955, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8250139331603545451, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 7861120258881372565, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
+      propertyPath: m_PreserveAspect
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
---- !u!224 &5672285109265238230 stripped
+--- !u!224 &2176662905397306478 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
-  m_PrefabInstance: {fileID: 4633480301678229504}
+  m_PrefabInstance: {fileID: 1207074553634428088}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4693358705448150988
 PrefabInstance:
@@ -523,7 +519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: 3a03b12c930026340a366f28154b2348, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: 3a03b12c930026340a366f28154b2348, type: 3}
       propertyPath: m_LocalPosition.x

@@ -14,7 +14,7 @@ namespace Dino.Units.Component
         private const int DEGREES_PER_SEGMENT = 3;
         
         [SerializeField] private Material _material;
-
+        
         private Mesh _mesh;
         
         private void Awake()
@@ -32,7 +32,7 @@ namespace Dino.Units.Component
         {
             Build(130, 10);
         }
-
+        
         public void Build(float angle, float radius)
         {
             var segmentsCount = CalculateSegments(angle);
@@ -63,7 +63,7 @@ namespace Dino.Units.Component
             return vertices;
         }
 
-        private Vector3 GetVertPositionAtAngle(float angle, float radius)
+        private Vector3  GetVertPositionAtAngle(float angle, float radius)
         {
             var x = Mathf.Sin(Mathf.Deg2Rad * angle) * radius;
             var z = Mathf.Cos(Mathf.Deg2Rad * angle) * radius;
