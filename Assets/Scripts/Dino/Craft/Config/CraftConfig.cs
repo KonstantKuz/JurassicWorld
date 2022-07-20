@@ -13,12 +13,12 @@ namespace Dino.Craft.Config
     {
         public Dictionary<string, CraftRecipeConfig> Crafts { get; private set; }
 
-        public CraftRecipeConfig GetRecipe(string id)
+        public CraftRecipeConfig GetRecipe(string craftItemId)
         {
-            if (Crafts.ContainsKey(id)) {
-                throw new NullReferenceException($"CraftRecipeConfig is null by id:= {id}");
+            if (Crafts.ContainsKey(craftItemId)) {
+                throw new NullReferenceException($"CraftRecipeConfig is null by id:= {craftItemId}");
             }
-            return Crafts[id];
+            return Crafts[craftItemId];
         }
         public void Load(Stream stream)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
@@ -31,6 +32,7 @@ namespace Dino.Inventory.Service
 
         public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
         public bool Contains(ItemId id) => Inventory.Contains(id);
+        public int Count(string itemName) => Inventory.Items.Count(it => it.Name == itemName);
 
         public void Add(string itemName)
         {

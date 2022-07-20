@@ -7,12 +7,17 @@ namespace Dino.Craft.Config
     public class CraftRecipeConfig
     {
         public string CraftItemId { get; }
-        public IReadOnlyList<string> Ingredients { get; }
+        public IReadOnlyList<IngredientConfig> Ingredients { get; }
         
         public CraftRecipeConfig(string craftItemId, IEnumerable<IngredientConfig> ingredients)
         {
             CraftItemId = craftItemId;
-            Ingredients = ingredients.Select(it => it.Ingredient).ToList();
+            Ingredients = ingredients.ToList();
+        }
+
+        public bool ContainsIngredient(string itemName)
+        {
+            return Ingredients.Select(it => it.Name).Contains(itemName);
         }
     }
     
@@ -20,6 +25,8 @@ namespace Dino.Craft.Config
     public class IngredientConfig
     {
         [DataMember(Name = "Ingredient")]
-        public string Ingredient;
+        public string Name;     
+        [DataMember(Name = "Count")]
+        public int Count;
     }
 }
