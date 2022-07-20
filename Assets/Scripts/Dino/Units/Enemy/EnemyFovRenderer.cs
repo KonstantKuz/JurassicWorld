@@ -16,10 +16,8 @@ namespace Dino.Units.Enemy
             Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
             var stateModel = enemyModel.PatrolStateModel;
 
-            var renderers = unit.GameObject.GetComponentsInChildren<Transform>(true).Where(it => it.gameObject.GetComponent<IFieldOfViewRenderer>() != null);
-            var activeRenderer = renderers.First(it => it.gameObject.activeSelf);
-            var coneRenderer = activeRenderer.gameObject.RequireComponent<IFieldOfViewRenderer>();
-            coneRenderer.Init(stateModel.FieldOfViewAngle, stateModel.FieldOfViewDistance);
+            var fovRenderer = gameObject.RequireComponentInChildren<IFieldOfViewRenderer>();
+            fovRenderer.Init(stateModel.FieldOfViewAngle, stateModel.FieldOfViewDistance);
         }
     }
 }
