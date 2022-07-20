@@ -31,6 +31,36 @@ Transform:
   m_Father: {fileID: 7626905009210850996}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2925594414742482223
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3119537834068044385}
+  m_Layer: 6
+  m_Name: HudPlace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3119537834068044385
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2925594414742482223}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3254496561695502942}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3254496561695502929
 GameObject:
   m_ObjectHideFlags: 0
@@ -52,6 +82,7 @@ GameObject:
   - component: {fileID: 5140416381467973248}
   - component: {fileID: 2119164078176614931}
   - component: {fileID: 7692942308885318060}
+  - component: {fileID: 5821891286887562927}
   m_Layer: 0
   m_Name: StandardUnit
   m_TagString: Untagged
@@ -73,6 +104,7 @@ Transform:
   - {fileID: 7626905009210850996}
   - {fileID: 9147401880746721591}
   - {fileID: 7359003541863797865}
+  - {fileID: 3119537834068044385}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -246,6 +278,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _barrel: {fileID: 1143356745896943787}
+--- !u!114 &5821891286887562927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254496561695502929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c1dbc409d68794b856557412180aac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hudPrefab: {fileID: 2952826858694922931, guid: 60ee3281ab8997e478d99f0a185cdf69, type: 3}
+  _hudPlace: {fileID: 3119537834068044385}
 --- !u!114 &3337903664774207016
 MonoBehaviour:
   m_ObjectHideFlags: 0

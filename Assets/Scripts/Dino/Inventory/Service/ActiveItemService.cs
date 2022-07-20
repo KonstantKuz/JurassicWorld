@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Dino.Inventory.Service
 {
-    public class ActiveItemService
+    public class ActiveItemService : IWorldScope
     {
         private readonly StringReactiveProperty _activeItemId = new StringReactiveProperty();
         
@@ -54,6 +54,15 @@ namespace Dino.Inventory.Service
             _activeItemId.SetValueAndForceNotify(null);
             _weaponService.Remove();
             Player.ActiveItemOwner.Remove();
+        }
+
+        public void OnWorldSetup()
+        {
+        }
+
+        public void OnWorldCleanUp()
+        {
+            UnEquip();
         }
     }
 }
