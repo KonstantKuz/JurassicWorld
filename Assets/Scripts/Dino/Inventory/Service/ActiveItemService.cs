@@ -9,7 +9,7 @@ using Zenject;
 
 namespace Dino.Inventory.Service
 {
-    public class ActiveItemService
+    public class ActiveItemService : IWorldScope
     {
         private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
         
@@ -56,6 +56,15 @@ namespace Dino.Inventory.Service
             _activeItemId.SetValueAndForceNotify(null);
             _weaponService.Remove();
             Player.ActiveItemOwner.Remove();
+        }
+
+        public void OnWorldSetup()
+        {
+        }
+
+        public void OnWorldCleanUp()
+        {
+            UnEquip();
         }
     }
 }
