@@ -20,9 +20,9 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
 
-        private Action<InventoryItem> _onClick;
+        private Action<ItemId> _onClick;
         
-        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, Action<InventoryItem> onClick)
+        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, Action<ItemId> onClick)
         {
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
@@ -51,21 +51,21 @@ namespace Dino.UI.Screen.World.Inventory.Model
             return items.Select(CreateItemViewModel).Concat(Enumerable.Repeat(ItemViewModel.Empty(), VISIBLE_ITEM_COUNT - items.Count)).ToList();
         }
 
-        private ItemViewModel CreateItemViewModel([CanBeNull] InventoryItem item)
+        private ItemViewModel CreateItemViewModel([CanBeNull] ItemId id)
         {
             return new ItemViewModel() {
-                    Item = item,
-                    State = GetState(item),
-                    OnClick = () => _onClick?.Invoke(item)
+                    Id = id,
+                    State = GetState(id),
+                    OnClick = () => _onClick?.Invoke(id)
             };
         }
 
-        private ItemViewState GetState([CanBeNull] InventoryItem item)
+        private ItemViewState GetState([CanBeNull] ItemId id)
         {
-            if (item == null) {
+            if (id == null) {
                 return ItemViewState.Empty;
             }
-            if (_activeItemService.HasActiveItem() && _activeItemService.ActiveItemId.Value.Equals(item)) {
+            if (_activeItemService.HasActiveItem() && _activeItemService.ActiveItemId.Value.Equals(id)) {
                 return ItemViewState.Active;
             }
             return ItemViewState.Inactive;

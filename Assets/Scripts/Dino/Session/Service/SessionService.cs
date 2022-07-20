@@ -1,4 +1,5 @@
 ﻿using Dino.Config;
+using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
@@ -78,7 +79,7 @@ namespace Dino.Session.Service
             _world.Player = player;
             player.OnDeath += OnDeath;
             
-            _activeItemService.Equip(_inventoryService.Get(_constantsConfig.FirstItem, 1));
+            _activeItemService.Equip(new ItemId(_constantsConfig.FirstItem, 1));
         }
 
         private void InitEnemies()

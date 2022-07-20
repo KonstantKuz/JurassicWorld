@@ -11,7 +11,7 @@ namespace Dino.Inventory.Service
 {
     public class ActiveItemService
     {
-        private readonly ReactiveProperty<InventoryItem> _activeItemId = new ReactiveProperty<InventoryItem>(null);
+        private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
         
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
@@ -22,33 +22,33 @@ namespace Dino.Inventory.Service
         [Inject]
         private InventoryService _inventoryService;
 
-        public IReadOnlyReactiveProperty<InventoryItem> ActiveItemId => _activeItemId;
+        public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
         
         private PlayerUnit Player => _world.GetPlayer();
 
         public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
-        public void Replace(InventoryItem item)
+        public void Replace(ItemId id)
         {
             UnEquip();
-            Equip(item);
+            Equip(id);
         }
 
-        public void Equip(InventoryItem item)
+        public void Equip(ItemId id)
         {
             if (_activeItemId.Value != null) {
-                this.Logger().Error($"Equip error, active item:= {item} is not null, should unEquip the previous active item of unit");
+                this.Logger().Error($"Equip error, active item:= {id} is not null, should unEquip the previous active item of unit");
                 return;
             }
-            if (!_inventoryService.Contains(item)) {
-                this.Logger().Error($"Equip error, inventory must contain the item:= {item}");
+            if (!_inventoryService.Contains(id)) {
+                this.Logger().Error($"Equip error, inventory must contain the item:= {id}");
                 return;
             }
             var itemOwner = Player.ActiveItemOwner;
-            var itemObject = _worldObjectFactory.CreateObject(item.Id, itemOwner.Container);
-            _activeItemId.SetValueAndForceNotify(item);
+            var itemObject = _worldObjectFactory.CreateObject(id.Name, itemOwner.Container);
+            _activeItemId.SetValueAndForceNotify(id);
             itemOwner.Set(itemObject);
             
-            _weaponService.TrySetWeapon(item.Id, itemOwner.GetWeapon());
+            _weaponService.TrySetWeapon(id.Name, itemOwner.GetWeapon());
         }
 
         public void UnEquip()

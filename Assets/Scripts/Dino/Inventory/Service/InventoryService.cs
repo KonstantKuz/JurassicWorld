@@ -5,7 +5,6 @@ using Dino.Location;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Config;
-using Logger.Extension;
 using SuperMaxim.Core.Extensions;
 using UniRx;
 using Zenject;
@@ -38,53 +37,38 @@ namespace Dino.Inventory.Service
             _weaponConfigs.ForEach(it => Add(it.Id.ToString()));
         }
         public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
-        public InventoryItem Get(string itemId, int number)
-        {
-            var item = new InventoryItem(itemId, number);
-            if (!Contains(item)) {
-                throw new NullReferenceException($"Inventory Get error, inventory doesn't contain item:= {item}");
-            }
-            return Find(itemId, number);
-        }
-
-        public InventoryItem Find(string itemId, int number)
-        {
-            return Inventory.Items.FirstOrDefault(it => it.Equals(new InventoryItem(itemId, number)));
-        }
-        public bool Contains(InventoryItem item) => Inventory.Contains(item);
+        public bool Contains(ItemId id) => Inventory.Contains(id);
         
-        public void Add(string itemId)
+        public void Add(string itemName)
         {
             var inventory = Inventory;
-            var item = CreateNewItem(itemId);
-            inventory.Add(item);
+            var itemId = CreateNewId(itemName);
+            inventory.Add(itemId);
             Set(inventory);
         }
-        public void Remove(string itemId, int number)
+        
+        public void Remove(ItemId id)
         {
-            Remove(new InventoryItem(itemId, number));
-        }       
-        public void RemoveLast(string itemId)
+            var inventory = Inventory;
+            inventory.Remove(id);
+            Set(inventory);
+        }
+        public ItemId GetLast(string itemName)
         {
-            var item = _inventory.Value.Items.LastOrDefault(it => it.Id == itemId);
-            if (item == null) {
-                this.Logger().Error($"Inventory remove error, inventory doesn't contain itemId:= {itemId}");
-                return;
+            var itemId = _inventory.Value.Items.Where(it => it.Name == itemName)
+                                   .OrderBy(it => it.Number)
+                                   .LastOrDefault();
+            if (itemId == null) {
+                throw new NullReferenceException($"Error getting last item, inventory doesn't contain item name:= {itemName}");
             }
-            Remove(item);
-        }  
-        public void Remove(InventoryItem item)
-        {
-            var inventory = Inventory;
-            inventory.Remove(item);
-            Set(inventory);
-        }
-        private InventoryItem CreateNewItem(string id)
-        {
-            var number = Inventory.Items.Count(it => it.Id == id) + 1;
-            return new InventoryItem(id, number);
+            return itemId;
         }
 
+        private ItemId CreateNewId(string itemName)
+        {
+            var number = Inventory.Items.Count(it => it.Name == itemName) + 1;
+            return ItemId.Create(itemName, number);
+        }
         private void Set(Model.Inventory model)
         {
             _repository.Set(model);

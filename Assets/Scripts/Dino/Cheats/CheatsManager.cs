@@ -1,6 +1,7 @@
 using System;
 using Dino.Cheats.Data;
 using Dino.Cheats.Repository;
+using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Feofun.Localization.Service;
 using Logger.Extension;
@@ -38,21 +39,21 @@ namespace Dino.Cheats
             Application.Quit();
         }
 
-        public void SetActiveItem(string itemId)
+        public void SetActiveItem(string itemName)
         {
-            _activeItemService.Replace(_inventoryService.Get(itemId, 1));
+            _activeItemService.Replace(ItemId.Create(itemName, 1));
         } 
         public void RemoveActiveItem()
         {
             _activeItemService.UnEquip();
         }      
-        public void RemoveInventoryItem(string itemId)
+        public void RemoveInventoryItem(string itemName)
         { 
-            _inventoryService.RemoveLast(itemId);
+            _inventoryService.Remove(_inventoryService.GetLast(itemName));
         }  
-        public void AddInventoryItem(string itemId)
+        public void AddInventoryItem(string itemName)
         { 
-            _inventoryService.Add(itemId);
+            _inventoryService.Add(itemName);
         }
         
         public void LogTestMessage()

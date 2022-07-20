@@ -8,7 +8,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
     {
         
         [CanBeNull]
-        public InventoryItem Item { get; set; }
+        public ItemId Id { get; set; }
         public ItemViewState State { get; set; }
         public Action OnClick { get; set; }
         

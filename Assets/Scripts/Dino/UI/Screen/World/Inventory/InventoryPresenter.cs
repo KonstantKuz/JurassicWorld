@@ -25,17 +25,17 @@ namespace Dino.UI.Screen.World.Inventory
             _view.Init(_model.Items);
         }
 
-        private void UpdateActiveItem(InventoryItem inventoryItem)
+        private void UpdateActiveItem(ItemId itemId)
         {
             if (!_activeItemService.HasActiveItem()) {
-                _activeItemService.Equip(inventoryItem);
+                _activeItemService.Equip(itemId);
                 return;
             }
-            if (_activeItemService.ActiveItemId.Value.Equals(inventoryItem)) {
+            if (_activeItemService.ActiveItemId.Value.Equals(itemId)) {
                 _activeItemService.UnEquip();
                 return;
             }
-            _activeItemService.Replace(inventoryItem);
+            _activeItemService.Replace(itemId);
         }
         private void OnDisable()
         {

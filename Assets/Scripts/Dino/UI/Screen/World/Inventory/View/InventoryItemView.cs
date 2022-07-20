@@ -22,10 +22,10 @@ namespace Dino.UI.Screen.World.Inventory.View
 
         public void Init(ItemViewModel model)
         {
-            if (model.Item == null) {
+            if (model.Id == null) {
                 return;
             }
-            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Item.Id));
+            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Id.Name));
             _button.Init(model.OnClick);
             UpdateState(model.State);
         }

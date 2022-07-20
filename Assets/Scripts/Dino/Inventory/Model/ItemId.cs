@@ -2,17 +2,22 @@
 
 namespace Dino.Inventory.Model
 {
-    public class InventoryItem : IEquatable<InventoryItem>
+    public class ItemId : IEquatable<ItemId>
     {
-        public string Id { get; }
+        public string Name { get; }
         public int Number { get; }
-        public InventoryItem(string id, int number)
+        
+        public ItemId(string name, int number)
         {
-            Id = id;
+            Name = name;
             Number = number;
         }
-        
-        public bool Equals(InventoryItem other)
+
+        public static ItemId Create(string name, int number)
+        {
+            return new ItemId(name, number);
+        }
+        public bool Equals(ItemId other)
         {
             if (ReferenceEquals(null, other)) {
                 return false;
@@ -20,12 +25,12 @@ namespace Dino.Inventory.Model
             if (ReferenceEquals(this, other)) {
                 return true;
             }
-            return Id == other.Id && Number == other.Number;
+            return Name == other.Name && Number == other.Number;
         }
 
         public override string ToString()
         {
-            return $"InventoryItem: Id:= {Id}, Number:= {Number}";
+            return $"InventoryItem: Id:= {Name}, Number:= {Number}";
         }
 
         public override bool Equals(object obj)
@@ -39,13 +44,13 @@ namespace Dino.Inventory.Model
             if (obj.GetType() != this.GetType()) {
                 return false;
             }
-            return Equals((InventoryItem) obj);
+            return Equals((ItemId) obj);
         }
 
         public override int GetHashCode()
         {
             unchecked {
-                return ((Id != null ? Id.GetHashCode() : 0) * 397) ^ Number;
+                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ Number;
             }
         }
     }
