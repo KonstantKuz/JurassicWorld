@@ -25,7 +25,7 @@ namespace Dino.Config
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)
                 
            
-                .RegisterStringKeyedCollection<DroppingLootConfig>(Configs.DROPPING_LOOT)
+                .RegisterStringKeyedCollection<LootConfig>(Configs.LOOT)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
                 .RegisterCollection<SessionResult, MissionRewardsConfig>(Configs.MISSION_REWARDS);
         }

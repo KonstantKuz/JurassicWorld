@@ -24,7 +24,7 @@ namespace Dino.Location
             container.BindInterfacesAndSelfTo<SessionService>().AsSingle();
             container.Bind<SessionRepository>().AsSingle();
             
-            container.BindInterfacesAndSelfTo<DroppingLootService>().AsSingle();
+            container.BindInterfacesAndSelfTo<LootService>().AsSingle();
         }
     }
 }

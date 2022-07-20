@@ -17,7 +17,7 @@ namespace Dino.Units.Enemy.Config
         [DataMember] 
         public PatrolStateConfig PatrolStateConfig;
         [DataMember] 
-        public DroppingLootConfig DroppingLootConfig;      
+        public LootConfig LootConfig;      
         
         public string Id => _id; 
     }

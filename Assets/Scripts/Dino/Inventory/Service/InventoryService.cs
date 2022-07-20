@@ -2,11 +2,7 @@
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
-using Dino.Weapon.Config;
-using Dino.Weapon.Model;
-using Feofun.Config;
 using ModestTree;
-using SuperMaxim.Core.Extensions;
 using UniRx;
 using Zenject;
 
