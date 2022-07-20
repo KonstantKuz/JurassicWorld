@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 
-namespace Dino.Craft.Config
+namespace Dino.Inventory.Config
 {
     public class CraftRecipeConfig
     {
@@ -19,14 +18,5 @@ namespace Dino.Craft.Config
         {
             return Ingredients.Select(it => it.Name).Contains(itemName);
         }
-    }
-    
-    [DataContract]
-    public class IngredientConfig
-    {
-        [DataMember(Name = "Ingredient")]
-        public string Name;     
-        [DataMember(Name = "Count")]
-        public int Count;
     }
 }

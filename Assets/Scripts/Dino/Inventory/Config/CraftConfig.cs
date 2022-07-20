@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using Feofun.Config;
 using Feofun.Config.Csv;
 
-namespace Dino.Craft.Config
+namespace Dino.Inventory.Config
 {
     [DataContract]
     public class CraftConfig : ILoadableConfig
@@ -15,7 +15,7 @@ namespace Dino.Craft.Config
 
         public CraftRecipeConfig GetRecipe(string craftItemId)
         {
-            if (Crafts.ContainsKey(craftItemId)) {
+            if (!Crafts.ContainsKey(craftItemId)) {
                 throw new NullReferenceException($"CraftRecipeConfig is null by id:= {craftItemId}");
             }
             return Crafts[craftItemId];

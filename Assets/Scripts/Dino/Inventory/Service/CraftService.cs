@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dino.Craft.Config;
+using Dino.Inventory.Config;
 using Dino.Inventory.Model;
-using Dino.Inventory.Service;
 using JetBrains.Annotations;
 using Logger.Extension;
+using SuperMaxim.Core.Extensions;
 using Zenject;
+using static System.String;
 
-namespace Dino.Craft.Service
+namespace Dino.Inventory.Service
 {
     public class CraftService
     {
@@ -47,19 +48,32 @@ namespace Dino.Craft.Service
         {
             return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
         }
-        public void Craft(string craftItemId, List<ItemId> ingredients)
+        public void Craft(string craftItemId, HashSet<ItemId> ingredients)
         {
             var recipe = _craftConfig.GetRecipe(craftItemId);
-            if (IsPossibleCraft(recipe)) {
+            if (!IsPossibleCraft(recipe)) {
                 this.Logger().Error($"Error Craft, craft is not possible craftItemId:= {craftItemId}");
                 return;
             }
-            if (ingredients.SequenceEqual(ingredients)) {
+            if (!ingredients.All(ingredient => _inventoryService.Contains(ingredient))) {
+                this.Logger().Error($"Error Craft, inventoryService doesn't contain any ingredients:= {Join(", ", ingredients)}");
                 return;
             }
-            foreach (var ingredients in recipe.Ingredients) {
-                
+            ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient));
+            _inventoryService.Add(recipe.CraftItemId);
+        }      
+        public void Craft(string craftItemId)
+        {
+            var recipe = _craftConfig.GetRecipe(craftItemId);
+            if (!IsPossibleCraft(recipe)) {
+                this.Logger().Error($"Error Craft, craft is not possible craftItemId:= {craftItemId}");
+                return;
             }
+            recipe.Ingredients.ForEach(ingredient => {
+                var items = _inventoryService.GetAll(ingredient.Name).ToList();
+                items.Skip(items.Count - ingredient.Count).ForEach(it => _inventoryService.Remove(it));
+            });
+            _inventoryService.Add(recipe.CraftItemId);
         }
     }
 }

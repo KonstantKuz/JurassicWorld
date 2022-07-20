@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
-using Dino.Weapon.Config;
-using Dino.Weapon.Model;
-using Feofun.Config;
 using ModestTree;
-using SuperMaxim.Core.Extensions;
 using UniRx;
 using Zenject;
 
@@ -48,7 +44,14 @@ namespace Dino.Inventory.Service
             inventory.Remove(id);
             Set(inventory);
         }
-
+        public IEnumerable<ItemId> GetAll(string itemName)
+        {
+            var items = _inventory.Value.Items.Where(it => it.Name == itemName);
+            if (items.IsEmpty()) {
+                throw new NullReferenceException($"Error getting items, inventory doesn't contain items:= {itemName}");
+            }
+            return items;
+        }
         public ItemId GetLast(string itemName)
         {
             var itemId = _inventory.Value.Items.Where(it => it.Name == itemName).OrderBy(it => it.Number).LastOrDefault();

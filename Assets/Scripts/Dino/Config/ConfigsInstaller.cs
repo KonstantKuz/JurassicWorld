@@ -1,4 +1,4 @@
-﻿using Dino.Craft.Config;
+﻿using Dino.Inventory.Config;
 using Dino.Loot.Config;
 using Dino.Modifiers.Config;
 using Dino.Reward.Config;

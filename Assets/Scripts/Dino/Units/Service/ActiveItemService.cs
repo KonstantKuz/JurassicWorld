@@ -1,4 +1,5 @@
 ﻿using Dino.Inventory.Model;
+using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
 using Dino.Units.Player;
@@ -7,7 +8,7 @@ using Logger.Extension;
 using UniRx;
 using Zenject;
 
-namespace Dino.Inventory.Service
+namespace Dino.Units.Service
 {
     public class ActiveItemService : IWorldScope
     {
