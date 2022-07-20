@@ -79,7 +79,8 @@ namespace Dino.Session.Service
             _world.Player = player;
             player.OnDeath += OnDeath;
             
-            _activeItemService.Equip(new ItemId(_constantsConfig.FirstItem, 1));
+            _inventoryService.Add(_constantsConfig.FirstItem);
+            _activeItemService.Equip(_inventoryService.GetLast(_constantsConfig.FirstItem));
         }
 
         private void InitEnemies()
