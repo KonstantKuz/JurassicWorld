@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -14,6 +15,9 @@ namespace Dino.Craft.Config
 
         public CraftRecipeConfig GetRecipe(string id)
         {
+            if (Crafts.ContainsKey(id)) {
+                throw new NullReferenceException($"CraftRecipeConfig is null by id:= {id}");
+            }
             return Crafts[id];
         }
         public void Load(Stream stream)
