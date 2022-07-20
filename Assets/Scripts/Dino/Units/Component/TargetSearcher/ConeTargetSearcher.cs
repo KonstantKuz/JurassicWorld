@@ -47,21 +47,19 @@ namespace Dino.Units.Component.TargetSearcher
             var targetWidth = 2 * target.bounds.extents.x;
             var offsetStep = targetWidth / (_checkRaysCount - 1);
             var offset = -targetWidth / 2;
-            var blockedRaysCount = 0;
             for (float i = 0; i <= _checkRaysCount - 1; i++)
             {
                 var checkPosition = target.transform.position + transform.right * offset;
                 Debug.DrawRay(transform.position, checkPosition - transform.position, Color.red);
                 if (Physics.Linecast(transform.position, checkPosition, _mask.value))
                 {
-                    blockedRaysCount++;
+                    offset += offsetStep;
+                    continue;
                 }
-
-                offset += offsetStep;
+                
+                return false;
             }
-
-            var passedRaysCount = _checkRaysCount - blockedRaysCount;
-            return blockedRaysCount >= passedRaysCount;
+            return true;
         }
 
         private static bool IsInsideCone(Vector3 target, Vector3 coneOrigin, Vector3 coneDirection, float maxAngle)
