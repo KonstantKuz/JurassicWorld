@@ -51,6 +51,8 @@ namespace Dino.Units.Player.Component
             IsStopped = !IsMoving;
             MoveTo(transform.position + MoveDirection);
             UpdateAnimation();
+            if (HasTarget) return;
+            RotateTo(transform.position + MoveDirection);
         }
 
         public void MoveTo(Vector3 position)
@@ -62,8 +64,7 @@ namespace Dino.Units.Player.Component
         {
             PlayAnimation(IsMoving);
             UpdateAnimationRotateValues(MoveDirection);
-            if (HasTarget) return;
-            RotateTo(transform.position + MoveDirection);
+
         }
 
         private void PlayAnimation(bool isMoving)
