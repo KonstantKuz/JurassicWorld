@@ -1,3 +1,4 @@
+using System.Linq;
 using Dino.Extension;
 using Dino.Units.Component;
 using Dino.Units.Enemy.Model;
@@ -14,9 +15,9 @@ namespace Dino.Units.Enemy
             var enemyModel = (EnemyUnitModel) unit.Model;
             Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
             var stateModel = enemyModel.PatrolStateModel;
-                
-            var coneRenderer = unit.GameObject.RequireComponentInChildren<RangeConeRenderer>();
-            coneRenderer.Build(stateModel.FieldOfViewAngle, stateModel.FieldOfViewDistance);
+
+            var fovRenderer = gameObject.RequireComponentInChildren<IFieldOfViewRenderer>();
+            fovRenderer.Init(stateModel.FieldOfViewAngle, stateModel.FieldOfViewDistance);
         }
     }
 }
