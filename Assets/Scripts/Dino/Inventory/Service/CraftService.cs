@@ -19,54 +19,64 @@ namespace Dino.Inventory.Service
         public InventoryService _inventoryService;
 
         [CanBeNull]
-        public CraftRecipeConfig GetPossibleCraft(ItemId ingredientId)
+        public CraftRecipeConfig FindFirstPossibleRecipe(HashSet<ItemId> ingredients)
         {
-            var itemName = ingredientId.Name;
+            var groupingIngredients = ingredients.GroupBy(p => p.Name)
+                                                 .ToDictionary(it => it.Key, it => it.Count());
             foreach (var recipe in _craftConfig.Crafts.Values) {
-                if (!recipe.ContainsIngredient(itemName)) {
-                    continue;
+                if (IsPossibleRecipe(recipe, groupingIngredients)) {
+                    return recipe;
                 }
-                bool canCraft = recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
-                if (!canCraft) {
-                    continue;
-                }
-                return recipe;
             }
             return null;
-        }  
-        public IEnumerable<CraftRecipeConfig> GetAllPossibleCrafts()
+        }
+
+        private bool IsPossibleRecipe(CraftRecipeConfig recipe, 
+                                      Dictionary<string, int> groupingIngredients)
+        {
+            if (groupingIngredients.Count != recipe.Ingredients.Count) {
+                return false;
+            }
+            return recipe.Ingredients.All(ingredient => groupingIngredients.ContainsKey(ingredient.Name)
+                                                        && groupingIngredients[ingredient.Name] == ingredient.Count);
+        }
+
+        public IEnumerable<CraftRecipeConfig> GetAllPossibleRecipes()
         {
             foreach (var recipe in _craftConfig.Crafts.Values) {
-                bool canCraft = recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
+                var canCraft = recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
                 if (!canCraft) {
                     continue;
                 }
                 yield return recipe;
             }
-        }  
-        public bool IsPossibleCraft(CraftRecipeConfig recipe)
+        }
+
+        private bool HasIngredientsInInventory(CraftRecipeConfig recipe)
         {
             return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
         }
-        public void Craft(string craftItemId, HashSet<ItemId> ingredients)
+
+        public void Craft(HashSet<ItemId> ingredients)
         {
-            var recipe = _craftConfig.GetRecipe(craftItemId);
-            if (!IsPossibleCraft(recipe)) {
-                this.Logger().Error($"Error Craft, craft is not possible craftItemId:= {craftItemId}");
+            var recipe = FindFirstPossibleRecipe(ingredients);
+            if (recipe == null) {
+                this.Logger().Error($"Error Craft, recipe not found by ingredients:= {Join(", ", ingredients)}");
                 return;
             }
-            if (!ingredients.All(ingredient => _inventoryService.Contains(ingredient))) {
-                this.Logger().Error($"Error Craft, inventoryService doesn't contain any ingredients:= {Join(", ", ingredients)}");
+            if (!HasIngredientsInInventory(recipe)) {
+                this.Logger().Error($"Error Craft, craft is not possible recipe:= {recipe.CraftItemId}");
                 return;
             }
             ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient));
             _inventoryService.Add(recipe.CraftItemId);
-        }      
-        public void Craft(string craftItemId)
+        }
+
+        public void Craft(string recipeId)
         {
-            var recipe = _craftConfig.GetRecipe(craftItemId);
-            if (!IsPossibleCraft(recipe)) {
-                this.Logger().Error($"Error Craft, craft is not possible craftItemId:= {craftItemId}");
+            var recipe = _craftConfig.GetRecipe(recipeId);
+            if (!HasIngredientsInInventory(recipe)) {
+                this.Logger().Error($"Error Craft, ingredients don't contain in inventory:= {recipeId}");
                 return;
             }
             recipe.Ingredients.ForEach(ingredient => {
