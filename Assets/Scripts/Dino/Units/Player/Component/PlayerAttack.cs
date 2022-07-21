@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dino.Extension;
+using Dino.Units.Component;
 using Dino.Units.Component.Animation;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
@@ -13,6 +14,7 @@ using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;
+using SuperMaxim.Core.Extensions;
 using UnityEngine;
 
 namespace Dino.Units.Player.Component
@@ -64,19 +66,21 @@ namespace Dino.Units.Player.Component
                     Model = weaponModel,
                     Timer = new WeaponTimer(weaponModel.AttackInterval),
             };
-            InitTargetSearcher(weaponModel);
+            InitWeaponDependentComponents();
             OverrideAnimation(weaponModel.Animation);
             UpdateAnimationSpeed(weaponModel.AttackInterval, weaponModel.Animation);
         }
 
-        private void InitTargetSearcher(IWeaponModel weaponModel)
+        private void InitWeaponDependentComponents()
         {
             var playerSearcher = _targetSearcher as IInitializable<IWeaponModel>;
             if (playerSearcher == null) {
-                this.Logger().Error("Target searcher on player must be IInintializeble<IWeaponModel>");
+                this.Logger().Error("Target searcher on player must be IInitializable<IWeaponModel>");
                 return;
             } 
-            playerSearcher.Init(weaponModel);
+            playerSearcher.Init(_weapon.Model);
+            var otherDependentUsers = GetComponentsInChildren<IInitializable<IWeaponModel>>().Except(playerSearcher);
+            otherDependentUsers.ForEach(it => it.Init(_weapon.Model));
         }
 
         private void OverrideAnimation(string animationId)
