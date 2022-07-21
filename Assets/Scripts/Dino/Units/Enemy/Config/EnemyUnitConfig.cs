@@ -1,5 +1,4 @@
 using System.Runtime.Serialization;
-using Dino.Loot.Config;
 using Feofun.Config;
 
 namespace Dino.Units.Enemy.Config
@@ -16,8 +15,6 @@ namespace Dino.Units.Enemy.Config
         public EnemyAttackConfig EnemyAttackConfig;
         [DataMember] 
         public PatrolStateConfig PatrolStateConfig;
-        [DataMember] 
-        public LootConfig LootConfig;      
         
         public string Id => _id; 
     }

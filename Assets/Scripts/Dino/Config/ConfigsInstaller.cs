@@ -1,5 +1,4 @@
-﻿using Dino.Loot.Config;
-using Dino.Modifiers.Config;
+﻿using Dino.Modifiers.Config;
 using Dino.Reward.Config;
 using Dino.Session.Model;
 using Dino.Units.Enemy.Config;
@@ -23,9 +22,6 @@ namespace Dino.Config
                 .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)
                 .RegisterCollection<WeaponId, WeaponConfig>(Configs.WEAPONS)
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)
-                
-           
-                .RegisterStringKeyedCollection<LootConfig>(Configs.LOOT)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
                 .RegisterCollection<SessionResult, MissionRewardsConfig>(Configs.MISSION_REWARDS);
         }
