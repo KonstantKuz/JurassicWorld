@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
+using Dino.UI.Screen.World.Inventory.View;
 using Dino.Units.Service;
 using JetBrains.Annotations;
 using Logger.Extension;
@@ -21,13 +22,19 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
 
-        private Action<ItemId> _onClick;
+        private Action<ItemId> _onClick; 
+        private Action<ItemViewModel> _onBeginDrag;    
+        private Action<ItemViewModel> _onEndDrag;
         
-        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, Action<ItemId> onClick)
+        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, Action<ItemId> onClick,
+                              Action<ItemViewModel> onBeginDrag,
+                              Action<ItemViewModel> onEndDrag)
         {
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
             _onClick = onClick;
+            _onBeginDrag = onBeginDrag;
+            _onEndDrag = onEndDrag;
             UpdateItems();
             _inventoryService.InventoryProperty.Subscribe(it => UpdateItems());   
             _activeItemService.ActiveItemId.Subscribe(it => UpdateItems());
@@ -57,7 +64,9 @@ namespace Dino.UI.Screen.World.Inventory.Model
             return new ItemViewModel() {
                     Id = id,
                     State = GetState(id),
-                    OnClick = () => _onClick?.Invoke(id)
+                    OnClick = () => _onClick?.Invoke(id), 
+                    OnBeginDrag = model => _onBeginDrag?.Invoke(model), 
+                    OnEndDrag = model => _onEndDrag?.Invoke(model),
             };
         }
 

@@ -12,8 +12,11 @@ namespace Dino.UI.Screen.World.Inventory
     {
 
         [SerializeField]
-        private InventoryView _view;
-        
+        private InventoryView _view;      
+        [SerializeField]
+        private ItemCursor _itemCursor;
+        [SerializeField]
+        private InventoryItemView _itemPrefab;  
         
         [Inject] private InventoryService _inventoryService;
         [Inject] private ActiveItemService _activeItemService;
@@ -22,10 +25,25 @@ namespace Dino.UI.Screen.World.Inventory
 
         private void OnEnable()
         {
-            _model = new InventoryModel(_inventoryService, _activeItemService, UpdateActiveItem);
+            _model = new InventoryModel(_inventoryService, _activeItemService, UpdateActiveItem, OnBeginDrag, OnEndDrag);
             _view.Init(_model.Items);
         }
 
+        private void OnEndDrag(ItemViewModel model)
+        {
+            
+            _itemCursor.Detach();
+        }
+
+        private void OnBeginDrag(ItemViewModel model)
+        {
+            var dragItem = Instantiate(_itemPrefab);
+            var newModel = new ItemViewModel();
+            newModel.Id = model.Id;
+            dragItem.InitDragView(newModel);
+            _itemCursor.Attach(dragItem.gameObject);
+        }
+        
         private void UpdateActiveItem(ItemId itemId)
         {
             if (!_activeItemService.HasActiveItem()) {
