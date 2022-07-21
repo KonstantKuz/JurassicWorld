@@ -4,6 +4,7 @@ using Dino.Inventory.Config;
 using Dino.Inventory.Model;
 using JetBrains.Annotations;
 using Logger.Extension;
+using ModestTree;
 using SuperMaxim.Core.Extensions;
 using Zenject;
 using static System.String;
@@ -21,18 +22,28 @@ namespace Dino.Inventory.Service
         [CanBeNull]
         public CraftRecipeConfig FindFirstPossibleRecipe(HashSet<ItemId> ingredients)
         {
-            var groupingIngredients = ingredients.GroupBy(p => p.Name)
-                                                 .ToDictionary(it => it.Key, it => it.Count());
-            foreach (var recipe in _craftConfig.Crafts.Values) {
-                if (IsPossibleRecipe(recipe, groupingIngredients)) {
-                    return recipe;
-                }
+            var recipes = FindAllPossibleRecipes(ingredients).ToList();
+            if (recipes.IsEmpty()) {
+                return null;
             }
-            return null;
+            if (recipes.Count > 1) {
+                this.Logger().Warn($"Count of recipes > 1 by ingredients:= {Join(", ", ingredients)}," 
+                                   + $" recipes:= {Join(", ", recipes.Select(it => it.CraftItemId))}");
+            }
+            return recipes.First();
         }
 
-        private bool IsPossibleRecipe(CraftRecipeConfig recipe, 
-                                      Dictionary<string, int> groupingIngredients)
+        public IEnumerable<CraftRecipeConfig> FindAllPossibleRecipes(HashSet<ItemId> ingredients)
+        {
+            var groupingIngredients = ingredients.GroupBy(p => p.Name).ToDictionary(it => it.Key, it => it.Count());
+            foreach (var recipe in _craftConfig.Crafts.Values) {
+                if (AreIngredientsMatchingRecipe(recipe, groupingIngredients)) {
+                    yield return recipe;
+                }
+            }
+        }
+
+        private bool AreIngredientsMatchingRecipe(CraftRecipeConfig recipe, Dictionary<string, int> groupingIngredients)
         {
             if (groupingIngredients.Count != recipe.Ingredients.Count) {
                 return false;
@@ -44,8 +55,7 @@ namespace Dino.Inventory.Service
         public IEnumerable<CraftRecipeConfig> GetAllPossibleRecipes()
         {
             foreach (var recipe in _craftConfig.Crafts.Values) {
-                var canCraft = recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
-                if (!canCraft) {
+                if (!HasIngredientsInInventory(recipe)) {
                     continue;
                 }
                 yield return recipe;
