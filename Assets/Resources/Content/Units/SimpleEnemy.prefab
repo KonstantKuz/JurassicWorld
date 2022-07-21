@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _checkRaysCount: 3
-  _mask:
+  _obstacleMask:
     serializedVersion: 2
     m_Bits: 128
 --- !u!114 &4491497861294361367

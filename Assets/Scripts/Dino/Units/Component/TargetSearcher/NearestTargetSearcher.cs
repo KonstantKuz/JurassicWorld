@@ -13,8 +13,9 @@ namespace Dino.Units.Component.TargetSearcher
     [RequireComponent(typeof(ITarget))]
     public class NearestTargetSearcher : MonoBehaviour, IInitializable<Unit>, IInitializable<IWeaponModel>, ITargetSearcher
     {
-        [Inject]
-        private TargetService _targetService;
+        [SerializeField] private LayerMask _obstacleMask;
+
+        [Inject] private TargetService _targetService;
         
         private float? _searchDistance;
         private ITarget _selfTarget;
@@ -42,11 +43,11 @@ namespace Dino.Units.Component.TargetSearcher
             }
             
             var targets = _targetService.AllTargetsOfType(_targetType);
-            return Find(targets, _selfTarget.Root.position, _searchDistance.Value);
+            return Find(targets, _selfTarget.Root.position, _searchDistance.Value, _obstacleMask);
         }
 
         [CanBeNull]
-        private static ITarget Find(IEnumerable<ITarget> targets, Vector3 from, float searchDistance)
+        private static ITarget Find(IEnumerable<ITarget> targets, Vector3 from, float searchDistance, LayerMask obstacleMask)
         {
             ITarget result = null;
             var minDistance = Mathf.Infinity;
@@ -55,6 +56,7 @@ namespace Dino.Units.Component.TargetSearcher
                 if (!target.IsAlive) continue;
                 var dist = Vector3.Distance(from, target.Root.position);
                 if (dist >= minDistance || dist > searchDistance) continue;
+                if (Physics.Linecast(from, target.Root.position, obstacleMask)) continue;
                 minDistance = dist;
                 result = target;
             }
