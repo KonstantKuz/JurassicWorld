@@ -53,6 +53,9 @@ namespace Dino.UI.Screen.World.Inventory
                 _itemCursor.Detach();
                 return;
             }
+            if (_activeItemService.IsActiveItem(firstItemModel.Id) || _activeItemService.IsActiveItem(secondItemModel.Id)) {
+                _activeItemService.UnEquip();
+            }
             _craftService.Craft(ingredients);
             _itemCursor.Detach();
         }
