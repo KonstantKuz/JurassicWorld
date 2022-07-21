@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dino.Inventory.Config;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
-using Dino.UI.Screen.World.Inventory.View;
 using Dino.Units.Service;
 using JetBrains.Annotations;
 using Logger.Extension;
@@ -20,18 +20,22 @@ namespace Dino.UI.Screen.World.Inventory.Model
         
         private readonly InventoryService _inventoryService;
         private readonly ActiveItemService _activeItemService;
+        private readonly CraftService _craftService;
+
+        private List<CraftRecipeConfig> _allPossibleRecipes = new List<CraftRecipeConfig>();
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
 
         private Action<ItemId> _onClick; 
         private Action<ItemViewModel> _onBeginDrag;    
         private Action<ItemViewModel> _onEndDrag;
         
-        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, Action<ItemId> onClick,
+        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, CraftService craftService, Action<ItemId> onClick,
                               Action<ItemViewModel> onBeginDrag,
                               Action<ItemViewModel> onEndDrag)
         {
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
+            _craftService = craftService;
             _onClick = onClick;
             _onBeginDrag = onBeginDrag;
             _onEndDrag = onEndDrag;
@@ -42,6 +46,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         public void UpdateItems()
         {
+            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList();
             _items.SetValueAndForceNotify(CreateItems());
         }
 
@@ -59,18 +64,23 @@ namespace Dino.UI.Screen.World.Inventory.Model
             return items.Select(CreateItemViewModel).Concat(Enumerable.Repeat(ItemViewModel.Empty(), VISIBLE_ITEM_COUNT - items.Count)).ToList();
         }
 
-        private ItemViewModel CreateItemViewModel([CanBeNull] ItemId id)
+        private ItemViewModel CreateItemViewModel(ItemId id)
         {
-            return new ItemViewModel() {
-                    Id = id,
-                    State = GetState(id),
-                    OnClick = () => _onClick?.Invoke(id), 
-                    OnBeginDrag = model => _onBeginDrag?.Invoke(model), 
-                    OnEndDrag = model => _onEndDrag?.Invoke(model),
-            };
+            return new ItemViewModel(id, GetState(id), CanCraft(id), () => _onClick?.Invoke(id), _onBeginDrag, _onEndDrag);
         }
 
-        private ItemViewState GetState([CanBeNull] ItemId id)
+        public void UpdateItemModel(ItemViewModel model)
+        {
+            model.UpdateState(GetState(model.Id));     
+            model.UpdateCraftState(CanCraft(model.Id));
+        }
+
+        private bool CanCraft(ItemId id)
+        {
+            return _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.Name));
+        }
+
+        public ItemViewState GetState([CanBeNull] ItemId id)
         {
             if (id == null) {
                 return ItemViewState.Empty;
