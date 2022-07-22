@@ -16,14 +16,17 @@ namespace Dino.Units.Component
         private Transform _plane;
 
         [Inject] private WorldObjectFactory _worldObjectFactory;
-
-        private Transform Plane => _plane ??= _worldObjectFactory.CreateObject(_prefab).transform;
         
         public void Init(IWeaponModel owner)
         {
-            Plane.gameObject.SetActive(true);
-            Plane.localScale = Vector3.one * _initialRadius * owner.AttackDistance;
+            if (_plane == null) {
+                _plane = CreatePlane();
+            }
+            _plane.gameObject.SetActive(true);
+            _plane.localScale = Vector3.one * _initialRadius * owner.AttackDistance;
         }
+
+        private Transform CreatePlane() => _worldObjectFactory.CreateObject(_prefab).transform;
 
         public void OnTick()
         {
@@ -39,7 +42,7 @@ namespace Dino.Units.Component
             if (_plane == null) {
                 return;
             }
-            Plane.gameObject.SetActive(false);
+            _plane.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
@@ -47,7 +50,7 @@ namespace Dino.Units.Component
             if (_plane == null) {
                 return;
             }
-            Destroy(Plane.gameObject);
+            Destroy(_plane.gameObject);
         }
     }
 }
