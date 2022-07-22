@@ -38,23 +38,19 @@ namespace Dino.Units.StateMachine
                 if (!HasPath) return;
                 
                 GoToNextPoint();
-                if (Owner.Health != null)
-                {
-                    Owner.Health.OnDamageTaken += StartChasePlayer;
-                }
+                Owner.Damageable.OnDamageTaken += StartChasePlayer;
             }
 
             private void StartChasePlayer()
             {
+                if (StateMachine._world.Player == null) return;
+
                 StateMachine._targetProvider.Target = StateMachine._world.Player.SelfTarget;
             }
 
             public override void OnExitState()
             {
-                if (Owner.Health != null)
-                {
-                    Owner.Health.OnDamageTaken -= StartChasePlayer;
-                }
+                Owner.Damageable.OnDamageTaken += StartChasePlayer;
             }
 
             public override void OnTick()
