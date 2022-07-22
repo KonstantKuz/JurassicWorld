@@ -18,6 +18,7 @@ namespace Dino.Loot
             CleanUp();
             _hudPresenter = _container.InstantiatePrefabForComponent<LootHudPresenter>(_hudPrefab);
             _hudPresenter.Init(_hudPlace);
+            Hide();
         }
         
         public void ShowProgress(float progress)
