@@ -5,12 +5,13 @@ namespace Dino.Session.Model
 {
     public class Session
     {
-        private readonly float _startTime;        
+        private readonly float _startTime;
+        private int _maxKillsCount;
         public int LevelId { get; private set; }
         public int Kills { get; private set; }
         public SessionResult? Result { get; private set; }
         public int Revives { get; private set; }
-
+        public bool IsMaxKills => Kills >= _maxKillsCount;
         public bool Completed => Result.HasValue;
 
         
@@ -20,6 +21,11 @@ namespace Dino.Session.Model
             LevelId = levelId;
         }
         public static Session Build(int levelId) => new Session(levelId);
+
+        public void SetMaxKillsCount(int count)
+        {
+            _maxKillsCount = count;
+        }
         
         public void SetResultByUnitType(UnitType unitType)
         {

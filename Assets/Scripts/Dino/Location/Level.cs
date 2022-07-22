@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Dino.Location.Model;
 using Dino.Units;
 using UnityEngine;
@@ -9,8 +11,12 @@ namespace Dino.Location
     {
         [SerializeField] private Transform _start;
         [SerializeField] private Trigger _finish;
-        
+
+        private List<Unit> _enemies;
         public Transform Start => _start;
+        public List<Unit> Enemies =>
+            _enemies ??= GetComponentsInChildren<Unit>().Where(it => it.UnitType == UnitType.ENEMY).ToList();
+        
         public event Action OnPlayerTriggeredFinish;
 
         private void Awake()
