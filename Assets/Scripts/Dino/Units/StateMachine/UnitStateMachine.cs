@@ -1,5 +1,6 @@
 using System;
 using Dino.Extension;
+using Dino.Location;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
 using Dino.Units.Component.Target;
@@ -7,6 +8,7 @@ using Dino.Weapon;
 using Feofun.Components;
 using JetBrains.Annotations;
 using UnityEngine;
+using Zenject;
 
 
 namespace Dino.Units.StateMachine
@@ -26,6 +28,8 @@ namespace Dino.Units.StateMachine
         private MoveAnimationWrapper _animationWrapper;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
 
+        [Inject] private World _world;
+        
         public virtual void Init(Unit unit)
         {
             CacheComponents(unit);
@@ -75,21 +79,15 @@ namespace Dino.Units.StateMachine
 
         private BaseState BuildState(UnitState state)
         {
-            switch (state)
+            return state switch
             {
-                case UnitState.Idle:
-                    return new IdleState(this);
-                case UnitState.Patrol:
-                    return new PatrolState(this);
-                case UnitState.Chase:
-                    return new ChaseState(this);
-                case UnitState.Attack:
-                    return new AttackState(this);
-                case UnitState.Death:
-                    return new DeathState(this);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(state), state, null);
-            }
+                UnitState.Idle => new IdleState(this),
+                UnitState.Patrol => new PatrolState(this),
+                UnitState.Chase => new ChaseState(this),
+                UnitState.Attack => new AttackState(this),
+                UnitState.Death => new DeathState(this),
+                _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
+            };
         }
     }
 }
