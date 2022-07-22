@@ -1,6 +1,7 @@
 using Dino.Analytics;
 using Dino.Cheats.Installer;
 using Dino.Config;
+using Dino.Inventory.Installer;
 using Dino.Location;
 using Dino.Modifiers;
 using Dino.Player.Installer;
@@ -40,6 +41,7 @@ namespace Dino.Core.MonoInstaller
             ModifiersInstaller.Install(Container);  
             
             UnitServicesInstaller.Install(Container);
+            InventoryServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container); 
             

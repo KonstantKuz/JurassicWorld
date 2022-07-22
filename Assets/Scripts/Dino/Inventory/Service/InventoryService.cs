@@ -1,12 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
-using Dino.Weapon.Config;
-using Dino.Weapon.Model;
-using Feofun.Config;
 using ModestTree;
-using SuperMaxim.Core.Extensions;
 using UniRx;
 using Zenject;
 
@@ -31,13 +28,15 @@ namespace Dino.Inventory.Service
 
         public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
         public bool Contains(ItemId id) => Inventory.Contains(id);
+        public int Count(string itemName) => Inventory.Items.Count(it => it.Name == itemName);
 
-        public void Add(string itemName)
+        public ItemId Add(string itemName)
         {
             var inventory = Inventory;
             var itemId = CreateNewId(itemName);
             inventory.Add(itemId);
             Set(inventory);
+            return itemId;
         }
 
         public void Remove(ItemId id)
@@ -46,7 +45,14 @@ namespace Dino.Inventory.Service
             inventory.Remove(id);
             Set(inventory);
         }
-
+        public IEnumerable<ItemId> GetAll(string itemName)
+        {
+            var items = _inventory.Value.Items.Where(it => it.Name == itemName);
+            if (items.IsEmpty()) {
+                throw new NullReferenceException($"Error getting items, inventory doesn't contain items:= {itemName}");
+            }
+            return items;
+        }
         public ItemId GetLast(string itemName)
         {
             var itemId = _inventory.Value.Items.Where(it => it.Name == itemName).OrderBy(it => it.Number).LastOrDefault();

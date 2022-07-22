@@ -3,6 +3,7 @@ using Dino.Cheats.Data;
 using Dino.Cheats.Repository;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
+using Dino.Units.Service;
 using Feofun.Localization.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -17,7 +18,8 @@ namespace Dino.Cheats
         
         [Inject] private LocalizationService _localizationService;    
         [Inject] private ActiveItemService _activeItemService;     
-        [Inject] private InventoryService _inventoryService;     
+        [Inject] private InventoryService _inventoryService;    
+        [Inject] private CraftService _craftService;     
 
 
         [SerializeField] private GameObject _fpsMonitor;
@@ -54,6 +56,10 @@ namespace Dino.Cheats
         public void AddInventoryItem(string itemName)
         { 
             _inventoryService.Add(itemName);
+        }   
+        public void Craft(string craftItemId)
+        { 
+            _craftService.Craft(craftItemId);
         }
         
         public void LogTestMessage()

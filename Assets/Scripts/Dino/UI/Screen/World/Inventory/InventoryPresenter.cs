@@ -2,6 +2,7 @@
 using Dino.Inventory.Service;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.View;
+using Dino.Units.Service;
 using UnityEngine;
 using Zenject;
 

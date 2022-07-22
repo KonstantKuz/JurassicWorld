@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dino.Extension;
+using Dino.Units.Component;
 using Dino.Units.Component.Animation;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
@@ -13,6 +15,7 @@ using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;
+using SuperMaxim.Core.Extensions;
 using UnityEngine;
 
 namespace Dino.Units.Player.Component
@@ -34,6 +37,7 @@ namespace Dino.Units.Player.Component
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
 
+        private List<IInitializable<IWeaponModel>> _weaponDependentComponents;
         [CanBeNull]
         private ChangeableWeapon _weapon;
         [CanBeNull]
@@ -50,6 +54,7 @@ namespace Dino.Units.Player.Component
             _animationSwitcher = gameObject.RequireComponentInChildren<AnimationSwitcher>();
             _targetSearcher = GetComponent<ITargetSearcher>();
             _movementController = GetComponent<MovementController>();
+            _weaponDependentComponents = GetComponentsInChildren<IInitializable<IWeaponModel>>().ToList();
             _weaponAnimationHandler = GetComponentInChildren<WeaponAnimationHandler>();
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent += Fire;
@@ -64,19 +69,21 @@ namespace Dino.Units.Player.Component
                     Model = weaponModel,
                     Timer = new WeaponTimer(weaponModel.AttackInterval),
             };
-            InitTargetSearcher(weaponModel);
+            InitWeaponDependentComponents(weaponModel);
             OverrideAnimation(weaponModel.Animation);
             UpdateAnimationSpeed(weaponModel.AttackInterval, weaponModel.Animation);
         }
 
-        private void InitTargetSearcher(IWeaponModel weaponModel)
+        private void InitWeaponDependentComponents(IWeaponModel weaponModel)
         {
             var playerSearcher = _targetSearcher as IInitializable<IWeaponModel>;
             if (playerSearcher == null) {
-                this.Logger().Error("Target searcher on player must be IInintializeble<IWeaponModel>");
+                this.Logger().Error("Target searcher on player must be IInitializable<IWeaponModel>");
                 return;
             } 
             playerSearcher.Init(weaponModel);
+            _weaponDependentComponents.Except(playerSearcher);
+            _weaponDependentComponents.ForEach(it => it.Init(weaponModel));
         }
 
         private void OverrideAnimation(string animationId)
@@ -89,6 +96,12 @@ namespace Dino.Units.Player.Component
             _weapon = null;
             if (_rotateToTarget) {
                 _movementController.RotateToTarget(null);
+            }
+
+            foreach (var component in _weaponDependentComponents)
+            {
+                var disposable = component as IDisposable;
+                disposable?.Dispose();
             }
         }
 
