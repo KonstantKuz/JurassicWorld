@@ -70,7 +70,10 @@ namespace Dino.Session.Service
 
         private void OnFinishTriggered()
         {
-            EndSession(UnitType.PLAYER);
+            if (Session.IsMaxKills)
+            {
+                EndSession(UnitType.PLAYER);
+            }
         }
 
         private void CreatePlayer()
@@ -85,7 +88,8 @@ namespace Dino.Session.Service
 
         private void InitEnemies()
         {
-            _enemyInitService.InitEnemies();
+            Session.SetMaxKillsCount(_currentLevel.Enemies.Count);
+            _enemyInitService.InitEnemies(_currentLevel.Enemies);
         }
 
         private void ResetKills() => _kills.Value = 0;
