@@ -360,6 +360,8 @@ MonoBehaviour:
       _value: {fileID: 7400000, guid: 180e5be503e334c439f61f9525b26c76, type: 2}
     - _key: BowAttack
       _value: {fileID: 7400000, guid: b95d58e441b14e042b4e6dd58f357720, type: 2}
+    - _key: StoneAttack
+      _value: {fileID: 7400000, guid: 64f9f5ce329850c44b699b5c7af5caac, type: 2}
 --- !u!1 &4302532041753703325
 GameObject:
   m_ObjectHideFlags: 0
