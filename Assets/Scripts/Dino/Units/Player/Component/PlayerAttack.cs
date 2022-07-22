@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dino.Extension;
 using Dino.Units.Component;
@@ -36,6 +37,7 @@ namespace Dino.Units.Player.Component
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
 
+        private List<IInitializable<IWeaponModel>> _weaponDependentComponent;
         [CanBeNull]
         private ChangeableWeapon _weapon;
         [CanBeNull]
@@ -52,6 +54,7 @@ namespace Dino.Units.Player.Component
             _animationSwitcher = gameObject.RequireComponentInChildren<AnimationSwitcher>();
             _targetSearcher = GetComponent<ITargetSearcher>();
             _movementController = GetComponent<MovementController>();
+            _weaponDependentComponent = GetComponentsInChildren<IInitializable<IWeaponModel>>().ToList();
             _weaponAnimationHandler = GetComponentInChildren<WeaponAnimationHandler>();
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent += Fire;
@@ -66,21 +69,21 @@ namespace Dino.Units.Player.Component
                     Model = weaponModel,
                     Timer = new WeaponTimer(weaponModel.AttackInterval),
             };
-            InitWeaponDependentComponents();
+            InitWeaponDependentComponents(weaponModel);
             OverrideAnimation(weaponModel.Animation);
             UpdateAnimationSpeed(weaponModel.AttackInterval, weaponModel.Animation);
         }
 
-        private void InitWeaponDependentComponents()
+        private void InitWeaponDependentComponents(IWeaponModel weaponModel)
         {
             var playerSearcher = _targetSearcher as IInitializable<IWeaponModel>;
             if (playerSearcher == null) {
                 this.Logger().Error("Target searcher on player must be IInitializable<IWeaponModel>");
                 return;
             } 
-            playerSearcher.Init(_weapon.Model);
-            var otherDependentUsers = GetComponentsInChildren<IInitializable<IWeaponModel>>().Except(playerSearcher);
-            otherDependentUsers.ForEach(it => it.Init(_weapon.Model));
+            playerSearcher.Init(weaponModel);
+            _weaponDependentComponent.Except(playerSearcher);
+            _weaponDependentComponent.ForEach(it => it.Init(weaponModel));
         }
 
         private void OverrideAnimation(string animationId)
@@ -93,6 +96,12 @@ namespace Dino.Units.Player.Component
             _weapon = null;
             if (_rotateToTarget) {
                 _movementController.RotateToTarget(null);
+            }
+
+            foreach (var initializable in _weaponDependentComponent)
+            {
+                var deactivateEventReceiver = initializable as IDisposable;
+                deactivateEventReceiver?.Dispose();
             }
         }
 
