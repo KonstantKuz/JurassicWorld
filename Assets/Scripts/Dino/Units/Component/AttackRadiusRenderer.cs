@@ -27,17 +27,26 @@ namespace Dino.Units.Component
 
         public void OnTick()
         {
-            Plane.position = transform.position;
-            Plane.rotation *= Quaternion.Euler(0,_rotationSpeed * Time.deltaTime,0);
+            if (_plane == null) {
+                return;
+            }
+            _plane.position = transform.position;
+            _plane.rotation *= Quaternion.Euler(0,_rotationSpeed * Time.deltaTime,0);
         }
 
         public void Dispose()
         {
+            if (_plane == null) {
+                return;
+            }
             Plane.gameObject.SetActive(false);
         }
 
         private void OnDestroy()
         {
+            if (_plane == null) {
+                return;
+            }
             Destroy(Plane.gameObject);
         }
     }
