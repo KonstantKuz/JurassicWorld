@@ -7,7 +7,8 @@ namespace Dino.Config
         public const string ENEMY_UNIT = "EnemyUnit";
         public const string MODIFIERS = "Modifiers";
         public const string CONSTANTS = "Constants";
-        public const string MISSION_REWARDS = "MissionRewards"; 
+        public const string MISSION_REWARDS = "MissionRewards";
         public const string WEAPONS = "Weapons";
+        public const string CRAFT = "Craft";
     }
 }

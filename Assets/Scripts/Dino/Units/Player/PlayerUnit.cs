@@ -1,5 +1,5 @@
 ﻿using Dino.Extension;
-using Dino.Inventory.Components;
+using Dino.Units.Component;
 using Dino.Units.Player.Component;
 
 namespace Dino.Units.Player
