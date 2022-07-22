@@ -13,5 +13,10 @@ namespace Dino.Loot
         {
             CollectProgress += Time.deltaTime;
         }
+
+        public void ResetProgress()
+        {
+            CollectProgress = 0;
+        }
     }
 }

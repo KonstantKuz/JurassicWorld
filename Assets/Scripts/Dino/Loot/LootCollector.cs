@@ -42,6 +42,8 @@ namespace Dino.Loot
             if (!other.TryGetComponent(out Loot loot)) {
                 return;
             }
+
+            loot.ResetProgress();
             _lootHud.Hide();
         }
 
