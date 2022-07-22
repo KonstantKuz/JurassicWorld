@@ -46,7 +46,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         public void UpdateItems()
         {
-            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList();
+            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList(); // todo
             _items.SetValueAndForceNotify(CreateItems());
         }
 

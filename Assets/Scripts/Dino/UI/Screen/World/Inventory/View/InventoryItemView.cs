@@ -29,7 +29,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         public void Init(ItemViewModel model)
         {
             _model = model;
-            model.State.Subscribe(UpdateState);    
+            model.State.Subscribe(UpdateState);  // todo   
             model.CanCraft.Subscribe(UpdateCraftState);
             if (model.Id != null) {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Id.Name));

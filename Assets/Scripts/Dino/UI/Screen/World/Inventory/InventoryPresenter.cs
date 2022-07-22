@@ -15,9 +15,7 @@ namespace Dino.UI.Screen.World.Inventory
         private InventoryView _view;      
         [SerializeField]
         private ItemCursor _itemCursor;
-        [SerializeField]
-        private InventoryItemView _itemPrefab;  
-        
+
         [Inject] private InventoryService _inventoryService;
         [Inject] private ActiveItemService _activeItemService;     
         [Inject] private CraftService _craftService;
@@ -26,18 +24,26 @@ namespace Dino.UI.Screen.World.Inventory
 
         private void OnEnable()
         {
-            _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, UpdateActiveItem, OnBeginDrag, OnEndDrag);
+            _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, UpdateActiveItem, OnBeginItemDrag, OnEndItemDrag);
             _view.Init(_model.Items);
         }
 
-        private void OnEndDrag(ItemViewModel model)
+        private void OnEndItemDrag(ItemViewModel model)
         {
             var secondItemModel = _itemCursor.FirstComponentByMousePosition<InventoryItemView>();
+   
             if (secondItemModel != null && secondItemModel.Model != null && secondItemModel.Model.State.Value != ItemViewState.Empty) {
                 TryCraft(model, secondItemModel.Model);
                 return;
             }
-            _model.UpdateItemModel(model);
+            if (_itemCursor.IsCursorOverLayer("Inventory")) {
+                _model.UpdateItemModel(model);
+            } else {
+                _inventoryService.Remove(model.Id);
+                if (_activeItemService.IsActiveItem(model.Id)) {
+                    _activeItemService.UnEquip();
+                }
+            }
             _itemCursor.Detach();
         }
 
@@ -53,24 +59,20 @@ namespace Dino.UI.Screen.World.Inventory
                 _itemCursor.Detach();
                 return;
             }
-            if (_activeItemService.IsActiveItem(firstItemModel.Id) || _activeItemService.IsActiveItem(secondItemModel.Id)) {
-                _activeItemService.UnEquip();
-            }
-            _craftService.Craft(ingredients);
+            var craftedItem = _craftService.Craft(ingredients);
+            _activeItemService.Replace(craftedItem);
             _itemCursor.Detach();
         }
 
-        private void OnBeginDrag(ItemViewModel model)
+        private void OnBeginItemDrag(ItemViewModel model)
         {
-            var dragItem = Instantiate(_itemPrefab);
-            var newModel = ItemViewModel.ForDrag(model.Id, model.CanCraft.Value);
-            
+            var dragItem = Instantiate(_view.ItemPrefab);
+            var dragModel = ItemViewModel.ForDrag(model.Id, model.CanCraft.Value);
             
             model.UpdateState(ItemViewState.Empty); 
             model.UpdateCraftState(false);
             
-      
-            dragItem.InitViewForDrag(newModel);
+            dragItem.InitViewForDrag(dragModel);
             _itemCursor.Attach(dragItem.gameObject);
         }
         

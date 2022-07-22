@@ -14,11 +14,12 @@ namespace Dino.UI.Screen.World.Inventory.View
         private InventoryItemView _itemPrefab;
         [SerializeField]
         private Transform _root;
-
-        private CompositeDisposable _disposable;
         
         [Inject] private DiContainer _container;
-        
+
+        private CompositeDisposable _disposable;
+
+        public InventoryItemView ItemPrefab => _itemPrefab;
         
         public void Init(IReactiveProperty<List<ItemViewModel>> items)
         {
