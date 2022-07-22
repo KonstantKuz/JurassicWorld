@@ -14,7 +14,7 @@ namespace Dino.Loot.Service
 {
     public class LootService
     {
-        private const int SEARCH_POSITION_ANGLE_STEP = 10;     
+        private const int SEARCH_POSITION_ANGLE_STEP = 10;
         private const int SEARCH_POSITION_ANGLE_MAX = 360;
 
         [Inject]
@@ -26,7 +26,6 @@ namespace Dino.Loot.Service
         private World _world;
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
-
 
         public void Collect(Loot loot)
         {
@@ -41,20 +40,19 @@ namespace Dino.Loot.Service
                 this.Logger().Error($"Loot prefab not found for itemId:= {itemId}");
                 return;
             }
-            var lootCollector = _world.Player.gameObject.RequireComponentInChildren<LootCollector>();
             var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject);
             var playerPosition = _world.Player.SelfTarget.Root.position.XZ();
-            var radiusFromPlayer = lootCollector.CollectRadius * 2;
+            var radiusFromPlayer = _world.Player.LootCollector.CollectRadius * 2;
             SetLootPosition(playerPosition, lootObject, radiusFromPlayer);
         }
 
         private void SetLootPosition(Vector3 playerPosition, GameObject lootObject, float radius)
         {
-            lootObject.transform.SetPositionAndRotation(IsPlaceEmpty(playerPosition, radius, out var result) ? result : playerPosition,
-                                                        Quaternion.identity);
+            var hasPlaceAround = HasPlaceAround(playerPosition, radius, out var result);
+            lootObject.transform.SetPositionAndRotation(hasPlaceAround ? result : playerPosition, Quaternion.identity);
         }
 
-        private bool IsPlaceEmpty(Vector3 center, float range, out Vector3 result)
+        private bool HasPlaceAround(Vector3 center, float range, out Vector3 result)
         {
             for (int angle = 0; angle <= SEARCH_POSITION_ANGLE_MAX; angle += SEARCH_POSITION_ANGLE_STEP) {
                 var point = center + GetPointOnCircle(angle) * range;
@@ -67,6 +65,7 @@ namespace Dino.Loot.Service
             result = Vector3.zero;
             return false;
         }
+
         private Vector3 GetPointOnCircle(float angle)
         {
             float radAngle = Mathf.Deg2Rad * angle;

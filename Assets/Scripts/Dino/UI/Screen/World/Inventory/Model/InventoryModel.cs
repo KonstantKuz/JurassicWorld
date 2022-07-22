@@ -25,6 +25,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly Action<ItemViewModel> _onBeginDrag;    
         private readonly Action<ItemViewModel> _onEndDrag;
         
+        private CompositeDisposable _disposable;
 
         private List<CraftRecipeConfig> _allPossibleRecipes = new List<CraftRecipeConfig>();
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
@@ -33,6 +34,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
                               Action<ItemViewModel> onBeginDrag,
                               Action<ItemViewModel> onEndDrag)
         {
+            _disposable = new CompositeDisposable();
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
             _craftService = craftService;
@@ -40,14 +42,22 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _onBeginDrag = onBeginDrag;
             _onEndDrag = onEndDrag;
             UpdateModel();
+            _inventoryService.InventoryProperty.Select(it => new Unit())
+                             .Merge(_activeItemService.ActiveItemId.Select(it => new Unit()))
+                             .Subscribe(it => UpdateModel())
+                             .AddTo(_disposable);
         }
 
-        public void UpdateModel()
+        private void UpdateModel()
         {
             _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList(); 
             _items.SetValueAndForceNotify(CreateItems());
         }
-
+        public void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
+        }
         private List<ItemViewModel> CreateItems()
         {
             if (!_inventoryService.HasInventory()) {

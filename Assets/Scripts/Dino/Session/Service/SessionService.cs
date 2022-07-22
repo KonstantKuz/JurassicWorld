@@ -8,6 +8,7 @@ using Dino.Session.Messages;
 using Dino.Units;
 using Dino.Units.Service;
 using Logger.Extension;
+using SuperMaxim.Core.Extensions;
 using SuperMaxim.Messaging;
 using UniRx;
 using Zenject;
@@ -78,9 +79,11 @@ namespace Dino.Session.Service
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _currentLevel.Start.position);
             _world.Player = player;
             player.OnDeath += OnDeath;
-            
-            _inventoryService.Add(_constantsConfig.FirstItem);
-            _activeItemService.Equip(_inventoryService.GetLast(_constantsConfig.FirstItem));
+
+            if (!_constantsConfig.FirstItem.IsNullOrEmpty()) {
+                _inventoryService.Add(_constantsConfig.FirstItem);
+                _activeItemService.Equip(_inventoryService.GetLast(_constantsConfig.FirstItem));
+            }
         }
 
         private void InitEnemies()
