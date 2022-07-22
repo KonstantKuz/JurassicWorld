@@ -5,6 +5,7 @@ using Dino.Loot.Service;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.View;
 using Dino.Units.Service;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -24,11 +25,19 @@ namespace Dino.UI.Screen.World.Inventory
         [Inject] private CraftService _craftService;     
         [Inject] private LootService _lootService;
 
+        private CompositeDisposable _disposable;
         private InventoryModel _model;
 
         private void OnEnable()
         {
+            Dispose();
+            _disposable = new CompositeDisposable();
+            
             _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, UpdateActiveItem, OnBeginItemDrag, OnEndItemDrag);
+            _inventoryService.InventoryProperty.Select(it => new Unit())
+                             .Merge(_activeItemService.ActiveItemId.Select(it => new Unit()))
+                             .Subscribe(it => _model.UpdateModel())
+                             .AddTo(_disposable);
             _view.Init(_model.Items);
         }
 
@@ -98,9 +107,17 @@ namespace Dino.UI.Screen.World.Inventory
             }
             _activeItemService.Replace(itemId);
         }
-        private void OnDisable()
+
+        private void Dispose()
         {
             _model = null;
+            _disposable?.Dispose();
+            _disposable = null;
+        }
+
+        private void OnDisable()
+        {
+            Dispose();
         }
     }
 }

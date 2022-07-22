@@ -21,6 +21,8 @@ namespace Dino.UI.Screen.World.Inventory.View
         [SerializeField]
         private GameObject _canCraftContainer;
 
+        private CompositeDisposable _disposable;
+        
         [CanBeNull]
         private ItemViewModel _model;
         [CanBeNull]
@@ -28,9 +30,12 @@ namespace Dino.UI.Screen.World.Inventory.View
         
         public void Init(ItemViewModel model)
         {
+            Dispose();
+            _disposable = new CompositeDisposable();
+            
             _model = model;
-            model.State.Subscribe(UpdateState);  // todo   
-            model.CanCraft.Subscribe(UpdateCraftState);
+            model.State.Subscribe(UpdateState).AddTo(_disposable);
+            model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
             if (model.Id != null) {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Id.Name));
             }
@@ -57,7 +62,16 @@ namespace Dino.UI.Screen.World.Inventory.View
             }
             _stateContainers[state].SetActive(true);
         }
-        
+        private void Dispose()
+        {
+            _model = null;
+            _disposable?.Dispose();
+            _disposable = null;
+        }
+        private void OnDestroy()
+        {
+            Dispose();
+        }
         public void OnPointerClick(PointerEventData eventData)
         {
             _model?.OnClick?.Invoke();
@@ -76,5 +90,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         {
             _model?.OnEndDrag?.Invoke(_model);
         }
+
+   
     }
 }

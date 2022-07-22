@@ -16,18 +16,18 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private const int VISIBLE_ITEM_COUNT = 4;
         
         private readonly ReactiveProperty<List<ItemViewModel>> _items = new ReactiveProperty<List<ItemViewModel>>();
-        
-        
+
         private readonly InventoryService _inventoryService;
         private readonly ActiveItemService _activeItemService;
         private readonly CraftService _craftService;
+        
+        private readonly Action<ItemId> _onClick; 
+        private readonly Action<ItemViewModel> _onBeginDrag;    
+        private readonly Action<ItemViewModel> _onEndDrag;
+        
 
         private List<CraftRecipeConfig> _allPossibleRecipes = new List<CraftRecipeConfig>();
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
-
-        private Action<ItemId> _onClick; 
-        private Action<ItemViewModel> _onBeginDrag;    
-        private Action<ItemViewModel> _onEndDrag;
         
         public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, CraftService craftService, Action<ItemId> onClick,
                               Action<ItemViewModel> onBeginDrag,
@@ -39,14 +39,12 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _onClick = onClick;
             _onBeginDrag = onBeginDrag;
             _onEndDrag = onEndDrag;
-            UpdateItems();
-            _inventoryService.InventoryProperty.Subscribe(it => UpdateItems());   
-            _activeItemService.ActiveItemId.Subscribe(it => UpdateItems());
+            UpdateModel();
         }
 
-        public void UpdateItems()
+        public void UpdateModel()
         {
-            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList(); // todo
+            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList(); 
             _items.SetValueAndForceNotify(CreateItems());
         }
 
