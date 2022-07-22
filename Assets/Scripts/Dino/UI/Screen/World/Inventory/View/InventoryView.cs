@@ -11,16 +11,15 @@ namespace Dino.UI.Screen.World.Inventory.View
     public class InventoryView : MonoBehaviour
     {
         [SerializeField]
-        private InventoryItemView _itemPrefab;       
-        [SerializeField]
-        private GameObject _emptyItemPrefab;
+        private InventoryItemView _itemPrefab;
         [SerializeField]
         private Transform _root;
-
-        private CompositeDisposable _disposable;
         
         [Inject] private DiContainer _container;
-        
+
+        private CompositeDisposable _disposable;
+
+        public InventoryItemView ItemPrefab => _itemPrefab;
         
         public void Init(IReactiveProperty<List<ItemViewModel>> items)
         {
@@ -37,10 +36,6 @@ namespace Dino.UI.Screen.World.Inventory.View
 
         private void CreateItem(ItemViewModel itemViewModel)
         {
-            if (itemViewModel.State == ItemViewState.Empty) {
-                Instantiate(_emptyItemPrefab, _root);
-                return;
-            }
             var itemView = _container.InstantiatePrefabForComponent<InventoryItemView>(_itemPrefab, _root);
             itemView.Init(itemViewModel);
         }

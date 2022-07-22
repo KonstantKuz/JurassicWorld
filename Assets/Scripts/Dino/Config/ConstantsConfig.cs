@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using JetBrains.Annotations;
 
 namespace Dino.Config
 {
@@ -10,7 +11,8 @@ namespace Dino.Config
         [DataMember(Name = "FirstItem")]
         private string _firstItem;
         
-        public string FirstUnit => _firstUnit;       
+        public string FirstUnit => _firstUnit;
+        [CanBeNull]
         public string FirstItem => _firstItem;
     }
 }

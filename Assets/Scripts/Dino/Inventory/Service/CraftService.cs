@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Config;
 using Dino.Inventory.Model;
@@ -76,29 +77,27 @@ namespace Dino.Inventory.Service
             return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
         }
 
-        public void Craft(HashSet<ItemId> ingredients)
+        public ItemId Craft(HashSet<ItemId> ingredients)
         {
             var recipe = FindFirstPossibleRecipe(ingredients);
             if (recipe == null) {
-                this.Logger().Error($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
-                return;
+                throw new ArgumentException($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
             }
-            ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient));
-            _inventoryService.Add(recipe.CraftItemId);
+            ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient)); 
+            return _inventoryService.Add(recipe.CraftItemId);
         }
 
-        public void Craft(string recipeId)
+        public ItemId Craft(string recipeId)
         {
             var recipe = _craftConfig.GetRecipe(recipeId);
             if (!HasIngredientsInInventory(recipe)) {
-                this.Logger().Error($"Error Craft, ingredients don't contain in inventory:= {recipeId}");
-                return;
+                throw new ArgumentException($"Error Craft, ingredients don't contain in inventory:= {recipeId}");
             }
             recipe.Ingredients.ForEach(ingredient => {
                 var items = _inventoryService.GetAll(ingredient.Name).ToList();
                 items.Skip(items.Count - ingredient.Count).ForEach(it => _inventoryService.Remove(it));
             });
-            _inventoryService.Add(recipe.CraftItemId);
+            return _inventoryService.Add(recipe.CraftItemId);
         }
     }
 }

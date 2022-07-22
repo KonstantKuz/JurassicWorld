@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Dino.Extension;
 using Dino.Location.Model;
 using JetBrains.Annotations;
 using UniRx;
@@ -45,7 +46,6 @@ namespace Dino.Location.Service
             var prefab = _prefabs[objectId];
             return CreateObject(prefab, container);
         }
-
         public GameObject CreateObject(GameObject prefab, [CanBeNull] Transform container = null)
         {
             var parentContainer = container == null ? _world.Spawn.transform : container.transform;

@@ -557,7 +557,7 @@ GameObject:
   - component: {fileID: 769146984673980039}
   - component: {fileID: 799176670465654540}
   - component: {fileID: 9068259793555295510}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: LootCollector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +615,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8090966251324774736}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.5

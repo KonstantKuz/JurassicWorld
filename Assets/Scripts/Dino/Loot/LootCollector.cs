@@ -9,7 +9,7 @@ namespace Dino.Loot
     [RequireComponent(typeof(LootHudOwner))]
     public class LootCollector : MonoBehaviour
     {
-        [SerializeField] private float _collectRadius = 5f;
+        [SerializeField] private float _collectRadius = 1.5f;
         [SerializeField] private float _collectTime = 1f;
         [SerializeField] private SphereCollider _collider;
         
@@ -19,6 +19,7 @@ namespace Dino.Loot
         [Inject] private SessionService _sessionService;
         [Inject] private World _world;
 
+        public float CollectRadius => _collectRadius;
         
         private void Awake()
         {

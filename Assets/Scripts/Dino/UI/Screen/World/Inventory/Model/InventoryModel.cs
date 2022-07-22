@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dino.Inventory.Config;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Units.Service;
@@ -15,29 +16,48 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private const int VISIBLE_ITEM_COUNT = 4;
         
         private readonly ReactiveProperty<List<ItemViewModel>> _items = new ReactiveProperty<List<ItemViewModel>>();
-        
-        
+
         private readonly InventoryService _inventoryService;
         private readonly ActiveItemService _activeItemService;
-        public IReactiveProperty<List<ItemViewModel>> Items => _items;
-
-        private Action<ItemId> _onClick;
+        private readonly CraftService _craftService;
         
-        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, Action<ItemId> onClick)
+        private readonly Action<ItemId> _onClick; 
+        private readonly Action<ItemViewModel> _onBeginDrag;    
+        private readonly Action<ItemViewModel> _onEndDrag;
+        
+        private CompositeDisposable _disposable;
+
+        private List<CraftRecipeConfig> _allPossibleRecipes = new List<CraftRecipeConfig>();
+        public IReactiveProperty<List<ItemViewModel>> Items => _items;
+        
+        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, CraftService craftService, Action<ItemId> onClick,
+                              Action<ItemViewModel> onBeginDrag,
+                              Action<ItemViewModel> onEndDrag)
         {
+            _disposable = new CompositeDisposable();
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
+            _craftService = craftService;
             _onClick = onClick;
-            UpdateItems();
-            _inventoryService.InventoryProperty.Subscribe(it => UpdateItems());   
-            _activeItemService.ActiveItemId.Subscribe(it => UpdateItems());
+            _onBeginDrag = onBeginDrag;
+            _onEndDrag = onEndDrag;
+            UpdateModel();
+            _inventoryService.InventoryProperty.Select(it => new Unit())
+                             .Merge(_activeItemService.ActiveItemId.Select(it => new Unit()))
+                             .Subscribe(it => UpdateModel())
+                             .AddTo(_disposable);
         }
 
-        public void UpdateItems()
+        private void UpdateModel()
         {
+            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList(); 
             _items.SetValueAndForceNotify(CreateItems());
         }
-
+        public void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
+        }
         private List<ItemViewModel> CreateItems()
         {
             if (!_inventoryService.HasInventory()) {
@@ -52,13 +72,20 @@ namespace Dino.UI.Screen.World.Inventory.Model
             return items.Select(CreateItemViewModel).Concat(Enumerable.Repeat(ItemViewModel.Empty(), VISIBLE_ITEM_COUNT - items.Count)).ToList();
         }
 
-        private ItemViewModel CreateItemViewModel([CanBeNull] ItemId id)
+        private ItemViewModel CreateItemViewModel(ItemId id)
         {
-            return new ItemViewModel() {
-                    Id = id,
-                    State = GetState(id),
-                    OnClick = () => _onClick?.Invoke(id)
-            };
+            return new ItemViewModel(id, GetState(id), CanCraft(id), () => _onClick?.Invoke(id), _onBeginDrag, _onEndDrag);
+        }
+
+        public void UpdateItemModel(ItemViewModel model)
+        {
+            model.UpdateState(GetState(model.Id));     
+            model.UpdateCraftState(CanCraft(model.Id));
+        }
+
+        private bool CanCraft(ItemId id)
+        {
+            return _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.Name));
         }
 
         private ItemViewState GetState([CanBeNull] ItemId id)

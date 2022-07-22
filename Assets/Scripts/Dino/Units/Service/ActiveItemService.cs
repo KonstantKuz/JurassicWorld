@@ -28,28 +28,36 @@ namespace Dino.Units.Service
         private PlayerUnit Player => _world.GetPlayer();
 
         public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
-        public void Replace(ItemId id)
+        public void Replace(ItemId itemId)
         {
             UnEquip();
-            Equip(id);
+            Equip(itemId);
         }
 
-        public void Equip(ItemId id)
+        public bool IsActiveItem(ItemId itemId)
+        {
+            if (!HasActiveItem()) {
+                return false;
+            }
+            return itemId.Equals(_activeItemId.Value);
+        }
+
+        public void Equip(ItemId itemId)
         {
             if (_activeItemId.Value != null) {
-                this.Logger().Error($"Equip error, active item:= {id} is not null, should unEquip the previous active item of unit");
+                this.Logger().Error($"Equip error, active item:= {itemId} is not null, should unEquip the previous active item of unit");
                 return;
             }
-            if (!_inventoryService.Contains(id)) {
-                this.Logger().Error($"Equip error, inventory must contain the item:= {id}");
+            if (!_inventoryService.Contains(itemId)) {
+                this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
                 return;
             }
             var itemOwner = Player.ActiveItemOwner;
-            var itemObject = _worldObjectFactory.CreateObject(id.Name, itemOwner.Container);
-            _activeItemId.SetValueAndForceNotify(id);
+            var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
+            _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
             
-            _weaponService.TrySetWeapon(id.Name, itemOwner.GetWeapon());
+            _weaponService.TrySetWeapon(itemId.Name, itemOwner.GetWeapon());
         }
 
         public void UnEquip()
