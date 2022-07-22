@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4919371471261913371}
   - component: {fileID: 2163629929231408513}
   - component: {fileID: 7054366696054155532}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: StoneLoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,6 +71,14 @@ PrefabInstance:
     - target: {fileID: 799151397082236052, guid: 16d40a3f768e8dc49b6a7b641031bf1b, type: 3}
       propertyPath: m_Name
       value: Stone
+      objectReference: {fileID: 0}
+    - target: {fileID: 799151397082236052, guid: 16d40a3f768e8dc49b6a7b641031bf1b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3974838347655053696, guid: 16d40a3f768e8dc49b6a7b641031bf1b, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 16d40a3f768e8dc49b6a7b641031bf1b, type: 3}
       propertyPath: m_RootOrder

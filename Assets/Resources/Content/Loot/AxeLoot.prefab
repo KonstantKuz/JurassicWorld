@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 799350573789315488}
   - component: {fileID: 7165856726931721727}
   - component: {fileID: 2688945697516823126}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AxeLoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,6 +71,18 @@ PrefabInstance:
     - target: {fileID: 799151397082236052, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_Name
       value: Axe
+      objectReference: {fileID: 0}
+    - target: {fileID: 799151397082236052, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2766658304846633844, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982098900121719653, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_RootOrder
