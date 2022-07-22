@@ -53,7 +53,7 @@ namespace Dino.UI.Screen.World.Inventory
                     firstItemModel.Id,
                     secondItemModel.Id
             };
-            var recipe = _craftService.FindFirstPossibleRecipe(ingredients);
+            var recipe = _craftService.FindFirstMatchingRecipe(ingredients);
             if (recipe == null) {
                 _model.UpdateItemModel(firstItemModel);
                 _itemCursor.Detach();

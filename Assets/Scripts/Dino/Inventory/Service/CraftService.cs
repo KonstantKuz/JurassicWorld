@@ -21,9 +21,9 @@ namespace Dino.Inventory.Service
         public InventoryService _inventoryService;
 
         [CanBeNull]
-        public CraftRecipeConfig FindFirstPossibleRecipe(HashSet<ItemId> ingredients)
+        public CraftRecipeConfig FindFirstMatchingRecipe(HashSet<ItemId> ingredients)
         {
-            var recipes = FindAllPossibleRecipes(ingredients).ToList();
+            var recipes = FindAllMatchingRecipes(ingredients).ToList();
             if (recipes.IsEmpty()) {
                 return null;
             }
@@ -32,9 +32,18 @@ namespace Dino.Inventory.Service
                                    + $" recipes:= {Join(", ", recipes.Select(it => it.CraftItemId))}");
             }
             return recipes.First();
+        }       
+        [CanBeNull]
+        public CraftRecipeConfig FindFirstPossibleRecipe(HashSet<ItemId> ingredients)
+        {
+            var recipe = FindFirstMatchingRecipe(ingredients);
+            if (recipe == null) {
+                return null;
+            }
+            return !HasIngredientsInInventory(recipe) ? null : recipe;
         }
 
-        public IEnumerable<CraftRecipeConfig> FindAllPossibleRecipes(HashSet<ItemId> ingredients)
+        public IEnumerable<CraftRecipeConfig> FindAllMatchingRecipes(HashSet<ItemId> ingredients)
         {
             var groupingIngredients = ingredients.GroupBy(p => p.Name).ToDictionary(it => it.Key, it => it.Count());
             foreach (var recipe in _craftConfig.Crafts.Values) {
@@ -67,17 +76,14 @@ namespace Dino.Inventory.Service
         {
             return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
         }
-        
+
         public ItemId Craft(HashSet<ItemId> ingredients)
         {
             var recipe = FindFirstPossibleRecipe(ingredients);
             if (recipe == null) {
-                throw new ArgumentException($"Error Craft, recipe not found by ingredients:= {Join(", ", ingredients)}");
+                throw new ArgumentException($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
             }
-            if (!HasIngredientsInInventory(recipe)) {
-                throw new ArgumentException($"Error Craft, craft is not possible recipe:= {recipe.CraftItemId}");
-            }
-            ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient));
+            ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient)); 
             return _inventoryService.Add(recipe.CraftItemId);
         }
 
