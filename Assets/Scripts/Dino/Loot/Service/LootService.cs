@@ -14,6 +14,9 @@ namespace Dino.Loot.Service
 {
     public class LootService
     {
+        private const int SEARCH_POSITION_ANGLE_STEP = 10;     
+        private const int SEARCH_POSITION_ANGLE_MAX = 360;
+
         [Inject]
         private InventoryService _inventoryService;
         [Inject]
@@ -23,6 +26,7 @@ namespace Dino.Loot.Service
         private World _world;
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
+
 
         public void Collect(Loot loot)
         {
@@ -40,7 +44,7 @@ namespace Dino.Loot.Service
             var lootCollector = _world.Player.gameObject.RequireComponentInChildren<LootCollector>();
             var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject);
             var playerPosition = _world.Player.SelfTarget.Root.position.XZ();
-            var radiusFromPlayer = lootCollector.CollectRadius + lootCollector.CollectRadius / 2;
+            var radiusFromPlayer = lootCollector.CollectRadius * 2;
             SetLootPosition(playerPosition, lootObject, radiusFromPlayer);
         }
 
@@ -50,11 +54,11 @@ namespace Dino.Loot.Service
                                                         Quaternion.identity);
         }
 
-        private bool IsPlaceEmpty(Vector2 center, float range, out Vector3 result)
+        private bool IsPlaceEmpty(Vector3 center, float range, out Vector3 result)
         {
-            for (int angle = 0; angle <= 360; angle += 10) {
+            for (int angle = 0; angle <= SEARCH_POSITION_ANGLE_MAX; angle += SEARCH_POSITION_ANGLE_STEP) {
                 var point = center + GetPointOnCircle(angle) * range;
-                if (!NavMesh.SamplePosition(point, out var hit, 0.2f, NavMesh.AllAreas)) {
+                if (!NavMesh.SamplePosition(point, out var hit, 1f, NavMesh.AllAreas)) {
                     continue;
                 }
                 result = hit.position;
@@ -63,10 +67,10 @@ namespace Dino.Loot.Service
             result = Vector3.zero;
             return false;
         }
-        private Vector2 GetPointOnCircle(float angle)
+        private Vector3 GetPointOnCircle(float angle)
         {
             float radAngle = Mathf.Deg2Rad * angle;
-            return new Vector2(Mathf.Cos(radAngle), Mathf.Sin(radAngle));
+            return new Vector3(Mathf.Cos(radAngle), 0, Mathf.Sin(radAngle));
         }
     }
 }
