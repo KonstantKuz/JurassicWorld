@@ -20,9 +20,9 @@ namespace Dino.Inventory.Service
         public InventoryService _inventoryService;
 
         [CanBeNull]
-        public CraftRecipeConfig FindFirstPossibleRecipe(HashSet<ItemId> ingredients)
+        public CraftRecipeConfig FindFirstMatchingRecipe(HashSet<ItemId> ingredients)
         {
-            var recipes = FindAllPossibleRecipes(ingredients).ToList();
+            var recipes = FindAllMatchingRecipes(ingredients).ToList();
             if (recipes.IsEmpty()) {
                 return null;
             }
@@ -31,9 +31,18 @@ namespace Dino.Inventory.Service
                                    + $" recipes:= {Join(", ", recipes.Select(it => it.CraftItemId))}");
             }
             return recipes.First();
+        }       
+        [CanBeNull]
+        public CraftRecipeConfig FindFirstPossibleRecipe(HashSet<ItemId> ingredients)
+        {
+            var recipe = FindFirstMatchingRecipe(ingredients);
+            if (recipe == null) {
+                return null;
+            }
+            return !HasIngredientsInInventory(recipe) ? null : recipe;
         }
 
-        public IEnumerable<CraftRecipeConfig> FindAllPossibleRecipes(HashSet<ItemId> ingredients)
+        public IEnumerable<CraftRecipeConfig> FindAllMatchingRecipes(HashSet<ItemId> ingredients)
         {
             var groupingIngredients = ingredients.GroupBy(p => p.Name).ToDictionary(it => it.Key, it => it.Count());
             foreach (var recipe in _craftConfig.Crafts.Values) {
@@ -71,11 +80,7 @@ namespace Dino.Inventory.Service
         {
             var recipe = FindFirstPossibleRecipe(ingredients);
             if (recipe == null) {
-                this.Logger().Error($"Error Craft, recipe not found by ingredients:= {Join(", ", ingredients)}");
-                return;
-            }
-            if (!HasIngredientsInInventory(recipe)) {
-                this.Logger().Error($"Error Craft, craft is not possible recipe:= {recipe.CraftItemId}");
+                this.Logger().Error($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
                 return;
             }
             ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient));
