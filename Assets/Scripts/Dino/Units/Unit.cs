@@ -44,6 +44,7 @@ namespace Dino.Units
         public UnitType UnitType => _selfTarget.UnitType;
         public UnitType TargetUnitType => _selfTarget.UnitType.GetTargetUnitType();
         public ITarget SelfTarget => _selfTarget;
+        public IDamageable Damageable => _damageable;
         public IUnitModel Model { get; private set; }
         public event Action<Unit, DeathCause> OnDeath;
         public event Action<Unit> OnUnitDestroyed;

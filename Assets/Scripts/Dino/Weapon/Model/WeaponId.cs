@@ -4,5 +4,7 @@
     {
         Stick,
         Bow,
+        Stone,
+        Axe,
     }
 }
