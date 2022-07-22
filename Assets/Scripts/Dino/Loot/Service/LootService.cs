@@ -1,4 +1,5 @@
 using Dino.Inventory.Service;
+using Dino.Units.Service;
 using Zenject;
 
 namespace Dino.Loot.Service

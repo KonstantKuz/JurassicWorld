@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
+using Dino.Units.Service;
 using JetBrains.Annotations;
 using Logger.Extension;
 using UniRx;

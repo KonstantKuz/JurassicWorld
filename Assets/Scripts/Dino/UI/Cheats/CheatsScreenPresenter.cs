@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Dino.Cheats;
+using Dino.Inventory.Config;
 using Dino.Weapon.Config;
 using Dino.Weapon.Model;
 using Feofun.Cheats;
@@ -32,11 +33,15 @@ namespace Dino.UI.Cheats
         [SerializeField] private DropdownWithButtonView _inventoryDropdown;
         [SerializeField] private ActionButton _removeActiveItemButton; 
         [SerializeField] private ActionButton _removeInventoryItemButton;   
-        [SerializeField] private ActionButton _addInventoryItemButton;
+        [SerializeField] private ActionButton _addInventoryItemButton;       
+        
+        
+        [SerializeField] private DropdownWithButtonView _craftDropdown;
 
         [Inject] private CheatsManager _cheatsManager;
         [Inject] private CheatsActivator _cheatsActivator;
-        [Inject] private ConfigCollection<WeaponId, WeaponConfig> _weaponConfigs;
+        [Inject] private ConfigCollection<WeaponId, WeaponConfig> _weaponConfigs;    
+        [Inject] private CraftConfig _craftConfig;
 
         private void OnEnable()
         {
@@ -57,6 +62,9 @@ namespace Dino.UI.Cheats
             _removeActiveItemButton.Init(_cheatsManager.RemoveActiveItem);
             _removeInventoryItemButton.Init(() => _cheatsManager.RemoveInventoryItem(_inventoryDropdown.CurrentValue));
             _addInventoryItemButton.Init(() => _cheatsManager.AddInventoryItem(_inventoryDropdown.CurrentValue));
+            
+            
+            _craftDropdown.Init(_craftConfig.Crafts.Keys.ToList(), _cheatsManager.Craft);
         }
 
         private void DisableCheats()

@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using ModestTree;
 using UnityEngine;
 
-namespace Dino.Inventory.Components
+namespace Dino.Units.Component
 {
     public class ActiveItemOwner : MonoBehaviour
     {
