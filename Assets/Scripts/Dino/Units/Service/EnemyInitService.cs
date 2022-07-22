@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Dino.Location;
 using Dino.Units.Enemy.Config;
@@ -11,13 +12,10 @@ namespace Dino.Units.Service
 {
     public class EnemyInitService : MonoBehaviour
     {
-        [Inject] private World _world;
         [Inject] private StringKeyedConfigCollection<EnemyUnitConfig> _enemyUnitConfigs;
         
-        public void InitEnemies()
+        public void InitEnemies(IEnumerable<Unit> units)
         {
-            var units = _world.GetChildrenComponents<Unit>()
-                              .Where(it => it.UnitType == UnitType.ENEMY);
             foreach (var unit in units)
             {
                 if (!unit.gameObject.activeSelf)
