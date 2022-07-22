@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
+using Dino.Loot.Service;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.View;
 using Dino.Units.Service;
@@ -11,6 +12,8 @@ namespace Dino.UI.Screen.World.Inventory
 {
     public class InventoryPresenter : MonoBehaviour
     {
+        private const string INVENTORY_LAYER_NAME = "Inventory";
+        
         [SerializeField]
         private InventoryView _view;      
         [SerializeField]
@@ -18,7 +21,8 @@ namespace Dino.UI.Screen.World.Inventory
 
         [Inject] private InventoryService _inventoryService;
         [Inject] private ActiveItemService _activeItemService;     
-        [Inject] private CraftService _craftService;
+        [Inject] private CraftService _craftService;     
+        [Inject] private LootService _lootService;
 
         private InventoryModel _model;
 
@@ -30,21 +34,27 @@ namespace Dino.UI.Screen.World.Inventory
 
         private void OnEndItemDrag(ItemViewModel model)
         {
-            var secondItemModel = _itemCursor.FirstComponentByMousePosition<InventoryItemView>();
+            var secondItemModel = _itemCursor.FindComponentUnderCursor<InventoryItemView>();
    
             if (secondItemModel != null && secondItemModel.Model != null && secondItemModel.Model.State.Value != ItemViewState.Empty) {
                 TryCraft(model, secondItemModel.Model);
                 return;
             }
-            if (_itemCursor.IsCursorOverLayer("Inventory")) {
+            if (_itemCursor.IsCursorOverLayer(INVENTORY_LAYER_NAME)) {
                 _model.UpdateItemModel(model);
             } else {
-                _inventoryService.Remove(model.Id);
-                if (_activeItemService.IsActiveItem(model.Id)) {
-                    _activeItemService.UnEquip();
-                }
+                RemoveItemFromInventory(model);
             }
             _itemCursor.Detach();
+        }
+
+        private void RemoveItemFromInventory(ItemViewModel itemModel)
+        {
+            if (_activeItemService.IsActiveItem(itemModel.Id)) {
+                _activeItemService.UnEquip();
+            }
+            _inventoryService.Remove(itemModel.Id);
+            _lootService.DropLoot(itemModel.Id);
         }
 
         private void TryCraft(ItemViewModel firstItemModel, ItemViewModel secondItemModel)

@@ -80,7 +80,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
             return _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.Name));
         }
 
-        public ItemViewState GetState([CanBeNull] ItemId id)
+        private ItemViewState GetState([CanBeNull] ItemId id)
         {
             if (id == null) {
                 return ItemViewState.Empty;

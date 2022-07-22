@@ -41,7 +41,6 @@ namespace Dino.Units
                 }
             }
         }
-
         public UnitType UnitType => _selfTarget.UnitType;
         public UnitType TargetUnitType => _selfTarget.UnitType.GetTargetUnitType();
         public ITarget SelfTarget => _selfTarget;

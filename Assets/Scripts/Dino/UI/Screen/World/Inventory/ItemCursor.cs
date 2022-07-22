@@ -39,7 +39,7 @@ namespace Dino.UI.Screen.World.Inventory
             CursorRoot.position = Input.mousePosition;
         }
         [CanBeNull]
-        public T FirstComponentByMousePosition<T>()
+        public T FindComponentUnderCursor<T>()
         {
             var raycastGameObjects = RaycastMouse()
                                      .Select(it => it.gameObject)
