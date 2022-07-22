@@ -37,7 +37,7 @@ namespace Dino.Units.Player.Component
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
 
-        private List<IInitializable<IWeaponModel>> _weaponDependentComponent;
+        private List<IInitializable<IWeaponModel>> _weaponDependentComponents;
         [CanBeNull]
         private ChangeableWeapon _weapon;
         [CanBeNull]
@@ -54,7 +54,7 @@ namespace Dino.Units.Player.Component
             _animationSwitcher = gameObject.RequireComponentInChildren<AnimationSwitcher>();
             _targetSearcher = GetComponent<ITargetSearcher>();
             _movementController = GetComponent<MovementController>();
-            _weaponDependentComponent = GetComponentsInChildren<IInitializable<IWeaponModel>>().ToList();
+            _weaponDependentComponents = GetComponentsInChildren<IInitializable<IWeaponModel>>().ToList();
             _weaponAnimationHandler = GetComponentInChildren<WeaponAnimationHandler>();
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent += Fire;
@@ -82,8 +82,8 @@ namespace Dino.Units.Player.Component
                 return;
             } 
             playerSearcher.Init(weaponModel);
-            _weaponDependentComponent.Except(playerSearcher);
-            _weaponDependentComponent.ForEach(it => it.Init(weaponModel));
+            _weaponDependentComponents.Except(playerSearcher);
+            _weaponDependentComponents.ForEach(it => it.Init(weaponModel));
         }
 
         private void OverrideAnimation(string animationId)
@@ -98,10 +98,10 @@ namespace Dino.Units.Player.Component
                 _movementController.RotateToTarget(null);
             }
 
-            foreach (var initializable in _weaponDependentComponent)
+            foreach (var component in _weaponDependentComponents)
             {
-                var deactivateEventReceiver = initializable as IDisposable;
-                deactivateEventReceiver?.Dispose();
+                var disposable = component as IDisposable;
+                disposable?.Dispose();
             }
         }
 

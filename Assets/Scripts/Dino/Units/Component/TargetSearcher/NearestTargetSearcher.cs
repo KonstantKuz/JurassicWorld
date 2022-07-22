@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dino.Extension;
 using Dino.Units.Component.Target;
 using Dino.Weapon.Model;
@@ -11,7 +12,7 @@ using Zenject;
 namespace Dino.Units.Component.TargetSearcher
 {
     [RequireComponent(typeof(ITarget))]
-    public class NearestTargetSearcher : MonoBehaviour, IInitializable<Unit>, IInitializable<IWeaponModel>, ITargetSearcher
+    public class NearestTargetSearcher : MonoBehaviour, IInitializable<Unit>, IInitializable<IWeaponModel>, ITargetSearcher, IDisposable
     {
         [SerializeField] private LayerMask _obstacleMask;
 
@@ -62,6 +63,11 @@ namespace Dino.Units.Component.TargetSearcher
             }
             
             return result;
+        }
+
+        public void Dispose()
+        {
+            _searchDistance = null;
         }
     }
 }
