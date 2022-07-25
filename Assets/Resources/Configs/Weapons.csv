@@ -1,0 +1,5 @@
+Id,AttackDistance,AttackDamage,AttackInterval,Animation
+Stick,3,50,1,StickAttack
+Bow,7,50,2,BowAttack
+Stone,5,50,1,StoneAttack
+Axe,3,50,1,StickAttack
