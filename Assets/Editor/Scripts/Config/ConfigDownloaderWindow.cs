@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using Dino.Config;
-using JetBrains.Annotations;
-using SuperMaxim.Core.Extensions;
 using UnityEditor;
 using UnityEngine;
 
@@ -39,13 +37,8 @@ namespace Editor.Scripts.Config
             }
         }
 
-        public static void Download([CanBeNull] string url)
+        public static void Download(string url)
         {
-            if (url.IsNullOrEmpty())
-            {
-                Debug.LogWarning("Configs url is empty. Build will use configs already placed in project.");
-                return;
-            }
             if (!url.Contains(CONFIGS_URL_PATTERN))
             {
                 Debug.LogWarning("Invalid configs url.");

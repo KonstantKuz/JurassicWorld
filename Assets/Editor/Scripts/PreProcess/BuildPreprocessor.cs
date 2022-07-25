@@ -1,4 +1,7 @@
-﻿using JetBrains.Annotations;
+﻿using Editor.Scripts.Config;
+using JetBrains.Annotations;
+using SuperMaxim.Core.Extensions;
+using UnityEngine;
 
 namespace Editor.Scripts.PreProcess
 {
@@ -28,6 +31,17 @@ namespace Editor.Scripts.PreProcess
         private static void BuildLoggerConfig(string loggerLevel)
         {
             ConfigPreprocessor.BuildLoggerConfig(loggerLevel);
+        }
+
+        public static void DownloadConfigs([CanBeNull] string configsUrl)
+        {
+            if (configsUrl.IsNullOrEmpty())
+            {
+                Debug.LogWarning("Configs url is empty. Build will use configs already placed in project.");
+                return;
+            }
+                        
+            ConfigDownloaderWindow.Download(configsUrl);
         }
     }
 }

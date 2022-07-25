@@ -51,8 +51,10 @@ namespace Editor.Scripts.PreProcess
 
         private static void ApplyCommonParams()
         {
-            BuildPreprocessor.Prepare(true,HasCmdLineKey("-debugConsole"), GetCmdLineArgumentValue("-loggerLevel"));
-            ConfigDownloaderWindow.Download(GetCmdLineArgumentValue("-configsUrl"));
+            BuildPreprocessor.Prepare(true,
+                HasCmdLineKey("-debugConsole"),
+                GetCmdLineArgumentValue("-loggerLevel"));
+            BuildPreprocessor.DownloadConfigs(GetCmdLineArgumentValue("-configsUrl"));
         }
 
         private static string[] GetSceneList() => DefaultSceneList;
