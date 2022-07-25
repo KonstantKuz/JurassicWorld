@@ -7,14 +7,16 @@ namespace Dino.Analytics.Wrapper
 {
     public class FacebookAnalyticsWrapper : IAnalyticsImpl
     {
-        
         private bool _isInitialized;
-
         public void Init()
         {
+            if (!Application.isEditor && Application.platform == RuntimePlatform.WindowsEditor) {
+                this.Logger().Warn("Facebook SDK not initializing in Editor Simulator");
+                return;
+            }
             this.Logger().Info("Starting initializing Facebook SDK");
             if (!FB.IsInitialized)
-            {
+            { 
                 FB.Init(InitCallback, OnAppVisibilityChange);
             } else {
                 FB.ActivateApp();
@@ -49,8 +51,7 @@ namespace Dino.Analytics.Wrapper
             FB.LogAppEvent(logEvent, valueToSum, parameters);
         }
 
-        public void ReportEventWithParams(string eventName, Dictionary<string, object> eventParams,
-            IEventParamProvider eventParamProvider)
+        public void ReportEventWithParams(string eventName, Dictionary<string, object> eventParams, IEventParamProvider eventParamProvider)
         {
             LogEvent(eventName, null, eventParams);
         }
