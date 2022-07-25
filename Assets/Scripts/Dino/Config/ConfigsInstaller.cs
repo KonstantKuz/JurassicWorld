@@ -1,4 +1,5 @@
 ﻿using Dino.Inventory.Config;
+using Dino.Location.Level.Config;
 using Dino.Modifiers.Config;
 using Dino.Reward.Config;
 using Dino.Session.Model;
@@ -20,7 +21,8 @@ namespace Dino.Config
             new ConfigLoader(container, new CsvConfigDeserializer())
                 .RegisterSingle<LocalizationConfig>(Configs.LOCALIZATION)
                 .RegisterStringKeyedCollection<PlayerUnitConfig>(Configs.PLAYER_UNIT)
-                .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)
+                .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)           
+                .RegisterSingle<LevelsConfig>(Configs.LEVELS)
                 .RegisterCollection<WeaponId, WeaponConfig>(Configs.WEAPONS)
 
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)           

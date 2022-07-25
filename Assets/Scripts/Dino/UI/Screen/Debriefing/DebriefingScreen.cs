@@ -1,4 +1,6 @@
-﻿using Dino.Reward.Service;
+﻿using Dino.Inventory.Service;
+using Dino.Location.Level.Service;
+using Dino.Reward.Service;
 using Dino.Session.Model;
 using Dino.UI.Screen.Debriefing.Model;
 using Dino.UI.Screen.Main;
@@ -26,12 +28,11 @@ namespace Dino.UI.Screen.Debriefing
         [SerializeField]
         private ActionButton _reloadButton;
 
-        [Inject]
-        private ScreenSwitcher _screenSwitcher;       
-        [Inject]
-        private MissionResultRewardService _missionResultRewardService;  
-        [Inject]
-        private IRewardApplyService _rewardApplyService;
+        [Inject] private ScreenSwitcher _screenSwitcher;       
+        [Inject] private MissionResultRewardService _missionResultRewardService;  
+        [Inject] private IRewardApplyService _rewardApplyService;      
+        [Inject] private InventoryService _inventoryService;     
+        [Inject] private LevelService _levelService;
 
         [PublicAPI]
         public void Init(DebriefingScreenModel model)
@@ -44,8 +45,17 @@ namespace Dino.UI.Screen.Debriefing
 
             var resultPanelModel = model.BuildResultPanelModel(rewards);
             _resultPanel.Init(resultPanelModel);
+            SaveOrDeleteInventory(model.Session);
         }
-        
+        private void SaveOrDeleteInventory(Session.Model.Session session)
+        {
+            if (session.Result == SessionResult.Win) {
+                _inventoryService.Save();
+            }
+            if (_levelService.IsLastLevel(session.LevelId)) {
+                _inventoryService.Delete();
+            }
+        }
         public void OnEnable()
         {
             _nextButton.Init(OnReload);

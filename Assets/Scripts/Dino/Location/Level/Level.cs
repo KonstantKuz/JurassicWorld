@@ -5,7 +5,7 @@ using Dino.Location.Model;
 using Dino.Units;
 using UnityEngine;
 
-namespace Dino.Location
+namespace Dino.Location.Level
 {
     public class Level : WorldObject
     {

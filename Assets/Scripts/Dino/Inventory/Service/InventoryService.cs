@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
-using Dino.Location;
 using ModestTree;
 using UniRx;
 
 namespace Dino.Inventory.Service
 {
-    public class InventoryService : IWorldScope
+    public class InventoryService
     {
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
         
@@ -26,6 +25,16 @@ namespace Dino.Inventory.Service
             }
             _inventory.SetValueAndForceNotify(Inventory);
             
+        }
+        public void Save()
+        {
+            _repository.Set(Inventory);
+        }    
+        public void Delete()
+        {
+            _repository.Delete();
+            _repository.Set(new Model.Inventory());
+            _inventory.SetValueAndForceNotify(Inventory);
         }
         public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
         public bool Contains(ItemId id) => Inventory.Contains(id);
@@ -78,13 +87,5 @@ namespace Dino.Inventory.Service
             _inventory.SetValueAndForceNotify(model);
         }
 
-        public void OnWorldSetup()
-        {
-        
-        }
-        public void OnWorldCleanUp()
-        {
-            _repository.Set(Inventory);
-        }
     }
 }
