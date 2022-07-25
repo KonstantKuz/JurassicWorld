@@ -13,7 +13,8 @@ pipeline {
         booleanParam(name: 'IpaForAppStore', defaultValue: false, description: 'Build ipa for publishing in AppStore, only for iOS')
         booleanParam(name: 'Clean', defaultValue: false, description: 'Delete and reimport assets')
         booleanParam(name: 'DebugConsole', defaultValue: true, description: 'Enable debug console, only for apk')
-        choice(choices: ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR'], name: 'LoggerLevel', description: 'Logger Level') 
+        choice(name: 'LoggerLevel', choices: ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR'], description: 'Logger Level') 
+        string(name: 'ConfigsUrl', defaultValue: '', description: 'Configs url')
     }
     environment {
         OUTPUT_FILE_NAME = 'dinoWorldSurvival'
@@ -65,6 +66,7 @@ pipeline {
                                         UNITY_PARAMS=UNITY_PARAMS + '-debugConsole '
                                     }
                                     UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel  
+                                    UNITY_PARAMS=UNITY_PARAMS + '-configsUrl ' + params.ConfigsUrl
                                 }   
    
                                 withCredentials([string(credentialsId: 'DinoAndroidKeystorePass', variable: 'KEYSTORE_PASS'), 
@@ -103,6 +105,7 @@ pipeline {
                                 script {
                                     UNITY_PARAMS=''
                                     UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
+                                    UNITY_PARAMS=UNITY_PARAMS + '-configsUrl ' + params.ConfigsUrl
                                 }                                                                                                                                                             
                                 withCredentials([string(credentialsId: 'DinoAndroidKeystorePass', variable: 'KEYSTORE_PASS'), 
                                         gitUsernamePassword(credentialsId: 'gitlab_inspiritum_smash_master', gitToolName: 'Default')]) {
@@ -179,6 +182,7 @@ pipeline {
                                 UNITY_PARAMS=UNITY_PARAMS + '-debugConsole '
                             }
                             UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
+                            UNITY_PARAMS=UNITY_PARAMS + '-configsUrl ' + params.ConfigsUrl
                         }         
                            
                         withCredentials([gitUsernamePassword(credentialsId: 'gitlab_inspiritum_smash_master', gitToolName: 'Default')]) {

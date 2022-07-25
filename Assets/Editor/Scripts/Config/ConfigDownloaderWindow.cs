@@ -1,4 +1,7 @@
-﻿using Dino.Config;
+﻿using System.Linq;
+using Dino.Config;
+using JetBrains.Annotations;
+using SuperMaxim.Core.Extensions;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,6 +13,9 @@ namespace Editor.Scripts.Config
 
         private const int MAIN_SHEET_ID_LIST = 515831250; //id of sheet that contains list of all other sheets
         private const string MAIN_CONFIG_PATH = "Resources/Configs";
+
+        private const int CONFIGS_URL_PARTS_COUNT = 6;
+        private const string CONFIGS_URL_PATTERN = "https://docs.google.com/spreadsheets/d";
 
         [MenuItem("App/Download Configs")]
         public static void ShowWindow()
@@ -25,7 +31,7 @@ namespace Editor.Scripts.Config
 
             if (GUILayout.Button("Download all"))
             {
-                DownloadAll();
+                DownloadAll(_mainUrl);
             }
             if (GUILayout.Button("Download localization only"))
             {
@@ -33,9 +39,26 @@ namespace Editor.Scripts.Config
             }
         }
 
-        private void DownloadAll()
+        public static void Download([CanBeNull] string url)
         {
-            new ConfigDownloader(_mainUrl, MAIN_SHEET_ID_LIST).Download(MAIN_CONFIG_PATH);
+            if (url.IsNullOrEmpty())
+            {
+                Debug.LogWarning("Configs url is empty. Build will use configs already placed in project.");
+                return;
+            }
+            if (!url.Contains(CONFIGS_URL_PATTERN))
+            {
+                Debug.LogWarning("Invalid configs url.");
+                return;
+            }
+            
+            var urlParts = url.Split('/').Take(CONFIGS_URL_PARTS_COUNT);
+            DownloadAll(string.Concat(urlParts));
+        }
+
+        private static void DownloadAll(string url)
+        {
+            new ConfigDownloader(url, MAIN_SHEET_ID_LIST).Download(MAIN_CONFIG_PATH);
         }
         
         private void DownloadLocalization()
