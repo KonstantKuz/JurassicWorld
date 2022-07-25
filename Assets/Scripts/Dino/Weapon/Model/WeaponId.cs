@@ -6,5 +6,7 @@
         Bow,
         Stone,
         Axe,
+        ThrowingAxe,
+        Spear,
     }
 }
