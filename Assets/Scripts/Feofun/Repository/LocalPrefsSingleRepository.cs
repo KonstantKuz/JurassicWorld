@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Feofun.Repository
 {
-    public class LocalPrefsSingleRepository<T> : ISingleModelRepository<T>
+    public class LocalPrefsSingleRepository<T> : ISingleModelRepository<T>, ICacheableRepository
             where T : class
     {
         private readonly string _key;
@@ -18,7 +18,10 @@ namespace Feofun.Repository
             _key = key;
             _serializerSettings = serializerSettings ?? CreateDefaultSerializeSettings();
         }
-
+        public void ResetCache()
+        {
+            _cache = null;
+        }
         public virtual T Get()
         {
             if (_cache != null ) {

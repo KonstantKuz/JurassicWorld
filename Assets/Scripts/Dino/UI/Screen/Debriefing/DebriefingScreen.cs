@@ -52,7 +52,7 @@ namespace Dino.UI.Screen.Debriefing
             if (session.Result == SessionResult.Win) {
                 _inventoryService.Save();
             }
-            if (_levelService.IsLastLevel(session.LevelId)) {
+            if (session.Result == SessionResult.Win && _levelService.IsLastLevel(session.LevelId)) {
                 _inventoryService.Delete();
             }
         }
