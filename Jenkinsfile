@@ -65,8 +65,8 @@ pipeline {
                                     if(params.DebugConsole) {
                                         UNITY_PARAMS=UNITY_PARAMS + '-debugConsole '
                                     }
-                                    UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel  
-                                    UNITY_PARAMS=UNITY_PARAMS + '-configsUrl ' + params.ConfigsUrl
+                                    UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
+                                    UNITY_PARAMS=UNITY_PARAMS + ' -configsUrl ' + params.ConfigsUrl
                                 }   
    
                                 withCredentials([string(credentialsId: 'DinoAndroidKeystorePass', variable: 'KEYSTORE_PASS'), 
@@ -105,7 +105,7 @@ pipeline {
                                 script {
                                     UNITY_PARAMS=''
                                     UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
-                                    UNITY_PARAMS=UNITY_PARAMS + '-configsUrl ' + params.ConfigsUrl
+                                    UNITY_PARAMS=UNITY_PARAMS + ' -configsUrl ' + params.ConfigsUrl
                                 }                                                                                                                                                             
                                 withCredentials([string(credentialsId: 'DinoAndroidKeystorePass', variable: 'KEYSTORE_PASS'), 
                                         gitUsernamePassword(credentialsId: 'gitlab_inspiritum_smash_master', gitToolName: 'Default')]) {
@@ -182,7 +182,7 @@ pipeline {
                                 UNITY_PARAMS=UNITY_PARAMS + '-debugConsole '
                             }
                             UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
-                            UNITY_PARAMS=UNITY_PARAMS + '-configsUrl ' + params.ConfigsUrl
+                            UNITY_PARAMS=UNITY_PARAMS + ' -configsUrl ' + params.ConfigsUrl
                         }         
                            
                         withCredentials([gitUsernamePassword(credentialsId: 'gitlab_inspiritum_smash_master', gitToolName: 'Default')]) {
