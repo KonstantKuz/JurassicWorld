@@ -52,6 +52,9 @@ namespace Editor.Scripts.PreProcess
         private static void ApplyCommonParams()
         {
             BuildPreprocessor.Prepare(true,HasCmdLineKey("-debugConsole"), GetCmdLineArgumentValue("-loggerLevel"));
+            
+            Debug.Log($"LOG JENKINS GET ARG -loggerLevel := {GetCmdLineArgumentValue("-loggerLevel")}");
+            Debug.Log($"LOG JENKINS GET ARG -configsUrl := {GetCmdLineArgumentValue("-configsUrl")}");
             ConfigDownloaderWindow.Download(GetCmdLineArgumentValue("-configsUrl"));
         }
 
