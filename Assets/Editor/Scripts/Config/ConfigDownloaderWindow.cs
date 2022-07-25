@@ -53,7 +53,7 @@ namespace Editor.Scripts.Config
             }
             
             var urlParts = url.Split('/').Take(CONFIGS_URL_PARTS_COUNT);
-            DownloadAll(string.Concat(urlParts));
+            DownloadAll(string.Join("/", urlParts));
         }
 
         private static void DownloadAll(string url)
