@@ -5,27 +5,28 @@ using Dino.Inventory.Model;
 using Dino.Location;
 using ModestTree;
 using UniRx;
-using Zenject;
 
 namespace Dino.Inventory.Service
 {
     public class InventoryService : IWorldScope
     {
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
-
-        [Inject]
-        private InventoryRepository _repository;
-
+        
+        private readonly InventoryRepository _repository;
+        
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
         
         private Model.Inventory Inventory => _repository.Get();
 
-        public void OnWorldSetup()
+        public InventoryService(InventoryRepository repository)
         {
-            _repository.Set(new Model.Inventory());
+            _repository = repository;
+            if (!_repository.Exists()) {
+                _repository.Set(new Model.Inventory());
+            }
             _inventory.SetValueAndForceNotify(Inventory);
+            
         }
-
         public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
         public bool Contains(ItemId id) => Inventory.Contains(id);
         public int Count(string itemName) => Inventory.Items.Count(it => it.Name == itemName);
@@ -74,14 +75,16 @@ namespace Dino.Inventory.Service
 
         private void Set(Model.Inventory model)
         {
-            _repository.Set(model);
             _inventory.SetValueAndForceNotify(model);
         }
 
+        public void OnWorldSetup()
+        {
+        
+        }
         public void OnWorldCleanUp()
         {
-            _inventory.SetValueAndForceNotify(null);
-            _repository.Delete();
+            _repository.Set(Inventory);
         }
     }
 }
