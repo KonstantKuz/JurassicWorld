@@ -1,5 +1,4 @@
-﻿using Dino.Analytics;
-using Dino.Core.InitStep;
+﻿using Dino.Core.InitStep;
 using Feofun.App;
 using Feofun.App.Init;
 using JetBrains.Annotations;
@@ -43,7 +42,7 @@ namespace Dino
 #if UNITY_IOS
             initSequence.AddStep<IosATTInitStep>();            
 #endif
-            initSequence.AddStep<AnalyticsInitStep>();
+            //initSequence.AddStep<AnalyticsInitStep>();
             initSequence.AddStep<StartGameInitStep>();
             initSequence.Next();
         }
