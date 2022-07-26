@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
-using Feofun.Repository;
 using ModestTree;
 using UniRx;
-using Zenject;
 
 namespace Dino.Inventory.Service
 {
@@ -14,18 +12,15 @@ namespace Dino.Inventory.Service
     {
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
         
-        [Inject]
-        private readonly InventoryRepository _repository;
-        
+        private InventoryRepository _repository = new InventoryRepository();
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
         
         private Model.Inventory Inventory => _repository.Get();
         
         public void OnWorldSetup()
         {
-            var cacheableRepository = (ICacheableRepository) _repository;
-            cacheableRepository.ResetCache();
-            
+            _repository = new InventoryRepository();
+
             if (!_repository.Exists()) {
                 _repository.Set(new Model.Inventory());
             } 
