@@ -7,9 +7,8 @@ namespace Dino.Analytics.Wrapper
 {
     public class AppsFlyerAnalyticsWrapper : IAnalyticsImpl
     {
-        
-        private const string DEV_KEY = "-";
-        private const string APP_ID = "-";
+        private const string DEV_KEY = "9gdCn4p9McTuPMAjnzTk4Y";
+        private const string APP_ID = "1633821704";
 
         public void Init()
         {

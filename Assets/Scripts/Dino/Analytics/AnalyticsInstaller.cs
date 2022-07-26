@@ -13,14 +13,11 @@ namespace Dino.Analytics
                 .AsSingle()
                 .WithArguments(new IAnalyticsImpl[]
                 {
-                    new LoggingAnalyticsWrapper(),
-                    /*new AppMetricaAnalyticsWrapper(),
-                    new AppsFlyerAnalyticsWrapper(),
-                    //TODO: not a good decision - will cause bugs in FacebookAnalyticsWrapper that are only reproduced on android/ios
-                    //and not in Editor
-#if !UNITY_EDITOR && !PLATFORM_STANDALONE
-                            new FacebookAnalyticsWrapper()
-#endif*/
+                        new LoggingAnalyticsWrapper(), 
+                        /*new AppMetricaAnalyticsWrapper(),
+                         new AppsFlyerAnalyticsWrapper(),*/
+                        new FacebookAnalyticsWrapper()
+
                 }).NonLazy();
             container.BindInterfacesTo<AnalyticsEventParamProvider>().AsSingle();
         }
