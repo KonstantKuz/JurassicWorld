@@ -39,10 +39,6 @@ namespace Dino.Inventory.Service
         public void Save()
         {
             _repository.Set(Inventory);
-        }    
-        public void Delete()
-        {
-            _repository.Delete();
         }
         public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
         public bool Contains(ItemId id) => Inventory.Contains(id);

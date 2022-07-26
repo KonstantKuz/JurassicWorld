@@ -1,5 +1,4 @@
 ﻿using Dino.Inventory.Service;
-using Dino.Location.Level.Service;
 using Dino.Reward.Service;
 using Dino.Session.Model;
 using Dino.UI.Screen.Debriefing.Model;
@@ -31,8 +30,7 @@ namespace Dino.UI.Screen.Debriefing
         [Inject] private ScreenSwitcher _screenSwitcher;       
         [Inject] private MissionResultRewardService _missionResultRewardService;  
         [Inject] private IRewardApplyService _rewardApplyService;      
-        [Inject] private InventoryService _inventoryService;     
-        [Inject] private LevelService _levelService;
+        [Inject] private InventoryService _inventoryService;
 
         [PublicAPI]
         public void Init(DebriefingScreenModel model)
@@ -51,9 +49,6 @@ namespace Dino.UI.Screen.Debriefing
         {
             if (session.Result == SessionResult.Win) {
                 _inventoryService.Save();
-            }
-            if (session.Result == SessionResult.Win && _levelService.IsLastLevel(session.LevelId)) {
-                _inventoryService.Delete();
             }
         }
         public void OnEnable()

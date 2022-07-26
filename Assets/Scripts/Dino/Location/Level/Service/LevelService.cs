@@ -26,20 +26,17 @@ namespace Dino.Location.Level.Service
 
         private string GetLevelId(int winCount)
         {
-            return winCount < _levelsConfig.Levels.Count ? _levelsConfig.Levels[winCount] : GetIterationLevelId(winCount);
+            return winCount < _levelsConfig.Levels.Count ? _levelsConfig.Levels[winCount] : GetLoopLevelId(winCount);
         }
 
-        private string GetIterationLevelId(int winCount)
+        private string GetLoopLevelId(int winCount)
         {
-            if (_constantsConfig.IterationStartLevelIndex >= _levelsConfig.Levels.Count) {
+            if (_constantsConfig.LoopStartLevelIndex >= _levelsConfig.Levels.Count) {
                 throw new ArgumentException("IterationStartLevelIndex must be < count of levels");
             }
-            var iterationLevels = _levelsConfig.Levels.Skip(_constantsConfig.IterationStartLevelIndex).ToList(); 
+            var iterationLevels = _levelsConfig.Levels.Skip(_constantsConfig.LoopStartLevelIndex).ToList(); 
             return iterationLevels[winCount % iterationLevels.Count];
         }
-
-        public bool IsLastLevel(string levelId) => _levelsConfig.Levels.Last().Equals(levelId);
-
         public Level CreateLevel(string levelId)
         {
             var levelPrefab = Levels.FirstOrDefault(it => it.ObjectId == levelId);

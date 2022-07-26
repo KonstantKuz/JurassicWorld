@@ -11,13 +11,13 @@ namespace Dino.Config
         [DataMember(Name = "FirstItem")]
         private string _firstItem;    
         
-        [DataMember(Name = "IterationStartLevelIndex")]
-        private int _iterationStartLevelIndex;
+        [DataMember(Name = "LoopStartLevelIndex")]
+        private int _loopStartLevelIndex;
         
         public string FirstUnit => _firstUnit;
         [CanBeNull]
         public string FirstItem => _firstItem;
 
-        public int IterationStartLevelIndex => _iterationStartLevelIndex;
+        public int LoopStartLevelIndex => _loopStartLevelIndex;
     }
 }
