@@ -28,7 +28,9 @@ namespace Dino.UI.Cheats
         [SerializeField] private ActionButton _setRussianLanguage;
         [SerializeField] private ActionButton _setEnglishLanguage;
 
-        [SerializeField] private ActionButton _testLogButton;
+        [SerializeField] private ActionButton _testLogButton;     
+        
+        [SerializeField] private ActionButton _analyticsTestButton;
 
         [SerializeField] private DropdownWithButtonView _inventoryDropdown;
         [SerializeField] private ActionButton _removeActiveItemButton; 
@@ -56,8 +58,9 @@ namespace Dino.UI.Cheats
             _setLanguage.Init(() => _cheatsManager.SetLanguage(_inputField.text));
             _setEnglishLanguage.Init(() => _cheatsManager.SetLanguage(SystemLanguage.English.ToString()));
             _setRussianLanguage.Init(() => _cheatsManager.SetLanguage(SystemLanguage.Russian.ToString()));
-            _testLogButton.Init(() => _cheatsManager.LogTestMessage());
-
+            _testLogButton.Init(_cheatsManager.LogTestMessage);
+            _analyticsTestButton.Init(_cheatsManager.ReportAnalyticsTestEvent);
+                    
             _inventoryDropdown.Init(_weaponConfigs.Keys.Select(it => it.ToString()).ToList(), _cheatsManager.SetActiveItem);
             _removeActiveItemButton.Init(_cheatsManager.RemoveActiveItem);
             _removeInventoryItemButton.Init(() => _cheatsManager.RemoveInventoryItem(_inventoryDropdown.CurrentValue));

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Facebook.Unity;
+using Feofun.Extension;
+using Feofun.Util;
 using Logger.Extension;
 using UnityEngine;
 
@@ -7,20 +9,22 @@ namespace Dino.Analytics.Wrapper
 {
     public class FacebookAnalyticsWrapper : IAnalyticsImpl
     {
-        
         private bool _isInitialized;
-
         public void Init()
         {
+            if (ApplicationHelper.IsSimulator) {
+                this.Logger().Warn("Facebook SDK will not be initialized in Editor Simulator mode");
+                return;
+            }
             this.Logger().Info("Starting initializing Facebook SDK");
             if (!FB.IsInitialized)
-            {
+            { 
                 FB.Init(InitCallback, OnAppVisibilityChange);
             } else {
                 FB.ActivateApp();
             }
         }
-
+        
         private void InitCallback()
         {
             if (FB.IsInitialized) {
@@ -49,8 +53,7 @@ namespace Dino.Analytics.Wrapper
             FB.LogAppEvent(logEvent, valueToSum, parameters);
         }
 
-        public void ReportEventWithParams(string eventName, Dictionary<string, object> eventParams,
-            IEventParamProvider eventParamProvider)
+        public void ReportEventWithParams(string eventName, Dictionary<string, object> eventParams, IEventParamProvider eventParamProvider)
         {
             LogEvent(eventName, null, eventParams);
         }
