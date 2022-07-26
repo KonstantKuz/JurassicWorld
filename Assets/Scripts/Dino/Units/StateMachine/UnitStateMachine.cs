@@ -3,6 +3,7 @@ using Dino.Extension;
 using Dino.Location;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
+using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Weapon;
 using Feofun.Components;
@@ -27,8 +28,7 @@ namespace Dino.Units.StateMachine
         private Animator _animator;
         private MoveAnimationWrapper _animationWrapper;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
-
-        [Inject] private World _world;
+        private float _waitTimer;
         
         public virtual void Init(Unit unit)
         {
@@ -86,8 +86,38 @@ namespace Dino.Units.StateMachine
                 UnitState.Chase => new ChaseState(this),
                 UnitState.Attack => new AttackState(this),
                 UnitState.Death => new DeathState(this),
+                UnitState.LookAround => new LookAroundState(this),
                 _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
             };
+        }
+        
+        private void LookAround(DamageParams damageParams)
+        {
+            SetState(new LookAroundState(this, damageParams.Position));
+        }
+
+        private void Wait(float waitTime, Action onWaitTimeEnd)
+        {
+            _waitTimer += Time.deltaTime;
+
+            if (_waitTimer >= waitTime)
+            {
+                onWaitTimeEnd?.Invoke();
+                return;
+            }
+            
+            if (_movementController.IsStopped) return;
+            
+            _movementController.IsStopped = true;
+            _animationWrapper.PlayIdleSmooth();
+        }
+
+        private void ChaseTargetIfExists()
+        {
+            if (_targetProvider.Target != null)
+            {
+                SetState(UnitState.Chase);
+            }
         }
     }
 }

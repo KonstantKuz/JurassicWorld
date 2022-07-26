@@ -12,6 +12,7 @@ namespace Dino.Units.Enemy.Model
         public IHealthModel HealthModel { get; }
         public EnemyAttackModel AttackModel { get; }
         public PatrolStateModel PatrolStateModel { get; }
+        public LookAroundStateModel LookAroundStateModel { get; }
 
         public EnemyUnitModel(EnemyUnitConfig config)
         {
@@ -20,6 +21,7 @@ namespace Dino.Units.Enemy.Model
             HealthModel = new EnemyHealthModel(config.Health);
             AttackModel = new EnemyAttackModel(config.EnemyAttackConfig);
             PatrolStateModel = new PatrolStateModel(config.PatrolStateConfig);
+            LookAroundStateModel = new LookAroundStateModel(config.LookAroundStateConfig);
         }
     }
 }

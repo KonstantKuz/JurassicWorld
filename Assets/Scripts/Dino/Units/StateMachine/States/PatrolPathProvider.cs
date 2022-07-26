@@ -18,13 +18,14 @@ namespace Dino.Units.StateMachine.States
         [SerializeField] public PatrolBehaviourType _patrolBehaviourType;
 
         private PatrolPath _patrolPath;
-        private int _nextPointIndex = -1;
+        private int _nextPointIndex;
         private bool _reverse;
         
         [Inject] private World _world;
 
         [CanBeNull] public PatrolPath PatrolPath => _patrolPath;
-
+        public bool IsLastGivenPointVisited { get; set; }
+        
         public void Awake()
         {
             InitPatrolPath();
@@ -80,6 +81,10 @@ namespace Dino.Units.StateMachine.States
 
         private Transform GetNextLoopPoint()
         {
+            if (!IsLastGivenPointVisited)
+            {
+                return PatrolPath.Path[_nextPointIndex];
+            }
             _nextPointIndex++;
             if (_nextPointIndex >= PatrolPath.Path.Length)
             {
@@ -90,6 +95,10 @@ namespace Dino.Units.StateMachine.States
 
         private Transform GetNextPingPongPoint()
         {
+            if (!IsLastGivenPointVisited)
+            {
+                return PatrolPath.Path[_nextPointIndex];
+            }
             _nextPointIndex += _reverse ? -1 : 1;
             if (_nextPointIndex == 0)
             {

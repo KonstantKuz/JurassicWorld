@@ -4,9 +4,9 @@ namespace Dino.Units.Component.Health
 {
     public interface IDamageable
     { 
-        void TakeDamage(float damage);
+        void TakeDamage(DamageParams damageParams);
         event Action OnZeroHealth;
-        event Action OnDamageTaken;
+        event Action<DamageParams> OnDamageTaken;
         bool DamageEnabled { get; set; } 
     }
 }

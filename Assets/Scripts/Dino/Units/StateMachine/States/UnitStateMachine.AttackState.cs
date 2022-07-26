@@ -104,7 +104,12 @@ namespace Dino.Units.StateMachine
             private void DoDamage(GameObject target)
             {
                 var damageable = target.RequireComponent<IDamageable>();
-                damageable.TakeDamage(_attackModel.AttackDamage);
+                var damageParams = new DamageParams
+                {
+                    Damage = _attackModel.AttackDamage,
+                    Position = Owner.SelfTarget.Root.position
+                };
+                damageable.TakeDamage(damageParams);
                 this.Logger().Trace($"Damage applied, target:= {target.name}");
             }
 

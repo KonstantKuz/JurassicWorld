@@ -15,7 +15,9 @@ namespace Dino.Units.Enemy.Config
         public EnemyAttackConfig EnemyAttackConfig;
         [DataMember] 
         public PatrolStateConfig PatrolStateConfig;
-        
-        public string Id => _id; 
+        [DataMember]
+        public LookAroundStateConfig LookAroundStateConfig;
+
+        public string Id => _id;
     }
 }

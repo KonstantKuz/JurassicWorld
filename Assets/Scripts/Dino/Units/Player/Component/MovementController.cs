@@ -72,7 +72,7 @@ namespace Dino.Units.Player.Component
             _animator.Play(isMoving ? _runHash : _idleHash);
         }
 
-        public void RotateTo(Vector3 position)
+        public void RotateTo(Vector3 position, float overrideRotationSpeed = 0f)
         {
             var lookAtDirection = (position - transform.position).XZ().normalized;
             if (lookAtDirection == Vector3.zero) { return; }

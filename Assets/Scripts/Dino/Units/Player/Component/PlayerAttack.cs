@@ -168,7 +168,12 @@ namespace Dino.Units.Player.Component
                 return;
             }
             var damageable = target.RequireComponent<IDamageable>();
-            damageable.TakeDamage(_weapon.Model.AttackDamage);
+            var damageParams = new DamageParams
+            {
+                Damage = _weapon.Model.AttackDamage,
+                Position = transform.position
+            };
+            damageable.TakeDamage(damageParams);
             this.Logger().Trace($"Damage applied, target:= {target.name}");
         }
 

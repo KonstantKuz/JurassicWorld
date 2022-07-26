@@ -1,4 +1,5 @@
 ﻿using Dino.Extension;
+using Dino.Units.Component.Health;
 using Dino.Units.Enemy.Model;
 using Dino.Units.StateMachine.States;
 using JetBrains.Annotations;
@@ -15,7 +16,6 @@ namespace Dino.Units.StateMachine
 
             private readonly PatrolStateModel _stateModel;
             
-            private float _waitTimer;
             private PatrolPathProvider _pathProvider;
 
             private Unit Owner => StateMachine._owner;
@@ -24,13 +24,10 @@ namespace Dino.Units.StateMachine
             [CanBeNull]
             private Transform NextPathPoint { get; set; }
             private float DistanceToPathPoint => Vector3.Distance(Owner.transform.position, NextPathPoint.position);
-            private bool IsTimeToGo => _waitTimer >= _stateModel.PatrolIdleTime;
             
             public PatrolState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                var enemyModel = (EnemyUnitModel) Owner.Model;
-                Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
-                _stateModel = enemyModel.PatrolStateModel;
+                _stateModel = Owner.RequireEnemyModel().PatrolStateModel;
             }
             
             public override void OnEnterState()
@@ -38,49 +35,31 @@ namespace Dino.Units.StateMachine
                 if (!HasPath) return;
                 
                 GoToNextPoint();
-                Owner.Damageable.OnDamageTaken += StartChasePlayer;
+                Owner.Damageable.OnDamageTaken += StateMachine.LookAround;
             }
-
-            private void StartChasePlayer()
-            {
-                if (StateMachine._world.Player == null) return;
-
-                StateMachine._targetProvider.Target = StateMachine._world.Player.SelfTarget;
-            }
-
+            
             public override void OnExitState()
             {
-                Owner.Damageable.OnDamageTaken += StartChasePlayer;
+                Owner.Damageable.OnDamageTaken -= StateMachine.LookAround;
             }
 
             public override void OnTick()
             {
-                if (StateMachine._targetProvider.Target != null)
-                {
-                    StateMachine.SetState(UnitState.Chase);
-                }
-                if (!HasPath || DistanceToPathPoint > PRECISION_DISTANCE)
+                StateMachine.ChaseTargetIfExists();
+                PathProvider.IsLastGivenPointVisited = DistanceToPathPoint < PRECISION_DISTANCE;
+                if (!HasPath || !PathProvider.IsLastGivenPointVisited)
                 {
                     return;
                 }
-                Wait();
-                if (IsTimeToGo)
-                {
-                    GoToNextPoint();
-                    TryResetWaitTimer();
-                }
+                StateMachine.Wait(_stateModel.PatrolIdleTime, OnWaitTimeEnd);
             }
 
-            private void Wait()
+            private void OnWaitTimeEnd()
             {
-                _waitTimer += Time.deltaTime;
-
-                if(StateMachine._movementController.IsStopped) return;
-                
-                StateMachine._movementController.IsStopped = true;
-                StateMachine._animationWrapper.PlayIdleSmooth();
+                GoToNextPoint();
+                TryResetWaitTimer();
             }
-
+            
             private void GoToNextPoint()
             {
                 NextPathPoint = PathProvider.Pop();
@@ -92,7 +71,7 @@ namespace Dino.Units.StateMachine
             {
                 if (PathProvider.PatrolPath.IsEndOfPath(NextPathPoint))
                 {
-                    _waitTimer = 0f;
+                    StateMachine._waitTimer = 0f;
                 }
             }
         }
