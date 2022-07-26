@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Facebook.Unity;
+using Feofun.Extension;
+using Feofun.Util;
 using Logger.Extension;
 using UnityEngine;
 
@@ -10,8 +12,8 @@ namespace Dino.Analytics.Wrapper
         private bool _isInitialized;
         public void Init()
         {
-            if (!Application.isEditor && Application.platform == RuntimePlatform.WindowsEditor) {
-                this.Logger().Warn("Facebook SDK not initializing in Editor Simulator");
+            if (ApplicationHelper.IsSimulator) {
+                this.Logger().Warn("Facebook SDK will not be initialized in Editor Simulator mode");
                 return;
             }
             this.Logger().Info("Starting initializing Facebook SDK");
@@ -22,7 +24,7 @@ namespace Dino.Analytics.Wrapper
                 FB.ActivateApp();
             }
         }
-
+        
         private void InitCallback()
         {
             if (FB.IsInitialized) {
