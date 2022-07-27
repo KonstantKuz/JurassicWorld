@@ -1,10 +1,6 @@
 ﻿using Dino.Extension;
-using Dino.Units.Component.Health;
-using Dino.Units.Enemy.Model;
 using Dino.Units.StateMachine.States;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.Units.StateMachine
 {
@@ -17,33 +13,41 @@ namespace Dino.Units.StateMachine
             private readonly WaitSubState _waitSubState;
 
             private PatrolPathProvider _pathProvider;
+            private PatrolPathIterator _pathIterator;
 
             private Unit Owner => StateMachine._owner;
             private PatrolPathProvider PathProvider => _pathProvider ??= Owner.gameObject.RequireComponent<PatrolPathProvider>();
+            private PatrolPathIterator PathIterator => _pathIterator ??= Owner.gameObject.RequireComponent<PatrolPathIterator>();
+
             private bool HasPath => PathProvider.PatrolPath != null;
-            [CanBeNull]
-            private Transform NextPathPoint { get; set; }
-            private float DistanceToPathPoint => Vector3.Distance(Owner.transform.position, NextPathPoint.position);
+            private Transform CurrentPathPoint => PathProvider.PatrolPath.Path[PathIterator.CurrentPointIndex];
+            private float DistanceToPoint => Vector3.Distance(Owner.transform.position, CurrentPathPoint.position);
             
             public PatrolState(UnitStateMachine stateMachine) : base(stateMachine)
             {
                 var stateModel = Owner.RequireEnemyModel().PatrolStateModel;
-                _waitSubState = WaitSubState.Build(stateModel.PatrolIdleTime, StateMachine.Stop, null, GoToNextPoint);
+                _waitSubState = WaitSubState.Build(stateModel.PatrolIdleTime, StateMachine.Stop, null, SetNextPointAndGo);
             }
 
             public override void OnEnterState()
             {
                 if (!HasPath) return;
                 
-                GoToNextPoint();
+                GoToCurrentPoint();
                 Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;
             }
-            
+
             public override void OnExitState()
             {
                 if (!HasPath) return;
                 
                 Owner.Damageable.OnDamageTaken -= StateMachine.LookTowardsDamage;
+            }
+
+            private void SetNextPointAndGo()
+            {
+                PathIterator.IncreaseCurrentIndex(PathProvider.PatrolPath.Path.Length);
+                GoToCurrentPoint();
             }
 
             public override void OnTick()
@@ -53,22 +57,20 @@ namespace Dino.Units.StateMachine
                     return;
                 }
                 
-                PathProvider.IsLastGivenPointVisited = DistanceToPathPoint < PRECISION_DISTANCE;
-                if (!HasPath || !PathProvider.IsLastGivenPointVisited)
+                if (!HasPath || DistanceToPoint > PRECISION_DISTANCE)
                 {
                     return;
                 }
                 
-                if (PathProvider.PatrolPath.IsEndOfPath(NextPathPoint))
+                if (PathProvider.PatrolPath.IsEndOfPath(CurrentPathPoint))
                 {
                     _waitSubState.OnTick();
                 }
             }
 
-            private void GoToNextPoint()
+            private void GoToCurrentPoint()
             {
-                NextPathPoint = PathProvider.Pop();
-                StateMachine._movementController.MoveTo(NextPathPoint.position);
+                StateMachine._movementController.MoveTo(CurrentPathPoint.position);
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
             }
         }
