@@ -1,10 +1,11 @@
 ﻿using Dino.Config;
-using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
-using Dino.Location.Service;
+using Dino.Location.Level;
+using Dino.Location.Level.Service;
 using Dino.Player.Progress.Service;
 using Dino.Session.Messages;
+using Dino.Session.Model;
 using Dino.Units;
 using Dino.Units.Service;
 using Logger.Extension;
@@ -34,7 +35,6 @@ namespace Dino.Session.Service
         [Inject] private ActiveItemService _activeItemService;   
         [Inject] private InventoryService _inventoryService;
 
-        public int CurrentLevelId => _levelService.CurrentLevelId;
         public Model.Session Session => _repository.Require();
         public IReadOnlyReactiveProperty<int> Kills => _kills;
         public float SessionTime => Session.SessionTime;
@@ -57,14 +57,13 @@ namespace Dino.Session.Service
 
         private void CreateSession()
         {
-            var newSession = Model.Session.Build(CurrentLevelId);
+            var newSession = Model.Session.Build(_levelService.CurrentLevelId);
             _repository.Set(newSession);
-            _playerProgressService.OnSessionStarted(CurrentLevelId);
         }
 
         private void CreateLevel()
         {
-            _currentLevel = _levelService.CreateCurrentLevel();
+            _currentLevel = _levelService.CreateLevel(Session.LevelId);
             _currentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
             this.Logger().Debug($"Level:= {_currentLevel.gameObject.name}");
         }
@@ -118,7 +117,6 @@ namespace Dino.Session.Service
             _unitService.DeactivateAll();
             _messenger.Publish(new SessionEndMessage(Session.Result.Value));
         }
-        
         private void Dispose()
         {
             _unitService.OnEnemyUnitDeath -= OnEnemyUnitDeath;

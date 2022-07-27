@@ -18,7 +18,6 @@ namespace Feofun.Repository
             _key = key;
             _serializerSettings = serializerSettings ?? CreateDefaultSerializeSettings();
         }
-
         public virtual T Get()
         {
             if (_cache != null ) {
