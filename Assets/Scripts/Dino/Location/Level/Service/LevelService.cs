@@ -32,7 +32,7 @@ namespace Dino.Location.Level.Service
         private string GetLoopLevelId(int winCount)
         {
             if (_constantsConfig.LoopStartLevelIndex >= _levelsConfig.Levels.Count) {
-                throw new ArgumentException("IterationStartLevelIndex must be < count of levels");
+                throw new ArgumentException("LoopStartLevelIndex must be < count of levels");
             }
             var iterationLevels = _levelsConfig.Levels.Skip(_constantsConfig.LoopStartLevelIndex).ToList(); 
             return iterationLevels[winCount % iterationLevels.Count];

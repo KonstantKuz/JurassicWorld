@@ -43,14 +43,11 @@ namespace Dino.UI.Screen.Debriefing
 
             var resultPanelModel = model.BuildResultPanelModel(rewards);
             _resultPanel.Init(resultPanelModel);
-            SaveOrDeleteInventory(model.Session);
-        }
-        private void SaveOrDeleteInventory(Session.Model.Session session)
-        {
-            if (session.Result == SessionResult.Win) {
+            if (model.SessionResult == SessionResult.Win) {
                 _inventoryService.Save();
             }
         }
+        
         public void OnEnable()
         {
             _nextButton.Init(OnReload);
