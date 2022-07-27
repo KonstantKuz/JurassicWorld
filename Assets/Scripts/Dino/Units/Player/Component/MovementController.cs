@@ -52,7 +52,7 @@ namespace Dino.Units.Player.Component
             MoveTo(transform.position + MoveDirection);
             UpdateAnimation();
             if (HasTarget) return;
-            RotateTo(transform.position + MoveDirection);
+            RotateTo(transform.position + MoveDirection, _rotationSpeed);
         }
 
         public void MoveTo(Vector3 position)
@@ -72,7 +72,7 @@ namespace Dino.Units.Player.Component
             _animator.Play(isMoving ? _runHash : _idleHash);
         }
 
-        public void RotateTo(Vector3 position, float overrideRotationSpeed = 0f)
+        public void RotateTo(Vector3 position, float rotationSpeed)
         {
             var lookAtDirection = (position - transform.position).XZ().normalized;
             if (lookAtDirection == Vector3.zero) { return; }
@@ -83,7 +83,7 @@ namespace Dino.Units.Player.Component
         {
             if (target != null) {
                 HasTarget = true;
-                RotateTo(target.position);
+                RotateTo(target.position, _rotationSpeed);
             } else {
                 HasTarget = false;
             }

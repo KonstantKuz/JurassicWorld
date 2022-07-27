@@ -2,9 +2,9 @@
 
 namespace Dino.Units.Component.Health
 {
-    public struct DamageParams
+    public struct HitParams
     {
         public float Damage;
-        public Vector3 Position;
+        public Vector3 AttackersPosition;
     }
 }

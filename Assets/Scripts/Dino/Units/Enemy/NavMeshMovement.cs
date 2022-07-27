@@ -32,11 +32,11 @@ namespace Dino.Units.Enemy
             _agent.SetDestination(position);
         }
 
-        public void RotateTo(Vector3 position, float overrideRotationSpeed = 0f)
+        public void RotateTo(Vector3 position, float rotationSpeed)
         {
             var lookAtDirection = (position - transform.position).XZ().normalized;
             var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
-            var finalSpeed = Math.Abs(overrideRotationSpeed) > Mathf.Epsilon ? overrideRotationSpeed : _rotationSpeed; 
+            var finalSpeed = Math.Abs(rotationSpeed) > Mathf.Epsilon ? rotationSpeed : _rotationSpeed; 
             transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * finalSpeed);
         }
     }

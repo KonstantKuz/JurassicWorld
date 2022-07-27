@@ -71,7 +71,7 @@ namespace Dino.Units.StateMachine
                     return;
                 }
 
-                StateMachine._movementController.RotateTo(Target.Root.position);
+                StateMachine._movementController.RotateTo(Target.Root.position, 0f);
 
                 if (_weaponTimer.IsAttackReady)
                 {
@@ -104,10 +104,10 @@ namespace Dino.Units.StateMachine
             private void DoDamage(GameObject target)
             {
                 var damageable = target.RequireComponent<IDamageable>();
-                var damageParams = new DamageParams
+                var damageParams = new HitParams
                 {
                     Damage = _attackModel.AttackDamage,
-                    Position = Owner.SelfTarget.Root.position
+                    AttackersPosition = Owner.SelfTarget.Root.position
                 };
                 damageable.TakeDamage(damageParams);
                 this.Logger().Trace($"Damage applied, target:= {target.name}");

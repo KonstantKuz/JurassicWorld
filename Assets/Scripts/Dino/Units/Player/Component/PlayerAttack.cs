@@ -168,10 +168,10 @@ namespace Dino.Units.Player.Component
                 return;
             }
             var damageable = target.RequireComponent<IDamageable>();
-            var damageParams = new DamageParams
+            var damageParams = new HitParams
             {
                 Damage = _weapon.Model.AttackDamage,
-                Position = transform.position
+                AttackersPosition = transform.position
             };
             damageable.TakeDamage(damageParams);
             this.Logger().Trace($"Damage applied, target:= {target.name}");

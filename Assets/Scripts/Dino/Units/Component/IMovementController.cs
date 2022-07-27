@@ -6,6 +6,6 @@ namespace Dino.Units.Component
     {
         bool IsStopped { get; set; }
         void MoveTo(Vector3 position);
-        void RotateTo(Vector3 position, float overrideRotationSpeed = 0f);
+        void RotateTo(Vector3 position, float rotationSpeed);
     }
 }
