@@ -92,7 +92,7 @@ namespace Dino.Units.StateMachine
         
         private void LookTowardsDamage(HitParams hitParams)
         {
-            SetState(UnitState.LookAround, hitParams.AttackersPosition);
+            SetState(UnitState.LookAround, hitParams.AttackerPosition);
         }
 
         private void Stop()

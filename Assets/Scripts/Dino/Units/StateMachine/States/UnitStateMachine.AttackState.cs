@@ -107,7 +107,7 @@ namespace Dino.Units.StateMachine
                 var damageParams = new HitParams
                 {
                     Damage = _attackModel.AttackDamage,
-                    AttackersPosition = Owner.SelfTarget.Root.position
+                    AttackerPosition = Owner.SelfTarget.Root.position
                 };
                 damageable.TakeDamage(damageParams);
                 this.Logger().Trace($"Damage applied, target:= {target.name}");

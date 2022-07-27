@@ -171,7 +171,7 @@ namespace Dino.Units.Player.Component
             var damageParams = new HitParams
             {
                 Damage = _weapon.Model.AttackDamage,
-                AttackersPosition = transform.position
+                AttackerPosition = transform.position
             };
             damageable.TakeDamage(damageParams);
             this.Logger().Trace($"Damage applied, target:= {target.name}");
