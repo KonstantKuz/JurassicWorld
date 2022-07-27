@@ -30,12 +30,12 @@ namespace Dino.Units.StateMachine
             public override void OnEnterState()
             {
                 StateMachine.Stop();
-                Owner.Damageable.OnDamageTaken += StateMachine.LookAround;
+                Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;
             }
 
             public override void OnExitState()
             {
-                Owner.Damageable.OnDamageTaken -= StateMachine.LookAround;
+                Owner.Damageable.OnDamageTaken -= StateMachine.LookTowardsDamage;
             }
             
             public override void OnTick()

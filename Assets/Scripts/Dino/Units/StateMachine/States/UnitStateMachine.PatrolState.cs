@@ -14,7 +14,7 @@ namespace Dino.Units.StateMachine
         {
             private const float PRECISION_DISTANCE = 0.2f;
 
-            private WaitSubState _waitSubState;
+            private readonly WaitSubState _waitSubState;
 
             private PatrolPathProvider _pathProvider;
 
@@ -36,14 +36,14 @@ namespace Dino.Units.StateMachine
                 if (!HasPath) return;
                 
                 GoToNextPoint();
-                Owner.Damageable.OnDamageTaken += StateMachine.LookAround;
+                Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;
             }
             
             public override void OnExitState()
             {
                 if (!HasPath) return;
                 
-                Owner.Damageable.OnDamageTaken -= StateMachine.LookAround;
+                Owner.Damageable.OnDamageTaken -= StateMachine.LookTowardsDamage;
             }
 
             public override void OnTick()

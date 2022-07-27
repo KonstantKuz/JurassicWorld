@@ -57,9 +57,9 @@ namespace Dino.Units.StateMachine
             _currentState?.OnTick();
         }
 
-        private void SetState(UnitState state)
+        private void SetState(UnitState state, Vector3? desiredPosition = null)
         {
-            SetState(BuildState(state));
+            SetState(BuildState(state, desiredPosition));
         }
         
         private void SetState(BaseState newState)
@@ -76,7 +76,7 @@ namespace Dino.Units.StateMachine
             SetState(UnitState.Death);
         }
 
-        private BaseState BuildState(UnitState state)
+        private BaseState BuildState(UnitState state, Vector3? desiredPosition = null)
         {
             return state switch
             {
@@ -85,14 +85,14 @@ namespace Dino.Units.StateMachine
                 UnitState.Chase => new ChaseState(this),
                 UnitState.Attack => new AttackState(this),
                 UnitState.Death => new DeathState(this),
-                UnitState.LookAround => new LookAroundState(this),
+                UnitState.LookAround => new LookAroundState(this, desiredPosition),
                 _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
             };
         }
         
-        private void LookAround(DamageParams damageParams)
+        private void LookTowardsDamage(DamageParams damageParams)
         {
-            SetState(new LookAroundState(this, damageParams.Position));
+            SetState(UnitState.LookAround, damageParams.Position);
         }
 
         private void Stop()
