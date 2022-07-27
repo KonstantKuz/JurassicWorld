@@ -6,6 +6,7 @@
         Patrol,
         Chase,
         Attack,
-        Death
+        Death,
+        LookAround,
     }
 }
