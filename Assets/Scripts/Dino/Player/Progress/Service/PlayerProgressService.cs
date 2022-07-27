@@ -38,14 +38,7 @@ namespace Dino.Player.Progress.Service
             _repository.Set(progress);
             _gameCount.Value = progress.GameCount;
         }
-
-        public void OnSessionStarted(int levelId)
-        {
-            var progress = Progress;
-            progress.IncreasePassCount(levelId);
-            SetProgress(progress);
-        }
-
+        
         public void AddKill()
         {
             var progress = Progress;

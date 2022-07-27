@@ -404,7 +404,7 @@ GameObject:
   - component: {fileID: 8064968364063166680}
   - component: {fileID: 1423852059901967670}
   m_Layer: 0
-  m_Name: Level 1
+  m_Name: Level1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,7 +443,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e407e742db459c84e9040236209e8644, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectId: Level 1
+  _objectId: Level1
   _objectType: 0
   _start: {fileID: 6009706099961593910}
   _finish: {fileID: 2622090954451720524}

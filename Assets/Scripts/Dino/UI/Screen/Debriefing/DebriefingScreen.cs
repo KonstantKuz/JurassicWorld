@@ -1,4 +1,5 @@
-﻿using Dino.Reward.Service;
+﻿using Dino.Inventory.Service;
+using Dino.Reward.Service;
 using Dino.Session.Model;
 using Dino.UI.Screen.Debriefing.Model;
 using Dino.UI.Screen.Main;
@@ -26,12 +27,10 @@ namespace Dino.UI.Screen.Debriefing
         [SerializeField]
         private ActionButton _reloadButton;
 
-        [Inject]
-        private ScreenSwitcher _screenSwitcher;       
-        [Inject]
-        private MissionResultRewardService _missionResultRewardService;  
-        [Inject]
-        private IRewardApplyService _rewardApplyService;
+        [Inject] private ScreenSwitcher _screenSwitcher;       
+        [Inject] private MissionResultRewardService _missionResultRewardService;  
+        [Inject] private IRewardApplyService _rewardApplyService;      
+        [Inject] private InventoryService _inventoryService;
 
         [PublicAPI]
         public void Init(DebriefingScreenModel model)
@@ -44,6 +43,9 @@ namespace Dino.UI.Screen.Debriefing
 
             var resultPanelModel = model.BuildResultPanelModel(rewards);
             _resultPanel.Init(resultPanelModel);
+            if (model.SessionResult == SessionResult.Win) {
+                _inventoryService.Save();
+            }
         }
         
         public void OnEnable()

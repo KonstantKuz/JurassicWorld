@@ -46,6 +46,10 @@ namespace Dino.Location.Service
             var prefab = _prefabs[objectId];
             return CreateObject(prefab, container);
         }
+        public T CreateObject<T>(GameObject prefab, [CanBeNull] Transform container = null)
+        {
+            return CreateObject(prefab, container).RequireComponent<T>();
+        }
         public GameObject CreateObject(GameObject prefab, [CanBeNull] Transform container = null)
         {
             var parentContainer = container == null ? _world.Spawn.transform : container.transform;
