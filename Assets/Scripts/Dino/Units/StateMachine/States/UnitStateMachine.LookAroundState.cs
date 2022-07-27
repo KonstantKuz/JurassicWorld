@@ -16,6 +16,7 @@ namespace Dino.Units.StateMachine
             
             private readonly LookAroundStateModel _stateModel;
             private readonly Vector3 _desiredPosition;
+            private readonly WaitSubState _waitSubState;
 
             private Unit Owner => StateMachine._owner;
 
@@ -23,11 +24,12 @@ namespace Dino.Units.StateMachine
             {
                 _stateModel = Owner.RequireEnemyModel().LookAroundStateModel;
                 _desiredPosition = desiredPosition ?? Owner.transform.position - Owner.transform.forward;
+                _waitSubState = WaitSubState.Build(_stateModel.LookAroundTime, StateMachine.Stop, null, () => StateMachine.SetState(UnitState.Patrol));
             }
 
             public override void OnEnterState()
             {
-                StateMachine._waitTimer = 0f;
+                StateMachine.Stop();
                 Owner.Damageable.OnDamageTaken += StateMachine.LookAround;
             }
 
@@ -35,27 +37,26 @@ namespace Dino.Units.StateMachine
             {
                 Owner.Damageable.OnDamageTaken -= StateMachine.LookAround;
             }
-
+            
             public override void OnTick()
             {
-                StateMachine.ChaseTargetIfExists();
-                StateMachine.Wait(_stateModel.LookAroundTime, OnWaitTimeEnd);
+                if (StateMachine.ChaseTargetIfExists())
+                {
+                    return;
+                }
 
                 if (GetAngleToDesiredPosition() > LOOK_ANGLE_PRECISION)
                 {
                     StateMachine._movementController.RotateTo(_desiredPosition, _stateModel.LookAroundSpeed);
+                    return;
                 }
-            }
-
-            private void OnWaitTimeEnd()
-            {
-                StateMachine._waitTimer = 0f;
-                StateMachine.SetState(UnitState.Patrol);
+                
+                _waitSubState.OnTick();
             }
 
             private float GetAngleToDesiredPosition()
             {
-                var directionToDesiredPos = Owner.transform.position - _desiredPosition;
+                var directionToDesiredPos = _desiredPosition - Owner.transform.position;
                 return Vector3.Angle(directionToDesiredPos, Owner.transform.forward);
             }
         }

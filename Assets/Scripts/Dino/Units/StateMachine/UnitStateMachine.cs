@@ -28,7 +28,6 @@ namespace Dino.Units.StateMachine
         private Animator _animator;
         private MoveAnimationWrapper _animationWrapper;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
-        private float _waitTimer;
         
         public virtual void Init(Unit unit)
         {
@@ -96,28 +95,23 @@ namespace Dino.Units.StateMachine
             SetState(new LookAroundState(this, damageParams.Position));
         }
 
-        private void Wait(float waitTime, Action onWaitTimeEnd)
+        private void Stop()
         {
-            _waitTimer += Time.deltaTime;
-
-            if (_waitTimer >= waitTime)
-            {
-                onWaitTimeEnd?.Invoke();
-                return;
-            }
-            
             if (_movementController.IsStopped) return;
             
             _movementController.IsStopped = true;
             _animationWrapper.PlayIdleSmooth();
         }
 
-        private void ChaseTargetIfExists()
+        private bool ChaseTargetIfExists()
         {
             if (_targetProvider.Target != null)
             {
                 SetState(UnitState.Chase);
+                return true;
             }
+
+            return false;
         }
     }
 }

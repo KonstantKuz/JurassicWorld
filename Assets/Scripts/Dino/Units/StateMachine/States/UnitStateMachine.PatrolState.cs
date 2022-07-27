@@ -14,8 +14,8 @@ namespace Dino.Units.StateMachine
         {
             private const float PRECISION_DISTANCE = 0.2f;
 
-            private readonly PatrolStateModel _stateModel;
-            
+            private WaitSubState _waitSubState;
+
             private PatrolPathProvider _pathProvider;
 
             private Unit Owner => StateMachine._owner;
@@ -27,9 +27,10 @@ namespace Dino.Units.StateMachine
             
             public PatrolState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                _stateModel = Owner.RequireEnemyModel().PatrolStateModel;
+                var stateModel = Owner.RequireEnemyModel().PatrolStateModel;
+                _waitSubState = WaitSubState.Build(stateModel.PatrolIdleTime, StateMachine.Stop, null, GoToNextPoint);
             }
-            
+
             public override void OnEnterState()
             {
                 if (!HasPath) return;
@@ -40,39 +41,35 @@ namespace Dino.Units.StateMachine
             
             public override void OnExitState()
             {
+                if (!HasPath) return;
+                
                 Owner.Damageable.OnDamageTaken -= StateMachine.LookAround;
             }
 
             public override void OnTick()
             {
-                StateMachine.ChaseTargetIfExists();
+                if (StateMachine.ChaseTargetIfExists())
+                {
+                    return;
+                }
+                
                 PathProvider.IsLastGivenPointVisited = DistanceToPathPoint < PRECISION_DISTANCE;
                 if (!HasPath || !PathProvider.IsLastGivenPointVisited)
                 {
                     return;
                 }
-                StateMachine.Wait(_stateModel.PatrolIdleTime, OnWaitTimeEnd);
+                
+                if (PathProvider.PatrolPath.IsEndOfPath(NextPathPoint))
+                {
+                    _waitSubState.OnTick();
+                }
             }
 
-            private void OnWaitTimeEnd()
-            {
-                GoToNextPoint();
-                TryResetWaitTimer();
-            }
-            
             private void GoToNextPoint()
             {
                 NextPathPoint = PathProvider.Pop();
                 StateMachine._movementController.MoveTo(NextPathPoint.position);
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
-            }
-
-            private void TryResetWaitTimer()
-            {
-                if (PathProvider.PatrolPath.IsEndOfPath(NextPathPoint))
-                {
-                    StateMachine._waitTimer = 0f;
-                }
             }
         }
     }
