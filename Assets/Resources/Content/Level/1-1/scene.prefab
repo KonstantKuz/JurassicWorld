@@ -635,6 +635,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2225137369164321410}
     m_Modifications:
+    - target: {fileID: 696692703190226417, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
+      propertyPath: _initialState
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2047533565645016285, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
       propertyPath: m_Name
       value: SimpleEnemy
