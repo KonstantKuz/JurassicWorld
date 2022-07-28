@@ -31,7 +31,11 @@ namespace Dino.Units.StateMachine
 
             public override void OnEnterState()
             {
-                if (!HasPath) return;
+                if (!HasPath)
+                {
+                    StateMachine.SwitchToIdle();
+                    return;
+                }
                 
                 GoToCurrentPoint();
                 Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;

@@ -113,5 +113,7 @@ namespace Dino.Units.StateMachine
 
             return false;
         }
+
+        public void SwitchToIdle() => SetState(UnitState.Idle);
     }
 }
