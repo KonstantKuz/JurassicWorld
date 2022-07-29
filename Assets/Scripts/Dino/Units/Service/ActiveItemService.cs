@@ -1,4 +1,5 @@
-﻿using Dino.Inventory.Model;
+﻿using System.Text.RegularExpressions;
+using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
@@ -6,6 +7,7 @@ using Dino.Units.Player;
 using Dino.Weapon.Service;
 using Logger.Extension;
 using UniRx;
+using XDiffGui;
 using Zenject;
 
 namespace Dino.Units.Service
@@ -53,12 +55,15 @@ namespace Dino.Units.Service
                 return;
             }
             var itemOwner = Player.ActiveItemOwner;
-            var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
+            var (name, _) = itemId.GetNameAndRank(); 
+            var itemObject = _worldObjectFactory.CreateObject(name, itemOwner.Container);
             _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
             
             _weaponService.TrySetWeapon(itemId.Name, itemOwner.GetWeapon());
         }
+
+
 
         public void UnEquip()
         {

@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Dino.Inventory.Model
 {
     public class ItemId : IEquatable<ItemId>
     {
+        private static Regex _regex = new Regex(@"(\D+)(\d+)");
         public string Name { get; }
         public int Number { get; }
         
@@ -52,6 +54,13 @@ namespace Dino.Inventory.Model
             unchecked {
                 return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ Number;
             }
+        }
+        
+        public (string, int) GetNameAndRank()
+        {
+            var matchObj = _regex.Match(Name);
+            if (!matchObj.Success) return (Name, 0);
+            return (matchObj.Groups[1].Captures[0].Value, int.Parse(matchObj.Groups[2].Captures[0].Value));
         }
     }
 }

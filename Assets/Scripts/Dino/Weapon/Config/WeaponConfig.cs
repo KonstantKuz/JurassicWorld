@@ -5,10 +5,10 @@ using Feofun.Config;
 namespace Dino.Weapon.Config
 {
     [DataContract]
-    public class WeaponConfig : ICollectionItem<WeaponId>
+    public class WeaponConfig : ICollectionItem<string>
     {
         [DataMember(Name = "Id")]
-        private WeaponId _id;
+        private string _id;
         
         [DataMember(Name = "AttackDistance")]
         private float _attackDistance;
@@ -34,6 +34,6 @@ namespace Dino.Weapon.Config
         public string Animation => _animation;       
         public string Ammo => _ammo;
 
-        public WeaponId Id => _id;
+        public string Id => _id;
     }
 }
