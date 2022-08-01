@@ -17,14 +17,26 @@ namespace Dino.Location.Level
         
         private Bounds[] _groundBounds;
         private List<Unit> _enemies;
+
+        private Bounds[] GroundBounds =>
+            _groundBounds ??= _groundRoot.GetComponentsInChildren<Renderer>().Select(it => it.bounds).ToArray();
+
         public Transform Start => _start;
         public List<Unit> Enemies =>
             _enemies ??= GetComponentsInChildren<Unit>().Where(it => it.UnitType == UnitType.ENEMY).ToList();
-        public Bounds[] GroundBounds =>
-            _groundBounds ??= _groundRoot.GetComponentsInChildren<Renderer>().Select(it => it.bounds).ToArray();
 
         public event Action OnPlayerTriggeredFinish;
 
+        public Bounds GetBounds()
+        {
+            var levelBounds = new Bounds();
+            foreach (var bounds in GroundBounds) 
+            {
+                levelBounds.Encapsulate(bounds);
+            }
+            return levelBounds;
+        }
+        
         private void OnValidate()
         {
             _groundRoot = transform.Find(GROUND_ROOT_NAME);

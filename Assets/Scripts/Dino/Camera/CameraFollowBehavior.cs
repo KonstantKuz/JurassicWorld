@@ -30,21 +30,16 @@ namespace Dino.Camera
                 return;
             }
             
-            var levelBounds = new Bounds();
-            foreach (var bounds in CurrentLevel.GroundBounds) 
-            {
-                levelBounds.Encapsulate(bounds);
-            }
+            var levelBounds = CurrentLevel.GetBounds();
+            var cameraOffset = nextPosition - transform.position;
             
             nextPosition.x = Mathf.Clamp(nextPosition.x,
                 levelBounds.center.x - levelBounds.extents.x + _offsetFromLevelEdge,
                 levelBounds.center.x + levelBounds.extents.x - _offsetFromLevelEdge);
 
-            var cameraOffset = nextPosition - transform.position;
-            
             nextPosition.z = Mathf.Clamp(nextPosition.z,
-                levelBounds.center.z + cameraOffset.z - levelBounds.extents.z + _offsetFromLevelEdge,
-                levelBounds.center.z + cameraOffset.z + levelBounds.extents.z - _offsetFromLevelEdge);
+                cameraOffset.z + levelBounds.center.z - levelBounds.extents.z + _offsetFromLevelEdge,
+                cameraOffset.z + levelBounds.center.z + levelBounds.extents.z - _offsetFromLevelEdge);
             
             Camera.transform.position = nextPosition;
         }
