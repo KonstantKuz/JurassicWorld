@@ -7,11 +7,14 @@ namespace Dino.UI.Screen.World.Inventory.Model
 {
     public class ItemViewModel
     {
-        private ReactiveProperty<ItemViewState> _state; 
-        private BoolReactiveProperty _canCraft;
+        private readonly ReactiveProperty<ItemViewState> _state; 
+        private readonly BoolReactiveProperty _canCraft;
 
         [CanBeNull]
         public ItemId Id { get; }
+        [CanBeNull]
+        public string Icon { get; }
+        public int Rank { get; }
         public IReactiveProperty<ItemViewState> State => _state;
         public IReactiveProperty<bool> CanCraft => _canCraft;
         [CanBeNull]
@@ -29,6 +32,16 @@ namespace Dino.UI.Screen.World.Inventory.Model
                              Action<ItemViewModel> onEndDrag = null)
         {
             Id = id;
+            if (id == null)
+            {
+                Icon = null;
+                Rank = 0;
+            }
+            else
+            {
+                Icon = Id.Name;
+                Rank = id.Rank;
+            }
             _state = new ReactiveProperty<ItemViewState>(state);
             _canCraft = new BoolReactiveProperty(canCraft);
             OnClick = onClick;

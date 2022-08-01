@@ -4,7 +4,7 @@ namespace Dino.Inventory.Service
 {
     public class InventoryRepository : LocalPrefsSingleRepository<Model.Inventory>
     {
-        public InventoryRepository() : base("Inventory_v1")
+        public InventoryRepository() : base("Inventory_v2")
         {
         }
     }

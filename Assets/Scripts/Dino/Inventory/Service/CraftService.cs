@@ -45,7 +45,7 @@ namespace Dino.Inventory.Service
 
         public IEnumerable<CraftRecipeConfig> FindAllMatchingRecipes(HashSet<ItemId> ingredients)
         {
-            var groupingIngredients = ingredients.GroupBy(p => p.Name).ToDictionary(it => it.Key, it => it.Count());
+            var groupingIngredients = ingredients.GroupBy(p => p.FullName).ToDictionary(it => it.Key, it => it.Count());
             foreach (var recipe in _craftConfig.Crafts.Values) {
                 if (AreIngredientsMatchingRecipe(recipe, groupingIngredients)) {
                     yield return recipe;

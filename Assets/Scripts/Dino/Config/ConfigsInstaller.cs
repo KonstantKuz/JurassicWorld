@@ -23,7 +23,7 @@ namespace Dino.Config
                 .RegisterStringKeyedCollection<PlayerUnitConfig>(Configs.PLAYER_UNIT)
                 .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)           
                 .RegisterSingle<LevelsConfig>(Configs.LEVELS)
-                .RegisterCollection<WeaponId, WeaponConfig>(Configs.WEAPONS)
+                .RegisterStringKeyedCollection<WeaponConfig>(Configs.WEAPONS)
 
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)           
                 .RegisterSingle<CraftConfig>(Configs.CRAFT)
