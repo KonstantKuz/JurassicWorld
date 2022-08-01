@@ -4,10 +4,10 @@ namespace Dino.Units.Enemy.Model
 {
     public class EnemyAttackModel
     {
-        public EnemyAttackModel(EnemyAttackConfig config)
+        public EnemyAttackModel(float attackDamage, EnemyAttackConfig config)
         {
+            AttackDamage = attackDamage;
             AttackDistance = config.AttackDistance;
-            AttackDamage = config.AttackDamage;
             AttackInterval = config.AttackInterval;
         }
         public float AttackDistance { get; }
