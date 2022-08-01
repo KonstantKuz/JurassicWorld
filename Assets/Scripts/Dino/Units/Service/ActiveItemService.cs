@@ -7,7 +7,6 @@ using Dino.Units.Player;
 using Dino.Weapon.Service;
 using Logger.Extension;
 using UniRx;
-using XDiffGui;
 using Zenject;
 
 namespace Dino.Units.Service
@@ -60,7 +59,7 @@ namespace Dino.Units.Service
             _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
             
-            _weaponService.TrySetWeapon(itemId.Name, itemOwner.GetWeapon());
+            _weaponService.TrySetWeapon(itemId.FullName, itemOwner.GetWeapon());
         }
 
 
