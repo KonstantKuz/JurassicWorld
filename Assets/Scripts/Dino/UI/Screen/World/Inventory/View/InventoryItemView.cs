@@ -1,9 +1,11 @@
 ﻿using Dino.UI.Screen.World.Inventory.Model;
+using Dino.Units.Service;
 using Dino.Util;
 using Feofun.Util.SerializableDictionary;
 using JetBrains.Annotations;
 using Logger.Extension;
 using SuperMaxim.Core.Extensions;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,6 +17,8 @@ namespace Dino.UI.Screen.World.Inventory.View
     {
         [SerializeField]
         private Image _icon;
+        [SerializeField] 
+        private TextMeshProUGUI _rank;
         
         [SerializeField]
         private SerializableDictionary<ItemViewState, GameObject> _stateContainers;
@@ -22,27 +26,34 @@ namespace Dino.UI.Screen.World.Inventory.View
         private GameObject _canCraftContainer;
 
         private CompositeDisposable _disposable;
-        
+
         [CanBeNull]
-        private ItemViewModel _model;
-        [CanBeNull]
-        public ItemViewModel Model => _model;
-        
+        public ItemViewModel Model { get; private set; }
+
         public void Init(ItemViewModel model)
         {
             Dispose();
             _disposable = new CompositeDisposable();
             
-            _model = model;
+            Model = model;
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
-            if (model.Id != null) {
-                _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Id.Name));
+            if (model.Icon != null)
+            {
+                _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
             }
-        } 
+            SetRank(model);
+        }
+
+        private void SetRank(ItemViewModel model)
+        {
+            _rank.text = model.Rank > 0 ? model.Rank.ToString() : "";
+        }
+
         public void InitViewForDrag(ItemViewModel model)
         {
-            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Id.Name));
+            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
+            SetRank(model);
             UpdateState(model.State.Value);   
             UpdateCraftState(model.CanCraft.Value);
         }
@@ -64,7 +75,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         }
         private void Dispose()
         {
-            _model = null;
+            Model = null;
             _disposable?.Dispose();
             _disposable = null;
         }
@@ -74,12 +85,12 @@ namespace Dino.UI.Screen.World.Inventory.View
         }
         public void OnPointerClick(PointerEventData eventData)
         {
-            _model?.OnClick?.Invoke();
+            Model?.OnClick?.Invoke();
         }
         
         public void OnBeginDrag(PointerEventData eventData)
         {
-            _model?.OnBeginDrag?.Invoke(_model);
+            Model?.OnBeginDrag?.Invoke(Model);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -88,7 +99,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         }
         public void OnEndDrag(PointerEventData eventData)
         {
-            _model?.OnEndDrag?.Invoke(_model);
+            Model?.OnEndDrag?.Invoke(Model);
         }
 
    

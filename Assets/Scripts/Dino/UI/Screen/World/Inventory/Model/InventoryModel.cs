@@ -85,7 +85,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         private bool CanCraft(ItemId id)
         {
-            return _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.Name));
+            return _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.FullName));
         }
 
         private ItemViewState GetState([CanBeNull] ItemId id)

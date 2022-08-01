@@ -1,16 +1,23 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Dino.Inventory.Model
 {
     public class ItemId : IEquatable<ItemId>
     {
+        private static readonly Regex Regex = new Regex(@"(\D+)(\d+)");
+        public string FullName { get; }
+        public int Count { get; }
         public string Name { get; }
-        public int Number { get; }
+        public int Rank { get; }
         
-        public ItemId(string name, int number)
+        public ItemId(string fullName, int count)
         {
+            FullName = fullName;
+            Count = count;
+            var (name, rank) = SplitFullNameToNameAndRank(fullName);
             Name = name;
-            Number = number;
+            Rank = rank;
         }
 
         public static ItemId Create(string name, int number)
@@ -25,12 +32,12 @@ namespace Dino.Inventory.Model
             if (ReferenceEquals(this, other)) {
                 return true;
             }
-            return Name == other.Name && Number == other.Number;
+            return FullName == other.FullName && Count == other.Count;
         }
 
         public override string ToString()
         {
-            return $"InventoryItem: Id:= {Name}, Number:= {Number}";
+            return $"InventoryItem: Id:= {FullName}, Number:= {Count}";
         }
 
         public override bool Equals(object obj)
@@ -50,8 +57,15 @@ namespace Dino.Inventory.Model
         public override int GetHashCode()
         {
             unchecked {
-                return ((Name != null ? Name.GetHashCode() : 0) * 397) ^ Number;
+                return ((FullName != null ? FullName.GetHashCode() : 0) * 397) ^ Count;
             }
+        }
+        
+        private static (string, int) SplitFullNameToNameAndRank(string fullName)
+        {
+            var matchObj = Regex.Match(fullName);
+            if (!matchObj.Success) return (fullName, 0);
+            return (matchObj.Groups[1].Captures[0].Value, int.Parse(matchObj.Groups[2].Captures[0].Value));
         }
     }
 }
