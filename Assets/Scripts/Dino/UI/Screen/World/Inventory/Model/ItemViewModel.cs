@@ -39,9 +39,8 @@ namespace Dino.UI.Screen.World.Inventory.Model
             }
             else
             {
-                var (name, rank) = Id.GetNameAndRank();
-                Icon = name;
-                Rank = rank;
+                Icon = Id.Name;
+                Rank = id.Rank;
             }
             _state = new ReactiveProperty<ItemViewState>(state);
             _canCraft = new BoolReactiveProperty(canCraft);

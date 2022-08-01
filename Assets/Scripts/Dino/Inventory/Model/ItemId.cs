@@ -5,14 +5,19 @@ namespace Dino.Inventory.Model
 {
     public class ItemId : IEquatable<ItemId>
     {
-        private static Regex _regex = new Regex(@"(\D+)(\d+)");
+        private static readonly Regex Regex = new Regex(@"(\D+)(\d+)");
         public string FullName { get; }
         public int Count { get; }
+        public string Name { get; }
+        public int Rank { get; }
         
         public ItemId(string fullName, int count)
         {
             FullName = fullName;
             Count = count;
+            var (name, rank) = SplitFullNameToNameAndRank(fullName);
+            Name = name;
+            Rank = rank;
         }
 
         public static ItemId Create(string name, int number)
@@ -56,10 +61,10 @@ namespace Dino.Inventory.Model
             }
         }
         
-        public (string, int) GetNameAndRank()
+        private static (string, int) SplitFullNameToNameAndRank(string fullName)
         {
-            var matchObj = _regex.Match(FullName);
-            if (!matchObj.Success) return (FullName, 0);
+            var matchObj = Regex.Match(fullName);
+            if (!matchObj.Success) return (fullName, 0);
             return (matchObj.Groups[1].Captures[0].Value, int.Parse(matchObj.Groups[2].Captures[0].Value));
         }
     }

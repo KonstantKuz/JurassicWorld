@@ -54,8 +54,7 @@ namespace Dino.Units.Service
                 return;
             }
             var itemOwner = Player.ActiveItemOwner;
-            var (name, _) = itemId.GetNameAndRank(); 
-            var itemObject = _worldObjectFactory.CreateObject(name, itemOwner.Container);
+            var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
             _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
             
