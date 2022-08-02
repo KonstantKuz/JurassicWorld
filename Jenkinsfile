@@ -255,14 +255,14 @@ pipeline {
                             sh 'xcrun altool --upload-app -f ${IPA_FULL_PATH} -t ios -u $APPSTORE_USER_NAME -p $APPSTORE_USER_PASSWORD'
                         }
                     }
-                }                 
+                }            
             }             
-        } 
+        }
         post {
             always {
-               sh 'git restore .'
-               sh 'git clean -fd'
+                sh 'git restore .'
+                sh 'git clean -fd'
             }
-        }      
+        } 
     }
 }               
