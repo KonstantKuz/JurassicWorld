@@ -20,6 +20,7 @@ namespace Dino.Cheats
         [Inject] private ActiveItemService _activeItemService;     
         [Inject] private InventoryService _inventoryService;    
         [Inject] private CraftService _craftService;     
+        [Inject] private Analytics.Analytics _analytics;     
 
 
         [SerializeField] private GameObject _fpsMonitor;
@@ -39,6 +40,11 @@ namespace Dino.Cheats
         {
             PlayerPrefs.DeleteAll();
             Application.Quit();
+        }
+
+        public void ReportAnalyticsTestEvent()
+        {
+            _analytics.ReportTest();
         }
 
         public void SetActiveItem(string itemName)

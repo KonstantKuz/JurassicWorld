@@ -7,6 +7,7 @@ namespace Dino.Units.StateMachine
     {
         private class IdleState : BaseState
         {
+            private Unit Owner => StateMachine._owner;
             public IdleState(UnitStateMachine stateMachine) : base(stateMachine)
             {
             }            
@@ -15,10 +16,12 @@ namespace Dino.Units.StateMachine
             {
                 StateMachine._movementController.IsStopped = true;
                 StateMachine._animationWrapper.PlayIdleSmooth();
+                Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;
             }
 
             public override void OnExitState()
             {
+                Owner.Damageable.OnDamageTaken -= StateMachine.LookTowardsDamage;
             }
 
             public override void OnTick()

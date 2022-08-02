@@ -25,7 +25,6 @@ namespace Dino.UI.Screen.Debriefing.Model
                 SessionResult = SessionResult,
                 KillCount = Session.Kills,
                 CoinsCount = coinsCount,
-                CurrentLevel = Session.LevelId
             };
         }
     }

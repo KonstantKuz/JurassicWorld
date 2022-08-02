@@ -1,4 +1,5 @@
-﻿using Dino.Extension;
+﻿using System;
+using Dino.Extension;
 using Dino.Units.Component;
 using Feofun.Components;
 using UnityEngine;
@@ -31,11 +32,12 @@ namespace Dino.Units.Enemy
             _agent.SetDestination(position);
         }
 
-        public void RotateTo(Vector3 position)
+        public void RotateTo(Vector3 position, float rotationSpeed)
         {
             var lookAtDirection = (position - transform.position).XZ().normalized;
             var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * _rotationSpeed);
+            var finalSpeed = Math.Abs(rotationSpeed) > Mathf.Epsilon ? rotationSpeed : _rotationSpeed; 
+            transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * finalSpeed);
         }
     }
 }

@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: e509baba2b5ccf248a162be9c525224f, type: 2}
 --- !u!1 &72460172
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,6 +537,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3138016998122642163, guid: 35125c194a51b14489fcf91a7da5dd53, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3514698043046846563, guid: 35125c194a51b14489fcf91a7da5dd53, type: 3}
       propertyPath: m_Name
       value: UI
@@ -629,7 +633,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.49951172
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 895897064116685026, guid: 35125c194a51b14489fcf91a7da5dd53, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35125c194a51b14489fcf91a7da5dd53, type: 3}
 --- !u!114 &3514698042878797254 stripped
 MonoBehaviour:

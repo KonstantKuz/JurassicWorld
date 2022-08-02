@@ -3,6 +3,7 @@ using Dino.Extension;
 using Dino.Location;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
+using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Weapon;
 using Feofun.Components;
@@ -27,8 +28,6 @@ namespace Dino.Units.StateMachine
         private Animator _animator;
         private MoveAnimationWrapper _animationWrapper;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
-
-        [Inject] private World _world;
         
         public virtual void Init(Unit unit)
         {
@@ -58,9 +57,9 @@ namespace Dino.Units.StateMachine
             _currentState?.OnTick();
         }
 
-        private void SetState(UnitState state)
+        private void SetState(UnitState state, Vector3? desiredPosition = null)
         {
-            SetState(BuildState(state));
+            SetState(BuildState(state, desiredPosition));
         }
         
         private void SetState(BaseState newState)
@@ -77,7 +76,7 @@ namespace Dino.Units.StateMachine
             SetState(UnitState.Death);
         }
 
-        private BaseState BuildState(UnitState state)
+        private BaseState BuildState(UnitState state, Vector3? desiredPosition = null)
         {
             return state switch
             {
@@ -86,8 +85,35 @@ namespace Dino.Units.StateMachine
                 UnitState.Chase => new ChaseState(this),
                 UnitState.Attack => new AttackState(this),
                 UnitState.Death => new DeathState(this),
+                UnitState.LookAround => new LookAroundState(this, desiredPosition),
                 _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
             };
         }
+        
+        private void LookTowardsDamage(HitParams hitParams)
+        {
+            SetState(UnitState.LookAround, hitParams.AttackerPosition);
+        }
+
+        private void Stop()
+        {
+            if (_movementController.IsStopped) return;
+            
+            _movementController.IsStopped = true;
+            _animationWrapper.PlayIdleSmooth();
+        }
+
+        private bool ChaseTargetIfExists()
+        {
+            if (_targetProvider.Target != null)
+            {
+                SetState(UnitState.Chase);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void SwitchToIdle() => SetState(UnitState.Idle);
     }
 }

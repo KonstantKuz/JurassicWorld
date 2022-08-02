@@ -20,7 +20,7 @@ namespace Dino.Units.Component.Health
         public IReadOnlyReactiveProperty<float> CurrentValue => _currentHealth;
         public bool DamageEnabled { get; set; }
         public event Action OnZeroHealth;
-        public event Action OnDamageTaken;
+        public event Action<HitParams> OnDamageTaken;
         
         public void Init(IHealthModel health)
         {
@@ -30,15 +30,15 @@ namespace Dino.Units.Component.Health
             _disposable = _healthModel.MaxHealth.Diff().Subscribe(OnMaxHealthChanged);
         }
         
-        public void TakeDamage(float damage)
+        public void TakeDamage(HitParams hitParams)
         {
             if (!DamageEnabled) {
                 return;
             }
-            ChangeHealth(-damage);
-            LogDamage(damage);
+            ChangeHealth(-hitParams.Damage);
+            LogDamage(hitParams.Damage);
             
-            OnDamageTaken?.Invoke();
+            OnDamageTaken?.Invoke(hitParams);
             if (_currentHealth.Value <= 0) {
                 OnZeroHealth?.Invoke();
             }

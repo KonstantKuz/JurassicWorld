@@ -1,4 +1,5 @@
-﻿using Dino.Inventory.Model;
+﻿using System.Text.RegularExpressions;
+using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
@@ -57,8 +58,10 @@ namespace Dino.Units.Service
             _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
             
-            _weaponService.TrySetWeapon(itemId.Name, itemOwner.GetWeapon());
+            _weaponService.TrySetWeapon(itemId.FullName, itemOwner.GetWeapon());
         }
+
+
 
         public void UnEquip()
         {

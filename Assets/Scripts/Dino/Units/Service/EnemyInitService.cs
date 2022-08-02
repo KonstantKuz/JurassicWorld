@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using Dino.Extension;
 using Dino.Location;
+using Dino.Units.Enemy;
 using Dino.Units.Enemy.Config;
 using Dino.Units.Enemy.Model;
 using Feofun.Config;
@@ -28,7 +30,8 @@ namespace Dino.Units.Service
                     this.Logger().Warn($"There is no suitable config for {unit.ObjectId}");
                     continue;
                 }
-                var model = new EnemyUnitModel(config);
+
+                var model = new EnemyUnitModel(config, unit.GetLevel());
                 unit.Init(model);
             }
         }

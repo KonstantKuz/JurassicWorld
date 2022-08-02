@@ -5,6 +5,7 @@ using Dino.Units.Enemy.Model;
 using Dino.Units.Player;
 using Feofun.Config;
 using UnityEngine;
+using UnityEngine.AI;
 using Zenject;
 
 namespace Dino.Units.Service
@@ -20,15 +21,15 @@ namespace Dino.Units.Service
             var unit = _worldObjectFactory.CreateObject(unitId).RequireComponent<PlayerUnit>();
             var model = _playerUnitModelBuilder.BuildUnit(unitId);
             unit.Init(model);
-            unit.transform.position = position;
+            unit.SetPosition(position);
             return unit;
         }
         
-        public Unit CreateEnemy(string unitId)
+        public Unit CreateEnemy(string unitId, int level)
         {
             var enemy = _worldObjectFactory.CreateObject(unitId).RequireComponent<Unit>();
             var config = _enemyUnitConfigs.Get(unitId);
-            var model = new EnemyUnitModel(config);
+            var model = new EnemyUnitModel(config, level);
             enemy.Init(model);
             return enemy;
         }

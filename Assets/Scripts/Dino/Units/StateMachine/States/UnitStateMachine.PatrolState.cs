@@ -1,9 +1,6 @@
 ﻿using Dino.Extension;
-using Dino.Units.Enemy.Model;
 using Dino.Units.StateMachine.States;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.Units.StateMachine
 {
@@ -13,87 +10,72 @@ namespace Dino.Units.StateMachine
         {
             private const float PRECISION_DISTANCE = 0.2f;
 
-            private readonly PatrolStateModel _stateModel;
-            
-            private float _waitTimer;
+            private readonly WaitSubState _waitSubState;
+
             private PatrolPathProvider _pathProvider;
+            private PatrolPathIterator _pathIterator;
 
             private Unit Owner => StateMachine._owner;
             private PatrolPathProvider PathProvider => _pathProvider ??= Owner.gameObject.RequireComponent<PatrolPathProvider>();
+            private PatrolPathIterator PathIterator => _pathIterator ??= Owner.gameObject.RequireComponent<PatrolPathIterator>();
+
             private bool HasPath => PathProvider.PatrolPath != null;
-            [CanBeNull]
-            private Transform NextPathPoint { get; set; }
-            private float DistanceToPathPoint => Vector3.Distance(Owner.transform.position, NextPathPoint.position);
-            private bool IsTimeToGo => _waitTimer >= _stateModel.PatrolIdleTime;
+            private Transform CurrentPathPoint => PathProvider.PatrolPath.Path[PathIterator.CurrentPointIndex];
+            private float DistanceToPoint => Vector3.Distance(Owner.transform.position, CurrentPathPoint.position);
             
             public PatrolState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                var enemyModel = (EnemyUnitModel) Owner.Model;
-                Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
-                _stateModel = enemyModel.PatrolStateModel;
+                var stateModel = Owner.RequireEnemyModel().PatrolStateModel;
+                _waitSubState = WaitSubState.Build(stateModel.PatrolIdleTime, StateMachine.Stop, null, SetNextPointAndGo);
             }
-            
+
             public override void OnEnterState()
             {
-                if (!HasPath) return;
+                if (!HasPath)
+                {
+                    StateMachine.SwitchToIdle();
+                    return;
+                }
                 
-                GoToNextPoint();
-                Owner.Damageable.OnDamageTaken += StartChasePlayer;
-            }
-
-            private void StartChasePlayer()
-            {
-                if (StateMachine._world.Player == null) return;
-
-                StateMachine._targetProvider.Target = StateMachine._world.Player.SelfTarget;
+                GoToCurrentPoint();
+                Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;
             }
 
             public override void OnExitState()
             {
-                Owner.Damageable.OnDamageTaken += StartChasePlayer;
+                if (!HasPath) return;
+                
+                Owner.Damageable.OnDamageTaken -= StateMachine.LookTowardsDamage;
+            }
+
+            private void SetNextPointAndGo()
+            {
+                PathIterator.IncreaseCurrentIndex(PathProvider.PatrolPath.Path.Length);
+                GoToCurrentPoint();
             }
 
             public override void OnTick()
             {
-                if (StateMachine._targetProvider.Target != null)
-                {
-                    StateMachine.SetState(UnitState.Chase);
-                }
-                if (!HasPath || DistanceToPathPoint > PRECISION_DISTANCE)
+                if (StateMachine.ChaseTargetIfExists())
                 {
                     return;
                 }
-                Wait();
-                if (IsTimeToGo)
-                {
-                    GoToNextPoint();
-                    TryResetWaitTimer();
-                }
-            }
-
-            private void Wait()
-            {
-                _waitTimer += Time.deltaTime;
-
-                if(StateMachine._movementController.IsStopped) return;
                 
-                StateMachine._movementController.IsStopped = true;
-                StateMachine._animationWrapper.PlayIdleSmooth();
-            }
-
-            private void GoToNextPoint()
-            {
-                NextPathPoint = PathProvider.Pop();
-                StateMachine._movementController.MoveTo(NextPathPoint.position);
-                StateMachine._animationWrapper.PlayMoveForwardSmooth();
-            }
-
-            private void TryResetWaitTimer()
-            {
-                if (PathProvider.PatrolPath.IsEndOfPath(NextPathPoint))
+                if (!HasPath || DistanceToPoint > PRECISION_DISTANCE)
                 {
-                    _waitTimer = 0f;
+                    return;
                 }
+                
+                if (PathProvider.PatrolPath.IsEndOfPath(CurrentPathPoint))
+                {
+                    _waitSubState.OnTick();
+                }
+            }
+
+            private void GoToCurrentPoint()
+            {
+                StateMachine._movementController.MoveTo(CurrentPathPoint.position);
+                StateMachine._animationWrapper.PlayMoveForwardSmooth();
             }
         }
     }

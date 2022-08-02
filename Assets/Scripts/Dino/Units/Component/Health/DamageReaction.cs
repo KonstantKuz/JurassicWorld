@@ -26,7 +26,7 @@ namespace Dino.Units.Component.Health
             _damageable.OnDamageTaken += OnDamageTakenReact;
         }
 
-        private void OnDamageTakenReact()
+        private void OnDamageTakenReact(HitParams hitParams)
         {
             if(gameObject == null) { return; } 
             PlayScalePunch();

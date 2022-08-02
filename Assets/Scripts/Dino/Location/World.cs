@@ -22,6 +22,8 @@ namespace Dino.Location
         public bool IsPaused => Time.timeScale == 0;
        
         [CanBeNull]
+        public Level.Level Level { get; set; }
+        [CanBeNull]
         public PlayerUnit Player { get; set; }
         
         public PlayerUnit GetPlayer() 

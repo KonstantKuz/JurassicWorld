@@ -259,4 +259,10 @@ pipeline {
             }             
         }        
     }
+    post {
+        always{
+            sh 'git restore .'
+            sh 'git clean -fd'
+        }
+    }
 }               

@@ -13,10 +13,10 @@ namespace Dino.Weapon.Service
 {
     public class WeaponService
     {
-        private readonly Dictionary<WeaponId, Action<WeaponId, BaseWeapon>> _specialWeapons;
+        private readonly Dictionary<string, Action<string, BaseWeapon>> _specialWeapons;
 
         [Inject]
-        private ConfigCollection<WeaponId, WeaponConfig> _weaponConfigs;
+        private StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
 
         [Inject]
         private World _world;
@@ -25,17 +25,17 @@ namespace Dino.Weapon.Service
 
         public WeaponService()
         {
-            _specialWeapons = new Dictionary<WeaponId, Action<WeaponId, BaseWeapon>>();
+            _specialWeapons = new Dictionary<string, Action<string, BaseWeapon>>();
         }
         public void TrySetWeapon(string itemId, BaseWeapon weapon)
         {
-            if (IsWeapon(itemId, out var weaponId)) {
-                Set(weaponId, weapon);
+            if (IsWeapon(itemId)) {
+                Set(itemId, weapon);
             } else {
                 this.Logger().Debug($"Inventory item:= {itemId} is not Weapon");
             }
         }
-        public void Set(WeaponId weaponId, BaseWeapon weapon)
+        public void Set(string weaponId, BaseWeapon weapon)
         {
             if (_specialWeapons.ContainsKey(weaponId)) {
                 _specialWeapons[weaponId].Invoke(weaponId, weapon);
@@ -47,18 +47,18 @@ namespace Dino.Weapon.Service
         {
             Player.PlayerAttack.DeleteWeapon();
         }
-        private bool IsWeapon(string itemId, out WeaponId weaponId)
+        private bool IsWeapon(string itemId)
         {
-            return Enum.TryParse(itemId, out weaponId);
+            return _weaponConfigs.Contains(itemId);
         }
-        private void SetWeapon(WeaponId weaponId, BaseWeapon weapon)
+        private void SetWeapon(string weaponId, BaseWeapon weapon)
         {
             var model = CreateModel(weaponId);
             var attack = Player.PlayerAttack;
             attack.SetWeapon(model, weapon);
         }
 
-        private PlayerWeaponModel CreateModel(WeaponId weaponId)
+        private PlayerWeaponModel CreateModel(string weaponId)
         {
             var config = _weaponConfigs.Get(weaponId);
             return new PlayerWeaponModel(config);

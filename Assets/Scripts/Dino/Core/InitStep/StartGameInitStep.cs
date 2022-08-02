@@ -11,7 +11,7 @@ namespace Dino.Core.InitStep
     public class StartGameInitStep : AppInitStep
     {
         [Inject]
-        private ScreenSwitcher _screenSwitcher;
+        private ScreenSwitcher _screenSwitcher;     
         
         protected override void Run()
         {
