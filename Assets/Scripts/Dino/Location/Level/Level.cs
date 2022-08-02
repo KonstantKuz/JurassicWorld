@@ -13,13 +13,14 @@ namespace Dino.Location.Level
         
         [SerializeField] private Transform _start;
         [SerializeField] private Trigger _finish;
-        [SerializeField] private Transform _groundRoot;
         
+        private Transform _groundRoot;
         private Bounds[] _groundBounds;
         private List<Unit> _enemies;
 
+        private Transform GroundRoot => _groundRoot ??= transform.Find(GROUND_ROOT_NAME);
         private Bounds[] GroundBounds =>
-            _groundBounds ??= _groundRoot.GetComponentsInChildren<Renderer>().Select(it => it.bounds).ToArray();
+            _groundBounds ??= GroundRoot.GetComponentsInChildren<Renderer>().Select(it => it.bounds).ToArray();
 
         public Transform Start => _start;
         public List<Unit> Enemies =>
@@ -37,11 +38,6 @@ namespace Dino.Location.Level
             return levelBounds;
         }
         
-        private void OnValidate()
-        {
-            _groundRoot = transform.Find(GROUND_ROOT_NAME);
-        }
-
         private void Awake()
         {
             _finish.OnTriggerEnterCallback += OnFinishTriggered;
