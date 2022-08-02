@@ -129,8 +129,7 @@ pipeline {
             }
             post {
                 always {
-                    when { expression { return params.Platform == "Android" && params.PostBuildClean } }
-                    steps {
+                    if(params.Platform == "Android" && params.PostBuildClean) {
                         sh 'git checkout .'
                         sh 'git clean -fd'
                     }
@@ -269,8 +268,7 @@ pipeline {
             }
             post {
                 always {
-                    when { expression { return params.Platform == "iOS" && params.PostBuildClean } }
-                    steps {
+                    if(params.Platform == "iOS" && params.PostBuildClean) {
                         sh 'git checkout .'
                         sh 'git clean -fd'
                     }
