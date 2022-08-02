@@ -38,7 +38,7 @@ pipeline {
             stages {
                 stage ('Revert unstaged') {
                     steps {
-                        sh 'git restore .'
+                        sh 'git checkout .'
                         sh 'git clean -fd'
                     }
                 }
@@ -158,7 +158,7 @@ pipeline {
             stages {
                 stage ('Revert unstaged') {
                     steps {
-                        sh 'git restore .'
+                        sh 'git checkout .'
                         sh 'git clean -fd'
                     }
                 }
