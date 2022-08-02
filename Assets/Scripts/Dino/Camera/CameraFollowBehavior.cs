@@ -27,25 +27,25 @@ namespace Dino.Camera
             Camera.transform.position = ClampByLevel(nextPosition);
         }
 
-        private Vector3 ClampByLevel(Vector3 nextPosition)
+        private Vector3 ClampByLevel(Vector3 position)
         {
             if (_world.Level == null)
             {
-                return nextPosition;
+                return position;
             }
             
             var levelBounds = CurrentLevel.GetBounds();
-            var cameraOffset = nextPosition - transform.position;
+            var cameraOffset = position - transform.position;
             
-            nextPosition.x = Mathf.Clamp(nextPosition.x,
+            position.x = Mathf.Clamp(position.x,
                 levelBounds.center.x - levelBounds.extents.x + _offsetFromLevelEdge,
                 levelBounds.center.x + levelBounds.extents.x - _offsetFromLevelEdge);
 
-            nextPosition.z = Mathf.Clamp(nextPosition.z,
+            position.z = Mathf.Clamp(position.z,
                 cameraOffset.z + levelBounds.center.z - levelBounds.extents.z + _offsetFromLevelEdge,
                 cameraOffset.z + levelBounds.center.z + levelBounds.extents.z - _offsetFromLevelEdge);
 
-            return nextPosition;
+            return position;
         }
     }
 }
