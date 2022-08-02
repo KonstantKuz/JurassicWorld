@@ -42,7 +42,7 @@ namespace Dino.UI.Cheats
 
         [Inject] private CheatsManager _cheatsManager;
         [Inject] private CheatsActivator _cheatsActivator;
-        [Inject] private ConfigCollection<WeaponId, WeaponConfig> _weaponConfigs;    
+        [Inject] private StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;    
         [Inject] private CraftConfig _craftConfig;
 
         private void OnEnable()
