@@ -258,11 +258,9 @@ pipeline {
                 }            
             }             
         }
-        post {
-            always {
-                sh 'git restore .'
-                sh 'git clean -fd'
-            }
+        stage ('Post build') {
+            sh 'git restore .'
+            sh 'git clean -fd'
         } 
     }
 }               
