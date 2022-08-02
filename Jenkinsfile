@@ -36,11 +36,13 @@ pipeline {
                 }
             }
             stages {
-                stage ('Clear') {
+                stage ('Revert unstaged') {
                     steps {
                         sh 'git restore .'
                         sh 'git clean -fd'
                     }
+                }
+                stage ('Clear') {
                     when {
                         expression { return params.Clean }
                     } 
@@ -154,11 +156,13 @@ pipeline {
                 }
             }
             stages {
-                stage ('Clear') {
+                stage ('Revert unstaged') {
                     steps {
                         sh 'git restore .'
                         sh 'git clean -fd'
                     }
+                }
+                stage ('Clear') {
                     when {
                         expression { return params.Clean }
                     } 
