@@ -37,6 +37,10 @@ pipeline {
             }
             stages {
                 stage ('Clear') {
+                    steps {
+                        sh 'git restore .'
+                        sh 'git clean -fd'
+                    }
                     when {
                         expression { return params.Clean }
                     } 
@@ -151,6 +155,10 @@ pipeline {
             }
             stages {
                 stage ('Clear') {
+                    steps {
+                        sh 'git restore .'
+                        sh 'git clean -fd'
+                    }
                     when {
                         expression { return params.Clean }
                     } 
@@ -258,11 +266,5 @@ pipeline {
                 }            
             }             
         }
-        stage ('Post build') {
-            steps {
-                sh 'git restore .'
-                sh 'git clean -fd'        
-            }
-        } 
     }
 }               
