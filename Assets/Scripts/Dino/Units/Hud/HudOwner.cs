@@ -1,6 +1,7 @@
 using Dino.UI.Hud.Unit;
 using Dino.Units.Component;
 using Feofun.Components;
+using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 using Zenject;
@@ -13,11 +14,15 @@ namespace Dino.Units.Hud
 
         private HudPresenter _hudPresenter;
         private IHealthBarOwner _healthBarOwner;
+        private ILevelStatOwner _levelStatOwner;
 
         [Inject]
         private DiContainer _container;
 
         public IHealthBarOwner HealthBarOwner => _healthBarOwner ??= GetComponent<IHealthBarOwner>();
+
+        [CanBeNull]
+        public ILevelStatOwner LevelStatOwner => _levelStatOwner ??= GetComponent<ILevelStatOwner>();
 
         public void Init(Unit unit)
         {
