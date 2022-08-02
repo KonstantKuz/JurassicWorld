@@ -31,8 +31,7 @@ namespace Dino.Units.Service
                     continue;
                 }
 
-                var level = unit.gameObject.RequireComponent<EnemyLevel>();
-                var model = new EnemyUnitModel(config, level.Level);
+                var model = new EnemyUnitModel(config, unit.GetLevel());
                 unit.Init(model);
             }
         }

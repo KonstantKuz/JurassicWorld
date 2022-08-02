@@ -5,6 +5,7 @@ using Dino.Location.Model;
 using Dino.Units.Component.Death;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
+using Dino.Units.Enemy;
 using Dino.Units.Model;
 using Dino.Units.Service;
 using EasyButtons;
@@ -87,6 +88,11 @@ namespace Dino.Units
             OnDeath = null;
         }
 
+        public int GetLevel()
+        {
+            return gameObject.RequireComponent<EnemyLevel>().Level;
+        }
+        
         private void DieOnZeroHealth()
         {
             Kill(DeathCause.Killed);
