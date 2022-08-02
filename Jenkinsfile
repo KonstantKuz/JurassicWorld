@@ -12,6 +12,7 @@ pipeline {
         booleanParam(name: 'BuildAab', defaultValue: false, description: 'Build aab, only for android')
         booleanParam(name: 'IpaForAppStore', defaultValue: false, description: 'Build ipa for publishing in AppStore, only for iOS')
         booleanParam(name: 'Clean', defaultValue: false, description: 'Delete and reimport assets')
+        booleanParam(name: 'PostBuildClean', defaultValue: true, description: 'Revert local changes')
         booleanParam(name: 'DebugConsole', defaultValue: true, description: 'Enable debug console, only for apk')
         choice(name: 'LoggerLevel', choices: ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR'], description: 'Logger Level') 
         string(name: 'ConfigsUrl', defaultValue: '', description: 'Configs url')
@@ -128,8 +129,10 @@ pipeline {
             }
             post {
                 always {
+                    if(params.PostBuildClean) {
                         sh 'git checkout .'
                         sh 'git clean -fd'
+                    }
                 }
             }
         }
@@ -265,8 +268,10 @@ pipeline {
             }
             post {
                 always {
+                    if(params.PostBuildClean) {
                         sh 'git checkout .'
                         sh 'git clean -fd'
+                    }
                 }
             }
         }
