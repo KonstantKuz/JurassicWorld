@@ -156,12 +156,6 @@ pipeline {
                 }
             }
             stages {
-                stage ('Revert unstaged') {
-                    steps {
-                        sh 'git checkout .'
-                        sh 'git clean -fd'
-                    }
-                }
                 stage ('Clear') {
                     when {
                         expression { return params.Clean }
