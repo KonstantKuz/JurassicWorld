@@ -125,13 +125,13 @@ pipeline {
                         }                        
                     }
                 }   
-            }                                          
-        }
-        post {
-            always {
-                steps {
-                    sh 'git checkout .'
-                    sh 'git clean -fd'
+            }
+            post {
+                always {
+                    steps {
+                        sh 'git checkout .'
+                        sh 'git clean -fd'
+                    }
                 }
             }
         }
@@ -270,13 +270,13 @@ pipeline {
                         }
                     }
                 }            
-            }             
-        }
-        post {
-            always {
-                steps {
-                    sh 'git checkout .'
-                    sh 'git clean -fd'
+            }
+            post {
+                always {
+                    steps {
+                        sh 'git checkout .'
+                        sh 'git clean -fd'
+                    }
                 }
             }
         }
