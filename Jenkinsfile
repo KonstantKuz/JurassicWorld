@@ -125,15 +125,14 @@ pipeline {
                             }
                         }                        
                     }
-                }
-                post {
-                    always {
-                        when { expression { return params.PostBuildClean} 
-                        }
-                        steps {
-                            sh 'git checkout .'
-                            sh 'git clean -fd'
-                        }
+                }   
+            }
+            post {
+                always {
+                    when { expression { return params.Platform == "Android" && params.PostBuildClean } }
+                    steps {
+                        sh 'git checkout .'
+                        sh 'git clean -fd'
                     }
                 }
             }
@@ -267,14 +266,13 @@ pipeline {
                         }
                     }
                 }            
-                post {
-                    always {
-                        when { expression { return params.PostBuildClean} 
-                        }
-                        steps {
-                            sh 'git checkout .'
-                            sh 'git clean -fd'
-                        }
+            }
+            post {
+                always {
+                    when { expression { return params.Platform == "iOS" && params.PostBuildClean } }
+                    steps {
+                        sh 'git checkout .'
+                        sh 'git clean -fd'
                     }
                 }
             }
