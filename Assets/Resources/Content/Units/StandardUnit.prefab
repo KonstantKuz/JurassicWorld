@@ -73,12 +73,12 @@ GameObject:
   - component: {fileID: 3254496561695502942}
   - component: {fileID: 6913699995513354648}
   - component: {fileID: 3254496561695502940}
+  - component: {fileID: 967547193443741266}
   - component: {fileID: 8645033335585185423}
   - component: {fileID: 6901569034813441397}
   - component: {fileID: 3254496561695502943}
   - component: {fileID: 8166840625109294545}
   - component: {fileID: 507659729570458952}
-  - component: {fileID: 967547193443741266}
   - component: {fileID: 6829410825127991752}
   - component: {fileID: 5140416381467973248}
   - component: {fileID: 2119164078176614931}
@@ -147,6 +147,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &967547193443741266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254496561695502929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3904fda15694c55b18fbfbf180efa03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distance: 22
+  _offsetFromLevelEdge: 6
 --- !u!114 &8645033335585185423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,19 +232,6 @@ MonoBehaviour:
   _disappearTime: 3
   _delayUntilDisappear: 3
   _offsetYDisappear: 3
---- !u!114 &967547193443741266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3254496561695502929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3904fda15694c55b18fbfbf180efa03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _distance: 22
 --- !u!114 &6829410825127991752
 MonoBehaviour:
   m_ObjectHideFlags: 0

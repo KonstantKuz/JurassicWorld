@@ -9,16 +9,35 @@ namespace Dino.Location.Level
 {
     public class Level : WorldObject
     {
+        private const string GROUND_ROOT_NAME = "Ground";
+        
         [SerializeField] private Transform _start;
         [SerializeField] private Trigger _finish;
-
+        
+        private Transform _groundRoot;
+        private Bounds[] _groundBounds;
         private List<Unit> _enemies;
+
+        private Transform GroundRoot => _groundRoot ??= transform.Find(GROUND_ROOT_NAME);
+        private Bounds[] GroundBounds =>
+            _groundBounds ??= GroundRoot.GetComponentsInChildren<Renderer>().Select(it => it.bounds).ToArray();
+
         public Transform Start => _start;
         public List<Unit> Enemies =>
             _enemies ??= GetComponentsInChildren<Unit>().Where(it => it.UnitType == UnitType.ENEMY).ToList();
-        
+
         public event Action OnPlayerTriggeredFinish;
 
+        public Bounds GetBounds()
+        {
+            var levelBounds = new Bounds();
+            foreach (var bounds in GroundBounds) 
+            {
+                levelBounds.Encapsulate(bounds);
+            }
+            return levelBounds;
+        }
+        
         private void Awake()
         {
             _finish.OnTriggerEnterCallback += OnFinishTriggered;

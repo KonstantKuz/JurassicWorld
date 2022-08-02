@@ -64,6 +64,7 @@ namespace Dino.Session.Service
         private void CreateLevel()
         {
             _currentLevel = _levelService.CreateLevel(Session.LevelId);
+            _world.Level = _currentLevel;
             _currentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
             this.Logger().Debug($"Level:= {_currentLevel.gameObject.name}");
         }
