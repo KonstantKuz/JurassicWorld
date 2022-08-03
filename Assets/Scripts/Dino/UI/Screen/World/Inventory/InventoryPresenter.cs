@@ -72,7 +72,10 @@ namespace Dino.UI.Screen.World.Inventory
                 return;
             }
             var craftedItem = _craftService.Craft(ingredients);
-            _activeItemService.Replace(craftedItem);
+            if (craftedItem.Rank >= _activeItemService.ActiveItemId.Value.Rank)
+            {
+                _activeItemService.Replace(craftedItem);
+            }
             _itemCursor.Detach();
         }
 
