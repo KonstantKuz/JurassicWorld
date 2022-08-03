@@ -38,11 +38,7 @@ namespace Dino.Loot.Service
 
         public void DropLoot(ItemId itemId)
         {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it =>
-            {
-                Debug.Log($"loot received item {it.ReceivedItemId} - dropped item {itemId.Name}");
-                return it.ReceivedItemId == itemId.Name;
-            });
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == itemId.Name);
             if (lootPrefab == null) {
                 this.Logger().Error($"Loot prefab not found for itemId:= {itemId}");
                 return;
