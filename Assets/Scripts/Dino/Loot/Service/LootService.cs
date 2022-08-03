@@ -30,7 +30,10 @@ namespace Dino.Loot.Service
         public void Collect(Loot loot)
         {
             var itemId = _inventoryService.Add(loot.ReceivedItemId);
-            _activeItemService.Replace(itemId);
+            if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank)
+            {
+                _activeItemService.Replace(itemId);
+            }
         }
 
         public void DropLoot(ItemId itemId)
