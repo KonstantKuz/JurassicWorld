@@ -12,8 +12,10 @@ pipeline {
         booleanParam(name: 'BuildAab', defaultValue: false, description: 'Build aab, only for android')
         booleanParam(name: 'IpaForAppStore', defaultValue: false, description: 'Build ipa for publishing in AppStore, only for iOS')
         booleanParam(name: 'Clean', defaultValue: false, description: 'Delete and reimport assets')
+        booleanParam(name: 'PostBuildClean', defaultValue: true, description: 'Revert local changes')
         booleanParam(name: 'DebugConsole', defaultValue: true, description: 'Enable debug console, only for apk')
-        choice(choices: ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR'], name: 'LoggerLevel', description: 'Logger Level') 
+        choice(name: 'LoggerLevel', choices: ['TRACE', 'DEBUG', 'INFO', 'WARN', 'ERROR'], description: 'Logger Level') 
+        string(name: 'ConfigsUrl', defaultValue: '', description: 'Configs url')
     }
     environment {
         OUTPUT_FILE_NAME = 'dinoWorldSurvival'
@@ -64,7 +66,8 @@ pipeline {
                                     if(params.DebugConsole) {
                                         UNITY_PARAMS=UNITY_PARAMS + '-debugConsole '
                                     }
-                                    UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel  
+                                    UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
+                                    UNITY_PARAMS=UNITY_PARAMS + ' -configsUrl ' + params.ConfigsUrl
                                 }   
    
                                 withCredentials([string(credentialsId: 'DinoAndroidKeystorePass', variable: 'KEYSTORE_PASS'), 
@@ -103,6 +106,7 @@ pipeline {
                                 script {
                                     UNITY_PARAMS=''
                                     UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
+                                    UNITY_PARAMS=UNITY_PARAMS + ' -configsUrl ' + params.ConfigsUrl
                                 }                                                                                                                                                             
                                 withCredentials([string(credentialsId: 'DinoAndroidKeystorePass', variable: 'KEYSTORE_PASS'), 
                                         gitUsernamePassword(credentialsId: 'gitlab_inspiritum_smash_master', gitToolName: 'Default')]) {
@@ -122,7 +126,17 @@ pipeline {
                         }                        
                     }
                 }   
-            }                                          
+            }
+            post {
+                always {
+                    script {
+                        if(params.Platform == "iOS" && params.PostBuildClean) {
+                            sh 'git checkout .'
+                            sh 'git clean -fd'
+                        }
+                    }
+                }
+            }
         }
         stage ('iOS') {
             environment {
@@ -179,6 +193,7 @@ pipeline {
                                 UNITY_PARAMS=UNITY_PARAMS + '-debugConsole '
                             }
                             UNITY_PARAMS=UNITY_PARAMS + '-loggerLevel ' + params.LoggerLevel
+                            UNITY_PARAMS=UNITY_PARAMS + ' -configsUrl ' + params.ConfigsUrl
                         }         
                            
                         withCredentials([gitUsernamePassword(credentialsId: 'gitlab_inspiritum_smash_master', gitToolName: 'Default')]) {
@@ -251,8 +266,18 @@ pipeline {
                             sh 'xcrun altool --upload-app -f ${IPA_FULL_PATH} -t ios -u $APPSTORE_USER_NAME -p $APPSTORE_USER_PASSWORD'
                         }
                     }
-                }                 
-            }             
-        }        
+                }            
+            }
+            post {
+                always {
+                    script {
+                        if(params.Platform == "iOS" && params.PostBuildClean) {
+                            sh 'git checkout .'
+                            sh 'git clean -fd'
+                        }
+                    }
+                }
+            }
+        }
     }
 }               
