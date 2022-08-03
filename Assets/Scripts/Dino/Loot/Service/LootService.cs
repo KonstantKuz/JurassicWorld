@@ -35,15 +35,21 @@ namespace Dino.Loot.Service
 
         public void DropLoot(ItemId itemId)
         {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == itemId.FullName);
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it =>
+            {
+                Debug.Log($"loot received item {it.ReceivedItemId} - dropped item {itemId.Name}");
+                return it.ReceivedItemId == itemId.Name;
+            });
             if (lootPrefab == null) {
                 this.Logger().Error($"Loot prefab not found for itemId:= {itemId}");
                 return;
             }
-            var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject);
+
+            var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
+            lootObject.ReceivedItemId = itemId.FullName;
             var playerPosition = _world.Player.SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.Player.LootCollector.CollectRadius * 2;
-            SetLootPosition(playerPosition, lootObject, radiusFromPlayer);
+            SetLootPosition(playerPosition, lootObject.gameObject, radiusFromPlayer);
         }
 
         private void SetLootPosition(Vector3 playerPosition, GameObject lootObject, float radius)
