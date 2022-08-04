@@ -71,7 +71,7 @@ namespace Dino.Units.Service
             _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
             
-            _weaponService.TrySetWeapon(itemId.FullName, itemOwner.GetWeapon());
+            _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
         }
 
         public void UnEquip()

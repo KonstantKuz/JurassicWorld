@@ -25,13 +25,14 @@ namespace Dino.UI.Screen.World.Inventory.View
         [SerializeField]
         private GameObject _canCraftContainer;
 
-        [SerializeField] 
-        private GameObject _reloadContainer;
+        [SerializeField]
+        private GameObject _reloadOverlay;
         [SerializeField]
         private Image _reloadBar;
         
         private CompositeDisposable _disposable;
-
+        private Tween _reloadAnimation;
+        
         [CanBeNull]
         public ItemViewModel Model { get; private set; }
 
@@ -43,20 +44,12 @@ namespace Dino.UI.Screen.World.Inventory.View
             Model = model;
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
+            model.IsAttackReady?.Subscribe(PlayReloadAnimation).AddTo(_disposable);
             if (model.Icon != null)
             {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
             }
             SetRank(model);
-            model.OnWeaponFireCallback += PlayReloadAnimation;
-        }
-
-        private void PlayReloadAnimation(float reloadTime)
-        {
-            _reloadContainer.SetActive(true);
-            _reloadBar.fillAmount = 0f;
-            var tween = DOTween.To(() => _reloadBar.fillAmount, value => { _reloadBar.fillAmount = value; }, 1, reloadTime);
-            tween.onComplete = () => { _reloadContainer.SetActive(false); };
         }
 
         private void SetRank(ItemViewModel model)
@@ -87,13 +80,22 @@ namespace Dino.UI.Screen.World.Inventory.View
             }
             _stateContainers[state].SetActive(true);
         }
+
+        private void PlayReloadAnimation(bool isAttackReady)
+        {
+            _reloadOverlay.SetActive(!isAttackReady);
+            
+            if(isAttackReady) return;
+            
+            _reloadAnimation?.Kill();
+            _reloadBar.fillAmount = Model.ReloadProgress;
+            _reloadAnimation = DOTween.To(() => _reloadBar.fillAmount, value => { _reloadBar.fillAmount = value; }, 1, Model.ReloadTimeLeft).SetEase(Ease.Linear);
+            _reloadAnimation.onComplete = () => _reloadOverlay.SetActive(false);
+        }
+
         private void Dispose()
         {
-            if (Model != null)
-            {
-                Model.OnWeaponFireCallback -= PlayReloadAnimation;
-            }
-            
+            _reloadAnimation?.Kill();
             Model = null;
             _disposable?.Dispose();
             _disposable = null;
