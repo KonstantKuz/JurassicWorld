@@ -86,6 +86,7 @@ namespace Dino.Units.StateMachine
                 UnitState.Attack => new AttackState(this),
                 UnitState.Death => new DeathState(this),
                 UnitState.LookAround => new LookAroundState(this, desiredPosition),
+                UnitState.GoToPoint => new GoToPointState(this, desiredPosition.Value),
                 _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
             };
         }
@@ -115,5 +116,11 @@ namespace Dino.Units.StateMachine
         }
 
         public void SwitchToIdle() => SetState(UnitState.Idle);
+
+        private void GoToPoint(Vector3 point)
+        {
+            _movementController.MoveTo(point);
+            _animationWrapper.PlayMoveForwardSmooth();
+        }
     }
 }

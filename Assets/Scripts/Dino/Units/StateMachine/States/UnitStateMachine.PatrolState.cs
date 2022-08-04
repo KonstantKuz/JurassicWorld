@@ -74,8 +74,7 @@ namespace Dino.Units.StateMachine
 
             private void GoToCurrentPoint()
             {
-                StateMachine._movementController.MoveTo(CurrentPathPoint.position);
-                StateMachine._animationWrapper.PlayMoveForwardSmooth();
+                StateMachine.GoToPoint(CurrentPathPoint.position);
             }
         }
     }
