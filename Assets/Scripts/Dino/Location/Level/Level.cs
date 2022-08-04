@@ -2,8 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Location.Model;
+using Dino.Location.Service;
+using Dino.Session.Messages;
+using Dino.Session.Service;
 using Dino.Units;
+using SuperMaxim.Messaging;
 using UnityEngine;
+using Zenject;
 
 namespace Dino.Location.Level
 {
@@ -18,6 +23,9 @@ namespace Dino.Location.Level
         private Bounds[] _groundBounds;
         private List<Unit> _enemies;
 
+        [Inject] private IMessenger _messenger;
+        [Inject] private WorldObjectFactory _worldObjectFactory;
+        
         private Transform GroundRoot => _groundRoot ??= transform.Find(GROUND_ROOT_NAME);
         private Bounds[] GroundBounds =>
             _groundBounds ??= GroundRoot.GetComponentsInChildren<Renderer>().Select(it => it.bounds).ToArray();
@@ -41,6 +49,14 @@ namespace Dino.Location.Level
         private void Awake()
         {
             _finish.OnTriggerEnterCallback += OnFinishTriggered;
+            _messenger.Subscribe<AllEnemiesKilledMessage>(SpawnIndicator);
+        }
+
+        private void SpawnIndicator(AllEnemiesKilledMessage msg)
+        {
+            var indicatorPrefab = _worldObjectFactory.GetPrefabComponents<ArrowIndicator>().First();
+            var indicator = _worldObjectFactory.CreateObject(indicatorPrefab.gameObject).GetComponent<ArrowIndicator>();
+            indicator.PointAt(_finish.transform);
         }
 
         private void OnFinishTriggered(Collider other)
@@ -54,6 +70,7 @@ namespace Dino.Location.Level
         private void OnDestroy()
         {
             _finish.OnTriggerEnterCallback -= OnFinishTriggered;
+            _messenger.Unsubscribe<AllEnemiesKilledMessage>(SpawnIndicator);
         }
     }
 }
