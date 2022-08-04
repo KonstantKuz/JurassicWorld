@@ -4,9 +4,11 @@ using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
+using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
 using Dino.Units.Service;
 using Logger.Extension;
+using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -30,6 +32,7 @@ namespace Dino.Loot.Service
 
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private Analytics.Analytics _analytics;
+        [Inject] private IMessenger _messenger;
         
         public void Collect(Loot loot)
         {
@@ -40,6 +43,7 @@ namespace Dino.Loot.Service
             }
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(itemId.FullName);
+            _messenger.Publish(new LootCollectedMessage());
         }
 
         public void DropLoot(ItemId itemId)
