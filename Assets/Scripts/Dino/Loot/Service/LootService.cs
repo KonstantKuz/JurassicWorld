@@ -4,6 +4,7 @@ using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
+using Dino.Player.Progress.Service;
 using Dino.Units.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -27,6 +28,9 @@ namespace Dino.Loot.Service
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
 
+        [Inject] private PlayerProgressService _playerProgressService;
+        [Inject] private Analytics.Analytics _analytics;
+        
         public void Collect(Loot loot)
         {
             var itemId = _inventoryService.Add(loot.ReceivedItemId);
@@ -34,6 +38,8 @@ namespace Dino.Loot.Service
             {
                 _activeItemService.Replace(itemId);
             }
+            _playerProgressService.Progress.IncreaseLootCount();
+            _analytics.ReportLootItem(itemId.FullName);
         }
 
         public void DropLoot(ItemId itemId)
