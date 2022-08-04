@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Config;
 using Dino.Inventory.Model;
+using Dino.Player.Progress.Service;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;
@@ -19,6 +20,9 @@ namespace Dino.Inventory.Service
 
         [Inject]
         public InventoryService _inventoryService;
+
+        [Inject] private PlayerProgressService _playerProgressService;
+        [Inject] private Analytics.Analytics _analytics;
 
         [CanBeNull]
         public CraftRecipeConfig FindFirstMatchingRecipe(HashSet<ItemId> ingredients)
@@ -84,6 +88,8 @@ namespace Dino.Inventory.Service
                 throw new ArgumentException($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
             }
             ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient)); 
+            _playerProgressService.Progress.IncreaseCraftCount();
+            _analytics.ReportCraftItem(recipe.CraftItemId);
             return _inventoryService.Add(recipe.CraftItemId);
         }
 
