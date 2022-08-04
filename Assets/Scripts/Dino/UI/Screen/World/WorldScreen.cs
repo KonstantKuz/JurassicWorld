@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Dino.Analytics;
 using Dino.Session.Messages;
 using Dino.Session.Model;
 using Dino.Session.Service;
@@ -21,6 +22,7 @@ namespace Dino.UI.Screen.World
         [SerializeField]
         private float _afterSessionDelay = 2;
 
+        [Inject] private Analytics.Analytics _analytics;
         [Inject] private SessionService _sessionService;
         [Inject] private IMessenger _messenger;
         [Inject] private ScreenSwitcher _screenSwitcher;     
@@ -32,6 +34,7 @@ namespace Dino.UI.Screen.World
         {
             _world.UnPause();
             _joystick.Attach(transform);
+            _analytics.ReportLevelStart();
             _messenger.Subscribe<SessionEndMessage>(OnSessionFinished);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Editor.Scripts.Config;
 using JetBrains.Annotations;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
@@ -50,7 +51,16 @@ namespace Editor.Scripts.PreProcess
 
         private static void ApplyCommonParams()
         {
-            BuildPreprocessor.Prepare(true,HasCmdLineKey("-debugConsole"), GetCmdLineArgumentValue("-loggerLevel"));
+            BuildPreprocessor.SetDefines(true, HasCmdLineKey("-debugConsole"));
+
+            if (HasCmdLineKey("-loggerLevel"))
+            {
+                BuildPreprocessor.BuildLoggerConfig(GetCmdLineArgumentValue("-loggerLevel"));
+            }
+            if (HasCmdLineKey("-configsUrl"))
+            {
+                BuildPreprocessor.DownloadConfigs(GetCmdLineArgumentValue("-configsUrl"));
+            }
         }
 
         private static string[] GetSceneList() => DefaultSceneList;

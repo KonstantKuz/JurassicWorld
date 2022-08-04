@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Dino.Extension;
 using Dino.Units.Enemy.Model;
-using Dino.Units.StateMachine.States;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine
@@ -16,7 +11,6 @@ namespace Dino.Units.StateMachine
             
             private readonly LookAroundStateModel _stateModel;
             private readonly Vector3 _desiredPosition;
-            private readonly WaitSubState _waitSubState;
 
             private Unit Owner => StateMachine._owner;
 
@@ -24,7 +18,6 @@ namespace Dino.Units.StateMachine
             {
                 _stateModel = Owner.RequireEnemyModel().LookAroundStateModel;
                 _desiredPosition = desiredPosition ?? Owner.transform.position - Owner.transform.forward;
-                _waitSubState = WaitSubState.Build(_stateModel.LookAroundTime, StateMachine.Stop, null, () => StateMachine.SetState(UnitState.Patrol));
             }
 
             public override void OnEnterState()
@@ -51,7 +44,7 @@ namespace Dino.Units.StateMachine
                     return;
                 }
                 
-                _waitSubState.OnTick();
+                StateMachine.SetState(UnitState.GoToPoint, _desiredPosition);
             }
 
             private float GetAngleToDesiredPosition()

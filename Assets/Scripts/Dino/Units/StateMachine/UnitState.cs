@@ -8,5 +8,6 @@
         Attack,
         Death,
         LookAround,
+        GoToPoint
     }
 }
