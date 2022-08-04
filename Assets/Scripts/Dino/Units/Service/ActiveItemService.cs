@@ -65,7 +65,6 @@ namespace Dino.Units.Service
             }
             if (_activeItemId.Value != null) {
                 RemoveActiveItemObject();
-                return;
             }
             var itemOwner = Player.ActiveItemOwner;
             var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
