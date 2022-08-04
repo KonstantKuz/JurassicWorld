@@ -84,11 +84,7 @@ namespace Dino.Session.Service
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _currentLevel.Start.position);
             _world.Player = player;
             player.OnDeath += OnDeath;
-
-            if (!_constantsConfig.FirstItem.IsNullOrEmpty()) {
-                _inventoryService.Add(_constantsConfig.FirstItem);
-                _activeItemService.Equip(_inventoryService.GetLast(_constantsConfig.FirstItem));
-            }
+            _activeItemService.Init();
         }
 
         private void InitEnemies()
