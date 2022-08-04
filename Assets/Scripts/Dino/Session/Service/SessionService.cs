@@ -101,6 +101,10 @@ namespace Dino.Session.Service
             Session.AddKill();
             _playerProgressService.AddKill();
             _kills.Value = Session.Kills;
+            if (Session.IsMaxKills)
+            {
+                _messenger.Publish(new AllEnemiesKilledMessage());
+            }
             this.Logger().Trace($"Killed enemies:= {Session.Kills}");
         }
 
