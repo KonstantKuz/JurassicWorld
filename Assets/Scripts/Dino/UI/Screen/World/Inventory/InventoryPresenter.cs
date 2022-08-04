@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Loot.Service;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.View;
 using Dino.Units.Service;
+using Dino.Weapon.Model;
+using Dino.Weapon.Service;
 using UnityEngine;
 using Zenject;
 
@@ -24,6 +27,7 @@ namespace Dino.UI.Screen.World.Inventory
         [Inject] private CraftService _craftService;     
         [Inject] private LootService _lootService;
         [Inject] private DiContainer _container;
+        [Inject] private WeaponService _weaponService;
         
         private InventoryModel _model;
 
@@ -32,6 +36,13 @@ namespace Dino.UI.Screen.World.Inventory
             Dispose();
             _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, UpdateActiveItem, OnBeginItemDrag, OnEndItemDrag);
             _view.Init(_model.Items);
+            _weaponService.OnWeaponFireCallback += OnWeaponFire;
+        }
+
+        private void OnWeaponFire(ItemId itemId, IWeaponModel weaponModel)
+        {
+            var usedWeaponViewModel = _model.Items.Value.Where(it => it.Id != null).First(it => it.Id.Equals(itemId));
+            usedWeaponViewModel.OnWeaponFire(weaponModel.AttackInterval);
         }
 
         private void OnEndItemDrag(ItemViewModel model)
@@ -106,6 +117,7 @@ namespace Dino.UI.Screen.World.Inventory
 
         private void Dispose()
         {
+            _weaponService.OnWeaponFireCallback -= OnWeaponFire;
             _model?.Dispose();
             _model = null;
         }

@@ -17,6 +17,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         public int Rank { get; }
         public IReactiveProperty<ItemViewState> State => _state;
         public IReactiveProperty<bool> CanCraft => _canCraft;
+        public event Action<float> OnWeaponFireCallback; 
         [CanBeNull]
         public Action OnClick { get; }
         [CanBeNull]
@@ -65,6 +66,11 @@ namespace Dino.UI.Screen.World.Inventory.Model
         public static ItemViewModel Empty()
         {
             return new ItemViewModel(null, ItemViewState.Empty);
+        }
+
+        public void OnWeaponFire(float attackInterval)
+        {
+            OnWeaponFireCallback?.Invoke(attackInterval);
         }
     }
 }

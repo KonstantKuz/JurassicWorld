@@ -1,5 +1,5 @@
-﻿using Dino.UI.Screen.World.Inventory.Model;
-using Dino.Units.Service;
+﻿using DG.Tweening;
+using Dino.UI.Screen.World.Inventory.Model;
 using Dino.Util;
 using Feofun.Util.SerializableDictionary;
 using JetBrains.Annotations;
@@ -25,6 +25,11 @@ namespace Dino.UI.Screen.World.Inventory.View
         [SerializeField]
         private GameObject _canCraftContainer;
 
+        [SerializeField] 
+        private GameObject _reloadContainer;
+        [SerializeField]
+        private Image _reloadBar;
+        
         private CompositeDisposable _disposable;
 
         [CanBeNull]
@@ -43,6 +48,15 @@ namespace Dino.UI.Screen.World.Inventory.View
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
             }
             SetRank(model);
+            model.OnWeaponFireCallback += PlayReloadAnimation;
+        }
+
+        private void PlayReloadAnimation(float reloadTime)
+        {
+            _reloadContainer.SetActive(true);
+            _reloadBar.fillAmount = 0f;
+            var tween = DOTween.To(() => _reloadBar.fillAmount, value => { _reloadBar.fillAmount = value; }, 1, reloadTime);
+            tween.onComplete = () => { _reloadContainer.SetActive(false); };
         }
 
         private void SetRank(ItemViewModel model)
@@ -75,6 +89,11 @@ namespace Dino.UI.Screen.World.Inventory.View
         }
         private void Dispose()
         {
+            if (Model != null)
+            {
+                Model.OnWeaponFireCallback -= PlayReloadAnimation;
+            }
+            
             Model = null;
             _disposable?.Dispose();
             _disposable = null;

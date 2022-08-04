@@ -36,7 +36,6 @@ namespace Dino.Units.Player.Component
         private AnimationSwitcher _animationSwitcher;
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
-
         private List<IInitializable<IWeaponModel>> _weaponDependentComponents;
         [CanBeNull]
         private ChangeableWeapon _weapon;
@@ -44,6 +43,7 @@ namespace Dino.Units.Player.Component
         private WeaponAnimationHandler _weaponAnimationHandler;
         [CanBeNull]
         private ITarget _target;
+        private event Action<IWeaponModel> OnWeaponFire;
 
         private bool IsTargetInvalid => !_target.IsTargetValidAndAlive();
         private bool HasWeaponAnimationHandler => _weaponAnimationHandler != null;
@@ -61,7 +61,7 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        public void SetWeapon(PlayerWeaponModel weaponModel, BaseWeapon weapon)
+        public void SetWeapon(PlayerWeaponModel weaponModel, BaseWeapon weapon, Action<IWeaponModel> onWeaponFire)
         {
             Assert.IsNull(_weapon, $"Player weapon is not null, should delete the previous weapon");
             _weapon = new ChangeableWeapon() {
@@ -72,6 +72,7 @@ namespace Dino.Units.Player.Component
             InitWeaponDependentComponents(weaponModel);
             OverrideAnimation(weaponModel.Animation);
             UpdateAnimationSpeed(weaponModel.AttackInterval, weaponModel.Animation);
+            OnWeaponFire = onWeaponFire;
         }
 
         private void InitWeaponDependentComponents(IWeaponModel weaponModel)
@@ -159,6 +160,7 @@ namespace Dino.Units.Player.Component
                 return;
             }
             _weapon.Fire(_target, DoDamage);
+            OnWeaponFire?.Invoke(_weapon.Model);
         }
         
         private void DoDamage(GameObject target)
