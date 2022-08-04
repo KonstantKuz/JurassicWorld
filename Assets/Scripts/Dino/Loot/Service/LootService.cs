@@ -4,6 +4,7 @@ using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
+using Dino.Player.Progress.Service;
 using Dino.Units.Service;
 using Logger.Extension;
 using UnityEngine;
