@@ -45,7 +45,7 @@ namespace Dino.Core.MonoInstaller
             InventoryServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container);
-            Container.BindInterfacesAndSelfTo<TutorialService>().AsSingle().NonLazy();
+            TutorialInstaller.Install(Container);
             
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);
