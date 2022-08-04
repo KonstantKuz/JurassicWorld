@@ -70,7 +70,6 @@ namespace Dino.Units.Service
             var itemOwner = Player.ActiveItemOwner;
             var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
             _activeItemId.SetValueAndForceNotify(itemId);
-            UpdateRepository();            
             itemOwner.Set(itemObject);
             
             _weaponService.TrySetWeapon(itemId.FullName, itemOwner.GetWeapon());
@@ -79,7 +78,6 @@ namespace Dino.Units.Service
         public void UnEquip()
         {
             _activeItemId.SetValueAndForceNotify(null);
-            UpdateRepository();            
             RemoveActiveItemObject();
         }
 
@@ -98,7 +96,7 @@ namespace Dino.Units.Service
             Player.ActiveItemOwner.Remove();
         }
 
-        private void UpdateRepository()
+        public void Save()
         {
             _repository.Set(ActiveItemId.Value);
         }
