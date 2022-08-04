@@ -15,19 +15,24 @@ namespace Dino.Player.Progress.Service
         public IReadOnlyReactiveProperty<int> GameCount => _gameCount;
         public PlayerProgress Progress => _repository.Get() ?? PlayerProgress.Create();
 
-        public PlayerProgressService(IMessenger messenger, 
-                                     PlayerProgressRepository repository)
+        public PlayerProgressService(PlayerProgressRepository repository)
         {
             _repository = repository;
             _gameCount = new IntReactiveProperty(Progress.GameCount);
-            messenger.Subscribe<SessionEndMessage>(OnSessionFinished);
         }
-
-        private void OnSessionFinished(SessionEndMessage evn)
+        
+        public void OnSessionStarted(string levelId)
+        {
+            var progress = Progress;
+            progress.IncreasePassCount(levelId);
+            SetProgress(progress);
+        }
+        
+        public void OnSessionFinished(SessionResult sessionResult)
         {
             var progress = Progress;
             progress.GameCount++;
-            if (evn.Result == SessionResult.Win) {
+            if (sessionResult == SessionResult.Win) {
                 progress.WinCount++;
             }
             SetProgress(progress);

@@ -34,6 +34,7 @@ namespace Dino.Session.Service
         [Inject] private ConstantsConfig _constantsConfig;
         [Inject] private ActiveItemService _activeItemService;   
         [Inject] private InventoryService _inventoryService;
+        [Inject] private Analytics.Analytics _analytics;
 
         public Model.Session Session => _repository.Require();
         public IReadOnlyReactiveProperty<int> Kills => _kills;
@@ -59,6 +60,7 @@ namespace Dino.Session.Service
         {
             var newSession = Model.Session.Build(_levelService.CurrentLevelId);
             _repository.Set(newSession);
+            _playerProgressService.OnSessionStarted(newSession.LevelId);
         }
 
         private void CreateLevel()
@@ -82,11 +84,7 @@ namespace Dino.Session.Service
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _currentLevel.Start.position);
             _world.Player = player;
             player.OnDeath += OnDeath;
-
-            if (!_constantsConfig.FirstItem.IsNullOrEmpty()) {
-                _inventoryService.Add(_constantsConfig.FirstItem);
-                _activeItemService.Equip(_inventoryService.GetLast(_constantsConfig.FirstItem));
-            }
+            _activeItemService.Init();
         }
 
         private void InitEnemies()
@@ -114,8 +112,12 @@ namespace Dino.Session.Service
         private void EndSession(UnitType winner)
         {
             Dispose();
-            Session.SetResultByUnitType(winner);
             _unitService.DeactivateAll();
+
+            Session.SetResultByUnitType(winner);
+            _analytics.ReportLevelFinish(Session.Result.Value);
+            
+            _playerProgressService.OnSessionFinished(Session.Result.Value);
             _messenger.Publish(new SessionEndMessage(Session.Result.Value));
         }
         private void Dispose()

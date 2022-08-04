@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Logger;
+using Logger.Extension;
+using UnityEngine;
 
 namespace Dino.Analytics.Wrapper
 {
@@ -38,25 +42,18 @@ namespace Dino.Analytics.Wrapper
             var updates = new List<YandexAppMetricaUserProfileUpdate>
             {
                 BuildStringAttribute("last_event", BuildLastEventName(eventName, eventParams)), 
-                BuildFloatAttribute("kills", eventParams[EventParams.TOTAL_KILLS]), 
-                BuildFloatAttribute("level_id", eventParams[EventParams.LEVEL_ID]),
+                BuildStringAttribute("level_id", (string) eventParams[EventParams.LEVEL_ID]),
                 BuildFloatAttribute("wins", additionalParams[EventParams.WINS]),
                 BuildFloatAttribute("defeats", additionalParams[EventParams.DEFEATS]),
-                BuildFloatAttribute("levels", eventParams[EventParams.LEVEL_NUMBER]),
-                BuildFloatAttribute("level_retry", additionalParams[EventParams.PASS_NUMBER])
+                BuildFloatAttribute("levels", additionalParams[EventParams.LEVEL_NUMBER]),
+                BuildFloatAttribute("level_retry", additionalParams[EventParams.PASS_NUMBER]),
+                BuildFloatAttribute("craft_count", additionalParams[EventParams.CRAFT_COUNT]),
+                BuildFloatAttribute("loot_count", additionalParams[EventParams.LOOT_COUNT])
             };
-            TryAddReviveCount(eventParams, updates);
+            var profileParams = updates.ToDictionary(it => it.Key, it => string.Join("-", it.Values));
+            LoggerFactory.GetLogger<AppMetricaAnalyticsWrapper>().Debug($"Update profile params := {string.Join(":", profileParams)}");
             profile.ApplyFromArray(updates);
             AppMetrica.Instance.ReportUserProfile(profile);
-        }
-
-        private static void TryAddReviveCount(IReadOnlyDictionary<string, object> eventParams, ICollection<YandexAppMetricaUserProfileUpdate> updates)
-        {
-            if (eventParams.ContainsKey(EventParams.REVIVE_COUNT))
-            {
-                updates.Add(BuildFloatAttribute($"revives_{Convert.ToInt32(eventParams[EventParams.LEVEL_ID])}",
-                    eventParams[EventParams.REVIVE_COUNT]));
-            }
         }
 
         private static Dictionary<string, object> RequestAdditionalParams(string eventName, Dictionary<string, object> eventParams,
@@ -66,7 +63,10 @@ namespace Dino.Analytics.Wrapper
             {
                 EventParams.WINS,
                 EventParams.DEFEATS,
-                EventParams.PASS_NUMBER
+                EventParams.PASS_NUMBER,
+                EventParams.LEVEL_NUMBER,
+                EventParams.CRAFT_COUNT,
+                EventParams.LOOT_COUNT,
             });
             if (eventName == Events.LEVEL_FINISHED)
             {
@@ -103,8 +103,8 @@ namespace Dino.Analytics.Wrapper
             {
                 Events.LEVEL_START => $"level_start_{eventParams[EventParams.LEVEL_ID]}",
                 Events.LEVEL_FINISHED => $"level_finished_{eventParams[EventParams.LEVEL_ID]}_{eventParams[EventParams.LEVEL_RESULT]}",
-                Events.META_UPGRADE_LEVEL_UP => "upgrade_buy",
-                Events.REVIVE => $"revive_{eventParams[EventParams.LEVEL_ID]}_{eventParams[EventParams.REVIVE_COUNT]}",
+                Events.PICKUP => $"pickup_item_{eventParams[EventParams.ITEM_ID]}",
+                Events.CRAFT => $"craft_item_{eventParams[EventParams.ITEM_ID]}",
                 _ => throw new ArgumentOutOfRangeException(nameof(eventName), eventName, null)
             };
         }

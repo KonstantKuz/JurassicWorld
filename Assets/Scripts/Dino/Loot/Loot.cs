@@ -7,7 +7,12 @@ namespace Dino.Loot
     {
         [SerializeField] private string _receivedItemId;
         public float CollectProgress { get; private set; } = 0f;
-        public string ReceivedItemId => _receivedItemId;
+
+        public string ReceivedItemId
+        {
+            get => _receivedItemId;
+            set => _receivedItemId = value;
+        }
 
         public void IncreaseCollectProgress()
         {

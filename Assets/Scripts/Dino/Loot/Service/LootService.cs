@@ -4,6 +4,7 @@ using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
+using Dino.Player.Progress.Service;
 using Dino.Units.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -27,6 +28,9 @@ namespace Dino.Loot.Service
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
 
+        [Inject] private PlayerProgressService _playerProgressService;
+        [Inject] private Analytics.Analytics _analytics;
+        
         public void Collect(Loot loot)
         {
             var itemId = _inventoryService.Add(loot.ReceivedItemId);
@@ -34,19 +38,23 @@ namespace Dino.Loot.Service
             {
                 _activeItemService.Replace(itemId);
             }
+            _playerProgressService.Progress.IncreaseLootCount();
+            _analytics.ReportLootItem(itemId.FullName);
         }
 
         public void DropLoot(ItemId itemId)
         {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == itemId.FullName);
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == itemId.Name);
             if (lootPrefab == null) {
                 this.Logger().Error($"Loot prefab not found for itemId:= {itemId}");
                 return;
             }
-            var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject);
+
+            var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
+            lootObject.ReceivedItemId = itemId.FullName;
             var playerPosition = _world.Player.SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.Player.LootCollector.CollectRadius * 2;
-            SetLootPosition(playerPosition, lootObject, radiusFromPlayer);
+            SetLootPosition(playerPosition, lootObject.gameObject, radiusFromPlayer);
         }
 
         private void SetLootPosition(Vector3 playerPosition, GameObject lootObject, float radius)
