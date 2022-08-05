@@ -119,5 +119,10 @@ namespace Dino.Inventory.Service
             });
             return _inventoryService.Add(recipe.CraftItemId);
         }
+
+        public CraftRecipeConfig GetRecipeConfig(string recipe)
+        {
+            return _craftConfig.GetRecipe(recipe);
+        }
     }
 }

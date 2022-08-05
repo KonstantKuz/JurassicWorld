@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Dino.Inventory.Config;
 using Dino.UI.Screen.World.Inventory.Model;
-using Feofun.Extension;
-using SuperMaxim.Core.Extensions;
 using UniRx;
 using UnityEngine;
-using Zenject;
+using UnityEngine.Assertions;
 
 namespace Dino.UI.Screen.World.Inventory.View
 {
@@ -12,44 +12,47 @@ namespace Dino.UI.Screen.World.Inventory.View
     {
         [SerializeField]
         private InventoryItemView _itemPrefab;
-        [SerializeField]
-        private Transform _root;
+        private InventoryItemView[] _items;
         
-        [Inject] private DiContainer _container;
-
         private CompositeDisposable _disposable;
 
         public InventoryItemView ItemPrefab => _itemPrefab;
+
+        private InventoryItemView[] Items => _items ??= GetComponentsInChildren<InventoryItemView>();
         
         public void Init(IReactiveProperty<List<ItemViewModel>> items)
         {
             _disposable?.Dispose();
             _disposable = new CompositeDisposable();
-            RemoveAllCreatedObjects();
             items.Subscribe(UpdateItems).AddTo(_disposable);
         }
-        private void UpdateItems(IReadOnlyCollection<ItemViewModel> items)
+        private void UpdateItems(IReadOnlyList<ItemViewModel> items)
         {
-            RemoveAllCreatedObjects();
-            items.ForEach(CreateItem);
-        }
-
-        private void CreateItem(ItemViewModel itemViewModel)
-        {
-            var itemView = _container.InstantiatePrefabForComponent<InventoryItemView>(_itemPrefab, _root);
-            itemView.Init(itemViewModel);
+            for (int idx = 0; idx < Items.Length; idx++)
+            {
+                if (idx >= items.Count)
+                {
+                    _items[idx].gameObject.SetActive(false);
+                }
+                else
+                {
+                    _items[idx].gameObject.SetActive(true);
+                    _items[idx].Init(items[idx]);
+                }
+            }
         }
 
         private void OnDisable()
         {
             _disposable?.Dispose();
             _disposable = null;
-            RemoveAllCreatedObjects();
         }
 
-        private void RemoveAllCreatedObjects()
+        public InventoryItemView GetItemView(IngredientConfig ingredientConfig)
         {
-            _root.DestroyAllChildren();
+            var item = Items.FirstOrDefault(it => it.gameObject.activeSelf && it.Model?.Id?.Name == ingredientConfig.Name);
+            Assert.IsTrue(item);
+            return item;
         }
     }
 }
