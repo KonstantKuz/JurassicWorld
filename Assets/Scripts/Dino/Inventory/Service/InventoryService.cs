@@ -10,12 +10,15 @@ namespace Dino.Inventory.Service
 {
     public class InventoryService : IWorldScope
     {
+        public const int MAX_ITEMS_COUNT = 4;
+        
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
         
         private InventoryRepository _repository = new InventoryRepository();
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
         
         private Model.Inventory Inventory => _repository.Get();
+        public int ItemsCount => Inventory.Items.Count;
         
         public void OnWorldSetup()
         {

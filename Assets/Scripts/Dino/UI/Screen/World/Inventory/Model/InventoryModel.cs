@@ -13,8 +13,6 @@ namespace Dino.UI.Screen.World.Inventory.Model
 {
     public class InventoryModel
     {
-        private const int VISIBLE_ITEM_COUNT = 4;
-        
         private readonly ReactiveProperty<List<ItemViewModel>> _items = new ReactiveProperty<List<ItemViewModel>>();
 
         private readonly InventoryService _inventoryService;
@@ -61,15 +59,15 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private List<ItemViewModel> CreateItems()
         {
             if (!_inventoryService.HasInventory()) {
-                return Enumerable.Repeat(ItemViewModel.Empty(), VISIBLE_ITEM_COUNT).ToList();
+                return Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT).ToList();
             }
             var items = _inventoryService.InventoryProperty.Value.Items;
 
-            if (items.Count > VISIBLE_ITEM_COUNT) {
-                this.Logger().Warn($"The number of items in the inventory is more than VISIBLE_ITEM_COUNT:= {VISIBLE_ITEM_COUNT}");
-                return items.Take(VISIBLE_ITEM_COUNT).Select(CreateItemViewModel).ToList();
+            if (items.Count > InventoryService.MAX_ITEMS_COUNT) {
+                this.Logger().Warn($"The number of items in the inventory is more than VISIBLE_ITEM_COUNT:= {InventoryService.MAX_ITEMS_COUNT}");
+                return items.Take(InventoryService.MAX_ITEMS_COUNT).Select(CreateItemViewModel).ToList();
             }
-            return items.Select(CreateItemViewModel).Concat(Enumerable.Repeat(ItemViewModel.Empty(), VISIBLE_ITEM_COUNT - items.Count)).ToList();
+            return items.Select(CreateItemViewModel).Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT - items.Count)).ToList();
         }
 
         private ItemViewModel CreateItemViewModel(ItemId id)
