@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using UniRx;
 using UnityEngine;
 
@@ -7,33 +8,32 @@ namespace Dino.Weapon.Components
     public class WeaponTimer
     {
         private readonly float _attackInterval;
-        private readonly BoolReactiveProperty _isAttackReady;
-        private float _lastAttackTime;
-        
-        public bool IsAttackReady => Time.time >= _lastAttackTime + AttackInterval;
-        public float ReloadingTime => Time.time - _lastAttackTime;
-        public float AttackInterval => Math.Max(_attackInterval, 0);
+        private FloatReactiveProperty _lastAttackTime;
+        private BoolReactiveProperty _isAttackReady;
 
-        public BoolReactiveProperty IsAttackReadyReactiveProperty => _isAttackReady;
+        private float AttackInterval => Math.Max(_attackInterval, 0);
+        private FloatReactiveProperty LastAttackTime => _lastAttackTime ??= new FloatReactiveProperty();
+        public BoolReactiveProperty IsAttackReady => _isAttackReady ??= new BoolReactiveProperty();
+
+        private float ReloadingTime => Time.time - LastAttackTime.Value;
+        public float ReloadProgress => ReloadingTime / AttackInterval;
+        public float ReloadTimeLeft => AttackInterval - ReloadingTime;
+
         public WeaponTimer(float attackInterval)
         {
             _attackInterval = attackInterval;
-            _isAttackReady = new BoolReactiveProperty();
             SetAttackAsReady();
         }
         public void OnAttack()
         {
-            _lastAttackTime = Time.time;
+            LastAttackTime.Value = Time.time;
+            IsAttackReady.Value = false;
+            Observable.Timer(TimeSpan.FromSeconds(AttackInterval)).Subscribe(it => IsAttackReady.Value = true);
         }
         public void SetAttackAsReady()
         {
-            _lastAttackTime = Time.time - AttackInterval;
-        }
-        
-        public void OnTick()
-        {
-            if (_isAttackReady.Value != IsAttackReady)
-                _isAttackReady.SetValueAndForceNotify(IsAttackReady);
+            LastAttackTime.Value = Time.time - AttackInterval;
+            IsAttackReady.Value = true;
         }
     }
 }

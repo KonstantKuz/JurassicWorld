@@ -1,4 +1,4 @@
-﻿using DG.Tweening;
+﻿using System;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.Util;
 using Feofun.Util.SerializableDictionary;
@@ -26,12 +26,9 @@ namespace Dino.UI.Screen.World.Inventory.View
         private GameObject _canCraftContainer;
 
         [SerializeField]
-        private GameObject _reloadOverlay;
-        [SerializeField]
-        private Image _reloadBar;
+        private ItemReloadingView _reloadingView;
         
         private CompositeDisposable _disposable;
-        private Tween _reloadAnimation;
         
         [CanBeNull]
         public ItemViewModel Model { get; private set; }
@@ -40,11 +37,12 @@ namespace Dino.UI.Screen.World.Inventory.View
         {
             Dispose();
             _disposable = new CompositeDisposable();
-            
+          
+            _reloadingView.Init(model.WeaponTimer);
+  
             Model = model;
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
-            model.IsAttackReady?.Subscribe(PlayReloadAnimation).AddTo(_disposable);
             if (model.Icon != null)
             {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
@@ -81,21 +79,8 @@ namespace Dino.UI.Screen.World.Inventory.View
             _stateContainers[state].SetActive(true);
         }
 
-        private void PlayReloadAnimation(bool isAttackReady)
-        {
-            _reloadOverlay.SetActive(!isAttackReady);
-            
-            if(isAttackReady) return;
-            
-            _reloadAnimation?.Kill();
-            _reloadBar.fillAmount = Model.ReloadProgress;
-            _reloadAnimation = DOTween.To(() => _reloadBar.fillAmount, value => { _reloadBar.fillAmount = value; }, 1, Model.ReloadTimeLeft).SetEase(Ease.Linear);
-            _reloadAnimation.onComplete = () => _reloadOverlay.SetActive(false);
-        }
-
         private void Dispose()
         {
-            _reloadAnimation?.Kill();
             Model = null;
             _disposable?.Dispose();
             _disposable = null;

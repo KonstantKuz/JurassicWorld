@@ -123,13 +123,12 @@ namespace Dino.Units.Player.Component
             if (_rotateToTarget) {
                 _movementController.RotateToTarget(target?.Center);
             }
-            _weapon.Timer.OnTick();
             if (CanAttack(target)) {
                 Attack(target);
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady && !_alreadyStartedAttack;
+        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady.Value && !_alreadyStartedAttack;
 
         private void Attack(ITarget target)
         {

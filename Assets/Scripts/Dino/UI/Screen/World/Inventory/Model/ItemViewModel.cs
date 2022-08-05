@@ -10,7 +10,6 @@ namespace Dino.UI.Screen.World.Inventory.Model
     {
         private readonly ReactiveProperty<ItemViewState> _state; 
         private readonly BoolReactiveProperty _canCraft;
-        private readonly BoolReactiveProperty _isAttackReady;
 
         [CanBeNull]
         public ItemId Id { get; }
@@ -19,18 +18,15 @@ namespace Dino.UI.Screen.World.Inventory.Model
         public int Rank { get; }
         public IReactiveProperty<ItemViewState> State => _state;
         public IReactiveProperty<bool> CanCraft => _canCraft;
-        public BoolReactiveProperty IsAttackReady => _isAttackReady;
-        public float ReloadProgress => WeaponTimer.ReloadingTime / WeaponTimer.AttackInterval;
-        public float ReloadTimeLeft => WeaponTimer.AttackInterval - WeaponTimer.ReloadingTime;
         
+        [CanBeNull]
+        public WeaponTimer WeaponTimer { get; }
         [CanBeNull]
         public Action OnClick { get; }
         [CanBeNull]
         public Action<ItemViewModel> OnBeginDrag { get; }
         [CanBeNull]
         public Action<ItemViewModel> OnEndDrag { get; }
-
-        [CanBeNull] public WeaponTimer WeaponTimer { get; }
 
         public ItemViewModel([CanBeNull] ItemId id,
                              ItemViewState state,
@@ -52,10 +48,9 @@ namespace Dino.UI.Screen.World.Inventory.Model
                 Rank = id.Rank;
             }
 
-            WeaponTimer = weaponTimer;
             _state = new ReactiveProperty<ItemViewState>(state);
             _canCraft = new BoolReactiveProperty(canCraft);
-            _isAttackReady = WeaponTimer?.IsAttackReadyReactiveProperty;
+            WeaponTimer = weaponTimer;
             OnClick = onClick;
             OnBeginDrag = onBeginDrag;
             OnEndDrag = onEndDrag;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6237975315684734713}
   - component: {fileID: 2719456116056830096}
   - component: {fileID: 8364855174792206319}
+  - component: {fileID: 2088222608161924537}
   - component: {fileID: 6722936630571655710}
   m_Layer: 0
   m_Name: Item
@@ -91,6 +92,19 @@ MonoBehaviour:
     - _key: 2
       _value: {fileID: 7289832791702969238}
   _canCraftContainer: {fileID: 1502480930679933928}
+  _reloadingView: {fileID: 2088222608161924537}
+--- !u!114 &2088222608161924537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876374244785322574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02acf521e9e3404882ec1bb8dce12917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _reloadOverlay: {fileID: 1380641026893287840}
   _reloadBar: {fileID: 8182237938668503739}
 --- !u!114 &6722936630571655710
