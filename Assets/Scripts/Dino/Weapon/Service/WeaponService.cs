@@ -68,8 +68,8 @@ namespace Dino.Weapon.Service
         {
             var model = CreateModel(weaponId);
             var attack = Player.PlayerAttack;
-            var changeableWeapon = ChangeableWeapon.Create(weaponId, weapon, model, GetTimer(weaponId));
-            attack.SetWeapon(changeableWeapon);
+            var weaponWrapper = WeaponWrapper.Create(weaponId, weapon, model, GetTimer(weaponId));
+            attack.SetWeapon(weaponWrapper);
         }
 
         private WeaponTimer CreateTimer(ItemId weaponId, IWeaponModel weaponModel)

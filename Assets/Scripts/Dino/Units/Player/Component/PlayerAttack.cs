@@ -37,10 +37,10 @@ namespace Dino.Units.Player.Component
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
         private List<IInitializable<IWeaponModel>> _weaponDependentComponents;
-        private bool _alreadyStartedAttack;
+        private bool _startedAttack;
         
         [CanBeNull]
-        private ChangeableWeapon _weapon;
+        private WeaponWrapper _weapon;
         [CanBeNull]
         private WeaponAnimationHandler _weaponAnimationHandler;
         [CanBeNull]
@@ -61,7 +61,7 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        public void SetWeapon(ChangeableWeapon changeableWeapon)
+        public void SetWeapon(WeaponWrapper changeableWeapon)
         {
             Assert.IsNull(_weapon, $"Player weapon is not null, should delete the previous weapon");
             _weapon = changeableWeapon;
@@ -89,6 +89,7 @@ namespace Dino.Units.Player.Component
 
         public void DeleteWeapon()
         {
+            _startedAttack = false;
             _weapon = null;
             if (_rotateToTarget) {
                 _movementController.RotateToTarget(null);
@@ -128,7 +129,7 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady.Value && !_alreadyStartedAttack;
+        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady.Value && !_startedAttack;
 
         private void Attack(ITarget target)
         {
@@ -138,7 +139,7 @@ namespace Dino.Units.Player.Component
             }
             _target = target;
             _animator.SetTrigger(AttackHash);
-            _alreadyStartedAttack = true;
+            _startedAttack = true;
             if (!HasWeaponAnimationHandler) {
                 Fire();
             }
@@ -154,9 +155,12 @@ namespace Dino.Units.Player.Component
                 _weapon.Timer.SetAttackAsReady();
                 return;
             }
+            if (!_startedAttack) {
+                return;
+            }
             _weapon.Fire(_target, DoDamage);
             _weapon.Timer.OnAttack();
-            _alreadyStartedAttack = false;
+            _startedAttack = false;
         }
         
         private void DoDamage(GameObject target)

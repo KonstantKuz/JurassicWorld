@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Dino.Units.Player.Component
 {
-    public class ChangeableWeapon
+    public class WeaponWrapper
     {
         public ItemId WeaponId { get; set; }
         public BaseWeapon Weapon { get; set; }
@@ -20,9 +20,9 @@ namespace Dino.Units.Player.Component
             Weapon.Fire(target, Model, hitCallback);
         }
 
-        public static ChangeableWeapon Create(ItemId weaponId, BaseWeapon weapon, PlayerWeaponModel playerWeaponModel, WeaponTimer weaponTimer)
+        public static WeaponWrapper Create(ItemId weaponId, BaseWeapon weapon, PlayerWeaponModel playerWeaponModel, WeaponTimer weaponTimer)
         {
-            return new ChangeableWeapon
+            return new WeaponWrapper
             {
                 WeaponId = weaponId,
                 Weapon = weapon,
