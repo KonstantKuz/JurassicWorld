@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
+using Dino.Inventory.Config;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.UI.Screen.World.Inventory.View;
-using Feofun.Tutorial.UI;
 using UnityEngine;
 using Zenject;
 
@@ -27,14 +26,32 @@ namespace Dino.Tutorial
         {
             _world.Pause();
             var receiptConfig = _craftService.GetRecipeConfig(recipe);
-            var itemView = _inventoryView.GetItemView(receiptConfig.Ingredients.First());
-            _tutorialUiTools.ElementHighlighter.Set(itemView);
+            var itemViewFrom = GetFirstItem(receiptConfig);
+            var itemViewTo = GetSecondItem(receiptConfig);
+            _tutorialUiTools.ElementHighlighter.Set(itemViewFrom);
+            _tutorialUiTools.TutorialHand.ShowOnElement(itemViewFrom.transform);
         }
-
+        
         public void Stop()
         {
             _world.UnPause();
             _tutorialUiTools.ElementHighlighter.Clear();
+            _tutorialUiTools.TutorialHand.Hide();
+        }        
+
+        private InventoryItemView GetFirstItem(CraftRecipeConfig receiptConfig)
+        {
+            return _inventoryView.GetItemView(receiptConfig.Ingredients.First().Name);
+        }
+
+        private InventoryItemView GetSecondItem(CraftRecipeConfig receiptConfig)
+        {
+            if (receiptConfig.Ingredients.Count == 1)
+            {
+                return _inventoryView.GetItemView(receiptConfig.Ingredients.First().Name, 1);    
+            }
+
+            return _inventoryView.GetItemView(receiptConfig.Ingredients.Skip(1).First().Name);
         }
     }
 }

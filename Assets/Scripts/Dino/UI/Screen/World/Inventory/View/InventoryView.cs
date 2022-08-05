@@ -48,9 +48,9 @@ namespace Dino.UI.Screen.World.Inventory.View
             _disposable = null;
         }
 
-        public InventoryItemView GetItemView(IngredientConfig ingredientConfig)
+        public InventoryItemView GetItemView(string name, int skip = 0)
         {
-            var item = Items.FirstOrDefault(it => it.gameObject.activeSelf && it.Model?.Id?.Name == ingredientConfig.Name);
+            var item = Items.FirstOrDefault(it => it.gameObject.activeSelf && it.Model?.Id?.Name == name);
             Assert.IsTrue(item);
             return item;
         }
