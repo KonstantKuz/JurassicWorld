@@ -62,11 +62,6 @@ namespace Dino.UI.Screen.World.Inventory.Model
                 return Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT).ToList();
             }
             var items = _inventoryService.InventoryProperty.Value.Items;
-
-            if (items.Count > InventoryService.MAX_ITEMS_COUNT) {
-                this.Logger().Warn($"The number of items in the inventory is more than VISIBLE_ITEM_COUNT:= {InventoryService.MAX_ITEMS_COUNT}");
-                return items.Take(InventoryService.MAX_ITEMS_COUNT).Select(CreateItemViewModel).ToList();
-            }
             return items.Select(CreateItemViewModel).Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT - items.Count)).ToList();
         }
 

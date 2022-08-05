@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
+using Logger.Extension;
 using ModestTree;
 using UniRx;
 
@@ -44,6 +45,11 @@ namespace Dino.Inventory.Service
 
         public ItemId Add(string itemName)
         {
+            if (ItemsCount == MAX_ITEMS_COUNT) {
+                this.Logger().Error($"Can't add item {itemName} because inventory is full. ");
+                return null;
+            }
+            
             var inventory = Inventory;
             var itemId = CreateNewId(itemName);
             inventory.Add(itemId);
