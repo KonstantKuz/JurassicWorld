@@ -5,7 +5,6 @@ using Dino.Location.Model;
 using Dino.Location.Service;
 using Dino.Loot.Messages;
 using Dino.Session.Messages;
-using Dino.Session.Service;
 using Dino.Units;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -63,21 +62,13 @@ namespace Dino.Location.Level
             if (_levelNumber != 0) return;
             
             var loot = GetComponentInChildren<Loot.Loot>();
-            _lootIndicator = SpawnIndicator(loot.transform, ARROW_ITEM_OFFSET);
+            _lootIndicator = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_ITEM_OFFSET);
             _messenger.Subscribe<LootCollectedMessage>(RemoveIndicatorAboveLoot);
         }
 
         private void SpawnIndicatorAboveFinish(AllEnemiesKilledMessage _)
         {
-            SpawnIndicator(_finish.transform, Vector3.zero);
-        }
-
-        private ArrowIndicator SpawnIndicator(Transform point, Vector3 offset)
-        {
-            var indicatorPrefab = _worldObjectFactory.GetPrefabComponents<ArrowIndicator>().First();
-            var indicator = _worldObjectFactory.CreateObject(indicatorPrefab.gameObject).GetComponent<ArrowIndicator>();
-            indicator.PointAt(point, offset);
-            return indicator;
+            ArrowIndicator.SpawnAbove(_worldObjectFactory, _finish.transform, ARROW_ITEM_OFFSET);
         }
 
         private void RemoveIndicatorAboveLoot(LootCollectedMessage _)

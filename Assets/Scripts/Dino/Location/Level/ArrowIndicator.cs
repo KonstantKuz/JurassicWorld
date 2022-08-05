@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using DG.Tweening;
+using Dino.Location.Service;
 using UnityEngine;
 
 namespace Dino.Location.Level
@@ -18,6 +20,14 @@ namespace Dino.Location.Level
         private void OnDestroy()
         {
             transform.DOKill();
+        }
+        
+        public static ArrowIndicator SpawnAbove(WorldObjectFactory worldObjectFactory, Transform point, Vector3 offset)
+        {
+            var indicatorPrefab = worldObjectFactory.GetPrefabComponents<ArrowIndicator>().First();
+            var indicator = worldObjectFactory.CreateObject(indicatorPrefab.gameObject).GetComponent<ArrowIndicator>();
+            indicator.PointAt(point, offset);
+            return indicator;
         }
     }
 }
