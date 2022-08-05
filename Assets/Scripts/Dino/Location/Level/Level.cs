@@ -68,7 +68,7 @@ namespace Dino.Location.Level
 
         private void SpawnIndicatorAboveFinish(AllEnemiesKilledMessage _)
         {
-            ArrowIndicator.SpawnAbove(_worldObjectFactory, _finish.transform, ARROW_ITEM_OFFSET);
+            ArrowIndicator.SpawnAbove(_worldObjectFactory, _finish.transform, Vector3.zero);
         }
 
         private void RemoveIndicatorAboveLoot(LootCollectedMessage _)
