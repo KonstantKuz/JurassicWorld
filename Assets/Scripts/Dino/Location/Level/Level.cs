@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Location.Model;
 using Dino.Location.Service;
+using Dino.Loot.Messages;
 using Dino.Session.Messages;
 using Dino.Session.Service;
 using Dino.Units;
@@ -14,15 +15,18 @@ namespace Dino.Location.Level
 {
     public class Level : WorldObject
     {
+        private static Vector3 ARROW_ITEM_OFFSET = Vector3.up * 2 + Vector3.forward / 2;
         private const string GROUND_ROOT_NAME = "Ground";
         
         [SerializeField] private Transform _start;
         [SerializeField] private Trigger _finish;
-        
+
+        private int _levelNumber;
         private Transform _groundRoot;
         private Bounds[] _groundBounds;
         private List<Unit> _enemies;
-
+        private ArrowIndicator _lootIndicator;
+        
         [Inject] private IMessenger _messenger;
         [Inject] private WorldObjectFactory _worldObjectFactory;
         
@@ -46,19 +50,41 @@ namespace Dino.Location.Level
             return levelBounds;
         }
         
-        private void Awake()
+        public void Init(int levelNumber)
         {
+            _levelNumber = levelNumber;
+            SpawnIndicatorAboveLoot();
             _finish.OnTriggerEnterCallback += OnFinishTriggered;
-            _messenger.Subscribe<AllEnemiesKilledMessage>(SpawnIndicator);
+            _messenger.Subscribe<AllEnemiesKilledMessage>(SpawnIndicatorAboveFinish);
         }
 
-        private void SpawnIndicator(AllEnemiesKilledMessage msg)
+        private void SpawnIndicatorAboveLoot()
+        {
+            if (_levelNumber != 0) return;
+            
+            var loot = GetComponentInChildren<Loot.Loot>();
+            _lootIndicator = SpawnIndicator(loot.transform, ARROW_ITEM_OFFSET);
+            _messenger.Subscribe<LootCollectedMessage>(RemoveIndicatorAboveLoot);
+        }
+
+        private void SpawnIndicatorAboveFinish(AllEnemiesKilledMessage _)
+        {
+            SpawnIndicator(_finish.transform, Vector3.zero);
+        }
+
+        private ArrowIndicator SpawnIndicator(Transform point, Vector3 offset)
         {
             var indicatorPrefab = _worldObjectFactory.GetPrefabComponents<ArrowIndicator>().First();
             var indicator = _worldObjectFactory.CreateObject(indicatorPrefab.gameObject).GetComponent<ArrowIndicator>();
-            indicator.PointAt(_finish.transform);
+            indicator.PointAt(point, offset);
+            return indicator;
         }
 
+        private void RemoveIndicatorAboveLoot(LootCollectedMessage _)
+        {
+            Destroy(_lootIndicator.gameObject);
+        }
+        
         private void OnFinishTriggered(Collider other)
         {
             if (other.TryGetComponent(out Unit unit) && unit.UnitType == UnitType.PLAYER)
@@ -70,7 +96,11 @@ namespace Dino.Location.Level
         private void OnDestroy()
         {
             _finish.OnTriggerEnterCallback -= OnFinishTriggered;
-            _messenger.Unsubscribe<AllEnemiesKilledMessage>(SpawnIndicator);
+            _messenger.Unsubscribe<AllEnemiesKilledMessage>(SpawnIndicatorAboveFinish);
+            if (_levelNumber == 0)
+            {
+                _messenger.Unsubscribe<LootCollectedMessage>(RemoveIndicatorAboveLoot);
+            }
         }
     }
 }
