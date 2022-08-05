@@ -6,9 +6,12 @@ using Dino.Location.Service;
 using Dino.Loot.Messages;
 using Dino.Session.Messages;
 using Dino.Units;
+using Feofun.Extension;
 using SuperMaxim.Messaging;
+using UniRx;
 using UnityEngine;
 using Zenject;
+using Unit = Dino.Units.Unit;
 
 namespace Dino.Location.Level
 {
@@ -20,7 +23,7 @@ namespace Dino.Location.Level
         [SerializeField] private Transform _start;
         [SerializeField] private Trigger _finish;
 
-        private int _levelNumber;
+        private CompositeDisposable _disposable;
         private Transform _groundRoot;
         private Bounds[] _groundBounds;
         private List<Unit> _enemies;
@@ -51,19 +54,20 @@ namespace Dino.Location.Level
         
         public void Init(int levelNumber)
         {
-            _levelNumber = levelNumber;
-            SpawnIndicatorAboveLoot();
+            Dispose();
+            _disposable = new CompositeDisposable();
+            SpawnIndicatorAboveLoot(levelNumber);
             _finish.OnTriggerEnterCallback += OnFinishTriggered;
-            _messenger.Subscribe<AllEnemiesKilledMessage>(SpawnIndicatorAboveFinish);
+            _messenger.SubscribeWithDisposable<AllEnemiesKilledMessage>(SpawnIndicatorAboveFinish).AddTo(_disposable);
         }
 
-        private void SpawnIndicatorAboveLoot()
+        private void SpawnIndicatorAboveLoot(int levelNumber)
         {
-            if (_levelNumber != 0) return;
+            if (levelNumber != 0) return;
             
             var loot = GetComponentInChildren<Loot.Loot>();
             _lootIndicator = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_ITEM_OFFSET);
-            _messenger.Subscribe<LootCollectedMessage>(RemoveIndicatorAboveLoot);
+            _messenger.SubscribeWithDisposable<LootCollectedMessage>(RemoveIndicatorAboveLoot).AddTo(_disposable);
         }
 
         private void SpawnIndicatorAboveFinish(AllEnemiesKilledMessage _)
@@ -86,12 +90,15 @@ namespace Dino.Location.Level
 
         private void OnDestroy()
         {
+            Dispose();
+        }
+
+        private void Dispose()
+        {
             _finish.OnTriggerEnterCallback -= OnFinishTriggered;
-            _messenger.Unsubscribe<AllEnemiesKilledMessage>(SpawnIndicatorAboveFinish);
-            if (_levelNumber == 0)
-            {
-                _messenger.Unsubscribe<LootCollectedMessage>(RemoveIndicatorAboveLoot);
-            }
+            
+            _disposable?.Dispose();
+            _disposable = null;
         }
     }
 }
