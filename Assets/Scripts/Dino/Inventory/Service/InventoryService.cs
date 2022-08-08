@@ -45,7 +45,7 @@ namespace Dino.Inventory.Service
 
         public ItemId Add(string itemName)
         {
-            if (ItemsCount == MAX_ITEMS_COUNT) {
+            if (ItemsCount >= MAX_ITEMS_COUNT) {
                 throw new Exception($"Can't add item {itemName} because inventory is full. ");
             }
             
