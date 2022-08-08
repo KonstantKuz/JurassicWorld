@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Timers;
 using UniRx;
 using UnityEngine;
 
@@ -8,12 +7,10 @@ namespace Dino.Weapon.Components
     public class WeaponTimer
     {
         private readonly float _attackInterval;
-        private FloatReactiveProperty _lastAttackTime;
-        private BoolReactiveProperty _isAttackReady;
 
         private float AttackInterval => Math.Max(_attackInterval, 0);
-        private FloatReactiveProperty LastAttackTime => _lastAttackTime ??= new FloatReactiveProperty();
-        public BoolReactiveProperty IsAttackReady => _isAttackReady ??= new BoolReactiveProperty();
+        private FloatReactiveProperty LastAttackTime { get; }
+        public BoolReactiveProperty IsAttackReady { get; }
 
         private float ReloadingTime => Time.time - LastAttackTime.Value;
         public float ReloadProgress => ReloadingTime / AttackInterval;
@@ -22,6 +19,8 @@ namespace Dino.Weapon.Components
         public WeaponTimer(float attackInterval)
         {
             _attackInterval = attackInterval;
+            LastAttackTime = new FloatReactiveProperty();
+            IsAttackReady = new BoolReactiveProperty();
             SetAttackAsReady();
         }
         public void OnAttack()
