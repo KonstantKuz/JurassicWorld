@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using DG.Tweening;
 using Dino.Inventory.Config;
+using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.UI.Screen.World.Inventory.View;
@@ -48,7 +49,7 @@ namespace Dino.Tutorial
 
         private InventoryItemView GetFirstItem(CraftRecipeConfig receiptConfig)
         {
-            return _inventoryView.GetItemView(receiptConfig.Ingredients.First().Name);
+            return _inventoryView.GetItemView(receiptConfig.Ingredients.First().Name, 0);
         }
 
         private InventoryItemView GetSecondItem(CraftRecipeConfig receiptConfig)

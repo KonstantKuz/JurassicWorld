@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Config;
+using Dino.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.Model;
 using UniRx;
 using UnityEngine;
@@ -50,8 +51,9 @@ namespace Dino.UI.Screen.World.Inventory.View
 
         public InventoryItemView GetItemView(string itemName, int skip = 0)
         {
+            var itemId = new ItemId(itemName, 0);
             var item = Items
-                .Where(it => it.gameObject.activeSelf && it.Model?.Id?.Name == itemName)
+                .Where(it => it.gameObject.activeSelf && itemId.IsSameItem(it.Model?.Id))
                 .Skip(skip)
                 .FirstOrDefault();
             return item;

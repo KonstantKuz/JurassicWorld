@@ -35,6 +35,17 @@ namespace Dino.Inventory.Model
             }
             return FullName == other.FullName && Number == other.Number;
         }
+        
+        public bool IsSameItem(ItemId other)
+        {
+            if (ReferenceEquals(null, other)) {
+                return false;
+            }
+            if (ReferenceEquals(this, other)) {
+                return true;
+            }
+            return Name == other.Name && Rank == other.Rank;
+        }
 
         public override string ToString()
         {
@@ -62,7 +73,7 @@ namespace Dino.Inventory.Model
             }
         }
         
-        private static (string, int) SplitFullNameToNameAndRank(string fullName)
+        public static (string, int) SplitFullNameToNameAndRank(string fullName)
         {
             var matchObj = Regex.Match(fullName);
             if (!matchObj.Success) return (fullName, 0);
