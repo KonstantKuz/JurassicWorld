@@ -61,6 +61,20 @@ namespace Feofun.Tutorial.UI
             return _dragMove;
         }
 
+        public Tween ShowDragUI(RectTransform from, RectTransform to, float time = 0.5f)
+        {
+            Detach();
+            gameObject.SetActive(true);
+            var fromPos = from.TransformPoint(from.rect.center);
+            var toPos = to.TransformPoint(to.rect.center);
+            transform.position = fromPos;
+            _dragMove = transform.DOMove(toPos, time);
+            _dragMove.SetUpdate(true);
+            _dragMove.onComplete += Hide;
+            _dragMove.onComplete += () => _dragMove = null;
+            return _dragMove;
+        }
+
         public void Hide()
         {
             Detach();

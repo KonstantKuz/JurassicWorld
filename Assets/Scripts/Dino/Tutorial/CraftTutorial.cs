@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using DG.Tweening;
 using Dino.Inventory.Config;
 using Dino.Inventory.Service;
 using Dino.Location;
@@ -11,6 +12,8 @@ namespace Dino.Tutorial
     [RequireComponent(typeof(InventoryView))]
     public class CraftTutorial : MonoBehaviour
     {
+        private const float DRAG_ANIMATION_TIME = 2.0f; 
+        
         [Inject] private CraftService _craftService;
         [Inject] private World _world;
         [Inject] private TutorialUiTools _tutorialUiTools;
@@ -29,7 +32,11 @@ namespace Dino.Tutorial
             var itemViewFrom = GetFirstItem(receiptConfig);
             var itemViewTo = GetSecondItem(receiptConfig);
             _tutorialUiTools.ElementHighlighter.Set(itemViewFrom);
-            _tutorialUiTools.TutorialHand.ShowOnElement(itemViewFrom.transform);
+            var tween = _tutorialUiTools.TutorialHand.ShowDragUI(
+                itemViewFrom.transform as RectTransform, 
+                itemViewTo.transform as RectTransform,
+                DRAG_ANIMATION_TIME);
+            tween.SetLoops(-1);
         }
         
         public void Stop()
