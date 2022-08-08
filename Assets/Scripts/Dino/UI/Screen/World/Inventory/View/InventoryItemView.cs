@@ -1,5 +1,5 @@
-﻿using Dino.UI.Screen.World.Inventory.Model;
-using Dino.Units.Service;
+﻿using System;
+using Dino.UI.Screen.World.Inventory.Model;
 using Dino.Util;
 using Feofun.Util.SerializableDictionary;
 using JetBrains.Annotations;
@@ -25,8 +25,11 @@ namespace Dino.UI.Screen.World.Inventory.View
         [SerializeField]
         private GameObject _canCraftContainer;
 
+        [SerializeField]
+        private ItemReloadingView _reloadingView;
+        
         private CompositeDisposable _disposable;
-
+        
         [CanBeNull]
         public ItemViewModel Model { get; private set; }
 
@@ -34,7 +37,9 @@ namespace Dino.UI.Screen.World.Inventory.View
         {
             Dispose();
             _disposable = new CompositeDisposable();
-            
+          
+            _reloadingView.Init(model.WeaponTimer);
+  
             Model = model;
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
@@ -73,6 +78,7 @@ namespace Dino.UI.Screen.World.Inventory.View
             }
             _stateContainers[state].SetActive(true);
         }
+
         private void Dispose()
         {
             Model = null;

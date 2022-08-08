@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
+using Logger.Extension;
 using ModestTree;
 using UniRx;
 
@@ -10,12 +11,15 @@ namespace Dino.Inventory.Service
 {
     public class InventoryService : IWorldScope
     {
+        public const int MAX_ITEMS_COUNT = 4;
+        
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
         
         private InventoryRepository _repository = new InventoryRepository();
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
         
         private Model.Inventory Inventory => _repository.Get();
+        public int ItemsCount => Inventory.Items.Count;
         
         public void OnWorldSetup()
         {
@@ -41,6 +45,10 @@ namespace Dino.Inventory.Service
 
         public ItemId Add(string itemName)
         {
+            if (ItemsCount >= MAX_ITEMS_COUNT) {
+                throw new Exception($"Can't add item {itemName} because inventory is full. ");
+            }
+            
             var inventory = Inventory;
             var itemId = CreateNewId(itemName);
             inventory.Add(itemId);
