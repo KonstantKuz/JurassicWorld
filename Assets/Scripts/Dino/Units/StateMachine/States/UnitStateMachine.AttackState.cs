@@ -6,6 +6,7 @@ using Dino.Units.Model;
 using Dino.Weapon;
 using Dino.Weapon.Components;
 using Logger.Extension;
+using UniRx;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine
@@ -73,7 +74,7 @@ namespace Dino.Units.StateMachine
 
                 StateMachine._movementController.RotateTo(Target.Root.position, 0f);
 
-                if (_weaponTimer.IsAttackReady)
+                if (_weaponTimer.IsAttackReady.Value)
                 {
                     Attack();
                 }
