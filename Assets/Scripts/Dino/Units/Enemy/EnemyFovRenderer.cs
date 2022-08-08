@@ -8,7 +8,7 @@ using UnityEngine.Assertions;
 
 namespace Dino.Units.Enemy
 {
-    public class EnemyFovRenderer : MonoBehaviour, IInitializable<Unit>
+    public class EnemyFovRenderer : MonoBehaviour, IInitializable<Unit>, IUnitDeathEventReceiver
     {
         public void Init(Unit unit)
         {
@@ -18,6 +18,12 @@ namespace Dino.Units.Enemy
 
             var fovRenderer = gameObject.RequireComponentInChildren<IFieldOfViewRenderer>();
             fovRenderer.Init(stateModel.FieldOfViewAngle, stateModel.FieldOfViewDistance);
+        }
+
+        public void OnDeath(DeathCause deathCause)
+        {
+            var fovRenderer = (MonoBehaviour) gameObject.RequireComponentInChildren<IFieldOfViewRenderer>();
+            fovRenderer.gameObject.SetActive(false);
         }
     }
 }

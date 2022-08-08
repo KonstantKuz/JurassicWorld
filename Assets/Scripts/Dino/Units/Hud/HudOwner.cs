@@ -7,7 +7,7 @@ using UnityEngine;
 using Zenject;
 namespace Dino.Units.Hud
 {
-    public class HudOwner : MonoBehaviour, IInitializable<Unit>
+    public class HudOwner : MonoBehaviour, IInitializable<Unit>, IUnitDeathEventReceiver
     {
         [SerializeField] private HudPresenter _hudPrefab;
         [SerializeField] private Transform _hudPlace;
@@ -43,6 +43,11 @@ namespace Dino.Units.Hud
             }
             Destroy(_hudPresenter.gameObject);
             _hudPresenter = null;
+        }
+
+        public void OnDeath(DeathCause deathCause)
+        {
+            CleanUp();
         }
     }
 }
