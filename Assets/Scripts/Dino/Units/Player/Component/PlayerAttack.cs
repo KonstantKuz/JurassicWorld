@@ -7,16 +7,16 @@ using Dino.Units.Component.Animation;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
-using Dino.Units.Player.Model;
 using Dino.Weapon;
-using Dino.Weapon.Components;
 using Dino.Weapon.Model;
+using Dino.Weapon.Service;
 using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;
 using SuperMaxim.Core.Extensions;
 using UnityEngine;
+using Zenject;
 
 namespace Dino.Units.Player.Component
 {
@@ -36,15 +36,15 @@ namespace Dino.Units.Player.Component
         private AnimationSwitcher _animationSwitcher;
         private ITargetSearcher _targetSearcher;
         private MovementController _movementController;
-
         private List<IInitializable<IWeaponModel>> _weaponDependentComponents;
+        private bool _startedAttack;
+        
         [CanBeNull]
-        private ChangeableWeapon _weapon;
+        private WeaponWrapper _weapon;
         [CanBeNull]
         private WeaponAnimationHandler _weaponAnimationHandler;
         [CanBeNull]
         private ITarget _target;
-
         private bool IsTargetInvalid => !_target.IsTargetValidAndAlive();
         private bool HasWeaponAnimationHandler => _weaponAnimationHandler != null;
 
@@ -61,17 +61,13 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        public void SetWeapon(PlayerWeaponModel weaponModel, BaseWeapon weapon)
+        public void SetWeapon(WeaponWrapper changeableWeapon)
         {
             Assert.IsNull(_weapon, $"Player weapon is not null, should delete the previous weapon");
-            _weapon = new ChangeableWeapon() {
-                    Weapon = weapon,
-                    Model = weaponModel,
-                    Timer = new WeaponTimer(weaponModel.AttackInterval),
-            };
-            InitWeaponDependentComponents(weaponModel);
-            OverrideAnimation(weaponModel.Animation);
-            UpdateAnimationSpeed(weaponModel.AttackInterval, weaponModel.Animation);
+            _weapon = changeableWeapon;
+            InitWeaponDependentComponents(_weapon.Model);
+            OverrideAnimation(_weapon.Model.Animation);
+            UpdateAnimationSpeed(_weapon.Model.AttackInterval, _weapon.Model.Animation);
         }
 
         private void InitWeaponDependentComponents(IWeaponModel weaponModel)
@@ -93,6 +89,7 @@ namespace Dino.Units.Player.Component
 
         public void DeleteWeapon()
         {
+            _startedAttack = false;
             _weapon = null;
             if (_rotateToTarget) {
                 _movementController.RotateToTarget(null);
@@ -132,7 +129,7 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady;
+        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady.Value && !_startedAttack;
 
         private void Attack(ITarget target)
         {
@@ -142,7 +139,7 @@ namespace Dino.Units.Player.Component
             }
             _target = target;
             _animator.SetTrigger(AttackHash);
-            _weapon.Timer.OnAttack();
+            _startedAttack = true;
             if (!HasWeaponAnimationHandler) {
                 Fire();
             }
@@ -158,7 +155,12 @@ namespace Dino.Units.Player.Component
                 _weapon.Timer.SetAttackAsReady();
                 return;
             }
+            if (!_startedAttack) {
+                return;
+            }
             _weapon.Fire(_target, DoDamage);
+            _weapon.Timer.OnAttack();
+            _startedAttack = false;
         }
         
         private void DoDamage(GameObject target)
@@ -200,16 +202,5 @@ namespace Dino.Units.Player.Component
             Gizmos.DrawSphere(transform.position, _weapon.Model.AttackDistance);
         }
 
-        private class ChangeableWeapon
-        {
-            public BaseWeapon Weapon { get; set; }
-            public IWeaponModel Model { get; set; }
-            public WeaponTimer Timer { get; set; }
-
-            public void Fire(ITarget target, Action<GameObject> hitCallback)
-            {
-                Weapon.Fire(target, Model, hitCallback);
-            }
-        }
     }
 }

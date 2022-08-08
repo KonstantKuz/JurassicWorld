@@ -1,5 +1,6 @@
 ﻿using System;
 using Dino.Inventory.Model;
+using Dino.Weapon.Components;
 using JetBrains.Annotations;
 using UniRx;
 
@@ -17,6 +18,9 @@ namespace Dino.UI.Screen.World.Inventory.Model
         public int Rank { get; }
         public IReactiveProperty<ItemViewState> State => _state;
         public IReactiveProperty<bool> CanCraft => _canCraft;
+        
+        [CanBeNull]
+        public WeaponTimer WeaponTimer { get; }
         [CanBeNull]
         public Action OnClick { get; }
         [CanBeNull]
@@ -27,6 +31,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         public ItemViewModel([CanBeNull] ItemId id,
                              ItemViewState state,
                              bool canCraft = false, 
+                             WeaponTimer weaponTimer = null,
                              Action onClick = null,
                              Action<ItemViewModel> onBeginDrag = null,
                              Action<ItemViewModel> onEndDrag = null)
@@ -42,8 +47,10 @@ namespace Dino.UI.Screen.World.Inventory.Model
                 Icon = Id.Name;
                 Rank = id.Rank;
             }
+
             _state = new ReactiveProperty<ItemViewState>(state);
             _canCraft = new BoolReactiveProperty(canCraft);
+            WeaponTimer = weaponTimer;
             OnClick = onClick;
             OnBeginDrag = onBeginDrag;
             OnEndDrag = onEndDrag;

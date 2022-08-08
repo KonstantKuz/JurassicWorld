@@ -5,6 +5,7 @@ using Dino.Loot.Service;
 using Dino.UI.Screen.World.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.View;
 using Dino.Units.Service;
+using Dino.Weapon.Service;
 using UnityEngine;
 using Zenject;
 
@@ -24,13 +25,14 @@ namespace Dino.UI.Screen.World.Inventory
         [Inject] private CraftService _craftService;     
         [Inject] private LootService _lootService;
         [Inject] private DiContainer _container;
+        [Inject] private WeaponService _weaponService;
         
         private InventoryModel _model;
 
         private void OnEnable()
         {
             Dispose();
-            _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, UpdateActiveItem, OnBeginItemDrag, OnEndItemDrag);
+            _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, _weaponService, UpdateActiveItem, OnBeginItemDrag, OnEndItemDrag);
             _view.Init(_model.Items);
         }
 
