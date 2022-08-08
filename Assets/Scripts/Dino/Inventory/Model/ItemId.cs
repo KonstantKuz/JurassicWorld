@@ -44,7 +44,7 @@ namespace Dino.Inventory.Model
             if (ReferenceEquals(this, other)) {
                 return true;
             }
-            return Name == other.Name && Rank == other.Rank;
+            return FullName == other.FullName;
         }
 
         public override string ToString()

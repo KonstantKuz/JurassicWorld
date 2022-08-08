@@ -27,18 +27,18 @@ namespace Dino.UI.Screen.World.Inventory.View
             _disposable = new CompositeDisposable();
             items.Subscribe(UpdateItems).AddTo(_disposable);
         }
-        private void UpdateItems(IReadOnlyList<ItemViewModel> items)
+        private void UpdateItems(IReadOnlyList<ItemViewModel> itemViews)
         {
             for (int idx = 0; idx < Items.Length; idx++)
             {
-                if (idx >= items.Count)
+                if (idx >= itemViews.Count)
                 {
                     _items[idx].gameObject.SetActive(false);
                 }
                 else
                 {
                     _items[idx].gameObject.SetActive(true);
-                    _items[idx].Init(items[idx]);
+                    _items[idx].Init(itemViews[idx]);
                 }
             }
         }

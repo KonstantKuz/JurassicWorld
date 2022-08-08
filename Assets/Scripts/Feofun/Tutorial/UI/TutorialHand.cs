@@ -13,6 +13,8 @@ namespace Feofun.Tutorial.UI
     }
     public class TutorialHand : MonoBehaviour
     {
+        private const string PRESS_BUTTON_ANIMATION = "PressButton";
+        private const string PRESS_AND_HOLD_ANIMATION = "PressAndHold";
         private Animator _animator;
         private Transform _target;
         private Tween _dragMove;
@@ -29,7 +31,7 @@ namespace Feofun.Tutorial.UI
         {
             gameObject.SetActive(true);
             Attach(target, direction);
-            _animator.Play("PressButton");
+            _animator.Play(PRESS_BUTTON_ANIMATION);
         }
 
         public void ShowPressingFingerOnObject(Transform target)
@@ -37,7 +39,7 @@ namespace Feofun.Tutorial.UI
             Detach();
             gameObject.SetActive(true);
             transform.position = Camera.main.WorldToScreenPoint(target.transform.position);
-            _animator.Play("PressAndHold");
+            _animator.Play(PRESS_AND_HOLD_ANIMATION);
         }
 
         public void ShowDrag(Transform target)
@@ -49,10 +51,16 @@ namespace Feofun.Tutorial.UI
 
         public Tween ShowDrag(Transform from, Transform to, float time = 0.5f)
         {
-            Detach();
-            gameObject.SetActive(true);
             var fromPos = Camera.main.WorldToScreenPoint(from.position);
             var toPos = Camera.main.WorldToScreenPoint(to.position);
+            return ShowDrag(fromPos, toPos, time);
+        }
+
+        public Tween ShowDrag(Vector3 fromPos, Vector3 toPos, float time = 0.5f)
+        {
+            Detach();
+            gameObject.SetActive(true);
+            
             transform.position = fromPos;
             _dragMove = transform.DOMove(toPos, time);
             _dragMove.SetUpdate(true);
@@ -63,16 +71,9 @@ namespace Feofun.Tutorial.UI
 
         public Tween ShowDragUI(RectTransform from, RectTransform to, float time = 0.5f)
         {
-            Detach();
-            gameObject.SetActive(true);
             var fromPos = from.TransformPoint(from.rect.center);
             var toPos = to.TransformPoint(to.rect.center);
-            transform.position = fromPos;
-            _dragMove = transform.DOMove(toPos, time);
-            _dragMove.SetUpdate(true);
-            _dragMove.onComplete += Hide;
-            _dragMove.onComplete += () => _dragMove = null;
-            return _dragMove;
+            return ShowDrag(fromPos, toPos);
         }
 
         public void Hide()
