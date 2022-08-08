@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ModestTree;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Feofun.Tutorial.UI
@@ -11,7 +14,7 @@ namespace Feofun.Tutorial.UI
         [SerializeField] private Image _background; 
 
         private const int SORT_ORDER = 1;
-        private GameObject _highlightedObject;
+        private readonly List<GameObject> _highlightedObjects = new List<GameObject>();
 
         public GameObject Background => _background.gameObject;
 
@@ -23,38 +26,45 @@ namespace Feofun.Tutorial.UI
             }
         }
         public void Set(Component component, bool showBackground = true) => Set(component.gameObject, showBackground);
+        
+        public void Set(IEnumerable<Component> component, bool showBackground = true) => Set(component.Select(it => it.gameObject).ToArray(), showBackground);
 
-        public void Set(GameObject uiElement, bool showBackground = true)
+        public void Set(IEnumerable<GameObject> uiElements, bool showBackground = true)
         {
-            if (_highlightedObject != null)
+            if (!_highlightedObjects.IsEmpty())
             {
                 Clear();
             }
 
-            _highlightedObject = uiElement;
-            if (uiElement.TryGetComponent(out Canvas canvas))
+            foreach (var obj in uiElements)
             {
-                Debug.LogError($"Object {_highlightedObject.name} already has canvas");
-                return;
+                if (obj.TryGetComponent(out Canvas canvas))
+                {
+                    Debug.LogError($"Object {obj.name} already has canvas");
+                    continue;
+                }
+                AddHighlight(obj);
             }
-            AddHighlight(uiElement);
             Background.SetActive(true);
             _background.color = showBackground ? _backgroundColor : Color.clear;
         }
+
+        public void Set(GameObject uiElement, bool showBackground = true) => Set(new[] { uiElement }, showBackground);
         
         public void Clear()
         {
-            if (_highlightedObject == null) {
-                Background.SetActive(false);
-                return;
+            foreach (var obj in _highlightedObjects)
+            {
+                var canvas = obj.GetComponent<Canvas>();
+                if (canvas == null) {
+                    Debug.LogError($"Canvas was already removed from {obj.name}");
+                } else {
+                    Destroy(obj.GetComponent<GraphicRaycaster>());
+                    Destroy(canvas);
+                }
             }
-            var canvas = _highlightedObject.GetComponent<Canvas>();
-            if (canvas == null) {
-                Debug.LogError($"Canvas was already removed from {_highlightedObject.name}");
-            } else {
-                RemoveHighlight(canvas);
-            }
-            _highlightedObject = null;            
+            _highlightedObjects.Clear();   
+            Background.SetActive(false);
         }
 
         private void AddHighlight(GameObject uiElement)
@@ -63,12 +73,8 @@ namespace Feofun.Tutorial.UI
             uiElement.AddComponent<GraphicRaycaster>();
             canvas.overrideSorting = true;
             canvas.sortingOrder = SORT_ORDER + 1;
-        }
-        private void RemoveHighlight(Canvas canvas)
-        {
-            Destroy(_highlightedObject.GetComponent<GraphicRaycaster>());
-            Destroy(canvas);
-            Background.SetActive(false);
+            
+            _highlightedObjects.Add(uiElement);
         }
     }
 }

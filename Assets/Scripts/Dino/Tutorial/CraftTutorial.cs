@@ -32,7 +32,7 @@ namespace Dino.Tutorial
             var receiptConfig = _craftService.GetRecipeConfig(recipe);
             var itemViewFrom = GetFirstItem(receiptConfig);
             var itemViewTo = GetSecondItem(receiptConfig);
-            _tutorialUiTools.ElementHighlighter.Set(itemViewFrom);
+            _tutorialUiTools.ElementHighlighter.Set(new [] {itemViewFrom, itemViewTo});
             var tween = _tutorialUiTools.TutorialHand.ShowDragUI(
                 itemViewFrom.transform as RectTransform, 
                 itemViewTo.transform as RectTransform,
