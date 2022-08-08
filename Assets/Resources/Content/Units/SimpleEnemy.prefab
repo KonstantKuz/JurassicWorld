@@ -266,8 +266,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _disappearTime: 1
-  _delayUntilDisappear: 1
-  _offsetYDisappear: 1
+  _delayUntilDisappear: 2
+  _offsetYDisappear: 2
 --- !u!114 &158354064725451873
 MonoBehaviour:
   m_ObjectHideFlags: 0
