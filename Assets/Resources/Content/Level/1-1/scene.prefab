@@ -6558,7 +6558,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 462a7a6100e5d4843a06fc63f5fdff79, type: 2}
+  - {fileID: 2100000, guid: ead464ff870cc4d45b1e9292f186f120, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7551,6 +7551,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -1.41
       objectReference: {fileID: 0}
+    - target: {fileID: 4445257292342231270, guid: 792d58537bc3a5c44bc04933a2a529e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ead464ff870cc4d45b1e9292f186f120, type: 2}
     - target: {fileID: 5154227099800756557, guid: 792d58537bc3a5c44bc04933a2a529e7, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -7591,6 +7595,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -20.85
       objectReference: {fileID: 0}
+    - target: {fileID: 7272416892728043965, guid: 792d58537bc3a5c44bc04933a2a529e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ead464ff870cc4d45b1e9292f186f120, type: 2}
     - target: {fileID: 7904945395770508570, guid: 792d58537bc3a5c44bc04933a2a529e7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.6
@@ -7603,6 +7611,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -23.59
       objectReference: {fileID: 0}
+    - target: {fileID: 9042414063943297348, guid: 792d58537bc3a5c44bc04933a2a529e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ead464ff870cc4d45b1e9292f186f120, type: 2}
+    - target: {fileID: 9113450255428727211, guid: 792d58537bc3a5c44bc04933a2a529e7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ead464ff870cc4d45b1e9292f186f120, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 792d58537bc3a5c44bc04933a2a529e7, type: 3}
 --- !u!4 &3315672160702643793 stripped
