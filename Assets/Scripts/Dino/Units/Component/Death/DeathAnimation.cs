@@ -47,7 +47,7 @@ namespace Dino.Units.Component.Death
             
             _animator.SetTrigger(_deathHash);            
             yield return new WaitForSeconds(_delayUntilDisappear);
-            _deathTween = DeathTween();
+            _deathTween = CreateDeathTween();
             yield return _deathTween.WaitForCompletion(); 
             Destroy(gameObject);
         }
@@ -59,7 +59,7 @@ namespace Dino.Units.Component.Death
             _deathTween = null;
         }
 
-        private Tweener DeathTween()
+        private Tweener CreateDeathTween()
         {
             switch (_animationType)
             {
