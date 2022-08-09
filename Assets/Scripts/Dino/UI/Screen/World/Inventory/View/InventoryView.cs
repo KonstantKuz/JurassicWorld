@@ -3,6 +3,7 @@ using System.Linq;
 using Dino.Inventory.Config;
 using Dino.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.Model;
+using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -49,7 +50,7 @@ namespace Dino.UI.Screen.World.Inventory.View
             _disposable = null;
         }
 
-        public InventoryItemView GetItemView(string itemName, int skip = 0)
+        [CanBeNull] public InventoryItemView FindItemView(string itemName, int skip = 0)
         {
             var itemId = new ItemId(itemName, 0);
             var item = Items

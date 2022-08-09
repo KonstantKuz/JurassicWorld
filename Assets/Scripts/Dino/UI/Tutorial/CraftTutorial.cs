@@ -1,14 +1,15 @@
 ﻿using System.Linq;
 using DG.Tweening;
 using Dino.Inventory.Config;
-using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.UI.Screen.World.Inventory.View;
+using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Zenject;
 
-namespace Dino.Tutorial
+namespace Dino.UI.Tutorial
 {
     [RequireComponent(typeof(InventoryView))]
     public class CraftTutorial : MonoBehaviour
@@ -31,7 +32,9 @@ namespace Dino.Tutorial
             _world.Pause();
             var receiptConfig = _craftService.GetRecipeConfig(recipe);
             var itemViewFrom = GetFirstItem(receiptConfig);
+            Assert.IsNotNull(itemViewFrom, $"Failed to find view for first ingredient in recipe {receiptConfig.CraftItemId}");
             var itemViewTo = GetSecondItem(receiptConfig);
+            Assert.IsNotNull(itemViewTo, $"Failed to find view for second ingredient in recipe {receiptConfig.CraftItemId}");
             _tutorialUiTools.ElementHighlighter.Set(new [] {itemViewFrom, itemViewTo});
             var tween = _tutorialUiTools.TutorialHand.ShowDragUI(
                 itemViewFrom.transform as RectTransform, 
@@ -47,19 +50,19 @@ namespace Dino.Tutorial
             _tutorialUiTools.TutorialHand.Hide();
         }        
 
-        private InventoryItemView GetFirstItem(CraftRecipeConfig receiptConfig)
+        [CanBeNull] private InventoryItemView GetFirstItem(CraftRecipeConfig receiptConfig)
         {
-            return _inventoryView.GetItemView(receiptConfig.Ingredients.First().Name, 0);
+            return _inventoryView.FindItemView(receiptConfig.Ingredients.First().Name, 0);
         }
 
-        private InventoryItemView GetSecondItem(CraftRecipeConfig receiptConfig)
+        [CanBeNull] private InventoryItemView GetSecondItem(CraftRecipeConfig receiptConfig)
         {
             if (receiptConfig.Ingredients.Count == 1)
             {
-                return _inventoryView.GetItemView(receiptConfig.Ingredients.First().Name, 1);    
+                return _inventoryView.FindItemView(receiptConfig.Ingredients.First().Name, 1);    
             }
 
-            return _inventoryView.GetItemView(receiptConfig.Ingredients.Skip(1).First().Name);
+            return _inventoryView.FindItemView(receiptConfig.Ingredients.Skip(1).First().Name);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Feofun.Tutorial.UI;
 using UnityEngine;
 
-namespace Dino.Tutorial
+namespace Dino.UI.Tutorial
 {
     public class TutorialUiTools : MonoBehaviour
     {

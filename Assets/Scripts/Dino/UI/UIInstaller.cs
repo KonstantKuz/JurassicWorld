@@ -1,4 +1,5 @@
 ﻿using Dino.Tutorial;
+using Dino.UI.Tutorial;
 using Feofun.UI;
 using Feofun.UI.Dialog;
 using Feofun.UI.Screen;
