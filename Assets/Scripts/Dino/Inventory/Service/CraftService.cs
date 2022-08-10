@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Config;
+using Dino.Inventory.Message;
 using Dino.Inventory.Model;
+using Dino.Player.Progress.Service;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;
 using SuperMaxim.Core.Extensions;
+using SuperMaxim.Messaging;
 using Zenject;
 using static System.String;
 
@@ -19,6 +22,10 @@ namespace Dino.Inventory.Service
 
         [Inject]
         public InventoryService _inventoryService;
+
+        [Inject] private PlayerProgressService _playerProgressService;
+        [Inject] private Analytics.Analytics _analytics;
+        [Inject] private IMessenger _messenger;
 
         [CanBeNull]
         public CraftRecipeConfig FindFirstMatchingRecipe(HashSet<ItemId> ingredients)
@@ -77,6 +84,13 @@ namespace Dino.Inventory.Service
             return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
         }
 
+        public bool HasIngredientsForReceipt(string recipeName)
+        {
+            var recipe = _craftConfig.GetRecipe(recipeName);
+            if (recipe == null) return false;
+            return HasIngredientsInInventory(recipe);
+        }
+
         public ItemId Craft(HashSet<ItemId> ingredients)
         {
             var recipe = FindFirstPossibleRecipe(ingredients);
@@ -84,6 +98,12 @@ namespace Dino.Inventory.Service
                 throw new ArgumentException($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
             }
             ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient)); 
+            _playerProgressService.Progress.IncreaseCraftCount();
+            _analytics.ReportCraftItem(recipe.CraftItemId);
+            _messenger.Publish(new ItemCraftedMessage
+            {
+                ItemId = recipe.CraftItemId
+            });
             return _inventoryService.Add(recipe.CraftItemId);
         }
 
@@ -98,6 +118,11 @@ namespace Dino.Inventory.Service
                 items.Skip(items.Count - ingredient.Count).ForEach(it => _inventoryService.Remove(it));
             });
             return _inventoryService.Add(recipe.CraftItemId);
+        }
+
+        public CraftRecipeConfig GetRecipeConfig(string recipe)
+        {
+            return _craftConfig.GetRecipe(recipe);
         }
     }
 }

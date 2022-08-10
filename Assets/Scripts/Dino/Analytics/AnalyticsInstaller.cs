@@ -14,8 +14,8 @@ namespace Dino.Analytics
                 .WithArguments(new IAnalyticsImpl[]
                 {
                         new LoggingAnalyticsWrapper(), 
-                        /*new AppMetricaAnalyticsWrapper(),
-                         new AppsFlyerAnalyticsWrapper(),*/
+                        new AppMetricaAnalyticsWrapper(),
+                        /*new AppsFlyerAnalyticsWrapper(),*/
                         new FacebookAnalyticsWrapper()
 
                 }).NonLazy();

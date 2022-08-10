@@ -27,19 +27,18 @@ namespace Dino.Core
         {
 
             var playerProgress = _playerProgressService.Progress;
-            
+
             return paramName switch
             {
                 EventParams.LEVEL_ID => _sessionService.Session.LevelId,
                 EventParams.LEVEL_NUMBER => GetLevelNumber(),
-                EventParams.LEVEL_LOOP => GetLevelLoop(),
-
+                EventParams.PASS_NUMBER => GetPassNumber(),
                 EventParams.ENEMY_KILLED => _sessionService.Kills.Value,
                 EventParams.TIME_SINCE_LEVEL_START => _sessionService.SessionTime,
-                EventParams.STAND_RATIO => GetStandRatio(),
-                EventParams.TOTAL_KILLS => playerProgress.Kills,
                 EventParams.WINS => playerProgress.WinCount,
                 EventParams.DEFEATS => playerProgress.LoseCount,
+                EventParams.CRAFT_COUNT => playerProgress.CraftCount,
+                EventParams.LOOT_COUNT => playerProgress.LootCount,
 
                 _ => throw new ArgumentOutOfRangeException(nameof(paramName), paramName, $"Unsupported analytics parameter {paramName}")
             };
@@ -50,16 +49,12 @@ namespace Dino.Core
             var playerProgress = _playerProgressService.Progress;
             return playerProgress.LevelNumber + 1;
         }
-
-        private int GetLevelLoop()
+        
+        private int GetPassNumber()
         {
             var playerProgress = _playerProgressService.Progress;
-            return Mathf.Max(0, playerProgress.LevelNumber - _levelService.Levels.Count);
-        }
-
-        private float GetStandRatio()
-        {
-            throw new NotImplementedException();
+            var level = _levelService.Levels[playerProgress.LevelNumber];
+            return playerProgress.GetPassCount(level.ObjectId);
         }
     }
 }

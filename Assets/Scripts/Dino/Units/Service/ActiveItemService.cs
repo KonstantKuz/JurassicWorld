@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Dino.Inventory.Model;
+﻿using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
@@ -23,12 +22,27 @@ namespace Dino.Units.Service
         private WeaponService _weaponService;     
         [Inject]
         private InventoryService _inventoryService;
+        
+        private ActiveItemRepository _repository;        
 
         public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
         
         private PlayerUnit Player => _world.GetPlayer();
 
         public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
+
+        public void Init()
+        {
+            _repository = new ActiveItemRepository();
+
+            if (!_repository.Exists()) {
+                _repository.Set(null);
+            }
+            else
+            {
+                Equip(_repository.Get());
+            }
+        }
         public void Replace(ItemId itemId)
         {
             UnEquip();
@@ -45,29 +59,25 @@ namespace Dino.Units.Service
 
         public void Equip(ItemId itemId)
         {
-            if (_activeItemId.Value != null) {
-                this.Logger().Error($"Equip error, active item:= {itemId} is not null, should unEquip the previous active item of unit");
-                return;
-            }
             if (!_inventoryService.Contains(itemId)) {
                 this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
                 return;
+            }
+            if (_activeItemId.Value != null) {
+                RemoveActiveItemObject();
             }
             var itemOwner = Player.ActiveItemOwner;
             var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
             _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
             
-            _weaponService.TrySetWeapon(itemId.FullName, itemOwner.GetWeapon());
+            _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
         }
-
-
 
         public void UnEquip()
         {
             _activeItemId.SetValueAndForceNotify(null);
-            _weaponService.Remove();
-            Player.ActiveItemOwner.Remove();
+            RemoveActiveItemObject();
         }
 
         public void OnWorldSetup()
@@ -76,7 +86,18 @@ namespace Dino.Units.Service
 
         public void OnWorldCleanUp()
         {
-            UnEquip();
+            RemoveActiveItemObject();
+        }
+
+        private void RemoveActiveItemObject()
+        {
+            _weaponService.Remove();
+            Player.ActiveItemOwner.Remove();
+        }
+
+        public void Save()
+        {
+            _repository.Set(ActiveItemId.Value);
         }
     }
 }

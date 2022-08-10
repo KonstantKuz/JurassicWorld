@@ -10,7 +10,7 @@ namespace Dino.Inventory.Model
         public void Add(ItemId id)
         {
             if (Contains(id)) {
-                this.Logger().Error($"Inventory adding error, inventory aleady contains item id:= {id}");
+                this.Logger().Error($"Inventory adding error, inventory already contains item id:= {id}");
                 return;
             }
             Items.Add(id);

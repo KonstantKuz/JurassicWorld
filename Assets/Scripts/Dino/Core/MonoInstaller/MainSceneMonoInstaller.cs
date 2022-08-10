@@ -6,6 +6,7 @@ using Dino.Location;
 using Dino.Modifiers;
 using Dino.Player.Installer;
 using Dino.Reward.Installer;
+using Dino.Tutorial;
 using Dino.UI;
 using Dino.Units.Installer;
 using Feofun.Localization.Service;
@@ -43,7 +44,8 @@ namespace Dino.Core.MonoInstaller
             UnitServicesInstaller.Install(Container);
             InventoryServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
-            RewardServicesInstaller.Install(Container); 
+            RewardServicesInstaller.Install(Container);
+            TutorialInstaller.Install(Container);
             
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);

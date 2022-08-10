@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
+using Logger.Extension;
 using ModestTree;
 using UniRx;
 
@@ -10,12 +11,15 @@ namespace Dino.Inventory.Service
 {
     public class InventoryService : IWorldScope
     {
+        public const int MAX_ITEMS_COUNT = 4;
+        
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
         
         private InventoryRepository _repository = new InventoryRepository();
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
         
         private Model.Inventory Inventory => _repository.Get();
+        public int ItemsCount => Inventory.Items.Count;
         
         public void OnWorldSetup()
         {
@@ -41,6 +45,10 @@ namespace Dino.Inventory.Service
 
         public ItemId Add(string itemName)
         {
+            if (ItemsCount >= MAX_ITEMS_COUNT) {
+                throw new Exception($"Can't add item {itemName} because inventory is full. ");
+            }
+            
             var inventory = Inventory;
             var itemId = CreateNewId(itemName);
             inventory.Add(itemId);
@@ -64,7 +72,7 @@ namespace Dino.Inventory.Service
         }
         public ItemId GetLast(string itemName)
         {
-            var itemId = _inventory.Value.Items.Where(it => it.FullName == itemName).OrderBy(it => it.Count).LastOrDefault();
+            var itemId = _inventory.Value.Items.Where(it => it.FullName == itemName).OrderBy(it => it.Number).LastOrDefault();
             if (itemId == null) {
                 throw new NullReferenceException($"Error getting last item, inventory doesn't contain item name:= {itemName}");
             }
@@ -77,7 +85,7 @@ namespace Dino.Inventory.Service
             if (items.IsEmpty()) {
                 return ItemId.Create(itemName, 1);
             }
-            var count = items.Max(it => it.Count) + 1;
+            var count = items.Max(it => it.Number) + 1;
             return ItemId.Create(itemName, count);
         }
 

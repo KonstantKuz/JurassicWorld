@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using UnityEngine;
 
 namespace Dino.Inventory.Model
 {
@@ -7,14 +8,14 @@ namespace Dino.Inventory.Model
     {
         private static readonly Regex Regex = new Regex(@"(\D+)(\d+)");
         public string FullName { get; }
-        public int Count { get; }
+        public int Number { get; }
         public string Name { get; }
         public int Rank { get; }
         
-        public ItemId(string fullName, int count)
+        public ItemId(string fullName, int number)
         {
             FullName = fullName;
-            Count = count;
+            Number = number;
             var (name, rank) = SplitFullNameToNameAndRank(fullName);
             Name = name;
             Rank = rank;
@@ -32,12 +33,23 @@ namespace Dino.Inventory.Model
             if (ReferenceEquals(this, other)) {
                 return true;
             }
-            return FullName == other.FullName && Count == other.Count;
+            return FullName == other.FullName && Number == other.Number;
+        }
+        
+        public bool IsSameItem(ItemId other)
+        {
+            if (ReferenceEquals(null, other)) {
+                return false;
+            }
+            if (ReferenceEquals(this, other)) {
+                return true;
+            }
+            return FullName == other.FullName;
         }
 
         public override string ToString()
         {
-            return $"InventoryItem: Id:= {FullName}, Number:= {Count}";
+            return $"InventoryItem: Id:= {FullName}, ObjectId:= {Name}, Rank:= {Rank} SerialNumber:= {Number}";
         }
 
         public override bool Equals(object obj)
@@ -57,11 +69,11 @@ namespace Dino.Inventory.Model
         public override int GetHashCode()
         {
             unchecked {
-                return ((FullName != null ? FullName.GetHashCode() : 0) * 397) ^ Count;
+                return ((FullName != null ? FullName.GetHashCode() : 0) * 397) ^ Number;
             }
         }
         
-        private static (string, int) SplitFullNameToNameAndRank(string fullName)
+        public static (string, int) SplitFullNameToNameAndRank(string fullName)
         {
             var matchObj = Regex.Match(fullName);
             if (!matchObj.Success) return (fullName, 0);

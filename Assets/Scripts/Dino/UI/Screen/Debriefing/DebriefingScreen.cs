@@ -4,6 +4,7 @@ using Dino.Session.Model;
 using Dino.UI.Screen.Debriefing.Model;
 using Dino.UI.Screen.Main;
 using Dino.UI.Screen.Menu;
+using Dino.Units.Service;
 using Feofun.UI.Components.Button;
 using Feofun.UI.Screen;
 using JetBrains.Annotations;
@@ -31,6 +32,7 @@ namespace Dino.UI.Screen.Debriefing
         [Inject] private MissionResultRewardService _missionResultRewardService;  
         [Inject] private IRewardApplyService _rewardApplyService;      
         [Inject] private InventoryService _inventoryService;
+        [Inject] private ActiveItemService _activeItemService;
 
         [PublicAPI]
         public void Init(DebriefingScreenModel model)
@@ -45,6 +47,7 @@ namespace Dino.UI.Screen.Debriefing
             _resultPanel.Init(resultPanelModel);
             if (model.SessionResult == SessionResult.Win) {
                 _inventoryService.Save();
+                _activeItemService.Save();
             }
         }
         
