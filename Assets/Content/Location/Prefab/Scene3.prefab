@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 768353517502142585}
   - component: {fileID: 5414123540662114437}
   - component: {fileID: 3112397270522629970}
-  m_Layer: 0
+  - component: {fileID: 797311392905790719}
+  m_Layer: 7
   m_Name: PALM (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -81,6 +82,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &797311392905790719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70934354294412459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &151517572826821688
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,7 +465,8 @@ GameObject:
   - component: {fileID: 768353517419277528}
   - component: {fileID: 768353517419277530}
   - component: {fileID: 768353517419277531}
-  m_Layer: 0
+  - component: {fileID: 4903291951750258869}
+  m_Layer: 7
   m_Name: Cube.001 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -518,6 +536,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4903291951750258869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768353517419277529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &768353517476126630
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,7 +564,7 @@ GameObject:
   - component: {fileID: 768353517476126626}
   - component: {fileID: 768353517476126627}
   - component: {fileID: 768353517476126624}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Coconut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -706,7 +740,7 @@ GameObject:
   - component: {fileID: 768353517523799938}
   - component: {fileID: 768353517523799939}
   - component: {fileID: 768353517523799936}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Coconut (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5151,7 +5185,7 @@ GameObject:
   - component: {fileID: 768353518715921341}
   - component: {fileID: 768353518715921330}
   - component: {fileID: 768353518715921331}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Coconut (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5971,6 +6005,7 @@ GameObject:
   - component: {fileID: 768353518916963427}
   - component: {fileID: 768353518916963437}
   - component: {fileID: 768353518916963426}
+  - component: {fileID: 1587218045092154265}
   m_Layer: 0
   m_Name: Cube.033
   m_TagString: Untagged
@@ -6041,6 +6076,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1587218045092154265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768353518916963424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &768353518935204673
 GameObject:
   m_ObjectHideFlags: 0
@@ -6295,6 +6346,7 @@ GameObject:
   - component: {fileID: 768353518990273322}
   - component: {fileID: 768353518990273364}
   - component: {fileID: 768353518990273365}
+  - component: {fileID: 6585139440360780147}
   m_Layer: 0
   m_Name: Cube.034
   m_TagString: Untagged
@@ -6365,6 +6417,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6585139440360780147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768353518990273323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &768353519020524624
 GameObject:
   m_ObjectHideFlags: 0
@@ -6782,7 +6850,7 @@ GameObject:
   - component: {fileID: 768353519131011040}
   - component: {fileID: 768353519131011041}
   - component: {fileID: 768353519131011046}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Coconut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8376,7 +8444,8 @@ GameObject:
   - component: {fileID: 768353517761439284}
   - component: {fileID: 995246127340176096}
   - component: {fileID: 129559945114862517}
-  m_Layer: 0
+  - component: {fileID: 7950140228048609928}
+  m_Layer: 7
   m_Name: PALM (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8446,6 +8515,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7950140228048609928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1170836836171951508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1673914535988783388
 GameObject:
   m_ObjectHideFlags: 0
@@ -8457,7 +8542,8 @@ GameObject:
   - component: {fileID: 768353519121137414}
   - component: {fileID: 4391482164344545891}
   - component: {fileID: 3152808510034422607}
-  m_Layer: 0
+  - component: {fileID: 7538624300909262203}
+  m_Layer: 7
   m_Name: ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8531,6 +8617,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7538624300909262203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1673914535988783388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &1699658451623835889
 GameObject:
   m_ObjectHideFlags: 0
@@ -9442,7 +9544,7 @@ GameObject:
   - component: {fileID: 768353517905188142}
   - component: {fileID: 8161351337622915792}
   - component: {fileID: 4445257292342231270}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Island1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9687,7 +9789,8 @@ GameObject:
   - component: {fileID: 768353519080132124}
   - component: {fileID: 1384080055837217321}
   - component: {fileID: 5655390470882855997}
-  m_Layer: 0
+  - component: {fileID: 5081521786126855500}
+  m_Layer: 7
   m_Name: PALM (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9759,6 +9862,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5081521786126855500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4672846556306307835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &4973581894431819228
 GameObject:
   m_ObjectHideFlags: 0
@@ -9851,7 +9970,8 @@ GameObject:
   - component: {fileID: 768353517968521786}
   - component: {fileID: 7485489299151863732}
   - component: {fileID: 6903460900001971290}
-  m_Layer: 0
+  - component: {fileID: 5227977563585125994}
+  m_Layer: 7
   m_Name: cradle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9921,6 +10041,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5227977563585125994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5040077011313338479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &5071973761493418674
 GameObject:
   m_ObjectHideFlags: 0
@@ -10094,7 +10230,8 @@ GameObject:
   - component: {fileID: 768353517543687127}
   - component: {fileID: 1618858479256062498}
   - component: {fileID: 965834271232424116}
-  m_Layer: 0
+  - component: {fileID: 4458845384674867088}
+  m_Layer: 7
   m_Name: PALM (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10166,6 +10303,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4458845384674867088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5295724953461605077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &5310146974998350986
 GameObject:
   m_ObjectHideFlags: 0
@@ -10371,6 +10524,7 @@ GameObject:
   - component: {fileID: 768353517511672318}
   - component: {fileID: 1797383849460204052}
   - component: {fileID: 2281512648122829574}
+  - component: {fileID: 5033201540998047116}
   m_Layer: 0
   m_Name: box (1)
   m_TagString: Untagged
@@ -10442,6 +10596,22 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5033201540998047116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5871507117055232217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &6333629396046167064
 GameObject:
   m_ObjectHideFlags: 0
