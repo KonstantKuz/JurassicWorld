@@ -3,6 +3,7 @@ using Dino.Inventory.Message;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Loot.Messages;
+using Dino.UI.Tutorial;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using Zenject;
@@ -11,12 +12,13 @@ namespace Dino.Tutorial
 {
     public class TutorialService: IWorldScope
     {
-        private static readonly string[] TutorialReceipts = {"Bow1", "ThrowingAxe1", "ThrowingAxe2"};
+        private static readonly string[] TutorialRecipes = {"Bow1", "ThrowingAxe1", "ThrowingAxe2"};
         
         [Inject] private IMessenger _messenger;
         [Inject] private CraftService _craftService;
         [Inject] private TutorialRepository _repository;
-        
+        [Inject] private CraftTutorial _craftTutorial;
+
         public void OnWorldSetup()
         {
             _messenger.Subscribe<LootCollectedMessage>(OnLootCollected);
@@ -31,11 +33,12 @@ namespace Dino.Tutorial
 
         private void OnLootCollected(LootCollectedMessage _)
         {
-            foreach (var receipt in TutorialReceipts)
+            foreach (var recipe in TutorialRecipes)
             {
-                if (IsStateCompleted(receipt)) continue;
-                if (!_craftService.HasIngredientsForReceipt(receipt)) continue;
-                Debug.Log($"show tutorial for recipe {receipt}");
+                if (IsStateCompleted(recipe)) continue;
+                if (!_craftService.HasIngredientsForReceipt(recipe)) continue;
+                Debug.Log($"show tutorial for recipe {recipe}");                
+                _craftTutorial.Play(recipe);
             }
         }
 
@@ -59,9 +62,10 @@ namespace Dino.Tutorial
 
         private void OnItemCrafted(ItemCraftedMessage msg)
         {
-            if (!TutorialReceipts.Contains(msg.ItemId)) return;
+            if (!TutorialRecipes.Contains(msg.ItemId)) return;
             CompleteStep(msg.ItemId);
-            Debug.Log($"complete tutorial for recipe {msg.ItemId}");
+            _craftTutorial.Stop();
+            Debug.Log($"complete tutorial for recipe {msg.ItemId}");            
         }
     }
 }
