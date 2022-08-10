@@ -34,12 +34,12 @@ MonoBehaviour:
   m_AdditionalLightShadowsSupported: 0
   m_AdditionalLightsShadowmapResolution: 512
   m_ShadowDistance: 50
-  m_ShadowCascadeCount: 2
-  m_Cascade2Split: 0.514
-  m_Cascade3Split: {x: 0.1, y: 0.3}
-  m_Cascade4Split: {x: 0.067, y: 0.2, z: 0.467}
-  m_ShadowDepthBias: 1
-  m_ShadowNormalBias: 1
+  m_ShadowCascadeCount: 3
+  m_Cascade2Split: 0.52599996
+  m_Cascade3Split: {x: 0.444, y: 0.622}
+  m_Cascade4Split: {x: 0.18200001, y: 0.244, z: 0.548}
+  m_ShadowDepthBias: 1.45
+  m_ShadowNormalBias: 1.09
   m_SoftShadowsSupported: 1
   m_UseSRPBatcher: 0
   m_SupportsDynamicBatching: 1
