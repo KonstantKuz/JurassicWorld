@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Dino.Inventory.Config;
 using Dino.Inventory.Model;
 using Dino.UI.Screen.World.Inventory.Model;
-using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.UI.Screen.World.Inventory.View
 {
@@ -50,14 +47,12 @@ namespace Dino.UI.Screen.World.Inventory.View
             _disposable = null;
         }
 
-        [CanBeNull] public InventoryItemView FindItemView(string itemName, int skip = 0)
+        public IEnumerable<InventoryItemView> GetItemViews(string itemName)
         {
             var itemId = new ItemId(itemName, 0);
-            var item = Items
-                .Where(it => it.gameObject.activeSelf && itemId.IsSameItem(it.Model?.Id))
-                .Skip(skip)
-                .FirstOrDefault();
-            return item;
+
+            return Items
+                .Where(it => it.gameObject.activeSelf && itemId.IsSameItem(it.Model?.Id));
         }
     }
 }

@@ -73,7 +73,7 @@ namespace Feofun.Tutorial.UI
         {
             var fromPos = from.TransformPoint(from.rect.center);
             var toPos = to.TransformPoint(to.rect.center);
-            return ShowDrag(fromPos, toPos);
+            return ShowDrag(fromPos, toPos, time);
         }
 
         public void Hide()

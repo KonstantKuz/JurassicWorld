@@ -13,7 +13,6 @@ namespace Feofun.Tutorial.UI
         [SerializeField] private Color _backgroundColor;
         [SerializeField] private Image _background; 
 
-        private const int SORT_ORDER = 1;
         private readonly List<GameObject> _highlightedObjects = new List<GameObject>();
 
         public GameObject Background => _background.gameObject;
@@ -72,7 +71,7 @@ namespace Feofun.Tutorial.UI
             var canvas = uiElement.AddComponent<Canvas>();
             uiElement.AddComponent<GraphicRaycaster>();
             canvas.overrideSorting = true;
-            canvas.sortingOrder = SORT_ORDER + 1;
+            canvas.sortingOrder = canvas.rootCanvas.sortingOrder + 1;
             
             _highlightedObjects.Add(uiElement);
         }
