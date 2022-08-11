@@ -564,6 +564,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpearLoot
       objectReference: {fileID: 0}
+    - target: {fileID: 4407150646351681891, guid: 356ad91388c2c09499fe9da55f018ae4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.332
+      objectReference: {fileID: 0}
+    - target: {fileID: 4407150646351681891, guid: 356ad91388c2c09499fe9da55f018ae4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.241
+      objectReference: {fileID: 0}
+    - target: {fileID: 4407150646351681891, guid: 356ad91388c2c09499fe9da55f018ae4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.056
+      objectReference: {fileID: 0}
     - target: {fileID: 4691880298685669435, guid: 356ad91388c2c09499fe9da55f018ae4, type: 3}
       propertyPath: m_RootOrder
       value: 0
