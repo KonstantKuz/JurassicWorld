@@ -48,6 +48,7 @@ namespace Dino.Units.Component
             _mesh.triangles = BuildTriangles(_segmentsCount);
             _mesh.normals = BuildNormals(_segmentsCount);
             _mesh.uv = BuildUvs(_mesh.vertices);
+            _mesh.colors = BuildColors(_mesh.uv);
         }
 
         private int CalculateSegments(float angle)
@@ -112,6 +113,17 @@ namespace Dino.Units.Component
                 uvs[i] = new Vector2(vertices[i].x, vertices[i].z);
             }
             return uvs;
+        }
+        
+        private Color[] BuildColors(Vector2[] uvs)
+        {
+            var colors = new Color[uvs.Length];
+            colors[0] = _material.color;
+            for (int i = 1; i < colors.Length; i++)
+            {
+                colors[i] = Color.clear;
+            }
+            return colors;
         }
     }
 }
