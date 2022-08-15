@@ -64,7 +64,8 @@ namespace Dino.Loot.Service
         private void SetLootPosition(Vector3 playerPosition, GameObject lootObject, float radius)
         {
             var hasPlaceAround = HasPlaceAround(playerPosition, radius, out var result);
-            lootObject.transform.SetPositionAndRotation(hasPlaceAround ? result : playerPosition, Quaternion.identity);
+            var spawnPosition = hasPlaceAround ? result : playerPosition;
+            lootObject.transform.SetPositionAndRotation(spawnPosition.XZ(), Quaternion.identity);
         }
 
         private bool HasPlaceAround(Vector3 center, float range, out Vector3 result)
