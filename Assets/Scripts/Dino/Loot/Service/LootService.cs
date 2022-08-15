@@ -65,28 +65,19 @@ namespace Dino.Loot.Service
 
         private void SetLootPositionAndRotation(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {
-            lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer), Quaternion.identity);
+            lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer).XZ(), Quaternion.identity);
         }
 
-        private Vector3 GetLootSpawnPosition(Vector3 playerPosition, float radiusFromPlayer)
-        {
-            var hasPlaceAround = HasPlaceAround(playerPosition, radiusFromPlayer, out var result);
-            var spawnPosition = hasPlaceAround ? result : playerPosition;
-            return spawnPosition.XZ();
-        }
-
-        private bool HasPlaceAround(Vector3 center, float range, out Vector3 result)
+        private Vector3 GetLootSpawnPosition(Vector3 center, float range)
         {
             for (int angle = 0; angle <= SEARCH_POSITION_ANGLE_MAX; angle += SEARCH_POSITION_ANGLE_STEP) {
                 var point = center + GetPointOnCircle(angle) * range;
                 if (!NavMesh.SamplePosition(point, out var hit, 1f, NavMesh.AllAreas)) {
                     continue;
                 }
-                result = hit.position;
-                return true;
+                return hit.position;
             }
-            result = Vector3.zero;
-            return false;
+            return center;
         }
 
         private Vector3 GetPointOnCircle(float angle)
