@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Dino.Util;
+using Feofun.Util;
 using Newtonsoft.Json;
 
 namespace Dino.Tutorial
@@ -6,6 +7,6 @@ namespace Dino.Tutorial
     public class TutorialState
     {
         [JsonProperty]
-        public readonly HashSet<string> CompletedStages = new HashSet<string>();
+        public readonly SerializableHashSet<string> CompletedStages = new SerializableHashSet<string>();
     }
 }
