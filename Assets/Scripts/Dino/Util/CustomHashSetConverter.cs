@@ -16,13 +16,14 @@ namespace Dino.Util
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var jObject = JObject.Load(reader);
-            return new HashSet<T>(jObject.Properties().Select(p => (T) p.Value.ToObject(typeof(T))));
+            var list = jObject.Property(typeof(T).Name)?.Value.Children().Select(it => it.ToObject(typeof(T))).Cast<T>();
+            return new HashSet<T>(list);
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             var hashSet = (HashSet<T>) value;
-            var jo = new JObject(hashSet.Select(s => new JProperty(s.GetType().Name, JToken.FromObject(s))));
+            var jo = new JObject(new JProperty(typeof(T).Name, hashSet.Select(s => JToken.FromObject(s))));
             jo.WriteTo(writer);
         }
     }
