@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using Dino.Util;
 using Newtonsoft.Json;
 
 namespace Dino.Tutorial
 {
     public class TutorialState
     {
-        [JsonProperty]
-        public readonly List<string> CompletedStages = new List<string>();
+        [JsonConverter(typeof(CustomHashSetConverter<string>))]
+        public HashSet<string> CompletedStages = new HashSet<string>();
     }
 }
