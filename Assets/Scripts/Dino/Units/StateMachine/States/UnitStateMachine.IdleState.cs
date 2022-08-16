@@ -26,6 +26,7 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
+                StateMachine.ChaseTargetIfExists();
             }
         }
     }

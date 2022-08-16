@@ -9,6 +9,9 @@ namespace Dino.Units.Component
     [RequireComponent(typeof(MeshRenderer))]
     public class StaticConeFovRenderer : MonoBehaviour, IFieldOfViewRenderer
     {
+        private static readonly Vector2 TOP_LEFT_CORNER = new Vector2(0,1);
+        private static readonly Vector2 TOP_RIGHT_CORNER = new Vector2(1,1);
+        
         private const int MIN_SEGMENTS_COUNT = 2;
         [SerializeField] private Material _material;
         [SerializeField] private float _degreesPerSegment = 3;
@@ -107,10 +110,12 @@ namespace Dino.Units.Component
         private Vector2[] BuildUvs(Vector3[] vertices)
         {
             var uvs = new Vector2[vertices.Length];
-            for (int i = 0; i < uvs.Length; i++)
+            uvs[1] = TOP_LEFT_CORNER;
+            for (int i = 2; i < uvs.Length - 1; i++)
             {
-                uvs[i] = new Vector2(vertices[i].x, vertices[i].z);
+                uvs[i] = new Vector2((float) i / uvs.Length, 1);
             }
+            uvs[vertices.Length - 1] = TOP_RIGHT_CORNER;
             return uvs;
         }
     }
