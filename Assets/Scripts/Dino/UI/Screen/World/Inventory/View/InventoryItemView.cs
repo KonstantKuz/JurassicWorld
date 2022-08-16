@@ -1,5 +1,4 @@
-﻿using System;
-using Dino.UI.Screen.World.Inventory.Model;
+﻿using Dino.UI.Screen.World.Inventory.Model;
 using Dino.Util;
 using Feofun.Tutorial.UI;
 using Feofun.Util.SerializableDictionary;
@@ -39,19 +38,18 @@ namespace Dino.UI.Screen.World.Inventory.View
         {
             Dispose();
             _disposable = new CompositeDisposable();
-          
-            _reloadingView.Init(model.WeaponTimer);
-  
+            
             Model = model;
+            _reloadingView.Init(model.WeaponTimer);
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
-            if (model.Icon != null)
-            {
+            SetRank(model);
+            
+            if (model.Icon != null) {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
             }
-            SetRank(model);
-            if (model.Id != null)
-            {
+        
+            if (model.Id != null) {
                 GetComponent<TutorialUiElement>().Id = model.Id.FullName;
             }
         }
@@ -77,7 +75,10 @@ namespace Dino.UI.Screen.World.Inventory.View
         private void UpdateState(ItemViewState state)
         {
             _stateContainers.Values.ForEach(it => it.SetActive(false));
+            
             _icon.enabled = state != ItemViewState.Empty;
+            _rank.enabled = state != ItemViewState.Empty;
+            
             if (!_stateContainers.ContainsKey(state)) {
                 this.Logger().Error($"State container not found for inventory item state:= {state}");
                 return;
