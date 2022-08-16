@@ -30,15 +30,17 @@ namespace Dino.Loot.Service
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
 
-        [Inject] private PlayerProgressService _playerProgressService;
-        [Inject] private Analytics.Analytics _analytics;
-        [Inject] private IMessenger _messenger;
-        
+        [Inject]
+        private PlayerProgressService _playerProgressService;
+        [Inject]
+        private Analytics.Analytics _analytics;
+        [Inject]
+        private IMessenger _messenger;
+
         public void Collect(Loot loot)
         {
             var itemId = _inventoryService.Add(loot.ReceivedItemId);
-            if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank)
-            {
+            if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank) {
                 _activeItemService.Replace(itemId);
             }
             _playerProgressService.Progress.IncreaseLootCount();
@@ -58,27 +60,24 @@ namespace Dino.Loot.Service
             lootObject.ReceivedItemId = itemId.FullName;
             var playerPosition = _world.Player.SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.Player.LootCollector.CollectRadius * 2;
-            SetLootPosition(playerPosition, lootObject.gameObject, radiusFromPlayer);
+            SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);
         }
 
-        private void SetLootPosition(Vector3 playerPosition, GameObject lootObject, float radius)
+        private void SetLootPositionAndRotation(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {
-            var hasPlaceAround = HasPlaceAround(playerPosition, radius, out var result);
-            lootObject.transform.SetPositionAndRotation(hasPlaceAround ? result : playerPosition, Quaternion.identity);
+            lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer).XZ(), Quaternion.identity);
         }
 
-        private bool HasPlaceAround(Vector3 center, float range, out Vector3 result)
+        private Vector3 GetLootSpawnPosition(Vector3 center, float range)
         {
             for (int angle = 0; angle <= SEARCH_POSITION_ANGLE_MAX; angle += SEARCH_POSITION_ANGLE_STEP) {
                 var point = center + GetPointOnCircle(angle) * range;
                 if (!NavMesh.SamplePosition(point, out var hit, 1f, NavMesh.AllAreas)) {
                     continue;
                 }
-                result = hit.position;
-                return true;
+                return hit.position;
             }
-            result = Vector3.zero;
-            return false;
+            return center;
         }
 
         private Vector3 GetPointOnCircle(float angle)

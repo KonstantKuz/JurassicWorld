@@ -77,6 +77,9 @@ namespace Dino.Location.Level
 
         private void RemoveIndicatorAboveLoot(LootCollectedMessage _)
         {
+            if (_lootIndicator == null) {
+                return;
+            }
             Destroy(_lootIndicator.gameObject);
         }
         
