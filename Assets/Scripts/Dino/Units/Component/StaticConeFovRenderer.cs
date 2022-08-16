@@ -1,4 +1,5 @@
-﻿using Dino.Extension;
+﻿using System.Linq;
+using Dino.Extension;
 using UnityEngine;
 
 namespace Dino.Units.Component
@@ -55,6 +56,7 @@ namespace Dino.Units.Component
             if (_gradientByVertexColor)
             {
                 _mesh.colors = BuildColors(_mesh.uv);
+                Debug.LogWarning("Material should support vertex color when using vertex gradient.");
             }
         }
 
@@ -118,8 +120,7 @@ namespace Dino.Units.Component
             uvs[1] = TOP_LEFT_CORNER;
             for (int i = 2; i < uvs.Length - 1; i++)
             {
-                var step = i / uvs.Length;
-                uvs[i] = new Vector2(step, 1);
+                uvs[i] = new Vector2((float) i / uvs.Length, 1);
             }
             uvs[vertices.Length - 1] = TOP_RIGHT_CORNER;
             return uvs;
@@ -127,12 +128,8 @@ namespace Dino.Units.Component
         
         private Color[] BuildColors(Vector2[] uvs)
         {
-            var colors = new Color[uvs.Length];
+            var colors = Enumerable.Repeat(Color.clear, uvs.Length).ToArray();
             colors[0] = _material.color;
-            for (int i = 1; i < colors.Length; i++)
-            {
-                colors[i] = Color.clear;
-            }
             return colors;
         }
     }
