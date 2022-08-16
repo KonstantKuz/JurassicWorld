@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Dino.Extension;
+﻿using Dino.Extension;
 using UnityEngine;
 
 namespace Dino.Units.Component
@@ -16,7 +15,6 @@ namespace Dino.Units.Component
         private const int MIN_SEGMENTS_COUNT = 2;
         [SerializeField] private Material _material;
         [SerializeField] private float _degreesPerSegment = 3;
-        [SerializeField] private bool _gradientByVertexColor;
 
         protected int _segmentsCount;
         protected float _angle;
@@ -53,11 +51,6 @@ namespace Dino.Units.Component
             _mesh.triangles = BuildTriangles(_segmentsCount);
             _mesh.normals = BuildNormals(_segmentsCount);
             _mesh.uv = BuildUvs(_mesh.vertices);
-            if (_gradientByVertexColor)
-            {
-                _mesh.colors = BuildColors(_mesh.uv);
-                Debug.LogWarning("Material should support vertex color when using vertex gradient.");
-            }
         }
 
         private int CalculateSegments(float angle)
@@ -124,13 +117,6 @@ namespace Dino.Units.Component
             }
             uvs[vertices.Length - 1] = TOP_RIGHT_CORNER;
             return uvs;
-        }
-        
-        private Color[] BuildColors(Vector2[] uvs)
-        {
-            var colors = Enumerable.Repeat(Color.clear, uvs.Length).ToArray();
-            colors[0] = _material.color;
-            return colors;
         }
     }
 }
