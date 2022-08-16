@@ -75,15 +75,20 @@ namespace Dino.UI.Screen.World.Inventory.View
         private void UpdateState(ItemViewState state)
         {
             _stateContainers.Values.ForEach(it => it.SetActive(false));
-            
-            _icon.enabled = state != ItemViewState.Empty;
-            _rank.enabled = state != ItemViewState.Empty;
+            UpdateViewByNotEmptyState(state != ItemViewState.Empty);
             
             if (!_stateContainers.ContainsKey(state)) {
                 this.Logger().Error($"State container not found for inventory item state:= {state}");
                 return;
             }
             _stateContainers[state].SetActive(true);
+        }
+
+        private void UpdateViewByNotEmptyState(bool isNotEmptyState)
+        {
+            _icon.gameObject.SetActive(isNotEmptyState);
+            _rank.gameObject.SetActive(isNotEmptyState);
+            _reloadingView.gameObject.SetActive(isNotEmptyState);
         }
 
         private void Dispose()

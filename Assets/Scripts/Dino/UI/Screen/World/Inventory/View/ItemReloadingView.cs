@@ -30,6 +30,7 @@ namespace Dino.UI.Screen.World.Inventory.View
             _weaponTimer.IsAttackReady.Subscribe(PlayReloadAnimation).AddTo(_disposable);
         }
         
+
         private void PlayReloadAnimation(bool isAttackReady)
         {
             _reloadOverlay.SetActive(!isAttackReady);
