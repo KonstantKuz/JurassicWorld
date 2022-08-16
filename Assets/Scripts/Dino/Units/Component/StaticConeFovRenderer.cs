@@ -9,9 +9,13 @@ namespace Dino.Units.Component
     [RequireComponent(typeof(MeshRenderer))]
     public class StaticConeFovRenderer : MonoBehaviour, IFieldOfViewRenderer
     {
+        private static readonly Vector2 TOP_LEFT_CORNER = new Vector2(0,1);
+        private static readonly Vector2 TOP_RIGHT_CORNER = new Vector2(1,1);
+        
         private const int MIN_SEGMENTS_COUNT = 2;
         [SerializeField] private Material _material;
         [SerializeField] private float _degreesPerSegment = 3;
+        [SerializeField] private bool _gradientByVertexColor;
 
         protected int _segmentsCount;
         protected float _angle;
@@ -48,7 +52,10 @@ namespace Dino.Units.Component
             _mesh.triangles = BuildTriangles(_segmentsCount);
             _mesh.normals = BuildNormals(_segmentsCount);
             _mesh.uv = BuildUvs(_mesh.vertices);
-            _mesh.colors = BuildColors(_mesh.uv);
+            if (_gradientByVertexColor)
+            {
+                _mesh.colors = BuildColors(_mesh.uv);
+            }
         }
 
         private int CalculateSegments(float angle)
@@ -108,10 +115,13 @@ namespace Dino.Units.Component
         private Vector2[] BuildUvs(Vector3[] vertices)
         {
             var uvs = new Vector2[vertices.Length];
-            for (int i = 0; i < uvs.Length; i++)
+            uvs[1] = TOP_LEFT_CORNER;
+            for (int i = 2; i < uvs.Length - 1; i++)
             {
-                uvs[i] = new Vector2(vertices[i].x, vertices[i].z);
+                var step = i / uvs.Length;
+                uvs[i] = new Vector2(step, 1);
             }
+            uvs[vertices.Length - 1] = TOP_RIGHT_CORNER;
             return uvs;
         }
         
