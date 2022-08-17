@@ -8,7 +8,6 @@ namespace Dino.Inventory.Installer
         public static void Install(DiContainer container)
         {
             container.BindInterfacesAndSelfTo<InventoryService>().AsSingle();
-
             container.Bind<CraftService>().AsSingle();
         }
     }
