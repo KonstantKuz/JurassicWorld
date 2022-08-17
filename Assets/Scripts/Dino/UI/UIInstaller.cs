@@ -1,4 +1,5 @@
-﻿using Dino.Tutorial;
+﻿using Dino.Inventory.Service;
+using Dino.Tutorial;
 using Dino.UI.Tutorial;
 using Feofun.UI;
 using Feofun.UI.Dialog;
@@ -30,6 +31,7 @@ namespace Dino.UI
             container.Bind<DialogManager>().FromInstance(_dialogManager).AsSingle();
             container.Bind<TutorialUiTools>().FromInstance(_tutorialUiTools).AsSingle();
             container.Bind<CraftTutorial>().FromInstance(_craftTutorial).AsSingle();
+            container.Bind<UiInventorySettings>().AsSingle();            
         }
     }
 }

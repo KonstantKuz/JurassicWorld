@@ -9,7 +9,6 @@ namespace Dino.Inventory.Installer
         {
             container.BindInterfacesAndSelfTo<InventoryService>().AsSingle();
             container.Bind<CraftService>().AsSingle();
-            container.Bind<InventorySettings>().AsSingle();
         }
     }
 }

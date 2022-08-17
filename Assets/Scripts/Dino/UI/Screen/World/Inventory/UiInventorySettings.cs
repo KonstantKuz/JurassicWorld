@@ -1,6 +1,6 @@
 ﻿namespace Dino.Inventory.Service
 {
-    public class InventorySettings
+    public class UiInventorySettings
     {
         public bool IsDropEnabled { get; set; } = true;
     }

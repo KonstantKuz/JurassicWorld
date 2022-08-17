@@ -35,7 +35,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
             ActiveItemService activeItemService, 
             CraftService craftService, 
             WeaponService weaponService,
-            InventorySettings inventorySettings,
+            UiInventorySettings uiInventorySettings,
             Action<ItemId> onClick, 
             Action<ItemViewModel> onBeginDrag, 
             Action<ItemViewModel> onEndDrag)
@@ -48,7 +48,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _onClick = onClick;
             _onBeginDrag = onBeginDrag;
             _onEndDrag = onEndDrag;
-            IsDropEnabled = inventorySettings.IsDropEnabled;
+            IsDropEnabled = uiInventorySettings.IsDropEnabled;
             UpdateModel();
             _inventoryService.InventoryProperty.Select(it => new Unit())
                              .Merge(_activeItemService.ActiveItemId.Select(it => new Unit()))

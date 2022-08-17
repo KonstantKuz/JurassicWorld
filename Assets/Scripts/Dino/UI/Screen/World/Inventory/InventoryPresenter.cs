@@ -26,7 +26,7 @@ namespace Dino.UI.Screen.World.Inventory
         [Inject] private LootService _lootService;
         [Inject] private DiContainer _container;
         [Inject] private WeaponService _weaponService;
-        [Inject] private InventorySettings _inventorySettings;
+        [Inject] private UiInventorySettings _uiInventorySettings;
         
         private InventoryModel _model;
 
@@ -37,7 +37,7 @@ namespace Dino.UI.Screen.World.Inventory
                 _activeItemService, 
                 _craftService, 
                 _weaponService, 
-                _inventorySettings,
+                _uiInventorySettings,
                 UpdateActiveItem, 
                 OnBeginItemDrag, 
                 OnEndItemDrag);

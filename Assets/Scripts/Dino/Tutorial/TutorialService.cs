@@ -20,14 +20,14 @@ namespace Dino.Tutorial
         [Inject] private CraftService _craftService;
         [Inject] private TutorialRepository _repository;
         [Inject] private CraftTutorial _craftTutorial;
-        [Inject] private InventorySettings _inventorySettings;
+        [Inject] private UiInventorySettings _uiInventorySettings;
         [Inject] private PlayerProgressService _playerProgressService;
 
         public void OnWorldSetup()
         {
             _messenger.Subscribe<LootCollectedMessage>(OnLootCollected);
             _messenger.Subscribe<ItemCraftedMessage>(OnItemCrafted);
-            _inventorySettings.IsDropEnabled =
+            _uiInventorySettings.IsDropEnabled =
                 _playerProgressService.Progress.LevelNumber >= FIRST_LEVEL_WHERE_DROP_IS_ENABLED;
         }
 
