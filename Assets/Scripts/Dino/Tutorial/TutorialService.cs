@@ -3,6 +3,7 @@ using Dino.Inventory.Message;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Loot.Messages;
+using Dino.Player.Progress.Service;
 using Dino.UI.Tutorial;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -12,17 +13,22 @@ namespace Dino.Tutorial
 {
     public class TutorialService: IWorldScope
     {
+        private const int FIRST_LEVEL_WHERE_DROP_IS_ENABLED = 4;
         private static readonly string[] TutorialRecipes = {"Bow1", "ThrowingAxe1", "ThrowingAxe2"};
         
         [Inject] private IMessenger _messenger;
         [Inject] private CraftService _craftService;
         [Inject] private TutorialRepository _repository;
         [Inject] private CraftTutorial _craftTutorial;
+        [Inject] private InventorySettings _inventorySettings;
+        [Inject] private PlayerProgressService _playerProgressService;
 
         public void OnWorldSetup()
         {
             _messenger.Subscribe<LootCollectedMessage>(OnLootCollected);
             _messenger.Subscribe<ItemCraftedMessage>(OnItemCrafted);
+            _inventorySettings.IsDropEnabled =
+                _playerProgressService.Progress.LevelNumber >= FIRST_LEVEL_WHERE_DROP_IS_ENABLED;
         }
 
         public void OnWorldCleanUp()

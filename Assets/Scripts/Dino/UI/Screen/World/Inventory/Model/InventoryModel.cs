@@ -29,9 +29,16 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         private List<CraftRecipeConfig> _allPossibleRecipes = new List<CraftRecipeConfig>();
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
+        public readonly bool IsDropEnabled;
         
-        public InventoryModel(InventoryService inventoryService, ActiveItemService activeItemService, CraftService craftService, WeaponService weaponService,
-            Action<ItemId> onClick, Action<ItemViewModel> onBeginDrag, Action<ItemViewModel> onEndDrag)
+        public InventoryModel(InventoryService inventoryService, 
+            ActiveItemService activeItemService, 
+            CraftService craftService, 
+            WeaponService weaponService,
+            InventorySettings inventorySettings,
+            Action<ItemId> onClick, 
+            Action<ItemViewModel> onBeginDrag, 
+            Action<ItemViewModel> onEndDrag)
         {
             _disposable = new CompositeDisposable();
             _inventoryService = inventoryService;
@@ -41,6 +48,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _onClick = onClick;
             _onBeginDrag = onBeginDrag;
             _onEndDrag = onEndDrag;
+            IsDropEnabled = inventorySettings.IsDropEnabled;
             UpdateModel();
             _inventoryService.InventoryProperty.Select(it => new Unit())
                              .Merge(_activeItemService.ActiveItemId.Select(it => new Unit()))

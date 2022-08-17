@@ -26,13 +26,21 @@ namespace Dino.UI.Screen.World.Inventory
         [Inject] private LootService _lootService;
         [Inject] private DiContainer _container;
         [Inject] private WeaponService _weaponService;
+        [Inject] private InventorySettings _inventorySettings;
         
         private InventoryModel _model;
 
         private void OnEnable()
         {
             Dispose();
-            _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, _weaponService, UpdateActiveItem, OnBeginItemDrag, OnEndItemDrag);
+            _model = new InventoryModel(_inventoryService, 
+                _activeItemService, 
+                _craftService, 
+                _weaponService, 
+                _inventorySettings,
+                UpdateActiveItem, 
+                OnBeginItemDrag, 
+                OnEndItemDrag);
             _view.Init(_model.Items);
         }
 
@@ -46,8 +54,10 @@ namespace Dino.UI.Screen.World.Inventory
             }
             if (_itemCursor.IsCursorOverLayer(INVENTORY_LAYER_NAME)) {
                 _model.UpdateItemModel(model);
-            } else {
+            } else if (_model.IsDropEnabled) {
                 RemoveItemFromInventory(model);
+            } else {
+                _model.UpdateItemModel(model);
             }
             _itemCursor.Detach();
         }
