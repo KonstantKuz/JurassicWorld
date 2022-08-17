@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Analytics;
 using Dino.Location.Level.Service;
-using Dino.Location.Service;
 using Dino.Player.Progress.Service;
 using Dino.Session.Service;
-using UnityEngine;
 using Zenject;
 
 namespace Dino.Core
@@ -17,7 +15,7 @@ namespace Dino.Core
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
 
-        
+
         public Dictionary<string, object> GetParams(IEnumerable<string> paramNames)
         {
             return paramNames.ToDictionary(it => it, GetValue);
@@ -53,7 +51,7 @@ namespace Dino.Core
         private int GetPassNumber()
         {
             var playerProgress = _playerProgressService.Progress;
-            var level = _levelService.Levels[playerProgress.LevelNumber];
+            var level = _levelService.GetLevelById(_levelService.CurrentLevelId);
             return playerProgress.GetPassCount(level.ObjectId);
         }
     }

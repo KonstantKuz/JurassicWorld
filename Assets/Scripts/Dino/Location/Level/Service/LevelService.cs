@@ -39,11 +39,16 @@ namespace Dino.Location.Level.Service
         }
         public Level CreateLevel(string levelId)
         {
-            var levelPrefab = Levels.FirstOrDefault(it => it.ObjectId == levelId);
+            var levelPrefab = GetLevelById(levelId);
             if (levelPrefab == null) {
                 throw new ArgumentException($"LevelPrefab not found by levelId:= {levelId}");
             }
             return _worldObjectFactory.CreateObject<Level>(levelPrefab.gameObject);
+        }
+
+        public Level GetLevelById(string levelId)
+        {
+            return Levels.FirstOrDefault(it => it.ObjectId == levelId);
         }
     }
 }
