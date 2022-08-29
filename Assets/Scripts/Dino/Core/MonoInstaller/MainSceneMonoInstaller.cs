@@ -3,6 +3,7 @@ using Dino.Cheats.Installer;
 using Dino.Config;
 using Dino.Inventory.Installer;
 using Dino.Location;
+using Dino.Location.Installer;
 using Dino.Modifiers;
 using Dino.Player.Installer;
 using Dino.Reward.Installer;

@@ -4,7 +4,7 @@ using Feofun.UI.Components;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.UI.Hud.Unit
+namespace Dino.UI.Hud.Loot
 {
     public class LootHudPresenter : MonoBehaviour
     {
