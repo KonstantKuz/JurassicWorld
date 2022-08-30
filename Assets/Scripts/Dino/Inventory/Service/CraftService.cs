@@ -84,7 +84,7 @@ namespace Dino.Inventory.Service
             return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
         }
 
-        public bool HasIngredientsForReceipt(string recipeName)
+        public bool HasIngredientsForRecipe(string recipeName)
         {
             var recipe = _craftConfig.GetRecipe(recipeName);
             if (recipe == null) return false;

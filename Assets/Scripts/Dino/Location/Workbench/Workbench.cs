@@ -1,37 +1,35 @@
-﻿using Dino.Inventory.Service;
+﻿using System;
+using Dino.Inventory.Service;
 using Dino.Units;
 using Logger.Extension;
 using UnityEngine;
 using Zenject;
+using Unit = Dino.Units.Unit;
 
 namespace Dino.Location.Workbench
 {
-    [RequireComponent(typeof(WorkbenchHudOwner))]
     public class Workbench : MonoBehaviour
     {
         [SerializeField]
-        private string _craftReceptId;
-        [Inject] 
-        private CraftService _craftService;
+        private string _craftRecipeId;
         
-        private WorkbenchHudOwner _workbenchHud;
-        public string CraftReceptId => _craftReceptId;
+        [Inject]
+        private CraftService _craftService;
 
-        private void Awake()
-        {
-            _workbenchHud = GetComponent<WorkbenchHudOwner>();
-        }
-
+        public event Action<bool> OnPlayerTriggered;
+        public string CraftRecipeId => _craftRecipeId;
+        
         public void OnTriggerEnter(Collider collider)
         {
             if (IsPlayer(collider)) {
-                _workbenchHud.ShowCraftView(this);
+                OnPlayerTriggered?.Invoke(true);
             }
         }
+
         public void OnTriggerExit(Collider collider)
         {
             if (IsPlayer(collider)) {
-                _workbenchHud.Hide();
+                OnPlayerTriggered?.Invoke(false);
             }
         }
 
@@ -41,17 +39,18 @@ namespace Dino.Location.Workbench
             return unit != null && unit.UnitType == UnitType.PLAYER;
         }
 
-        public bool CanCraft()
-        { 
-            return _craftService.HasIngredientsForReceipt(_craftReceptId);
+        public bool CanCraftRecipe()
+        {
+            return _craftService.HasIngredientsForRecipe(_craftRecipeId);
         }
+
         public void Craft()
         {
-            if (!CanCraft()) {
-                this.Logger().Error($"Workbench, recipe crafting error, missing ingredients, receptId:= {_craftReceptId}");
+            if (!CanCraftRecipe()) {
+                this.Logger().Error($"Workbench, recipe crafting error, missing ingredients, receptId:= {_craftRecipeId}");
                 return;
             }
-            _craftService.Craft(_craftReceptId);
+            _craftService.Craft(_craftRecipeId);
         }
     }
 }

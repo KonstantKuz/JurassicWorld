@@ -6,6 +6,7 @@ using Zenject;
 
 namespace Dino.Location.Workbench
 {
+    [RequireComponent(typeof(Workbench))]
     public class WorkbenchHudOwner : MonoBehaviour
     {
         [SerializeField] private Transform _hudPlace;
@@ -15,19 +16,13 @@ namespace Dino.Location.Workbench
 
         [Inject] private UIRoot _uiRoot;
         [Inject] private DiContainer _container;
-        
-        
-        public void ShowCraftView(Workbench workbench)
+
+        private void Awake()
         {
             CleanUp();
             _hudPresenter = _container.InstantiatePrefabForComponent<WorkbenchHudPresenter>(_hudPrefab);
             _hudPresenter.transform.SetParent(_uiRoot.HudContainer);
-            
-            _hudPresenter.Init(workbench);
-        }
-        public void Hide()
-        {
-            CleanUp();
+            _hudPresenter.Init(GetComponent<Workbench>());
         }
         private void Update()
         {

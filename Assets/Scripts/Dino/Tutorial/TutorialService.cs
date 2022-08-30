@@ -42,7 +42,7 @@ namespace Dino.Tutorial
             foreach (var recipe in TutorialRecipes)
             {
                 if (IsStateCompleted(recipe)) continue;
-                if (!_craftService.HasIngredientsForReceipt(recipe)) continue;
+                if (!_craftService.HasIngredientsForRecipe(recipe)) continue;
                 Debug.Log($"show tutorial for recipe {recipe}");                
                 _craftTutorial.Play(recipe);
             }

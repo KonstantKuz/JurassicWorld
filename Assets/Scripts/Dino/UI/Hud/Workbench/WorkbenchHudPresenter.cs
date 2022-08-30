@@ -1,40 +1,51 @@
-﻿using Feofun.Extension;
+﻿using Dino.Inventory.Service;
 using Logger.Extension;
+using UniRx;
 using UnityEngine;
+using Zenject;
 
 namespace Dino.UI.Hud.Workbench
 {
     public class WorkbenchHudPresenter : MonoBehaviour
     {
         [SerializeField] private WorkbenchHudView _view;
-        
-        private Transform _hudPlace;
-        private Location.Workbench.Workbench _workbench;
-        
+
+        [Inject]
+        private InventoryService _inventoryService;
+
+
+        private CompositeDisposable _disposable;
         private WorkbenchHudModel _model;
 
         public void Init(Location.Workbench.Workbench workbench)
         {
-            _model = new WorkbenchHudModel(workbench.CanCraft(), OnCraft);
+            Dispose();
+            _disposable = new CompositeDisposable();
+            
+            _model = new WorkbenchHudModel(workbench, OnCraft);
             _view.Init(_model);
+            _inventoryService.InventoryProperty.Subscribe(it => _model.Update()).AddTo(_disposable);
+            
         }
         private void OnCraft()
         {
-            if (!_workbench.CanCraft()) {
-                this.Logger().Error($"Recipe crafting error, invalid ingredients, receptId:= {_workbench.CraftReceptId}");
+            if (!_model.Workbench.CanCraftRecipe()) {
+                this.Logger().Error($"Recipe crafting error, invalid ingredients, recipeId:= {_model.Workbench.CraftRecipeId}");
                 return;
             }
-            _workbench.Craft();
+            _model.Workbench.Craft();
         }
-        private void Update()
+
+        private void Dispose()
         {
-            if (_hudPlace != null) {
-                transform.position = _hudPlace.WorldToScreenPoint();
-            }
-        }
-        public void OnDestroy()
-        {
+            _disposable?.Dispose();
+            _disposable = null;
             _model = null;
+        }
+
+        private void OnDestroy()
+        {
+            Dispose();
         }
     }
 }
