@@ -16,34 +16,15 @@ namespace Dino.Location.Workbench
         [Inject]
         private CraftService _craftService;
 
-        public event Action<bool> OnPlayerTriggered;
-        public string CraftRecipeId => _craftRecipeId;
+        public event Action OnPlayerTriggered;
+        public bool IsPlayerInCraftingArea { get; private set; }
         
-        public void OnTriggerEnter(Collider collider)
-        {
-            if (IsPlayer(collider)) {
-                OnPlayerTriggered?.Invoke(true);
-            }
-        }
-
-        public void OnTriggerExit(Collider collider)
-        {
-            if (IsPlayer(collider)) {
-                OnPlayerTriggered?.Invoke(false);
-            }
-        }
-
-        private bool IsPlayer(Collider collider)
-        {
-            var unit = collider.GetComponent<Unit>();
-            return unit != null && unit.UnitType == UnitType.PLAYER;
-        }
+        public string CraftRecipeId => _craftRecipeId;
 
         public bool CanCraftRecipe()
         {
             return _craftService.HasIngredientsForRecipe(_craftRecipeId);
         }
-
         public void Craft()
         {
             if (!CanCraftRecipe()) {
@@ -52,5 +33,29 @@ namespace Dino.Location.Workbench
             }
             _craftService.Craft(_craftRecipeId);
         }
+        private void OnTriggerEnter(Collider collider)
+        {
+            if (IsPlayer(collider)) {
+                OnPlayerTrigger(true);
+            }
+        }
+        private void OnTriggerExit(Collider collider)
+        {
+            if (IsPlayer(collider)) {
+                OnPlayerTrigger(false);
+            }
+        }
+        private void OnPlayerTrigger(bool entered)
+        {
+            IsPlayerInCraftingArea = entered;
+            OnPlayerTriggered?.Invoke();
+        }
+        private bool IsPlayer(Collider collider)
+        {
+            var unit = collider.GetComponent<Unit>();
+            return unit != null && unit.UnitType == UnitType.PLAYER;
+        }
+
+     
     }
 }

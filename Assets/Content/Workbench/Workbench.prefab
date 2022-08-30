@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b15b0bf3af470190bf699f60e1d993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _craftReceptId: Bow1
+  _craftRecipeId: Bow1
 --- !u!136 &4381058814857033905
 CapsuleCollider:
   m_ObjectHideFlags: 0

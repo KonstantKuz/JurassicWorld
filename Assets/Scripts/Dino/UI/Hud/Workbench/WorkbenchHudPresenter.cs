@@ -1,4 +1,5 @@
-﻿using Dino.Inventory.Service;
+﻿using System;
+using Dino.Inventory.Service;
 using Logger.Extension;
 using UniRx;
 using UnityEngine;
@@ -24,8 +25,9 @@ namespace Dino.UI.Hud.Workbench
             
             _model = new WorkbenchHudModel(workbench, OnCraft);
             _view.Init(_model);
-            _inventoryService.InventoryProperty.Subscribe(it => _model.Update()).AddTo(_disposable);
-            
+            _inventoryService.InventoryProperty.Subscribe(it => OnModelUpdate()).AddTo(_disposable);
+            workbench.OnPlayerTriggered += OnModelUpdate;
+
         }
         private void OnCraft()
         {
@@ -40,8 +42,13 @@ namespace Dino.UI.Hud.Workbench
         {
             _disposable?.Dispose();
             _disposable = null;
+            if (_model != null) {
+                _model.Workbench.OnPlayerTriggered -= OnModelUpdate;
+            }
             _model = null;
         }
+
+        private void OnModelUpdate() => _model.Update();
 
         private void OnDestroy()
         {
