@@ -1,6 +1,7 @@
 ﻿using System;
 using Dino.Inventory.Service;
 using Dino.Units;
+using Dino.Units.Service;
 using Logger.Extension;
 using UnityEngine;
 using Zenject;
@@ -15,7 +16,7 @@ namespace Dino.Location.Workbench
         
         [Inject]
         private CraftService _craftService;
-
+        [Inject] private ActiveItemService _activeItemService; 
         public event Action OnPlayerTriggered;
         public bool IsPlayerInCraftingArea { get; private set; }
         
@@ -31,7 +32,8 @@ namespace Dino.Location.Workbench
                 this.Logger().Error($"Workbench, recipe crafting error, missing ingredients, receptId:= {_craftRecipeId}");
                 return;
             }
-            _craftService.Craft(_craftRecipeId);
+            var item = _craftService.Craft(_craftRecipeId);
+            _activeItemService.Replace(item);
         }
         private void OnTriggerEnter(Collider collider)
         {

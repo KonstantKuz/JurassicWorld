@@ -33,14 +33,11 @@ namespace Dino.UI.Screen.World.Inventory
         private void OnEnable()
         {
             Dispose();
-            _model = new InventoryModel(_inventoryService, 
-                _activeItemService, 
-                _craftService, 
-                _weaponService, 
-                _uiInventorySettings,
-                UpdateActiveItem, 
-                OnBeginItemDrag, 
-                OnEndItemDrag);
+            _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, _weaponService, 
+                                        _uiInventorySettings, 
+                                        UpdateActiveItem, 
+                                        OnBeginItemDrag, 
+                                        OnEndItemDrag); 
             _view.Init(_model.Items);
         }
 
@@ -48,19 +45,23 @@ namespace Dino.UI.Screen.World.Inventory
         {
             var secondItemModel = _itemCursor.FindComponentUnderCursor<InventoryItemView>();
    
-            if (secondItemModel != null && secondItemModel.Model != null && secondItemModel.Model.State.Value != ItemViewState.Empty) {
+            if (CanTryCraft(secondItemModel)) {
                 TryCraft(model, secondItemModel.Model);
                 return;
             }
             if (_itemCursor.IsCursorOverLayer(INVENTORY_LAYER_NAME)) {
                 _model.UpdateItemModel(model);
-            } else if (_model.IsDropEnabled) {
+            } 
+            else if (_model.IsDropEnabled) {
                 RemoveItemFromInventory(model);
             } else {
                 _model.UpdateItemModel(model);
             }
             _itemCursor.Detach();
         }
+
+        private bool CanTryCraft(InventoryItemView secondItemModel) =>
+                secondItemModel != null && secondItemModel.Model != null && secondItemModel.Model.State.Value != ItemViewState.Empty && _model.IsCraftEnabled;
 
         private void RemoveItemFromInventory(ItemViewModel itemModel)
         {
@@ -84,10 +85,7 @@ namespace Dino.UI.Screen.World.Inventory
                 return;
             }
             var craftedItem = _craftService.Craft(ingredients);
-            if (craftedItem.Rank >= _activeItemService.ActiveItemId.Value.Rank)
-            {
-                _activeItemService.Replace(craftedItem);
-            }
+            _activeItemService.Replace(craftedItem);
             _itemCursor.Detach();
         }
 

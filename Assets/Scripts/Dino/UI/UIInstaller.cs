@@ -1,5 +1,4 @@
-﻿using Dino.Inventory.Service;
-using Dino.Tutorial;
+﻿using Dino.UI.Screen.World.Inventory;
 using Dino.UI.Tutorial;
 using Feofun.UI;
 using Feofun.UI.Dialog;

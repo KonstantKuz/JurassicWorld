@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6226415, g: 0.6226415, b: 0.6226415, a: 1}
+  m_Color: {r: 0.122641504, g: 0.122641504, b: 0.122641504, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -156,8 +156,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _button: {fileID: 3291266084645474792}
   _icon: {fileID: 2751399362929173522}
-  _availableCraftColor: {r: 1, g: 1, b: 1, a: 0}
-  _notAvailableCraftColor: {r: 0.62352943, g: 0.62352943, b: 0.62352943, a: 1}
+  _availableCraftColor: {r: 1, g: 1, b: 1, a: 1}
+  _notAvailableCraftColor: {r: 0.12156863, g: 0.12156863, b: 0.12156863, a: 1}
 --- !u!1001 &6010389156827212770
 PrefabInstance:
   m_ObjectHideFlags: 0

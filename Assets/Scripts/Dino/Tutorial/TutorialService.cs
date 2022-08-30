@@ -4,6 +4,7 @@ using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
+using Dino.UI.Screen.World.Inventory;
 using Dino.UI.Tutorial;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -11,9 +12,10 @@ using Zenject;
 
 namespace Dino.Tutorial
 {
-    public class TutorialService: IWorldScope
+    public class TutorialService : IWorldScope
     {
         private const int FIRST_LEVEL_WHERE_DROP_IS_ENABLED = 4;
+        
         private static readonly string[] TutorialRecipes = {"Bow1", "ThrowingAxe1", "ThrowingAxe2"};
         
         [Inject] private IMessenger _messenger;
@@ -23,16 +25,21 @@ namespace Dino.Tutorial
         [Inject] private UiInventorySettings _uiInventorySettings;
         [Inject] private PlayerProgressService _playerProgressService;
 
+        public bool Enabled { get; set; } = false;
+
         public void OnWorldSetup()
         {
+            if (!Enabled) {
+                return;
+            }
             _messenger.Subscribe<LootCollectedMessage>(OnLootCollected);
             _messenger.Subscribe<ItemCraftedMessage>(OnItemCrafted);
-            _uiInventorySettings.IsDropEnabled =
-                _playerProgressService.Progress.LevelNumber >= FIRST_LEVEL_WHERE_DROP_IS_ENABLED;
+            _uiInventorySettings.IsDropEnabled = _playerProgressService.Progress.LevelNumber >= FIRST_LEVEL_WHERE_DROP_IS_ENABLED;
         }
 
         public void OnWorldCleanUp()
         {
+            
             _messenger.Unsubscribe<LootCollectedMessage>(OnLootCollected);
             _messenger.Unsubscribe<ItemCraftedMessage>(OnItemCrafted);
         }
