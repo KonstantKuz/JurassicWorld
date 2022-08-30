@@ -32,7 +32,7 @@ namespace Dino.UI.Hud.Workbench
         private void OnCraft()
         {
             if (!_model.Workbench.CanCraftRecipe()) {
-                this.Logger().Error($"Recipe crafting error, invalid ingredients, recipeId:= {_model.Workbench.CraftRecipeId}");
+                this.Logger().Error($"Recipe crafting error, invalid ingredients, recipeId:= {_model.Workbench.CraftItemName}");
                 return;
             }
             _model.Workbench.Craft();

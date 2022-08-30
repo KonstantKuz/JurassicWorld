@@ -33,8 +33,7 @@ namespace Dino.UI.Hud.Workbench
         }
         private void LoadIcon()
         {
-            var iconName = ItemId.SplitFullNameToNameAndRank(_model.CraftRecipeId).Item1;
-            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(iconName));
+            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(_model.CraftItemName));
         }
         private void UpdateButtonState()
         {

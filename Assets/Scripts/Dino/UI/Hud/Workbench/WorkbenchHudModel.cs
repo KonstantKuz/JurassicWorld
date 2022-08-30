@@ -14,7 +14,7 @@ namespace Dino.UI.Hud.Workbench
         public IReadOnlyReactiveProperty<bool> CraftAvailable => _craftAvailable;
         public Location.Workbench.Workbench Workbench { get; }
 
-        public string CraftRecipeId => Workbench.CraftRecipeId;
+        public string CraftItemName => Workbench.CraftItemName;
 
         public WorkbenchHudModel(Location.Workbench.Workbench workbench, Action onCraft)
         {
