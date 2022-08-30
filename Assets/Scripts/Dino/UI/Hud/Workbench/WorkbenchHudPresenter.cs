@@ -1,5 +1,4 @@
-﻿using System;
-using Dino.Inventory.Service;
+﻿using Dino.Inventory.Service;
 using Logger.Extension;
 using UniRx;
 using UnityEngine;
