@@ -127,7 +127,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 60}
+  m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &747860198790622152
 MonoBehaviour:
@@ -171,7 +171,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 964622889326562491, guid: acdd86bd84a0fb7479d86fc0ff3108f9, type: 3}
       propertyPath: m_Interactable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 964622889326562491, guid: acdd86bd84a0fb7479d86fc0ff3108f9, type: 3}
       propertyPath: m_Colors.m_NormalColor.a
@@ -191,19 +191,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 964622889326562491, guid: acdd86bd84a0fb7479d86fc0ff3108f9, type: 3}
       propertyPath: m_Colors.m_DisabledColor.a
-      value: 0.5882353
+      value: 0.69411767
       objectReference: {fileID: 0}
     - target: {fileID: 964622889326562491, guid: acdd86bd84a0fb7479d86fc0ff3108f9, type: 3}
       propertyPath: m_Colors.m_DisabledColor.b
-      value: 0.23584908
+      value: 0.5188679
       objectReference: {fileID: 0}
     - target: {fileID: 964622889326562491, guid: acdd86bd84a0fb7479d86fc0ff3108f9, type: 3}
       propertyPath: m_Colors.m_DisabledColor.g
-      value: 0.2047702
+      value: 0.4554556
       objectReference: {fileID: 0}
     - target: {fileID: 964622889326562491, guid: acdd86bd84a0fb7479d86fc0ff3108f9, type: 3}
       propertyPath: m_Colors.m_DisabledColor.r
-      value: 0.12348702
+      value: 0.28635636
       objectReference: {fileID: 0}
     - target: {fileID: 964622889326562491, guid: acdd86bd84a0fb7479d86fc0ff3108f9, type: 3}
       propertyPath: m_Colors.m_HighlightedColor.b
