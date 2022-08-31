@@ -33,7 +33,10 @@ namespace Dino.UI.Screen.World.Inventory
         private void OnEnable()
         {
             Dispose();
-            _model = new InventoryModel(_inventoryService, _activeItemService, _craftService, _weaponService, 
+            _model = new InventoryModel(_inventoryService, 
+                                        _activeItemService, 
+                                        _craftService, 
+                                        _weaponService, 
                                         _uiInventorySettings, 
                                         UpdateActiveItem, 
                                         OnBeginItemDrag, 
@@ -45,7 +48,7 @@ namespace Dino.UI.Screen.World.Inventory
         {
             var secondItemModel = _itemCursor.FindComponentUnderCursor<InventoryItemView>();
    
-            if (CanTryCraft(secondItemModel)) {
+            if (CanCraft(secondItemModel)) {
                 TryCraft(model, secondItemModel.Model);
                 return;
             }
@@ -60,7 +63,7 @@ namespace Dino.UI.Screen.World.Inventory
             _itemCursor.Detach();
         }
 
-        private bool CanTryCraft(InventoryItemView secondItemModel) =>
+        private bool CanCraft(InventoryItemView secondItemModel) =>
                 secondItemModel != null && secondItemModel.Model != null && secondItemModel.Model.State.Value != ItemViewState.Empty && _model.IsCraftEnabled;
 
         private void RemoveItemFromInventory(ItemViewModel itemModel)

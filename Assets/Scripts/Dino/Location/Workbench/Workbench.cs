@@ -44,16 +44,12 @@ namespace Dino.Location.Workbench
 
         private void OnTriggerEnter(Collider collider)
         {
-            if (IsPlayer(collider)) {
-                OnPlayerTrigger(true);
-            }
+            OnPlayerTrigger(true);
         }
 
         private void OnTriggerExit(Collider collider)
-        {
-            if (IsPlayer(collider)) {
-                OnPlayerTrigger(false);
-            }
+        {   
+            OnPlayerTrigger(false);
         }
 
         [CanBeNull]

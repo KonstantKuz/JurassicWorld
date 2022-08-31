@@ -1,5 +1,4 @@
-﻿using Dino.Inventory.Model;
-using Dino.Util;
+﻿using Dino.Util;
 using Feofun.UI.Components.Button;
 using UniRx;
 using UnityEngine;
@@ -18,37 +17,35 @@ namespace Dino.UI.Hud.Workbench
         [SerializeField]
         private Color _notAvailableCraftColor;
         
-        private WorkbenchHudModel _model;
         private CompositeDisposable _disposable;
         public void Init(WorkbenchHudModel model)
         {
             Dispose();
             _disposable = new CompositeDisposable();
-            _model = model;
-            
-            LoadIcon();
+
+            LoadIcon(model);
             _button.Init(model.OnCraft);
-            model.CraftButtonShown.Subscribe(it => UpdateButtonState()).AddTo(_disposable);    
-            model.CraftAvailable.Subscribe(it => UpdateIconState()).AddTo(_disposable);
+            model.CraftButtonShown.Subscribe(SetButtonActive).AddTo(_disposable);    
+            model.CraftAvailable.Subscribe(UpdateAvailableState).AddTo(_disposable);
         }
-        private void LoadIcon()
+        private void LoadIcon(WorkbenchHudModel model)
         {
-            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(_model.CraftItemName));
+            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.CraftItemName));
         }
-        private void UpdateButtonState()
+        private void SetButtonActive(bool shown)
         {
-            _button.gameObject.SetActive(_model.CraftButtonShown.Value);
-            _button.Button.interactable = _model.CraftAvailable.Value;
+            _button.gameObject.SetActive(shown);
+           
         }   
-        private void UpdateIconState()
+        private void UpdateAvailableState(bool available)
         {
-            _icon.color = _model.CraftAvailable.Value ? _availableCraftColor : _notAvailableCraftColor;
+            _button.Button.interactable = available;
+            _icon.color = available ? _availableCraftColor : _notAvailableCraftColor;
         }
         private void Dispose()
         {
             _disposable?.Dispose();
             _disposable = null;
-            _model = null;
         }
         private void OnDestroy()
         {
