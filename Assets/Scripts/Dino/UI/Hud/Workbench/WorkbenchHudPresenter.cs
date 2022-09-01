@@ -1,4 +1,5 @@
 ﻿using Dino.Inventory.Service;
+using Dino.Units.Service;
 using Logger.Extension;
 using UniRx;
 using UnityEngine;
@@ -12,9 +13,13 @@ namespace Dino.UI.Hud.Workbench
 
         [Inject]
         private InventoryService _inventoryService;
-
+        [Inject]
+        private CraftService _craftService;
+        [Inject]
+        private ActiveItemService _activeItemService;
 
         private CompositeDisposable _disposable;
+        
         private WorkbenchHudModel _model;
 
         public void Init(Location.Workbench.Workbench workbench)
@@ -22,7 +27,7 @@ namespace Dino.UI.Hud.Workbench
             Dispose();
             _disposable = new CompositeDisposable();
             
-            _model = new WorkbenchHudModel(workbench, OnCraft);
+            _model = new WorkbenchHudModel(workbench, _craftService, OnCraft);
             _view.Init(_model);
             _inventoryService.InventoryProperty.Subscribe(it => OnModelUpdate()).AddTo(_disposable);
             workbench.OnPlayerTriggered += OnModelUpdate;
@@ -30,13 +35,15 @@ namespace Dino.UI.Hud.Workbench
         }
         private void OnCraft()
         {
-            if (!_model.Workbench.CanCraftRecipe()) {
-                this.Logger().Error($"Recipe crafting error, invalid ingredients, recipeId:= {_model.Workbench.CraftItemName}");
+            var recipe = _craftService.FindHighestRankPossibleRecipeBy(_model.CraftItemName);
+            if (recipe == null) {
+                this.Logger().Error($"Recipe crafting error, missing ingredients, craftItemName:= {_model.CraftItemName}");
                 return;
             }
-            _model.Workbench.Craft();
+            var item = _craftService.Craft(recipe.CraftItemId);
+            _activeItemService.Replace(item);
         }
-
+        private void OnModelUpdate() => _model.Update();
         private void Dispose()
         {
             _disposable?.Dispose();
@@ -46,9 +53,6 @@ namespace Dino.UI.Hud.Workbench
             }
             _model = null;
         }
-
-        private void OnModelUpdate() => _model.Update();
-
         private void OnDestroy()
         {
             Dispose();

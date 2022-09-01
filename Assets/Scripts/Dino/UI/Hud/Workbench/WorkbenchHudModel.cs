@@ -1,4 +1,5 @@
 ﻿using System;
+using Dino.Inventory.Service;
 using UniRx;
 
 namespace Dino.UI.Hud.Workbench
@@ -7,26 +8,29 @@ namespace Dino.UI.Hud.Workbench
     {
         private readonly BoolReactiveProperty _craftAvailable;
         private readonly BoolReactiveProperty _craftButtonShown;
-
+        private readonly CraftService _craftService;
+        
       
         public readonly Action OnCraft;
         public IReadOnlyReactiveProperty<bool> CraftButtonShown => _craftButtonShown;
         public IReadOnlyReactiveProperty<bool> CraftAvailable => _craftAvailable;
         public Location.Workbench.Workbench Workbench { get; }
-
         public string CraftItemName => Workbench.CraftItemName;
-
-        public WorkbenchHudModel(Location.Workbench.Workbench workbench, Action onCraft)
+   
+        
+        public WorkbenchHudModel(Location.Workbench.Workbench workbench, CraftService craftService, Action onCraft)
         {
             Workbench = workbench;
-            _craftAvailable = new BoolReactiveProperty(workbench.CanCraftRecipe());
+            _craftService = craftService;
+            _craftAvailable = new BoolReactiveProperty(CanCraftRecipe());
             _craftButtonShown = new BoolReactiveProperty(Workbench.IsPlayerInCraftingArea);
             OnCraft = onCraft;
         }
         public void Update()
         {
-            _craftAvailable.SetValueAndForceNotify(Workbench.CanCraftRecipe());
+            _craftAvailable.SetValueAndForceNotify(CanCraftRecipe());
             _craftButtonShown.SetValueAndForceNotify(Workbench.IsPlayerInCraftingArea);
         }
+        private bool CanCraftRecipe() => _craftService.FindHighestRankPossibleRecipeBy(CraftItemName) != null;
     }
 }
