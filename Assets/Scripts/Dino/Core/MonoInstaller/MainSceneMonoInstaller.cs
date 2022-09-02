@@ -28,6 +28,8 @@ namespace Dino.Core.MonoInstaller
         private UIInstaller _uiInstaller;     
         [SerializeField]
         private CheatsInstaller _cheatsInstaller;
+        [SerializeField]
+        private TutorialInstaller _tutorialInstaller;
 
         public override void InstallBindings()
         {
@@ -46,8 +48,8 @@ namespace Dino.Core.MonoInstaller
             InventoryServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container);
-            TutorialInstaller.Install(Container);
             
+            _tutorialInstaller.Install(Container);
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);
             _cheatsInstaller.Install(Container);

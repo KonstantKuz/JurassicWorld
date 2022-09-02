@@ -1,13 +1,17 @@
-﻿using Zenject;
+﻿using UnityEngine;
+using Zenject;
 
 namespace Dino.Tutorial
 {
-    public class TutorialInstaller
+    public class TutorialInstaller : MonoBehaviour
     {
-        public static void Install(DiContainer container)
+        [SerializeField] 
+        private TutorialService _tutorialService;
+        
+        public void Install(DiContainer container)
         {
             container.Bind<TutorialRepository>().AsSingle();
-            container.BindInterfacesAndSelfTo<TutorialService>().AsSingle().NonLazy();
+            container.BindInterfacesAndSelfTo<TutorialService>().FromInstance(_tutorialService).AsSingle();
         }
     }
 }
