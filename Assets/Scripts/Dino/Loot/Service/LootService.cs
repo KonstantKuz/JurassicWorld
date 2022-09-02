@@ -46,6 +46,8 @@ namespace Dino.Loot.Service
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(itemId.FullName);
             _messenger.Publish(new LootCollectedMessage());
+            loot.OnCollected?.Invoke(loot);
+            GameObject.Destroy(loot.gameObject);
         }
 
         public void DropLoot(ItemId itemId)
