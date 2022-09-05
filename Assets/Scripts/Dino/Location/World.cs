@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dino.Camera;
 using Dino.Units.Player;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
@@ -15,6 +16,8 @@ namespace Dino.Location
         private Transform _ground;
         [SerializeField]
         private GameObject _spawn;
+        [SerializeField]
+        private CameraController _cameraController;
 
         public Transform Ground => _ground;
         public GameObject Spawn => _spawn;
@@ -25,6 +28,13 @@ namespace Dino.Location
         public Level.Level Level { get; set; }
         [CanBeNull]
         public PlayerUnit Player { get; set; }
+        public CameraController CameraController => _cameraController;
+
+        public void SetPlayer(PlayerUnit playerUnit)
+        {
+            Player = playerUnit;
+            CameraController.Target = playerUnit.transform;
+        }
         
         public PlayerUnit GetPlayer() 
         {

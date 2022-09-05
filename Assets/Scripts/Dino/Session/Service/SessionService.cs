@@ -81,7 +81,7 @@ namespace Dino.Session.Service
         private void CreatePlayer()
         {
             var player = _unitFactory.CreatePlayerUnit(_constantsConfig.FirstUnit, _currentLevel.Start.position);
-            _world.Player = player;
+            _world.SetPlayer(player);
             player.OnDeath += OnDeath;
             _activeItemService.Init();
         }

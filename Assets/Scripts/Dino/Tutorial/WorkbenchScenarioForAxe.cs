@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Dino.Extension;
 using Dino.Inventory.Message;
 using Dino.Location;
@@ -54,6 +55,8 @@ namespace Dino.Tutorial
         private IEnumerator RunScenario()
         {
             yield return WaitForFirstItemsCollected();
+            var workbench = _tutorialItems.First(it => it.ItemId == WORKBENCH_ID);
+            TutorialService.PlayCameraLookAt(workbench.transform).WaitForCompletion();
             yield return WaitForAxeCrafted();
             CompleteScenario();
         }

@@ -1,30 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DG.Tweening;
 using Dino.Location;
 using Dino.Location.Level;
 using UnityEngine;
-using UnityEngine.AI;
 using Zenject;
 
 namespace Dino.Camera
 {
-    public class CameraFollowBehavior : MonoBehaviour
+    public class CameraController : MonoBehaviour
     {
         [SerializeField] 
         private float _distance;
         [SerializeField]
         private float _offsetFromLevelEdge;
-
+        
         [Inject] private World _world;
         
-        private UnityEngine.Camera Camera => UnityEngine.Camera.main;
         private Level CurrentLevel => _world.Level;
+        public Transform Target { get; set; }
+        public bool IsFollowTarget { get; set; } = true;
 
         private void Update()
         {
-            var nextPosition = transform.position - _distance * Camera.transform.forward;
-            Camera.transform.position = ClampByLevel(nextPosition);
+            FollowTarget();
+        }
+
+        private void FollowTarget()
+        {
+            if(Target == null || !IsFollowTarget) return;
+            
+            var nextPosition = Target.position - _distance * transform.forward;
+            transform.position = ClampByLevel(nextPosition);
         }
 
         private Vector3 ClampByLevel(Vector3 position)
@@ -46,6 +51,19 @@ namespace Dino.Camera
                 cameraOffset.z + levelBounds.center.z + levelBounds.extents.z - _offsetFromLevelEdge);
 
             return position;
+        }
+
+        public Tween PlayLookAt(Transform point, float speed, float time)
+        {
+            var initialPosition = transform.position;
+            var finalPosition = point.transform.position - _distance * transform.forward;
+            var distanceToPoint = Vector3.Distance(initialPosition, finalPosition);
+            var moveTime = distanceToPoint / speed;
+            
+            var sequence = DOTween.Sequence();
+            var moveToPoint = transform.DOMove(finalPosition, moveTime);
+            var moveBack = transform.DOMove(initialPosition, moveTime);
+            return sequence.Append(moveToPoint).AppendInterval(time).Append(moveBack).SetEase(Ease.Linear);
         }
     }
 }
