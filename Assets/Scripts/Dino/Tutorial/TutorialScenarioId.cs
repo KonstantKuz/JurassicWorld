@@ -3,6 +3,7 @@
     public enum TutorialScenarioId
     {
         UiCraft,
-        WorkbenchCraft,
+        WorkbenchCraftAxe,
+        WorkbenchCraftBow,
     }
 }

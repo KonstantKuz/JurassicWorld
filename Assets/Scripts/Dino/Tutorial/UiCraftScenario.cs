@@ -26,7 +26,7 @@ namespace Dino.Tutorial
 
         public override void Init()
         {
-            if (!_uiInventorySettings.IsCraftEnabled || !IsEnabled || IsCompleted) {
+            if (!_uiInventorySettings.IsCraftEnabled) {
                 return;
             }
 
@@ -35,7 +35,7 @@ namespace Dino.Tutorial
             _messenger.Subscribe<ItemCraftedMessage>(OnItemCrafted);
             _uiInventorySettings.IsDropEnabled = _playerProgressService.Progress.LevelNumber >= FIRST_LEVEL_WHERE_DROP_IS_ENABLED;
         }
-
+        
         public void Dispose()
         {
             _messenger.Unsubscribe<SessionEndMessage>(msg => Dispose());

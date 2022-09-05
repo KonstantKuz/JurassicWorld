@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using Zenject;
 
 namespace Dino.Tutorial
@@ -17,7 +16,7 @@ namespace Dino.Tutorial
         public bool IsEnabled => _isEnabled;
         public TutorialScenarioId ScenarioId => _scenarioId;
         protected ScenarioState State => TutorialService.GetScenarioState(ScenarioId);
-        protected bool IsCompleted => State.IsCompleted;
+        public bool IsCompleted => State.IsCompleted;
 
         public abstract void Init();
         

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Dino.Location;
-using Dino.UI.Tutorial;
-using Logger.Extension;
 using UnityEngine;
 using Zenject;
 
@@ -11,9 +8,10 @@ namespace Dino.Tutorial
 {
     public class TutorialService : MonoBehaviour, IWorldScope
     {
-        [SerializeField]
         private List<TutorialScenario> _scenarios;
 
+        private List<TutorialScenario> Scenarios => _scenarios ??= GetComponentsInChildren<TutorialScenario>().ToList();
+        
         [Inject]
         private TutorialRepository _repository;
         
@@ -21,7 +19,13 @@ namespace Dino.Tutorial
 
         public void OnWorldSetup()
         {
-            _scenarios.ForEach(it => it.Init());
+            Scenarios.ForEach(it =>
+            {
+                if (it.IsEnabled && !it.IsCompleted)
+                {
+                    it.Init();
+                }
+            });
         }
 
         public ScenarioState GetScenarioState(TutorialScenarioId scenarioId)
@@ -43,7 +47,7 @@ namespace Dino.Tutorial
 
         public bool IsScenarioCompleted(TutorialScenarioId scenarioId)
         {
-            return State.Scenarios.ContainsKey(scenarioId) && State.Scenarios[scenarioId].IsCompleted;
+            return GetScenarioState(scenarioId).IsCompleted;
         }
 
         public void CompleteScenario(TutorialScenarioId scenarioId)

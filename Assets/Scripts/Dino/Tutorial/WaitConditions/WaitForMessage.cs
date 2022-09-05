@@ -24,23 +24,4 @@ namespace Dino.Tutorial.WaitConditions
             _messageReceived = true;
         }
     }
-
-    public class WaitForAction : CustomYieldInstruction
-    {
-        private bool _actionTriggered;
-        private Action _action;
-        public override bool keepWaiting => !_actionTriggered;
-
-        public WaitForAction(Action action)
-        {
-            _action = action;
-            _action += OnActionTriggered;
-        }
-
-        private void OnActionTriggered()
-        {
-            _action -= OnActionTriggered;
-            _actionTriggered = true;
-        }
-    }
 }

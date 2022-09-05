@@ -125,6 +125,9 @@ namespace Dino.Inventory.Service
                 var items = _inventoryService.GetAll(ingredient.Name).ToList();
                 items.Skip(items.Count - ingredient.Count).ForEach(it => _inventoryService.Remove(it));
             });
+            _messenger.Publish(new ItemCraftedMessage {
+                ItemId = recipe.CraftItemId
+            });
             return _inventoryService.Add(recipe.CraftItemId);
         }
 
