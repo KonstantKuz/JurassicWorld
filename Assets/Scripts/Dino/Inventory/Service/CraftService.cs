@@ -68,7 +68,16 @@ namespace Dino.Inventory.Service
             return recipe.Ingredients.All(ingredient => groupingIngredients.ContainsKey(ingredient.Name)
                                                         && groupingIngredients[ingredient.Name] == ingredient.Count);
         }
-
+        [CanBeNull]
+        public CraftRecipeConfig FindHighestRankPossibleRecipeBy(string craftItemName)
+        {
+            return GetAllPossibleRecipes()
+                   .Select(config => (config, ItemId.SplitFullNameToNameAndRank(config.CraftItemId)))
+                   .Where(it => it.Item2.Item1.Equals(craftItemName))
+                   .OrderByDescending(it => it.Item2.Item2)
+                   .Select(it => it.Item1)
+                   .FirstOrDefault();
+        }
         public IEnumerable<CraftRecipeConfig> GetAllPossibleRecipes()
         {
             foreach (var recipe in _craftConfig.Crafts.Values) {
@@ -84,7 +93,7 @@ namespace Dino.Inventory.Service
             return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
         }
 
-        public bool HasIngredientsForReceipt(string recipeName)
+        public bool HasIngredientsForRecipe(string recipeName)
         {
             var recipe = _craftConfig.GetRecipe(recipeName);
             if (recipe == null) return false;
@@ -100,9 +109,8 @@ namespace Dino.Inventory.Service
             ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient)); 
             _playerProgressService.Progress.IncreaseCraftCount();
             _analytics.ReportCraftItem(recipe.CraftItemId);
-            _messenger.Publish(new ItemCraftedMessage
-            {
-                ItemId = recipe.CraftItemId
+            _messenger.Publish(new ItemCraftedMessage {
+                    ItemId = recipe.CraftItemId
             });
             return _inventoryService.Add(recipe.CraftItemId);
         }

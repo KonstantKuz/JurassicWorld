@@ -20,25 +20,27 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         private readonly CraftService _craftService;
         private readonly WeaponService _weaponService;
-        
-        private readonly Action<ItemId> _onClick; 
-        private readonly Action<ItemViewModel> _onBeginDrag;    
+
+        private readonly Action<ItemId> _onClick;
+        private readonly Action<ItemViewModel> _onBeginDrag;
         private readonly Action<ItemViewModel> _onEndDrag;
-        
-        private CompositeDisposable _disposable;
 
         private List<CraftRecipeConfig> _allPossibleRecipes = new List<CraftRecipeConfig>();
-        public IReactiveProperty<List<ItemViewModel>> Items => _items;
-        public readonly bool IsDropEnabled;
+        private CompositeDisposable _disposable;
         
-        public InventoryModel(InventoryService inventoryService, 
-            ActiveItemService activeItemService, 
-            CraftService craftService, 
-            WeaponService weaponService,
-            UiInventorySettings uiInventorySettings,
-            Action<ItemId> onClick, 
-            Action<ItemViewModel> onBeginDrag, 
-            Action<ItemViewModel> onEndDrag)
+        public readonly bool IsDropEnabled;    
+        public readonly bool IsCraftEnabled;
+        public IReactiveProperty<List<ItemViewModel>> Items => _items;
+
+
+        public InventoryModel(InventoryService inventoryService,
+                              ActiveItemService activeItemService,
+                              CraftService craftService,
+                              WeaponService weaponService,
+                              UiInventorySettings uiInventorySettings,
+                              Action<ItemId> onClick,
+                              Action<ItemViewModel> onBeginDrag,
+                              Action<ItemViewModel> onEndDrag)
         {
             _disposable = new CompositeDisposable();
             _inventoryService = inventoryService;
@@ -49,6 +51,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _onBeginDrag = onBeginDrag;
             _onEndDrag = onEndDrag;
             IsDropEnabled = uiInventorySettings.IsDropEnabled;
+            IsCraftEnabled = uiInventorySettings.IsCraftEnabled;
             UpdateModel();
             _inventoryService.InventoryProperty.Select(it => new Unit())
                              .Merge(_activeItemService.ActiveItemId.Select(it => new Unit()))
@@ -58,37 +61,42 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         private void UpdateModel()
         {
-            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList(); 
+            _allPossibleRecipes = _craftService.GetAllPossibleRecipes().ToList();
             _items.SetValueAndForceNotify(CreateItems());
         }
+
         public void Dispose()
         {
             _disposable?.Dispose();
             _disposable = null;
         }
+
         private List<ItemViewModel> CreateItems()
         {
             if (!_inventoryService.HasInventory()) {
                 return Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT).ToList();
             }
             var items = _inventoryService.InventoryProperty.Value.Items;
-            return items.Select(CreateItemViewModel).Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT - items.Count)).ToList();
+            return items.Select(CreateItemViewModel)
+                        .Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT - items.Count))
+                        .ToList();
         }
 
         private ItemViewModel CreateItemViewModel(ItemId id)
         {
-            return new ItemViewModel(id, GetState(id), CanCraft(id), _weaponService.GetTimer(id), () => _onClick?.Invoke(id), _onBeginDrag, _onEndDrag);
+            return new ItemViewModel(id, GetState(id), CanCraft(id), _weaponService.GetTimer(id), () => _onClick?.Invoke(id), _onBeginDrag,
+                                     _onEndDrag);
         }
 
         public void UpdateItemModel(ItemViewModel model)
         {
-            model.UpdateState(GetState(model.Id));     
+            model.UpdateState(GetState(model.Id));
             model.UpdateCraftState(CanCraft(model.Id));
         }
 
         private bool CanCraft(ItemId id)
         {
-            return _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.FullName));
+            return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.FullName));
         }
 
         private ItemViewState GetState([CanBeNull] ItemId id)

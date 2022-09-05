@@ -1,4 +1,5 @@
-﻿using Dino.UI.Hud.Unit;
+﻿using Dino.UI.Hud.Loot;
+using Dino.UI.Hud.Unit;
 using UnityEngine;
 using Zenject;
 
