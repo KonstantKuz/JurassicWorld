@@ -58,10 +58,11 @@ namespace Dino.Tutorial
 
         public void SetInputEnabled(bool value)
         {
+            _joystick.OnPointerUp(null);
             _joystick.enabled = value;
         }
 
-        public Tween PlayCameraLookAt(Transform point)
+        public Tween PlayCameraLookAt(Vector3 point)
         {
             SetInputEnabled(false);
             _world.CameraController.IsFollowTarget = false;

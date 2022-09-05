@@ -5,6 +5,8 @@ namespace Dino.Tutorial
 {
     public abstract class TutorialScenario : MonoBehaviour
     {
+        public static Vector3 ARROW_OFFSET = Vector3.up;
+
         [SerializeField]
         private bool _isEnabled;
         [SerializeField]

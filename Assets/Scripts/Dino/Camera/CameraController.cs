@@ -53,10 +53,10 @@ namespace Dino.Camera
             return position;
         }
 
-        public Tween PlayLookAt(Transform point, float speed, float time)
+        public Tween PlayLookAt(Vector3 point, float speed, float time)
         {
             var initialPosition = transform.position;
-            var finalPosition = point.transform.position - _distance * transform.forward;
+            var finalPosition = point - _distance * transform.forward;
             var distanceToPoint = Vector3.Distance(initialPosition, finalPosition);
             var moveTime = distanceToPoint / speed;
             
