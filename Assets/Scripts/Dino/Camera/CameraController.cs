@@ -40,7 +40,7 @@ namespace Dino.Camera
             }
             
             var levelBounds = CurrentLevel.GetBounds();
-            var cameraOffset = position - transform.position;
+            var cameraOffset = position - Target.position;
             
             position.x = Mathf.Clamp(position.x,
                 levelBounds.center.x - levelBounds.extents.x + _offsetFromLevelEdge,

@@ -50,7 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isEnabled: 1
   _scenarioId: 1
-  _playAtLevelId: Level1-3
+  _playAtLevelId: Level1-2
 --- !u!1 &2477108787278728024
 GameObject:
   m_ObjectHideFlags: 0
@@ -234,7 +234,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isEnabled: 1
   _scenarioId: 2
-  _playAtLevelId: Level2-1
+  _playAtLevelId: Level1-3
 --- !u!1 &3624021215789012955
 GameObject:
   m_ObjectHideFlags: 0
