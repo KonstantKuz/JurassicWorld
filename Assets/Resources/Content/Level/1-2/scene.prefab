@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44125bac5c734d8f8882e7b38db5d9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemId: Stone
+  _itemId: Stones
 --- !u!114 &2460578073572863364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44125bac5c734d8f8882e7b38db5d9fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemId: Stone
+  _itemId: Stones
 --- !u!1 &8365196175718651008
 GameObject:
   m_ObjectHideFlags: 0

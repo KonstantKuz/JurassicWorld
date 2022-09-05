@@ -11,14 +11,14 @@ namespace Dino.Tutorial
     {
         [SerializeField] private float _cameraLookAtSpeed;
         [SerializeField] private float _cameraLookAtTime;
+        
         private List<TutorialScenario> _scenarios;
-
-        private List<TutorialScenario> Scenarios => _scenarios ??= GetComponentsInChildren<TutorialScenario>().ToList();
         
         [Inject] private TutorialRepository _repository;
         [Inject] private Joystick _joystick;
         [Inject] private World _world;
         
+        private List<TutorialScenario> Scenarios => _scenarios ??= GetComponentsInChildren<TutorialScenario>().ToList();
         private TutorialState State => _repository.Get() ?? new TutorialState();
 
         public void OnWorldSetup()

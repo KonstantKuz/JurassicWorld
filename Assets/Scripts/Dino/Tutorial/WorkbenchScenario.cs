@@ -59,7 +59,11 @@ namespace Dino.Tutorial
         
         protected IEnumerator WaitForLootCollected(List<Loot.Loot> loots)
         {
-            loots.ForEach(it => ArrowIndicator.SpawnAbove(_worldObjectFactory, it.transform, ARROW_OFFSET, true));
+            loots.ForEach(it =>
+            {
+                var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, it.transform, ARROW_OFFSET);
+                arrow.transform.SetParent(it.transform);
+            });
             yield return new WaitForLootCollected(loots);
         }
 
@@ -83,7 +87,7 @@ namespace Dino.Tutorial
         {
             var itemsCenter = Vector3.zero;
             items.ForEach(it => itemsCenter += it.transform.position);
-            itemsCenter /= items.Count();
+            itemsCenter /= items.Count;
             TutorialService.PlayCameraLookAt(itemsCenter);
         }
 

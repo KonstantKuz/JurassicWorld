@@ -6,11 +6,11 @@ namespace Dino.Tutorial
 {
     public class WorkbenchScenarioForAxe : WorkbenchScenario
     {
-        private const string STONE_ID = "Stone";
+        private const string STONES_ID = "Stones";
         
         public override IEnumerator RunScenario()
         {
-            var loots = GetTutorialLoots(STONE_ID);
+            var loots = GetTutorialLoots(STONES_ID);
             yield return WaitForLootCollected(loots);
             PlayCameraLookAtWorkbench();
             yield return WaitForCraft();

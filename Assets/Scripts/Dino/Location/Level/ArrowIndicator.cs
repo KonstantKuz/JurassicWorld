@@ -11,13 +11,9 @@ namespace Dino.Location.Level
         [SerializeField] private float _maxHeight;
         [SerializeField] private float _time;
         
-        public void PointAt(Transform point, Vector3 offset, bool setParent = false)
+        public void PointAt(Transform point, Vector3 offset)
         {
             transform.position = point.position + offset;
-            if (setParent)
-            {
-                transform.SetParent(point);
-            }
             transform.DOJump(point.position + offset, _maxHeight, 1, _time).SetLoops(-1);
         }
 
@@ -26,11 +22,11 @@ namespace Dino.Location.Level
             transform.DOKill();
         }
         
-        public static ArrowIndicator SpawnAbove(WorldObjectFactory worldObjectFactory, Transform point, Vector3 offset, bool setParent = false)
+        public static ArrowIndicator SpawnAbove(WorldObjectFactory worldObjectFactory, Transform point, Vector3 offset)
         {
             var indicatorPrefab = worldObjectFactory.GetPrefabComponents<ArrowIndicator>().First();
             var indicator = worldObjectFactory.CreateObject(indicatorPrefab.gameObject).GetComponent<ArrowIndicator>();
-            indicator.PointAt(point, offset, setParent);
+            indicator.PointAt(point, offset);
             return indicator;
         }
     }
