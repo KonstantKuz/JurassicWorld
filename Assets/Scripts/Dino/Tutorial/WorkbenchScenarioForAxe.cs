@@ -15,7 +15,7 @@ using Zenject;
 
 namespace Dino.Tutorial
 {
-    public class WorkbenchCraftScenarioForAxe : TutorialScenario
+    public class WorkbenchScenarioForAxe : TutorialScenario
     {
         private static Vector3 ARROW_OFFSET = Vector3.up;
         
@@ -55,6 +55,7 @@ namespace Dino.Tutorial
         {
             yield return WaitForFirstItemsCollected();
             yield return WaitForAxeCrafted();
+            CompleteScenario();
         }
 
         private IEnumerator WaitForFirstItemsCollected()

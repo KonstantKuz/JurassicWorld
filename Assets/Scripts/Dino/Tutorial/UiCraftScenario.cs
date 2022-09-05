@@ -59,7 +59,11 @@ namespace Dino.Tutorial
             if (!TutorialRecipes.Contains(msg.ItemId)) return;
             CompleteStep(msg.ItemId);
             _craftTutorial.Stop();
-            Debug.Log($"complete tutorial for recipe {msg.ItemId}");            
+            Debug.Log($"complete tutorial for recipe {msg.ItemId}");
+            if (TutorialRecipes.All(IsStepCompleted))
+            {
+                CompleteScenario();
+            }
         }
     }
 }

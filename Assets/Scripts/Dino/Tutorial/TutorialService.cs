@@ -45,11 +45,6 @@ namespace Dino.Tutorial
             _repository.Set(state);
         }
 
-        public bool IsScenarioCompleted(TutorialScenarioId scenarioId)
-        {
-            return GetScenarioState(scenarioId).IsCompleted;
-        }
-
         public void CompleteScenario(TutorialScenarioId scenarioId)
         {
             var state = State;
