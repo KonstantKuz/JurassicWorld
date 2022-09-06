@@ -33,7 +33,6 @@ namespace Dino.Session.Service
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private ConstantsConfig _constantsConfig;
         [Inject] private ActiveItemService _activeItemService;   
-        [Inject] private InventoryService _inventoryService;
         [Inject] private Analytics.Analytics _analytics;
 
         public Model.Session Session => _repository.Require();
@@ -61,6 +60,7 @@ namespace Dino.Session.Service
             var newSession = Model.Session.Build(_levelService.CurrentLevelId);
             _repository.Set(newSession);
             _playerProgressService.OnSessionStarted(newSession.LevelId);
+            _messenger.Publish(new SessionStartMessage(newSession.LevelId, _playerProgressService.Progress.LevelNumber));
         }
 
         private void CreateLevel()

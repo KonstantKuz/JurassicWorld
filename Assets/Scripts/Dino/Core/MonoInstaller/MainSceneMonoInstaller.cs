@@ -1,3 +1,4 @@
+using Dino.ABTest.Installer;
 using Dino.Analytics;
 using Dino.Cheats.Installer;
 using Dino.Config;
@@ -46,6 +47,7 @@ namespace Dino.Core.MonoInstaller
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container);
             TutorialInstaller.Install(Container);
+            ABTestServicesInstaller.Install(Container);
             
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);
