@@ -6,7 +6,7 @@ namespace Dino.ABTest.InitStep
     public class ABTestInitStep : AppInitStep
     {
         [Inject] 
-        private Dino.ABTest.ABTest _abTest;        
+        private ABTest _abTest;        
 
         protected override void Run()
         {

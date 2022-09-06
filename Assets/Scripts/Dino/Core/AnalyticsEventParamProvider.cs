@@ -14,7 +14,7 @@ namespace Dino.Core
         [Inject] private LevelService _levelService;
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
-
+        [Inject] private ABTest.ABTest _abTest;
 
         public Dictionary<string, object> GetParams(IEnumerable<string> paramNames)
         {
@@ -37,6 +37,7 @@ namespace Dino.Core
                 EventParams.DEFEATS => playerProgress.LoseCount,
                 EventParams.CRAFT_COUNT => playerProgress.CraftCount,
                 EventParams.LOOT_COUNT => playerProgress.LootCount,
+                EventParams.AB_TEST_ID => _abTest.CurrentVariantId,
 
                 _ => throw new ArgumentOutOfRangeException(nameof(paramName), paramName, $"Unsupported analytics parameter {paramName}")
             };
