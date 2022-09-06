@@ -19,27 +19,23 @@ namespace Dino.Location
         [SerializeField]
         private CameraController _cameraController;
 
+        private PlayerUnit _player;
         public Transform Ground => _ground;
         public GameObject Spawn => _spawn;
-
         public bool IsPaused => Time.timeScale == 0;
-        
-        [CanBeNull]
-        public Level.Level Level { get; private set; }
-        [CanBeNull]
-        public PlayerUnit Player { get; private set; }
-        
         public CameraController CameraController => _cameraController;
 
-        public void SetLevel(Level.Level level)
+        [CanBeNull]
+        public Level.Level Level { get; set; }
+        [CanBeNull]
+        public PlayerUnit Player
         {
-            Level = level;
-        }
-        
-        public void SetPlayer(PlayerUnit playerUnit)
-        {
-            Player = playerUnit;
-            CameraController.Target = Player?.transform;
+            get => _player;
+            set
+            {
+                _player = value;
+                CameraController.Target = value?.transform;
+            }
         }
 
         public Vector3 GetGroundIntersection(Ray withRay)
