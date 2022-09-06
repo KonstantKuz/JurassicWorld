@@ -1,6 +1,6 @@
 ﻿using UnityEngine.AI;
 
-namespace Dino.Units.Enemy
+namespace Dino.Location
 {
     public static class NavMeshInitializer
     {

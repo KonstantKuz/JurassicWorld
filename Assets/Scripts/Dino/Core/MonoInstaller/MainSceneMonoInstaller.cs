@@ -8,6 +8,7 @@ using Dino.Modifiers;
 using Dino.Player.Installer;
 using Dino.Reward.Installer;
 using Dino.Tutorial;
+using Dino.Tutorial.Installer;
 using Dino.UI;
 using Dino.Units.Installer;
 using Feofun.Localization.Service;
@@ -28,6 +29,8 @@ namespace Dino.Core.MonoInstaller
         private UIInstaller _uiInstaller;     
         [SerializeField]
         private CheatsInstaller _cheatsInstaller;
+        [SerializeField]
+        private TutorialInstaller _tutorialInstaller;
 
         public override void InstallBindings()
         {
@@ -46,8 +49,8 @@ namespace Dino.Core.MonoInstaller
             InventoryServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container);
-            TutorialInstaller.Install(Container);
             
+            _tutorialInstaller.Install(Container);
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);
             _cheatsInstaller.Install(Container);

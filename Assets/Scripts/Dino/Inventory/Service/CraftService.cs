@@ -109,10 +109,11 @@ namespace Dino.Inventory.Service
             ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient)); 
             _playerProgressService.Progress.IncreaseCraftCount();
             _analytics.ReportCraftItem(recipe.CraftItemId);
+            var craftedItem = _inventoryService.Add(recipe.CraftItemId);
             _messenger.Publish(new ItemCraftedMessage {
                     ItemId = recipe.CraftItemId
             });
-            return _inventoryService.Add(recipe.CraftItemId);
+            return craftedItem;
         }
 
         public ItemId Craft(string recipeId)
@@ -125,7 +126,11 @@ namespace Dino.Inventory.Service
                 var items = _inventoryService.GetAll(ingredient.Name).ToList();
                 items.Skip(items.Count - ingredient.Count).ForEach(it => _inventoryService.Remove(it));
             });
-            return _inventoryService.Add(recipe.CraftItemId);
+            var craftedItem = _inventoryService.Add(recipe.CraftItemId);
+            _messenger.Publish(new ItemCraftedMessage {
+                ItemId = recipe.CraftItemId
+            });
+            return craftedItem;
         }
 
         public CraftRecipeConfig GetRecipeConfig(string recipe)

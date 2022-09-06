@@ -1,4 +1,5 @@
-﻿using Dino.Location.Model;
+﻿using System;
+using Dino.Location.Model;
 using UnityEngine;
 
 namespace Dino.Loot
@@ -7,7 +8,8 @@ namespace Dino.Loot
     {
         [SerializeField] private string _receivedItemId;
         public float CollectProgress { get; private set; } = 0f;
-
+        public Action<Loot> OnCollected;
+        
         public string ReceivedItemId
         {
             get => _receivedItemId;

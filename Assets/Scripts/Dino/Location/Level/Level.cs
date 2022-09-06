@@ -34,7 +34,9 @@ namespace Dino.Location.Level
         
         private Transform GroundRoot => _groundRoot ??= transform.Find(GROUND_ROOT_NAME);
         private Bounds[] GroundBounds =>
-            _groundBounds ??= GroundRoot.GetComponentsInChildren<Renderer>().Select(it => it.bounds).ToArray();
+            _groundBounds ??= GroundRoot.GetComponentsInChildren<Renderer>()
+                .Where(it => it.gameObject.layer == LayerMask.NameToLayer("Ground"))
+                .Select(it => it.bounds).ToArray();
 
         public Transform Start => _start;
         public List<Unit> Enemies =>
