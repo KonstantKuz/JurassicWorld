@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 2148152355339705
+  - 1409193509583615
   appLabels:
-  - Survivors
+  - DinoWorldSurvival
   cookie: 1
   logging: 1
   status: 1
