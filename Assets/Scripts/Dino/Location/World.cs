@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dino.Camera;
 using Dino.Units.Player;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
@@ -15,25 +16,37 @@ namespace Dino.Location
         private Transform _ground;
         [SerializeField]
         private GameObject _spawn;
+        [SerializeField]
+        private CameraController _cameraController;
 
+        private PlayerUnit _player;
         public Transform Ground => _ground;
         public GameObject Spawn => _spawn;
-
         public bool IsPaused => Time.timeScale == 0;
-       
+        public CameraController CameraController => _cameraController;
+
         [CanBeNull]
         public Level.Level Level { get; set; }
         [CanBeNull]
-        public PlayerUnit Player { get; set; }
-        
-        public PlayerUnit GetPlayer() 
+        public PlayerUnit Player
         {
-            if (Player == null) {
-                throw new NullReferenceException("Player is null, should call this method only inside game session");
+            get => _player;
+            set
+            {
+                _player = value;
+                CameraController.Target = value?.transform;
             }
-
-            return Player;
         }
+
+        public PlayerUnit RequirePlayer()
+        {
+            if (_player == null) {
+                throw new NullReferenceException("Player is null. Require player only inside game session. ");
+            }
+            
+            return _player;
+        }
+
         public Vector3 GetGroundIntersection(Ray withRay)
         {
             var plane = new Plane(Ground.up, Ground.position);
@@ -66,7 +79,5 @@ namespace Dino.Location
             return GetDISubscribers<T>().Union(GetChildrenSubscribers<T>());
         }
         private static List<T> GetDISubscribers<T>() => AppContext.Container.ResolveAll<T>();
-
-
     }
 }

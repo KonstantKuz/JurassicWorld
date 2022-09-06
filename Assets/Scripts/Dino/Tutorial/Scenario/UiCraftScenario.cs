@@ -1,18 +1,18 @@
 ﻿using System.Linq;
 using Dino.Inventory.Message;
 using Dino.Inventory.Service;
-using Dino.Location;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
+using Dino.Session.Messages;
 using Dino.UI.Screen.World.Inventory;
 using Dino.UI.Tutorial;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Scenario
 {
-    public class TutorialService : IWorldScope
+    public class UiCraftScenario : TutorialScenario
     {
         private const int FIRST_LEVEL_WHERE_DROP_IS_ENABLED = 4;
         
@@ -20,26 +20,25 @@ namespace Dino.Tutorial
         
         [Inject] private IMessenger _messenger;
         [Inject] private CraftService _craftService;
-        [Inject] private TutorialRepository _repository;
         [Inject] private CraftTutorial _craftTutorial;
         [Inject] private UiInventorySettings _uiInventorySettings;
         [Inject] private PlayerProgressService _playerProgressService;
 
-        public bool Enabled { get; set; } = false;
-
-        public void OnWorldSetup()
+        public override void Init()
         {
-            if (!Enabled) {
+            if (!_uiInventorySettings.IsCraftEnabled) {
                 return;
             }
+
+            _messenger.Subscribe<SessionEndMessage>(msg => Dispose());
             _messenger.Subscribe<LootCollectedMessage>(OnLootCollected);
             _messenger.Subscribe<ItemCraftedMessage>(OnItemCrafted);
             _uiInventorySettings.IsDropEnabled = _playerProgressService.Progress.LevelNumber >= FIRST_LEVEL_WHERE_DROP_IS_ENABLED;
         }
-
-        public void OnWorldCleanUp()
+        
+        public void Dispose()
         {
-            
+            _messenger.Unsubscribe<SessionEndMessage>(msg => Dispose());
             _messenger.Unsubscribe<LootCollectedMessage>(OnLootCollected);
             _messenger.Unsubscribe<ItemCraftedMessage>(OnItemCrafted);
         }
@@ -48,29 +47,11 @@ namespace Dino.Tutorial
         {
             foreach (var recipe in TutorialRecipes)
             {
-                if (IsStateCompleted(recipe)) continue;
+                if (IsStepCompleted(recipe)) continue;
                 if (!_craftService.HasIngredientsForRecipe(recipe)) continue;
                 Debug.Log($"show tutorial for recipe {recipe}");                
                 _craftTutorial.Play(recipe);
             }
-        }
-
-        private void CompleteStep(string stepName)
-        {
-            var state = GetState();
-            state.CompletedStages.Add(stepName);
-            _repository.Set(state);
-        }
-
-        private TutorialState GetState()
-        {
-            return _repository.Get() ?? new TutorialState();
-        }
-
-        private bool IsStateCompleted(string stepName)
-        {
-            var state = GetState();
-            return state.CompletedStages.Contains(stepName);
         }
 
         private void OnItemCrafted(ItemCraftedMessage msg)
@@ -78,7 +59,11 @@ namespace Dino.Tutorial
             if (!TutorialRecipes.Contains(msg.ItemId)) return;
             CompleteStep(msg.ItemId);
             _craftTutorial.Stop();
-            Debug.Log($"complete tutorial for recipe {msg.ItemId}");            
+            Debug.Log($"complete tutorial for recipe {msg.ItemId}");
+            if (TutorialRecipes.All(IsStepCompleted))
+            {
+                CompleteScenario();
+            }
         }
     }
 }

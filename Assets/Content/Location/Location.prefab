@@ -213,9 +213,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8746036833295827788}
+  - component: {fileID: 2282410744510765202}
   - component: {fileID: 8746036833295827787}
   - component: {fileID: 8746036833295827786}
   - component: {fileID: 2906711552702323490}
+  - component: {fileID: 7320370632708191793}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -237,6 +239,20 @@ Transform:
   m_Father: {fileID: 8746036833993048138}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 55, y: 0, z: 0}
+--- !u!114 &2282410744510765202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8746036833295827785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3904fda15694c55b18fbfbf180efa03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _distance: 22
+  _offsetFromLevelEdge: 6
 --- !u!20 &8746036833295827787
 Camera:
   m_ObjectHideFlags: 0
@@ -300,6 +316,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1adf43292c582e24f8294476e43b9323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7320370632708191793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8746036833295827785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &8746036833993048137
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ground: {fileID: 8746036832828890122}
   _spawn: {fileID: 3506170360856201296}
+  _cameraController: {fileID: 2282410744510765202}
 --- !u!114 &8743563882573435223
 MonoBehaviour:
   m_ObjectHideFlags: 0

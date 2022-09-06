@@ -46,6 +46,8 @@ namespace Dino.Loot.Service
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(itemId.FullName);
             _messenger.Publish(new LootCollectedMessage());
+            loot.OnCollected?.Invoke(loot);
+            GameObject.Destroy(loot.gameObject);
         }
 
         public void DropLoot(ItemId itemId)
@@ -58,8 +60,8 @@ namespace Dino.Loot.Service
 
             var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
             lootObject.ReceivedItemId = itemId.FullName;
-            var playerPosition = _world.Player.SelfTarget.Root.position.XZ();
-            var radiusFromPlayer = _world.Player.LootCollector.CollectRadius * 2;
+            var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
+            var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);
         }
 

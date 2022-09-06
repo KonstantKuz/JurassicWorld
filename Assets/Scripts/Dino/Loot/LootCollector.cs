@@ -64,7 +64,6 @@ namespace Dino.Loot
       
             _lootHud.Hide();
             _lootService.Collect(loot);
-            Destroy(loot.gameObject);
         }
     }
 }
