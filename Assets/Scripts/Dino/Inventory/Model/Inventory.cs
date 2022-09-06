@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using JetBrains.Annotations;
 using Logger.Extension;
 
 namespace Dino.Inventory.Model
@@ -14,6 +16,12 @@ namespace Dino.Inventory.Model
                 return;
             }
             Items.Add(id);
+        }
+
+        [CanBeNull]
+        public ItemId FindItem(string fullName)
+        {
+            return Items.FirstOrDefault(it => it.FullName == fullName);
         }
         
         public bool Contains(ItemId id) => Items.Contains(id);

@@ -8,32 +8,28 @@ namespace Dino.Inventory.Model
     public class ItemId : IEquatable<ItemId>
     {
         private static readonly Regex Regex = new Regex(@"(\D+)(\d+)");
-        public string FullName { get; }
+        
+        public string FullName { get; } 
         public int Amount { get; private set; }
         public string Name { get; }
         public int Rank { get; }
+        public InventoryItemType Type { get; }
 
-        private ItemId(string fullName, int amount)
+        private ItemId(string fullName, InventoryItemType type, int amount)
         {
+            Assert.IsTrue(amount >= 0, "Error creating item, should add non-negative amount items");
             FullName = fullName;
             Amount = amount;
+            Type = type;
             var (name, rank) = SplitFullNameToNameAndRank(fullName);
             Name = name;
             Rank = rank;
         }
 
-        public static ItemId Create(string name)
+        public static ItemId Create(string fullName, InventoryItemType type, int amount = 1)
         {
-            return new ItemId(name, 1);
+            return new ItemId(fullName, type, amount);
         }
-
-        public static ItemId CreateSeveral(string name, int amount)
-        {
-            return new ItemId(name, amount);
-        }
-
-        public void AddItem() => IncreaseAmount(1);
-
         public void IncreaseAmount(int amount)
         {
             Assert.IsTrue(amount >= 0, $"Should add non-negative amount items, {ToString()}");
@@ -42,7 +38,7 @@ namespace Dino.Inventory.Model
         public void DecreaseAmount(int amount)
         {
             Assert.IsTrue(amount >= 0, $"Should remove non-negative amount items, {ToString()}");
-            ChangeAmount(amount);
+            ChangeAmount(-amount);
         }
         private void ChangeAmount(int delta)
         {
@@ -77,7 +73,7 @@ namespace Dino.Inventory.Model
 
         public override string ToString()
         {
-            return $"InventoryItem: Id:= {FullName}, ObjectId:= {Name}, Rank:= {Rank}, Amount:= {Amount}";
+            return $"InventoryItem: Id:= {FullName}, ObjectId:= {Name}, Rank:= {Rank}, Amount:= {Amount}, Type:= {Type}";
         }
 
         public override bool Equals(object obj)
