@@ -25,8 +25,8 @@ MonoBehaviour:
   BannerDisplayOnInitEditor: 1
   InterstitialInterval: 300
   activeLogs: 1
-  Name: Survivors
-  FbAppId: 2148152355339705
+  Name: Dino World
+  FbAppId: 1409193509583615
   appleId: 
   MmpAdjust: 0
   MmpAdjustAppToken: 
@@ -36,6 +36,6 @@ MonoBehaviour:
   IosInterstitial: 
   IosRewarded: 
   IosBanner: 
-  AndroidInterstitial: 14724f903baf67aa
-  AndroidRewarded: 709a452cfe60e252
-  AndroidBanner: d6e87eeff0ae8de1
+  AndroidInterstitial: 
+  AndroidRewarded: 
+  AndroidBanner: 
