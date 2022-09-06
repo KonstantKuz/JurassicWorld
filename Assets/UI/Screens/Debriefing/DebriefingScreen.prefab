@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7172425760286209250
 RectTransform:
   m_ObjectHideFlags: 0
@@ -729,7 +729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5481261257203730660, guid: 14d50e2644473744f928259c035090df, type: 3}
       propertyPath: m_fontSize
-      value: 99.45
+      value: 89.6
       objectReference: {fileID: 0}
     - target: {fileID: 6468571794263917289, guid: 14d50e2644473744f928259c035090df, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -753,7 +753,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7688971914272213025, guid: 14d50e2644473744f928259c035090df, type: 3}
       propertyPath: m_fontSize
-      value: 100
+      value: 96.15
       objectReference: {fileID: 0}
     - target: {fileID: 8026819519400389236, guid: 14d50e2644473744f928259c035090df, type: 3}
       propertyPath: m_SizeDelta.x
