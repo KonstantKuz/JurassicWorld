@@ -72,7 +72,7 @@ namespace Dino.Inventory.Service
         }
         public ItemId GetLast(string itemName)
         {
-            var itemId = _inventory.Value.Items.Where(it => it.FullName == itemName).OrderBy(it => it.Number).LastOrDefault();
+            var itemId = _inventory.Value.Items.Where(it => it.FullName == itemName).OrderBy(it => it.Amount).LastOrDefault();
             if (itemId == null) {
                 throw new NullReferenceException($"Error getting last item, inventory doesn't contain item name:= {itemName}");
             }
@@ -85,7 +85,7 @@ namespace Dino.Inventory.Service
             if (items.IsEmpty()) {
                 return ItemId.Create(itemName, 1);
             }
-            var count = items.Max(it => it.Number) + 1;
+            var count = items.Max(it => it.Amount) + 1;
             return ItemId.Create(itemName, count);
         }
 

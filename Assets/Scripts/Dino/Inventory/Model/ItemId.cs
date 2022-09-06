@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using UnityEngine;
+using Logger.Extension;
+using UnityEngine.Assertions;
 
 namespace Dino.Inventory.Model
 {
@@ -8,35 +9,51 @@ namespace Dino.Inventory.Model
     {
         private static readonly Regex Regex = new Regex(@"(\D+)(\d+)");
         public string FullName { get; }
-        public int Number { get; }
+        public int Amount { get; private set; }
         public string Name { get; }
         public int Rank { get; }
-        
-        public ItemId(string fullName, int number)
+
+        private ItemId(string fullName, int amount)
         {
             FullName = fullName;
-            Number = number;
+            Amount = amount;
             var (name, rank) = SplitFullNameToNameAndRank(fullName);
             Name = name;
             Rank = rank;
         }
 
-        public static ItemId Create(string name, int number)
+        public static ItemId Create(string name)
         {
-            return new ItemId(name, number);
+            return new ItemId(name, 1);
+        }
+
+        public static ItemId CreateSeveral(string name, int amount)
+        {
+            return new ItemId(name, amount);
+        }
+
+        public void AddItem() => IncreaseAmount(1);
+
+        public void IncreaseAmount(int amount)
+        {
+            Assert.IsTrue(amount >= 0, $"Should add non-negative amount items, {ToString()}");
+            ChangeAmount(amount);
+        } 
+        public void DecreaseAmount(int amount)
+        {
+            Assert.IsTrue(amount >= 0, $"Should remove non-negative amount items, {ToString()}");
+            ChangeAmount(amount);
+        }
+        private void ChangeAmount(int delta)
+        {
+            if (Amount + delta < 0) {
+                this.Logger().Warn($"Amount of imtems cannot be negative, change delta:= {delta}, {ToString()}");
+                Amount = 0;
+                return;
+            }
+            Amount += delta;
         }
         public bool Equals(ItemId other)
-        {
-            if (ReferenceEquals(null, other)) {
-                return false;
-            }
-            if (ReferenceEquals(this, other)) {
-                return true;
-            }
-            return FullName == other.FullName && Number == other.Number;
-        }
-        
-        public bool IsSameItem(ItemId other)
         {
             if (ReferenceEquals(null, other)) {
                 return false;
@@ -47,9 +64,20 @@ namespace Dino.Inventory.Model
             return FullName == other.FullName;
         }
 
+        public bool IsSameItem(ItemId other)
+        {
+            if (ReferenceEquals(null, other)) {
+                return false;
+            }
+            if (ReferenceEquals(this, other)) {
+                return true;
+            }
+            return Name == other.Name;
+        }
+
         public override string ToString()
         {
-            return $"InventoryItem: Id:= {FullName}, ObjectId:= {Name}, Rank:= {Rank} SerialNumber:= {Number}";
+            return $"InventoryItem: Id:= {FullName}, ObjectId:= {Name}, Rank:= {Rank}, Amount:= {Amount}";
         }
 
         public override bool Equals(object obj)
@@ -68,11 +96,9 @@ namespace Dino.Inventory.Model
 
         public override int GetHashCode()
         {
-            unchecked {
-                return ((FullName != null ? FullName.GetHashCode() : 0) * 397) ^ Number;
-            }
+            return (FullName != null ? FullName.GetHashCode() : 0);
         }
-        
+
         public static (string, int) SplitFullNameToNameAndRank(string fullName)
         {
             var matchObj = Regex.Match(fullName);
