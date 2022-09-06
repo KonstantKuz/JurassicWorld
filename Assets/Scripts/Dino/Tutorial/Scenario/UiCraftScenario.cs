@@ -10,7 +10,7 @@ using SuperMaxim.Messaging;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Scenario
 {
     public class UiCraftScenario : TutorialScenario
     {

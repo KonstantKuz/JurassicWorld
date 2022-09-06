@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
 using Dino.Extension;
 using Dino.Inventory.Message;
 using Dino.Location;
@@ -9,12 +8,14 @@ using Dino.Location.Level;
 using Dino.Location.Service;
 using Dino.Session.Messages;
 using Dino.Session.Service;
+using Dino.Tutorial.Components;
 using Dino.Tutorial.WaitConditions;
 using SuperMaxim.Messaging;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Zenject;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Scenario
 {
     public abstract class WorkbenchScenario : TutorialScenario
     {
@@ -45,6 +46,7 @@ namespace Dino.Tutorial
 
         private void CacheTutorialItems()
         {
+            Assert.IsTrue(_world.Level != null, "Level is null. Init tutorial only on session start.");
             _tutorialItems = _world.Level.GetComponentsInChildren<IndicatedTutorialItem>().ToList();
         }
 

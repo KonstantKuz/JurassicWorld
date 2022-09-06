@@ -1,4 +1,4 @@
-﻿namespace Dino.Tutorial
+﻿namespace Dino.Tutorial.Scenario
 {
     public enum TutorialScenarioId
     {

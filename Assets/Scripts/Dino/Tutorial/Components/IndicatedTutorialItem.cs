@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Components
 {
     public class IndicatedTutorialItem : MonoBehaviour
     {

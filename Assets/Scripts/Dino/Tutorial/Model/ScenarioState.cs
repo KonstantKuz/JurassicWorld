@@ -2,7 +2,7 @@
 using Dino.Util;
 using Newtonsoft.Json;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Model
 {
     public class ScenarioState
     {

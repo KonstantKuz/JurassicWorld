@@ -8,6 +8,7 @@ using Dino.Modifiers;
 using Dino.Player.Installer;
 using Dino.Reward.Installer;
 using Dino.Tutorial;
+using Dino.Tutorial.Installer;
 using Dino.UI;
 using Dino.Units.Installer;
 using Feofun.Localization.Service;

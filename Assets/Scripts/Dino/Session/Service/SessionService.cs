@@ -64,7 +64,7 @@ namespace Dino.Session.Service
         private void CreateLevel()
         {
             _currentLevel = _levelService.CreateLevel(Session.LevelId);
-            _world.Level = _currentLevel;
+            _world.SetLevel(_currentLevel);
             _currentLevel.Init(_playerProgressService.Progress.LevelNumber);
             _currentLevel.OnPlayerTriggeredFinish += OnFinishTriggered;
             this.Logger().Debug($"Level:= {_currentLevel.gameObject.name}");
@@ -116,6 +116,10 @@ namespace Dino.Session.Service
         {
             Dispose();
             _unitService.DeactivateAll();
+            _activeItemService.RemoveActiveItemObject();
+            
+            _world.SetLevel(null);
+            _world.SetPlayer(null);
 
             Session.SetResultByUnitType(winner);
             _analytics.ReportLevelFinish(Session.Result.Value);

@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-using System.Linq;
-using DG.Tweening;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Scenario
 {
     public class WorkbenchScenarioForAxe : WorkbenchScenario
     {

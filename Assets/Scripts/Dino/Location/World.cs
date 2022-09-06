@@ -23,27 +23,25 @@ namespace Dino.Location
         public GameObject Spawn => _spawn;
 
         public bool IsPaused => Time.timeScale == 0;
-       
+        
         [CanBeNull]
-        public Level.Level Level { get; set; }
+        public Level.Level Level { get; private set; }
         [CanBeNull]
-        public PlayerUnit Player { get; set; }
+        public PlayerUnit Player { get; private set; }
+        
         public CameraController CameraController => _cameraController;
 
+        public void SetLevel(Level.Level level)
+        {
+            Level = level;
+        }
+        
         public void SetPlayer(PlayerUnit playerUnit)
         {
             Player = playerUnit;
-            CameraController.Target = playerUnit.transform;
+            CameraController.Target = Player?.transform;
         }
-        
-        public PlayerUnit GetPlayer() 
-        {
-            if (Player == null) {
-                throw new NullReferenceException("Player is null, should call this method only inside game session");
-            }
 
-            return Player;
-        }
         public Vector3 GetGroundIntersection(Ray withRay)
         {
             var plane = new Plane(Ground.up, Ground.position);
@@ -76,7 +74,5 @@ namespace Dino.Location
             return GetDISubscribers<T>().Union(GetChildrenSubscribers<T>());
         }
         private static List<T> GetDISubscribers<T>() => AppContext.Container.ResolveAll<T>();
-
-
     }
 }

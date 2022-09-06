@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using Dino.Tutorial.Service;
+using UnityEngine;
 using Zenject;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Installer
 {
     public class TutorialInstaller : MonoBehaviour
     {

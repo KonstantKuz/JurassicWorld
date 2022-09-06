@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Dino.Units.Service
 {
-    public class ActiveItemService : IWorldScope
+    public class ActiveItemService
     {
         private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
         
@@ -27,7 +27,7 @@ namespace Dino.Units.Service
 
         public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
         
-        private PlayerUnit Player => _world.GetPlayer();
+        private PlayerUnit Player => _world.Player;
 
         public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
 
@@ -80,16 +80,7 @@ namespace Dino.Units.Service
             RemoveActiveItemObject();
         }
 
-        public void OnWorldSetup()
-        {
-        }
-
-        public void OnWorldCleanUp()
-        {
-            RemoveActiveItemObject();
-        }
-
-        private void RemoveActiveItemObject()
+        public void RemoveActiveItemObject()
         {
             _weaponService.Remove();
             Player.ActiveItemOwner.Remove();

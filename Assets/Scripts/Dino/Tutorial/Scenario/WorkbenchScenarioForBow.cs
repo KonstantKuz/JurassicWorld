@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Linq;
-namespace Dino.Tutorial
+
+namespace Dino.Tutorial.Scenario
 {
     public class WorkbenchScenarioForBow : WorkbenchScenario
     {

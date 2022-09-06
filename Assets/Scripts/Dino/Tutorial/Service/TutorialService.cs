@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DG.Tweening;
 using Dino.Location;
+using Dino.Tutorial.Model;
+using Dino.Tutorial.Scenario;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Service
 {
     public class TutorialService : MonoBehaviour, IWorldScope
     {

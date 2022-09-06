@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using Dino.Tutorial.Scenario;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Model
 {
     public class TutorialState
     {
