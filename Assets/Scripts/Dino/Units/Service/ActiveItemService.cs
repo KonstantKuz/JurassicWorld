@@ -27,7 +27,7 @@ namespace Dino.Units.Service
 
         public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
         
-        private PlayerUnit Player => _world.Player;
+        private PlayerUnit Player => _world.RequirePlayer();
 
         public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
 

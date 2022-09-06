@@ -25,7 +25,7 @@ namespace Dino.Weapon.Service
         [Inject]
         private World _world;
         
-        private PlayerUnit Player => _world.Player;
+        private PlayerUnit Player => _world.RequirePlayer();
         
         public WeaponService()
         {

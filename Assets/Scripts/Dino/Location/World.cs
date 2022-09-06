@@ -38,6 +38,15 @@ namespace Dino.Location
             }
         }
 
+        public PlayerUnit RequirePlayer()
+        {
+            if (_player == null) {
+                throw new NullReferenceException("Player is null. Require player only inside game session. ");
+            }
+            
+            return _player;
+        }
+
         public Vector3 GetGroundIntersection(Ray withRay)
         {
             var plane = new Plane(Ground.up, Ground.position);

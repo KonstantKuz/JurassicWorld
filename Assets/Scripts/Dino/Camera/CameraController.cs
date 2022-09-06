@@ -35,7 +35,7 @@ namespace Dino.Camera
 
         private Vector3 ClampByLevel(Vector3 position)
         {
-            if (_world.Level == null)
+            if (CurrentLevel == null)
             {
                 return position;
             }
