@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using Dino.Location;
 using Dino.Location.Level;
 using UnityEngine;
@@ -53,17 +54,24 @@ namespace Dino.Camera
             return position;
         }
 
-        public Tween PlayLookAt(Vector3 point, float speed, float time)
+        public void PlayLookAt(Vector3 point, float speed, float time, Action onComplete)
         {
+            IsFollowTarget = false;
+            
             var initialPosition = transform.position;
             var finalPosition = point - _distance * transform.forward;
             var distanceToPoint = Vector3.Distance(initialPosition, finalPosition);
             var moveTime = distanceToPoint / speed;
             
-            var sequence = DOTween.Sequence();
             var moveToPoint = transform.DOMove(finalPosition, moveTime);
             var moveBack = transform.DOMove(initialPosition, moveTime);
-            return sequence.Append(moveToPoint).AppendInterval(time).Append(moveBack).SetEase(Ease.Linear);
+            var lookAt = DOTween.Sequence().Append(moveToPoint).AppendInterval(time).Append(moveBack).SetEase(Ease.Linear);
+          
+            lookAt.onComplete = () =>
+            {
+                onComplete?.Invoke();
+                IsFollowTarget = true;
+            };
         }
     }
 }

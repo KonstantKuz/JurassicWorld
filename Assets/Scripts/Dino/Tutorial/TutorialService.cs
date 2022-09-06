@@ -62,17 +62,10 @@ namespace Dino.Tutorial
             _joystick.enabled = value;
         }
 
-        public Tween PlayCameraLookAt(Vector3 point)
+        public void PlayCameraLookAt(Vector3 point)
         {
             SetInputEnabled(false);
-            _world.CameraController.IsFollowTarget = false;
-            var lookAt = _world.CameraController.PlayLookAt(point, _cameraLookAtSpeed, _cameraLookAtTime);
-            lookAt.onComplete = () =>
-            {
-                SetInputEnabled(true);
-                _world.CameraController.IsFollowTarget = true;
-            };
-            return lookAt;
+            _world.CameraController.PlayLookAt(point, _cameraLookAtSpeed, _cameraLookAtTime, () => SetInputEnabled(true));
         }
         
         public void OnWorldCleanUp()

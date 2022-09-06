@@ -70,7 +70,7 @@ namespace Dino.Tutorial
         protected void PlayCameraLookAtWorkbench()
         {
             var workbench = _tutorialItems.First(it => it.ItemId == WORKBENCH_ID);
-            TutorialService.PlayCameraLookAt(workbench.transform.position).WaitForCompletion();
+            TutorialService.PlayCameraLookAt(workbench.transform.position);
         }
 
         protected IEnumerator WaitForCraft()
