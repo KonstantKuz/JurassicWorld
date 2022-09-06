@@ -40,6 +40,15 @@ namespace Dino.Inventory.Service
 
         public ItemId FindItem(string itemName) => Inventory.FindItem(itemName);
 
+        public ItemId GetItem(string itemName)
+        {
+            var itemId = FindItem(itemName);
+            if (itemId == null) { 
+                throw new NullReferenceException($"Error getting item, inventory doesn't contain item:= {itemName}");
+            }
+            return itemId;
+        }
+
         public int Count(string itemName)
         {
             var item = FindItem(itemName);
@@ -60,10 +69,7 @@ namespace Dino.Inventory.Service
         
         public void DecreaseItems(string itemName, int amount)
         {
-            var itemId = FindItem(itemName);
-            if (itemId == null) {
-                throw new NullReferenceException($"Error decreasing items, inventory doesn't contain items:= {itemName}");
-            }
+            var itemId = GetItem(itemName);
             var inventory = Inventory;
             itemId.DecreaseAmount(amount);
             if (itemId.Amount <= 0) {

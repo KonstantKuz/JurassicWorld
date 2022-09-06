@@ -109,7 +109,7 @@ namespace Dino.Inventory.Service
             ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient)); 
             _playerProgressService.Progress.IncreaseCraftCount();
             _analytics.ReportCraftItem(recipe.CraftItemId);
-            var craftedItem = _inventoryService.Add(recipe.CraftItemId);
+            var craftedItem = _inventoryService.Add(recipe.CraftItemId, InventoryItemType.Weapon, 1); // todo replace when changing craft, todo - _inventoryService.Add.(recipe.CraftItemId, recipe.CraftType, recipe.Amount)
             _messenger.Publish(new ItemCraftedMessage {
                     ItemId = recipe.CraftItemId
             });
@@ -120,16 +120,16 @@ namespace Dino.Inventory.Service
         {
             var recipe = _craftConfig.GetRecipe(recipeId);
             if (!HasIngredientsInInventory(recipe)) {
-                throw new ArgumentException($"Error Craft, ingredients don't contain in inventory:= {recipeId}");
+                throw new ArgumentException($"Error crafting, ingredients don't contain in inventory:= {recipeId}");
             }
             recipe.Ingredients.ForEach(ingredient => {
-                var items = _inventoryService.GetAll(ingredient.Name).ToList();
-                items.Skip(items.Count - ingredient.Count).ForEach(it => _inventoryService.Remove(it));
+                _inventoryService.DecreaseItems(ingredient.Name, ingredient.Count);
             });
-            var craftedItem = _inventoryService.Add(recipe.CraftItemId);
+            var craftedItem = _inventoryService.Add(recipe.CraftItemId, InventoryItemType.Weapon, 1); // todo replace when changing craft, todo - _inventoryService.Add.(recipe.CraftItemId, recipe.CraftType, recipe.Amount)
             _messenger.Publish(new ItemCraftedMessage {
-                ItemId = recipe.CraftItemId
+                    ItemId = recipe.CraftItemId
             });
+            _analytics.ReportCraftItem(recipe.CraftItemId);
             return craftedItem;
         }
 
