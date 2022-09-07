@@ -49,10 +49,10 @@ namespace Dino.UI.Screen.World.Inventory.View
 
         public IEnumerable<InventoryItemView> GetItemViews(string itemName)
         {
-            var itemId = new ItemId(itemName, 0);
+            var itemId = ItemId.Create(itemName, InventoryItemType.Weapon);
 
             return Items
-                .Where(it => it.gameObject.activeSelf && itemId.IsSameItem(it.Model?.Id));
+                .Where(it => it.gameObject.activeSelf && itemId.Equals(it.Model?.Id));
         }
     }
 }

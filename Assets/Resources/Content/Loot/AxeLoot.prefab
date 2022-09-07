@@ -49,6 +49,8 @@ MonoBehaviour:
   _objectId: AxeLoot
   _objectType: 2
   _receivedItemId: Axe
+  _receivedItemType: 0
+  _receivedItemAmount: 1
 --- !u!135 &2688945697516823126
 SphereCollider:
   m_ObjectHideFlags: 0

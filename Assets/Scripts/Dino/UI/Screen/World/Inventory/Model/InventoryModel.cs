@@ -7,7 +7,6 @@ using Dino.Inventory.Service;
 using Dino.Units.Service;
 using Dino.Weapon.Service;
 using JetBrains.Annotations;
-using Logger.Extension;
 using UniRx;
 
 namespace Dino.UI.Screen.World.Inventory.Model
@@ -20,6 +19,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         private readonly CraftService _craftService;
         private readonly WeaponService _weaponService;
+        private readonly InventoryItemType _inventoryType;
 
         private readonly Action<ItemId> _onClick;
         private readonly Action<ItemViewModel> _onBeginDrag;
@@ -31,9 +31,8 @@ namespace Dino.UI.Screen.World.Inventory.Model
         public readonly bool IsDropEnabled;    
         public readonly bool IsCraftEnabled;
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
-
-
-        public InventoryModel(InventoryService inventoryService,
+        
+        public InventoryModel(InventoryItemType inventoryType,InventoryService inventoryService,
                               ActiveItemService activeItemService,
                               CraftService craftService,
                               WeaponService weaponService,
@@ -43,6 +42,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
                               Action<ItemViewModel> onEndDrag)
         {
             _disposable = new CompositeDisposable();
+            _inventoryType = inventoryType;
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
             _craftService = craftService;
@@ -74,11 +74,11 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private List<ItemViewModel> CreateItems()
         {
             if (!_inventoryService.HasInventory()) {
-                return Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT).ToList();
+                return Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_UNIQUE_WEAPONS_COUNT).ToList();
             }
-            var items = _inventoryService.InventoryProperty.Value.Items;
+            var items = _inventoryService.GetItems(_inventoryType).ToList();
             return items.Select(CreateItemViewModel)
-                        .Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT - items.Count))
+                        .Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_UNIQUE_WEAPONS_COUNT - items.Count))
                         .ToList();
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
@@ -9,14 +11,17 @@ namespace Dino.Inventory.Service
 {
     public class InventoryService : IWorldScope
     {
+        public const int MAX_UNIQUE_WEAPONS_COUNT = 4;
+        
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
 
         private InventoryRepository _repository = new InventoryRepository();
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
 
         private Model.Inventory Inventory => _repository.Get();
-        public int ItemsCount => Inventory.Items.Count;
+        
         public int GetUniqueItemsCount(InventoryItemType type) => Inventory.Items.Count(it => it.Type == type);
+        public IEnumerable<ItemId> GetItems(InventoryItemType type) => Inventory.Items.Where(it => it.Type == type);
 
         public void OnWorldSetup()
         {

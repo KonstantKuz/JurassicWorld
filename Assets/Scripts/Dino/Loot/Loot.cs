@@ -9,7 +9,7 @@ namespace Dino.Loot
     {
         [SerializeField] private string _receivedItemId;    
         [SerializeField] private InventoryItemType _receivedItemType;
-        [SerializeField] private int _receivedItemAmount;
+        [SerializeField] private int _receivedItemAmount = 1;
         
         public string ReceivedItemId => _receivedItemId;
         public InventoryItemType ReceivedItemType => _receivedItemType;

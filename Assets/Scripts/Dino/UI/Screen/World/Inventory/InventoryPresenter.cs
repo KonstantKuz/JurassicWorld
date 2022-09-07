@@ -19,6 +19,8 @@ namespace Dino.UI.Screen.World.Inventory
         private InventoryView _view;      
         [SerializeField]
         private ItemCursor _itemCursor;
+        [SerializeField]
+        private InventoryItemType _inventoryType = InventoryItemType.Weapon;
 
         [Inject] private InventoryService _inventoryService;
         [Inject] private ActiveItemService _activeItemService;     
@@ -33,7 +35,8 @@ namespace Dino.UI.Screen.World.Inventory
         private void OnEnable()
         {
             Dispose();
-            _model = new InventoryModel(_inventoryService, 
+            _model = new InventoryModel(_inventoryType,
+                                        _inventoryService, 
                                         _activeItemService, 
                                         _craftService, 
                                         _weaponService, 
