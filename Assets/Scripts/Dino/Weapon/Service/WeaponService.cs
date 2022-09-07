@@ -21,30 +21,26 @@ namespace Dino.Weapon.Service
         private readonly InventoryService _inventoryService;
         private readonly StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
         private readonly World _world;
-        
+
         private PlayerUnit Player => _world.RequirePlayer();
-        
-        public WeaponService(InventoryService inventoryService, 
-                             StringKeyedConfigCollection<WeaponConfig> weaponConfigs,
-                             World world)
+
+        public WeaponService(InventoryService inventoryService, StringKeyedConfigCollection<WeaponConfig> weaponConfigs, World world)
         {
             _inventoryService = inventoryService;
             _weaponConfigs = weaponConfigs;
-            _world = world; 
+            _world = world;
             inventoryService.InventoryProperty.Subscribe(OnInventoryUpdate);
         }
 
         private void OnInventoryUpdate([CanBeNull] Inventory.Model.Inventory inventory)
         {
-            if (inventory == null) {
-                return;
-            }
-            var weaponItems = inventory.GetItems(InventoryItemType.Weapon);
-            weaponItems.Select(item => item.FullName).ForEach(weaponId => {
-                if (!_weapons.ContainsKey(weaponId)) {
-                    _weapons[weaponId] = CreateWeaponWrapper(weaponId);
-                }
-            });
+            inventory?.GetItems(InventoryItemType.Weapon)
+                     .Select(item => item.FullName)
+                     .ForEach(weaponId => {
+                         if (!_weapons.ContainsKey(weaponId)) {
+                             _weapons[weaponId] = CreateWeaponWrapper(weaponId);
+                         }
+                     });
         }
 
         public void SetActiveWeapon(ItemId itemId, BaseWeapon weapon)
@@ -55,16 +51,19 @@ namespace Dino.Weapon.Service
                 this.Logger().Warn($"Inventory item:= {itemId} is not Weapon");
             }
         }
+
         public void RemoveActiveWeapon()
         {
             Player.PlayerAttack.DeleteWeapon();
         }
+
         private bool IsWeapon(string itemId)
         {
             return _weaponConfigs.Contains(itemId);
         }
 
-        public WeaponWrapper GetWeaponWrapper(string weaponId) => _weapons.ContainsKey(weaponId) ? _weapons[weaponId] : _weapons[weaponId] = CreateWeaponWrapper(weaponId);
+        public WeaponWrapper GetWeaponWrapper(string weaponId) =>
+                _weapons.ContainsKey(weaponId) ? _weapons[weaponId] : _weapons[weaponId] = CreateWeaponWrapper(weaponId);
 
         [CanBeNull]
         public WeaponWrapper FindWeaponWrapper(string weaponId) => !IsWeapon(weaponId) ? null : GetWeaponWrapper(weaponId);

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Dino.Weapon.Components
 {
-    public class WeaponWrapper : IDisposable
+    public class WeaponWrapper
     {
         public string WeaponId { get; set; }
         [CanBeNull]
@@ -34,11 +34,6 @@ namespace Dino.Weapon.Components
                     Timer = weaponTimer,
                     Clip = clip,
             };
-        }
-
-        public void Dispose()
-        {
-            Clip?.Dispose();
         }
     }
 }
