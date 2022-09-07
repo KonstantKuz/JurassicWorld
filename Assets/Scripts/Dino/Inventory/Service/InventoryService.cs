@@ -74,7 +74,7 @@ namespace Dino.Inventory.Service
             return itemId;
         }
         
-        public void DecreaseItems(string itemName, int amount)
+        public void DecreaseItemAmount(string itemName, int amount)
         {
             var itemId = GetItem(itemName);
             var inventory = Inventory;
