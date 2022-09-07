@@ -40,16 +40,15 @@ namespace Dino.Loot.Service
         public void Collect(Loot loot)
         {
             var itemId = _inventoryService.Add(loot.ReceivedItemId, loot.ReceivedItemType, loot.ReceivedItemAmount);
-            if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank) {
-                _activeItemService.Replace(itemId);
-            }
+            TryEquip(itemId);
+            
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(itemId.FullName);
             _messenger.Publish(new LootCollectedMessage());
+            
             loot.OnCollected?.Invoke(loot);
             GameObject.Destroy(loot.gameObject);
         }
-
         public void DropLoot(ItemId itemId)
         {
             var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == itemId.Name);
@@ -59,12 +58,20 @@ namespace Dino.Loot.Service
             }
 
             var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
-            lootObject.Init(itemId);
+            lootObject.InitFromItem(itemId);
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);
         }
-
+        private void TryEquip(ItemId itemId)
+        {
+            if (!_activeItemService.CanEquip(itemId)) {
+                return;
+            }
+            if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank) {
+                _activeItemService.Replace(itemId);
+            }
+        }
         private void SetLootPositionAndRotation(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {
             lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer).XZ(), Quaternion.identity);

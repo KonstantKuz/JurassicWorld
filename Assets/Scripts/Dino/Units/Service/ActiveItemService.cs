@@ -13,23 +13,21 @@ namespace Dino.Units.Service
     public class ActiveItemService
     {
         private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
-        
+
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
         [Inject]
         private World _world;
         [Inject]
-        private WeaponService _weaponService;     
+        private WeaponService _weaponService;
         [Inject]
         private InventoryService _inventoryService;
-        
-        private ActiveItemRepository _repository;        
+
+        private ActiveItemRepository _repository;
 
         public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
-        
-        private PlayerUnit Player => _world.RequirePlayer();
 
-        public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
+        private PlayerUnit Player => _world.RequirePlayer();
 
         public void Init()
         {
@@ -37,24 +35,21 @@ namespace Dino.Units.Service
 
             if (!_repository.Exists()) {
                 _repository.Set(null);
-            }
-            else
-            {
+            } else {
                 Equip(_repository.Get());
             }
         }
+
+        public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
+
+        public bool IsActiveItem(ItemId itemId) => HasActiveItem() && itemId.Equals(_activeItemId.Value);
+
+        public bool CanEquip(ItemId itemId) => itemId.Type == InventoryItemType.Weapon;
+
         public void Replace(ItemId itemId)
         {
             UnEquip();
             Equip(itemId);
-        }
-
-        public bool IsActiveItem(ItemId itemId)
-        {
-            if (!HasActiveItem()) {
-                return false;
-            }
-            return itemId.Equals(_activeItemId.Value);
         }
 
         public void Equip(ItemId itemId)
@@ -63,21 +58,25 @@ namespace Dino.Units.Service
                 this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
                 return;
             }
+            if (!CanEquip(itemId)) {
+                this.Logger().Error($"Equip error, type of inventory item must be weapon, item:= {itemId}");
+                return;
+            }
             if (_activeItemId.Value != null) {
                 RemoveActiveItemObject();
             }
             var itemOwner = Player.ActiveItemOwner;
             var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
-            _activeItemId.SetValueAndForceNotify(itemId);
             itemOwner.Set(itemObject);
-            
+
             _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
+            _activeItemId.SetValueAndForceNotify(itemId);
         }
 
         public void UnEquip()
         {
-            _activeItemId.SetValueAndForceNotify(null);
             RemoveActiveItemObject();
+            _activeItemId.SetValueAndForceNotify(null);
         }
 
         public void RemoveActiveItemObject()

@@ -19,7 +19,7 @@ namespace Dino.Loot
         
         public Action<Loot> OnCollected;
         
-        public void Init(ItemId itemId)
+        public void InitFromItem(ItemId itemId)
         {
             _receivedItemId = itemId.FullName;
             _receivedItemType = itemId.Type;
