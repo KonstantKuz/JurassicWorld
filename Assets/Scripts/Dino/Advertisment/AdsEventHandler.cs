@@ -1,8 +1,8 @@
-﻿using SuperMaxim.Messaging;
-using Dino.Session.Messages;
+﻿using Dino.Session.Messages;
 using Dino.Session.Model;
+using SuperMaxim.Messaging;
 
-namespace Survivors.Advertisment.Service
+namespace Dino.Advertisment
 {
     public class AdsEventHandler
     {

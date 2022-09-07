@@ -1,7 +1,7 @@
 ﻿using System;
 using YsoCorp.GameUtils;
 
-namespace Survivors.Advertisment.Providers
+namespace Feofun.Advertisment.Providers
 {
     public class YCAdsProviderAdapter : IAdsProvider
     {

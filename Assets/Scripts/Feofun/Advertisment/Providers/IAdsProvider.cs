@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Survivors.Advertisment.Providers
+namespace Feofun.Advertisment.Providers
 {
     public interface IAdsProvider
     {

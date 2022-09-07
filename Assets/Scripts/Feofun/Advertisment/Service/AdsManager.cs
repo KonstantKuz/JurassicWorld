@@ -1,9 +1,9 @@
 ﻿using System;
+using Feofun.Advertisment.Providers;
 using Logger.Extension;
-using Survivors.Advertisment.Providers;
 using Zenject;
 
-namespace Survivors.Advertisment.Service
+namespace Feofun.Advertisment.Service
 {
     public class AdsManager
     {

@@ -1,4 +1,5 @@
 using Dino.ABTest;
+using Dino.Advertisment;
 using Dino.Analytics;
 using Dino.Cheats.Installer;
 using Dino.Config;
@@ -13,7 +14,6 @@ using Dino.Units.Installer;
 using Feofun.ABTest.Installer;
 using Feofun.Localization.Service;
 using SuperMaxim.Messaging;
-using Survivors.Advertisment.Installer;
 using UnityEngine;
 
 namespace Dino.Core.MonoInstaller

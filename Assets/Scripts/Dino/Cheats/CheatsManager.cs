@@ -6,10 +6,10 @@ using Dino.Inventory.Service;
 using Dino.Units.Service;
 using Feofun.ABTest;
 using Feofun.ABTest.Providers;
+using Feofun.Advertisment.Providers;
+using Feofun.Advertisment.Service;
 using Feofun.Localization.Service;
 using Logger.Extension;
-using Survivors.Advertisment.Providers;
-using Survivors.Advertisment.Service;
 using UnityEngine;
 using Zenject;
 
