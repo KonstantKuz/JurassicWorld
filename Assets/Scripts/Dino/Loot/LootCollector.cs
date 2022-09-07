@@ -1,4 +1,5 @@
-﻿using Dino.Inventory.Service;
+﻿using Dino.Inventory.Model;
+using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Loot.Service;
 using Dino.Session.Service;
@@ -10,6 +11,8 @@ namespace Dino.Loot
     [RequireComponent(typeof(LootHudOwner))]
     public class LootCollector : MonoBehaviour
     {
+        public const int MAX_UNIQUE_WEAPONS_COUNT = 4;
+        
         [SerializeField] private float _collectRadius = 1.5f;
         [SerializeField] private float _collectTime = 1f;
         [SerializeField] private SphereCollider _collider;
@@ -52,8 +55,7 @@ namespace Dino.Loot
 
         private void TryCollect(Loot loot)
         {
-            if (_world.IsPaused || _inventoryService.ItemsCount >= InventoryService.MAX_ITEMS_COUNT)
-            {
+            if (_world.IsPaused || _inventoryService.GetUniqueItemsCount(InventoryItemType.Weapon) >= MAX_UNIQUE_WEAPONS_COUNT) {
                 return;
             }
             

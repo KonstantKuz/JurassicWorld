@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
 using UniRx;
@@ -15,6 +16,7 @@ namespace Dino.Inventory.Service
 
         private Model.Inventory Inventory => _repository.Get();
         public int ItemsCount => Inventory.Items.Count;
+        public int GetUniqueItemsCount(InventoryItemType type) => Inventory.Items.Count(it => it.Type == type);
 
         public void OnWorldSetup()
         {

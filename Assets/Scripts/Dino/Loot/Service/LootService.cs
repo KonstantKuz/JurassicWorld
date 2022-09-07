@@ -39,7 +39,7 @@ namespace Dino.Loot.Service
 
         public void Collect(Loot loot)
         {
-            var itemId = _inventoryService.Add(loot.ReceivedItemId);
+            var itemId = _inventoryService.Add(loot.ReceivedItemId, loot.ReceivedItemType, loot.ReceivedItemAmount);
             if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank) {
                 _activeItemService.Replace(itemId);
             }
@@ -59,7 +59,7 @@ namespace Dino.Loot.Service
             }
 
             var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
-            lootObject.ReceivedItemId = itemId.FullName;
+            lootObject.Init(itemId);
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);

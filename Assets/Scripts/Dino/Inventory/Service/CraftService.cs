@@ -52,21 +52,21 @@ namespace Dino.Inventory.Service
 
         public IEnumerable<CraftRecipeConfig> FindAllMatchingRecipes(HashSet<ItemId> ingredients)
         {
-            var groupingIngredients = ingredients.GroupBy(p => p.FullName).ToDictionary(it => it.Key, it => it.Count());
+            var ingredientsMap = ingredients.ToDictionary(it => it.FullName, it => it.Amount);
             foreach (var recipe in _craftConfig.Crafts.Values) {
-                if (AreIngredientsMatchingRecipe(recipe, groupingIngredients)) {
+                if (AreIngredientsMatchingRecipe(recipe, ingredientsMap)) {
                     yield return recipe;
                 }
             }
         }
 
-        private bool AreIngredientsMatchingRecipe(CraftRecipeConfig recipe, Dictionary<string, int> groupingIngredients)
+        private bool AreIngredientsMatchingRecipe(CraftRecipeConfig recipe, Dictionary<string, int> ingredients)
         {
-            if (groupingIngredients.Count != recipe.Ingredients.Count) {
+            if (ingredients.Count != recipe.Ingredients.Count) {
                 return false;
             }
-            return recipe.Ingredients.All(ingredient => groupingIngredients.ContainsKey(ingredient.Name)
-                                                        && groupingIngredients[ingredient.Name] == ingredient.Count);
+            return recipe.Ingredients.All(ingredient => ingredients.ContainsKey(ingredient.Name)
+                                                        && ingredients[ingredient.Name] == ingredient.Count);
         }
         [CanBeNull]
         public CraftRecipeConfig FindHighestRankPossibleRecipeBy(string craftItemName)
