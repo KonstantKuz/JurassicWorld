@@ -1,10 +1,10 @@
 ﻿using System;
-using Dino.ABTest.Providers;
+using Feofun.ABTest.Providers;
 using JetBrains.Annotations;
 using Logger.Extension;
 using Zenject;
 
-namespace Dino.ABTest
+namespace Feofun.ABTest
 {
     [PublicAPI]
     public class ABTest
@@ -23,7 +23,7 @@ namespace Dino.ABTest
                 return _variantId;
             }
         }
-        public bool WithDisasters => CurrentVariantId.Equals(ABTestVariantId.WithDisasters.ToCamelCase());
+
         
         public void Reload()
         {

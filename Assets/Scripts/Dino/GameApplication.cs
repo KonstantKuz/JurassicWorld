@@ -1,6 +1,6 @@
-﻿using Dino.ABTest.InitStep;
-using Dino.Analytics;
+﻿using Dino.Analytics;
 using Dino.Core.InitStep;
+using Feofun.ABTest.InitStep;
 using Feofun.App;
 using Feofun.App.Init;
 using JetBrains.Annotations;

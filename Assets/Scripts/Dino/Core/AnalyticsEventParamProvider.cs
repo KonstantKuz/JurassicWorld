@@ -14,7 +14,7 @@ namespace Dino.Core
         [Inject] private LevelService _levelService;
         [Inject] private SessionService _sessionService;
         [Inject] private PlayerProgressService _playerProgressService;
-        [Inject] private ABTest.ABTest _abTest;
+        [Inject] private Feofun.ABTest.ABTest _abTest;
 
         public Dictionary<string, object> GetParams(IEnumerable<string> paramNames)
         {

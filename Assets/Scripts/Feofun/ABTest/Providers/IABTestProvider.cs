@@ -1,4 +1,4 @@
-﻿namespace Dino.ABTest.Providers
+﻿namespace Feofun.ABTest.Providers
 {
     public interface IABTestProvider
     {

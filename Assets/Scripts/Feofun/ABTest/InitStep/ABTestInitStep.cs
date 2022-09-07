@@ -1,7 +1,7 @@
 ﻿using Feofun.App.Init;
 using Zenject;
 
-namespace Dino.ABTest.InitStep
+namespace Feofun.ABTest.InitStep
 {
     public class ABTestInitStep : AppInitStep
     {

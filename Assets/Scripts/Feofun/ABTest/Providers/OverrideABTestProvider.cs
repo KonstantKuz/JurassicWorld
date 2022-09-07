@@ -1,22 +1,23 @@
-﻿using Dino.Cheats;
-using Logger.Extension;
+﻿using Logger.Extension;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.ABTest.Providers
+namespace Feofun.ABTest.Providers
 {
     public class OverrideABTestProvider : IABTestProvider
     {
         private const string OVERRIDE_AB_TEST_KEY = "OverrideAbTestId";
-        
+
+        private readonly string _controlVariant;
         private readonly IABTestProvider _impl;
 
         [Inject]
-        private CheatsManager _cheatsManager;
+        private IABTestCheatManager _cheatsManager;
 
-        public OverrideABTestProvider(IABTestProvider impl)
+        public OverrideABTestProvider(IABTestProvider impl, string controlVariant)
         {
             _impl = impl;
+            _controlVariant = controlVariant;
         }
         public string GetVariant() => _cheatsManager.IsABTestCheatEnabled ? GetOverrideVariant() : _impl.GetVariant();
         private string GetOverrideVariant()
@@ -26,7 +27,7 @@ namespace Dino.ABTest.Providers
             return variantId;
         }
         public static void SetVariantId(string variantId) => PlayerPrefs.SetString(OVERRIDE_AB_TEST_KEY, variantId);
-        private static string GetVariantFromPlayerPrefs() => PlayerPrefs.GetString(OVERRIDE_AB_TEST_KEY, ABTestVariantId.Control.ToCamelCase());
+        private string GetVariantFromPlayerPrefs() => PlayerPrefs.GetString(OVERRIDE_AB_TEST_KEY, _controlVariant);
     
     }
 }
