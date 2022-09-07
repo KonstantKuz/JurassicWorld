@@ -69,7 +69,7 @@ namespace Dino.Units.Service
             var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
             itemOwner.Set(itemObject);
 
-            _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
+            _weaponService.SetActiveWeapon(itemId, itemOwner.GetWeapon());
             _activeItemId.SetValueAndForceNotify(itemId);
         }
 
@@ -81,7 +81,7 @@ namespace Dino.Units.Service
 
         public void RemoveActiveItemObject()
         {
-            _weaponService.Remove();
+            _weaponService.RemoveActiveWeapon();
             Player.ActiveItemOwner.Remove();
         }
 

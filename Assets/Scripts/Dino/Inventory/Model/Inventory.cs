@@ -8,7 +8,7 @@ namespace Dino.Inventory.Model
     public class Inventory
     {
         public List<ItemId> Items { get; } = new List<ItemId>();
-
+        public IEnumerable<ItemId> GetItems(InventoryItemType type) => Items.Where(it => it.Type == type);
         public void Add(ItemId id)
         {
             if (Contains(id)) {

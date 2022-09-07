@@ -21,7 +21,7 @@ namespace Dino.Inventory.Service
         private Model.Inventory Inventory => _repository.Get();
         
         public int GetUniqueItemsCount(InventoryItemType type) => Inventory.Items.Count(it => it.Type == type);
-        public IEnumerable<ItemId> GetItems(InventoryItemType type) => Inventory.Items.Where(it => it.Type == type);
+        public IEnumerable<ItemId> GetItems(InventoryItemType type) => Inventory.GetItems(type);
 
         public void OnWorldSetup()
         {

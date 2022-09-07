@@ -3,6 +3,7 @@
     public enum InventoryItemType
     {
         Weapon, 
-        Material
+        Material,
+        Ammo
     }
 }

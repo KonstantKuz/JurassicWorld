@@ -19,13 +19,13 @@ namespace Dino.UI.Screen.World.Inventory.View
         [SerializeField]
         private Image _icon;
         [SerializeField] 
-        private TextMeshProUGUI _rank;
-        
+        private TextMeshProUGUI _ammoCount;
         [SerializeField]
         private SerializableDictionary<ItemViewState, GameObject> _stateContainers;
         [SerializeField]
-        private GameObject _canCraftContainer;
-
+        private GameObject _canCraftContainer;     
+        [SerializeField]
+        private GameObject _noAmmoContainer;
         [SerializeField]
         private ItemReloadingView _reloadingView;
         
@@ -40,10 +40,10 @@ namespace Dino.UI.Screen.World.Inventory.View
             _disposable = new CompositeDisposable();
             
             Model = model;
-            _reloadingView.Init(model.WeaponTimer);
+            _reloadingView.Init(model.WeaponWrapper?.Timer);
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
-            SetRank(model);
+            SetAmmoCountState(model);
             
             if (model.Icon != null) {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
@@ -54,15 +54,25 @@ namespace Dino.UI.Screen.World.Inventory.View
             }
         }
 
-        private void SetRank(ItemViewModel model)
+        private void SetAmmoCountState(ItemViewModel model)
         {
-            _rank.text = model.Rank > 0 ? model.Rank.ToString() : "";
+            _noAmmoContainer.SetActive(false);
+            if (model.WeaponWrapper == null) {
+                _ammoCount.text = "";
+                return;
+            }
+            model.WeaponWrapper.Clip.AmmoCount.Subscribe(UpdateAmmoCount).AddTo(_disposable);
+        }  
+        private void UpdateAmmoCount(int ammoCount)
+        {
+            _ammoCount.text = ammoCount.ToString();
+            _noAmmoContainer.SetActive(ammoCount <= 0);
         }
 
         public void InitViewForDrag(ItemViewModel model)
         {
             _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
-            SetRank(model);
+            SetAmmoCountState(model);
             UpdateState(model.State.Value);   
             UpdateCraftState(model.CanCraft.Value);
         }
@@ -87,7 +97,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         private void SetItemsVisibility(bool visible)
         {
             _icon.gameObject.SetActive(visible);
-            _rank.gameObject.SetActive(visible);
+            _ammoCount.gameObject.SetActive(visible);
             _reloadingView.gameObject.SetActive(visible);
         }
 
