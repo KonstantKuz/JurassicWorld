@@ -6,7 +6,6 @@ using Dino.Location;
 using Dino.Location.Service;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
-using Dino.Units.Service;
 using Logger.Extension;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -22,10 +21,7 @@ namespace Dino.Loot.Service
 
         [Inject]
         private InventoryService _inventoryService;
-        [Inject]
-        private ActiveItemService _activeItemService;
-
-        [Inject]
+        [Inject] 
         private World _world;
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
@@ -40,7 +36,6 @@ namespace Dino.Loot.Service
         public void Collect(Loot loot)
         {
             var itemId = _inventoryService.Add(loot.ReceivedItemId, loot.ReceivedItemType, loot.ReceivedItemAmount);
-            TryEquip(itemId);
             
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(itemId.FullName);
@@ -48,6 +43,12 @@ namespace Dino.Loot.Service
             
             loot.OnCollected?.Invoke(loot);
             GameObject.Destroy(loot.gameObject);
+        }
+
+        public bool CanCollect(Loot loot)
+        {
+            return loot.ReceivedItemType != InventoryItemType.Weapon
+                   || _inventoryService.GetUniqueItemsCount(InventoryItemType.Weapon) < InventoryService.MAX_UNIQUE_WEAPONS_COUNT;
         }
         public void DropLoot(ItemId itemId)
         {
@@ -62,15 +63,6 @@ namespace Dino.Loot.Service
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);
-        }
-        private void TryEquip(ItemId itemId)
-        {
-            if (!_activeItemService.CanEquip(itemId)) {
-                return;
-            }
-            if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank) {
-                _activeItemService.Replace(itemId);
-            }
         }
         private void SetLootPositionAndRotation(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {

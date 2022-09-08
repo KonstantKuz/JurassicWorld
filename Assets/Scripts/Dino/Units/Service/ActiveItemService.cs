@@ -13,21 +13,23 @@ namespace Dino.Units.Service
     public class ActiveItemService
     {
         private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
+        private readonly InventoryService _inventoryService;
 
-        [Inject]
-        private WorldObjectFactory _worldObjectFactory;
-        [Inject]
-        private World _world;
-        [Inject]
-        private WeaponService _weaponService;
-        [Inject]
-        private InventoryService _inventoryService;
+        [Inject] private WorldObjectFactory _worldObjectFactory;
+        [Inject] private World _world;
+        [Inject] private WeaponService _weaponService;
 
         private ActiveItemRepository _repository;
 
         public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
-
         private PlayerUnit Player => _world.RequirePlayer();
+
+        public ActiveItemService(InventoryService inventoryService)
+        {
+            _inventoryService = inventoryService;
+            inventoryService.OnItemAdded += OnItemAdded;
+            inventoryService.OnItemRemoved += OnItemRemoved;
+        }
 
         public void Init()
         {
@@ -40,11 +42,13 @@ namespace Dino.Units.Service
             }
         }
 
+        public void Save()
+        {
+            _repository.Set(ActiveItemId.Value);
+        }
+
         public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
-
         public bool IsActiveItem(ItemId itemId) => HasActiveItem() && itemId.Equals(_activeItemId.Value);
-
-        public bool CanEquip(ItemId itemId) => itemId.Type == InventoryItemType.Weapon;
 
         public void Replace(ItemId itemId)
         {
@@ -58,8 +62,8 @@ namespace Dino.Units.Service
                 this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
                 return;
             }
-            if (!CanEquip(itemId)) {
-                this.Logger().Error($"Equip error, type of inventory item must be weapon, item:= {itemId}");
+            if (!IsItemTypeEquipable(itemId)) {
+                this.Logger().Error($"Equip error, type of inventory item must be equipable, item:= {itemId}");
                 return;
             }
             if (_activeItemId.Value != null) {
@@ -85,9 +89,25 @@ namespace Dino.Units.Service
             Player.ActiveItemOwner.Remove();
         }
 
-        public void Save()
+        private void OnItemAdded(ItemId itemId) => TryEquipAddedItem(itemId);
+
+        private void OnItemRemoved(ItemId itemId)
         {
-            _repository.Set(ActiveItemId.Value);
+            if (IsActiveItem(itemId)) {
+                UnEquip();
+            }
+        }
+
+        private bool IsItemTypeEquipable(ItemId itemId) => itemId.Type.IsEquipable();
+
+        private void TryEquipAddedItem(ItemId itemId)
+        {
+            if (!IsItemTypeEquipable(itemId)) {
+                return;
+            }
+            if (!HasActiveItem() || itemId.Rank >= ActiveItemId.Value.Rank) {
+                Replace(itemId);
+            }
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Dino.UI.Screen.World.Inventory
                                         UpdateActiveItem, 
                                         OnBeginItemDrag, 
                                         OnEndItemDrag); 
-            _view.Init(_model.Items);
+            _view.Init(_model);
         }
 
         private void OnEndItemDrag(ItemViewModel model)
@@ -71,9 +71,6 @@ namespace Dino.UI.Screen.World.Inventory
 
         private void RemoveItemFromInventory(ItemViewModel itemModel)
         {
-            if (_activeItemService.IsActiveItem(itemModel.Id)) {
-                _activeItemService.UnEquip();
-            }
             _inventoryService.Remove(itemModel.Id);
             _lootService.DropLoot(itemModel.Id);
         }
@@ -90,8 +87,7 @@ namespace Dino.UI.Screen.World.Inventory
                 _itemCursor.Detach();
                 return;
             }
-            var craftedItem = _craftService.Craft(ingredients);
-            _activeItemService.Replace(craftedItem);
+            _craftService.Craft(ingredients);
             _itemCursor.Detach();
         }
 
