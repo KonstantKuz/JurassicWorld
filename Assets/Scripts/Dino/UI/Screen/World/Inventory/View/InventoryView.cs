@@ -14,17 +14,20 @@ namespace Dino.UI.Screen.World.Inventory.View
         private InventoryItemView[] _items;
         
         private CompositeDisposable _disposable;
+        private InventoryModel _model;
 
         public InventoryItemView ItemPrefab => _itemPrefab;
 
         private InventoryItemView[] Items => _items ??= GetComponentsInChildren<InventoryItemView>();
-        
-        public void Init(IReactiveProperty<List<ItemViewModel>> items)
+
+        public void Init(InventoryModel model)
         {
-            _disposable?.Dispose();
+            Dispose();
             _disposable = new CompositeDisposable();
-            items.Subscribe(UpdateItems).AddTo(_disposable);
+            _model = model;
+            model.Items.Subscribe(UpdateItems).AddTo(_disposable);
         }
+        
         private void UpdateItems(IReadOnlyList<ItemViewModel> itemViews)
         {
             for (int idx = 0; idx < Items.Length; idx++)
@@ -41,16 +44,21 @@ namespace Dino.UI.Screen.World.Inventory.View
             }
         }
 
-        private void OnDisable()
+        private void Dispose()
         {
             _disposable?.Dispose();
             _disposable = null;
+            _model = null;
+        }
+
+        private void OnDisable()
+        {
+            Dispose();
         }
 
         public IEnumerable<InventoryItemView> GetItemViews(string itemName)
         {
-            var itemId = ItemId.Create(itemName, InventoryItemType.Weapon);
-
+            var itemId = ItemId.Create(itemName, _model.InventoryType);
             return Items
                 .Where(it => it.gameObject.activeSelf && itemId.Equals(it.Model?.Id));
         }

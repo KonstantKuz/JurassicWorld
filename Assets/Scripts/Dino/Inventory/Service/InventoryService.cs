@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Inventory.Model;
@@ -14,11 +13,14 @@ namespace Dino.Inventory.Service
         public const int MAX_UNIQUE_WEAPONS_COUNT = 4;
         
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
-
         private InventoryRepository _repository = new InventoryRepository();
+        
+        
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
-
         private Model.Inventory Inventory => _repository.Get();
+
+        public event Action<ItemId> OnItemAdded;   
+        public event Action<ItemId> OnItemRemoved; 
         
         public int GetUniqueItemsCount(InventoryItemType type) => Inventory.Items.Count(it => it.Type == type);
         public IEnumerable<ItemId> GetItems(InventoryItemType type) => Inventory.Items.Where(it => it.Type == type);
@@ -56,7 +58,7 @@ namespace Dino.Inventory.Service
             return itemId;
         }
 
-        public int Count(string itemName)
+        public int GetAmount(string itemName)
         {
             var item = FindItem(itemName);
             return item?.Amount ?? 0;
@@ -85,11 +87,12 @@ namespace Dino.Inventory.Service
             Set(inventory);
         }
 
-        public void Remove(ItemId id)
+        public void Remove(ItemId itemId)
         {
             var inventory = Inventory;
-            inventory.Remove(id);
+            inventory.Remove(itemId);
             Set(inventory);
+            OnItemRemoved?.Invoke(itemId);
         }
         private ItemId CreateNewItem(string itemName, InventoryItemType type, int amount)
         {
@@ -97,6 +100,7 @@ namespace Dino.Inventory.Service
             var itemId = ItemId.Create(itemName, type, amount);
             inventory.Add(itemId);
             Set(inventory);
+            OnItemAdded?.Invoke(itemId);
             return itemId;
         }
 

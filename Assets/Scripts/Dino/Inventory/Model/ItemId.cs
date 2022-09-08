@@ -15,7 +15,7 @@ namespace Dino.Inventory.Model
         public int Rank { get; }
         public InventoryItemType Type { get; }
 
-        private ItemId(string fullName, InventoryItemType type, int amount)
+        public ItemId(string fullName, InventoryItemType type, int amount)
         {
             Assert.IsTrue(amount >= 0, "Error creating item, should add non-negative amount items");
             FullName = fullName;

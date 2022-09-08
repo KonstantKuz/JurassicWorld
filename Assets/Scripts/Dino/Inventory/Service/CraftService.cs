@@ -90,7 +90,7 @@ namespace Dino.Inventory.Service
 
         private bool HasIngredientsInInventory(CraftRecipeConfig recipe)
         {
-            return recipe.Ingredients.All(ingredient => _inventoryService.Count(ingredient.Name) >= ingredient.Count);
+            return recipe.Ingredients.All(ingredient => _inventoryService.GetAmount(ingredient.Name) >= ingredient.Count);
         }
 
         public bool HasIngredientsForRecipe(string recipeName)
