@@ -53,6 +53,7 @@ namespace Dino.Session.Service
             CreateLevel();
             CreatePlayer();
             InitEnemies();
+            _messenger.Publish(new SessionStartMessage(Session.LevelId, _playerProgressService.Progress.LevelNumber));            
         }
 
         private void CreateSession()
@@ -60,7 +61,6 @@ namespace Dino.Session.Service
             var newSession = Model.Session.Build(_levelService.CurrentLevelId);
             _repository.Set(newSession);
             _playerProgressService.OnSessionStarted(newSession.LevelId);
-            _messenger.Publish(new SessionStartMessage(newSession.LevelId, _playerProgressService.Progress.LevelNumber));
         }
 
         private void CreateLevel()

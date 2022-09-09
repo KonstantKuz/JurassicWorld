@@ -4,9 +4,9 @@ using SuperMaxim.Messaging;
 
 namespace Dino.Advertisment
 {
-    public class AdsEventHandler
+    public class YsoSessionEventHandler
     {
-        public AdsEventHandler(IMessenger messenger)
+        public YsoSessionEventHandler(IMessenger messenger)
         {
             messenger.Subscribe<SessionStartMessage>(OnSessionStart);
             messenger.Subscribe<SessionEndMessage>(OnSessionEnd);
