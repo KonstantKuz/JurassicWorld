@@ -7,24 +7,19 @@ namespace Dino.Inventory.Model
 {
     public class Inventory
     {
-        public List<ItemId> Items { get; } = new List<ItemId>();
+        private List<KeyValuePair<ItemId, Item>> Items { get; } = new List<KeyValuePair<ItemId, Item>>();
+        public int GetUniqueItemsCount(InventoryItemType type) => Items.Count(it => it.Value.Type == type);
+        public IEnumerable<Item> GetItems(InventoryItemType type) => Items.Where(it => it.Value.Type == type)
+                                                                          .Select(it => it.Value);
 
-        public void Add(ItemId id)
+        public void Create(ItemId id, Item item)
         {
             if (Contains(id)) {
                 this.Logger().Error($"Inventory adding error, inventory already contains item id:= {id}");
                 return;
             }
-            Items.Add(id);
+            Items.Add(new KeyValuePair<ItemId, Item>(id, item));
         }
-
-        [CanBeNull]
-        public ItemId FindItem(string fullName)
-        {
-            return Items.FirstOrDefault(it => it.FullName == fullName);
-        }
-        
-        public bool Contains(ItemId id) => Items.Contains(id);
 
         public void Remove(ItemId id)
         {
@@ -32,7 +27,12 @@ namespace Dino.Inventory.Model
                 this.Logger().Error($"Inventory remove error, inventory doesn't contain item id:= {id}");
                 return;
             }
-            Items.Remove(id);
+            Items.RemoveAll(it => it.Key.Equals(id));
         }
+
+        [CanBeNull]
+        public Item FindItem(ItemId id) => Items.FirstOrDefault(it => it.Key.Equals(id)).Value;
+
+        public bool Contains(ItemId id) => Items.Exists(it => it.Key.Equals(id));
     }
 }

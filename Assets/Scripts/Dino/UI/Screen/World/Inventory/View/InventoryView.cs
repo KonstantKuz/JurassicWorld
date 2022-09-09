@@ -56,11 +56,13 @@ namespace Dino.UI.Screen.World.Inventory.View
             Dispose();
         }
 
-        public IEnumerable<InventoryItemView> GetItemViews(string itemName)
+        public IEnumerable<InventoryItemView> GetItemViews(string itemFullName)
         {
-            var itemId = ItemId.Create(itemName, _model.InventoryType);
+            var itemId = ItemId.Create(itemFullName);
             return Items
-                .Where(it => it.gameObject.activeSelf && itemId.Equals(it.Model?.Id));
+                    .Where(it => it.Model?.Item != null
+                                 && it.gameObject.activeSelf 
+                                 && itemId.Equals(it.Model?.Item.Id));
         }
     }
 }

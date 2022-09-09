@@ -19,7 +19,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         private readonly CraftService _craftService;
         private readonly WeaponService _weaponService;
-        private readonly Action<ItemId> _onClick;
+        private readonly Action<Item> _onClick;
         private readonly Action<ItemViewModel> _onBeginDrag;
         private readonly Action<ItemViewModel> _onEndDrag;
 
@@ -36,7 +36,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
                               CraftService craftService,
                               WeaponService weaponService,
                               UiInventorySettings uiInventorySettings,
-                              Action<ItemId> onClick,
+                              Action<Item> onClick,
                               Action<ItemViewModel> onBeginDrag,
                               Action<ItemViewModel> onEndDrag)
         {
@@ -81,7 +81,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
                         .ToList();
         }
 
-        private ItemViewModel CreateItemViewModel(ItemId id)
+        private ItemViewModel CreateItemViewModel(Item id)
         {
             return new ItemViewModel(id, GetState(id), CanCraft(id), _weaponService.GetTimer(id), () => _onClick?.Invoke(id), _onBeginDrag,
                                      _onEndDrag);
@@ -89,16 +89,16 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         public void UpdateItemModel(ItemViewModel model)
         {
-            model.UpdateState(GetState(model.Id));
-            model.UpdateCraftState(CanCraft(model.Id));
+            model.UpdateState(GetState(model.Item));
+            model.UpdateCraftState(CanCraft(model.Item));
         }
 
-        private bool CanCraft(ItemId id)
+        private bool CanCraft(Item item)
         {
-            return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.FullName));
+            return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(item.Id.FullName));
         }
 
-        private ItemViewState GetState([CanBeNull] ItemId id)
+        private ItemViewState GetState([CanBeNull] Item id)
         {
             if (id == null) {
                 return ItemViewState.Empty;

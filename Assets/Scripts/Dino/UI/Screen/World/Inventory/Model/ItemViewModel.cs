@@ -12,7 +12,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly BoolReactiveProperty _canCraft;
 
         [CanBeNull]
-        public ItemId Id { get; }
+        public Item Item { get; }
         [CanBeNull]
         public string Icon { get; }
         public int Rank { get; }
@@ -28,7 +28,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         [CanBeNull]
         public Action<ItemViewModel> OnEndDrag { get; }
 
-        public ItemViewModel([CanBeNull] ItemId id,
+        public ItemViewModel([CanBeNull] Item item,
                              ItemViewState state,
                              bool canCraft = false, 
                              WeaponTimer weaponTimer = null,
@@ -36,16 +36,16 @@ namespace Dino.UI.Screen.World.Inventory.Model
                              Action<ItemViewModel> onBeginDrag = null,
                              Action<ItemViewModel> onEndDrag = null)
         {
-            Id = id;
-            if (id == null)
+            Item = item;
+            if (item == null)
             {
                 Icon = null;
                 Rank = 0;
             }
             else
             {
-                Icon = Id.Name;
-                Rank = id.Rank;
+                Icon = Item.Name;
+                Rank = item.Rank;
             }
 
             _state = new ReactiveProperty<ItemViewState>(state);
@@ -64,9 +64,9 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _canCraft.SetValueAndForceNotify(canCraft);
         }
 
-        public static ItemViewModel ForDrag(ItemId id, bool canCraft)
+        public static ItemViewModel ForDrag(Item item, bool canCraft)
         {
-            return new ItemViewModel(id, ItemViewState.Inactive, canCraft);
+            return new ItemViewModel(item, ItemViewState.Inactive, canCraft);
         }
 
         public static ItemViewModel Empty()
