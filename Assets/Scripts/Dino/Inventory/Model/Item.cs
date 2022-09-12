@@ -46,7 +46,7 @@ namespace Dino.Inventory.Model
         private void ChangeAmount(int delta)
         {
             if (Amount + delta < 0) {
-                this.Logger().Warn($"Amount of imtems cannot be negative, change delta:= {delta}, {ToString()}");
+                this.Logger().Warn($"Amount of items cannot be negative, change delta:= {delta}, {ToString()}");
                 Amount = 0;
                 return;
             }
