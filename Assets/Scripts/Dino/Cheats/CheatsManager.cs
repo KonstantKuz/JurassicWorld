@@ -49,7 +49,7 @@ namespace Dino.Cheats
 
         public void SetActiveWeapon(string itemName)
         {
-            _activeItemService.Replace(ItemId.Create(itemName, InventoryItemType.Weapon));
+            _activeItemService.Replace(Item.Create(ItemId.Create(itemName), InventoryItemType.Weapon));
         } 
         public void RemoveActiveItem()
         {
@@ -57,11 +57,11 @@ namespace Dino.Cheats
         }      
         public void RemoveInventoryWeapon(string itemName)
         { 
-            _inventoryService.Remove(ItemId.Create(itemName, InventoryItemType.Weapon));
+            _inventoryService.Remove(ItemId.Create(itemName));
         }  
         public void AddInventoryWeapon(string itemName)
         { 
-            _inventoryService.Add(itemName, InventoryItemType.Weapon, 1);
+            _inventoryService.Add(ItemId.Create(itemName), InventoryItemType.Weapon, 1);
         }   
         public void Craft(string craftItemId)
         { 

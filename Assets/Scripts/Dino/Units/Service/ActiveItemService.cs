@@ -12,23 +12,25 @@ namespace Dino.Units.Service
 {
     public class ActiveItemService
     {
-        private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
+        private readonly ReactiveProperty<Item> _activeItemId = new ReactiveProperty<Item>(null);
         private readonly InventoryService _inventoryService;
 
-        [Inject] private WorldObjectFactory _worldObjectFactory;
-        [Inject] private World _world;
-        [Inject] private WeaponService _weaponService;
+        [Inject]
+        private WorldObjectFactory _worldObjectFactory;
+        [Inject]
+        private World _world;
+        [Inject]
+        private WeaponService _weaponService;
 
         private ActiveItemRepository _repository;
 
-        public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
+        public IReadOnlyReactiveProperty<Item> ActiveItemId => _activeItemId;
         private PlayerUnit Player => _world.RequirePlayer();
 
         public ActiveItemService(InventoryService inventoryService)
         {
             _inventoryService = inventoryService;
-            inventoryService.OnItemAdded += OnItemAdded;
-            inventoryService.OnItemRemoved += OnItemRemoved;
+            inventoryService.OnItemChanged += OnItemChanged;
         }
 
         public void Init()
@@ -48,33 +50,33 @@ namespace Dino.Units.Service
         }
 
         public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
-        public bool IsActiveItem(ItemId itemId) => HasActiveItem() && itemId.Equals(_activeItemId.Value);
+        public bool IsActiveItem(ItemId itemId) => HasActiveItem() && itemId.Equals(_activeItemId.Value.Id);
 
-        public void Replace(ItemId itemId)
+        public void Replace(Item item)
         {
             UnEquip();
-            Equip(itemId);
+            Equip(item);
         }
 
-        public void Equip(ItemId itemId)
+        public void Equip(Item item)
         {
-            if (!_inventoryService.Contains(itemId)) {
-                this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
+            if (!_inventoryService.Contains(item.Id)) {
+                this.Logger().Error($"Equip error, inventory must contain the item:= {item}");
                 return;
             }
-            if (!IsItemTypeEquipable(itemId)) {
-                this.Logger().Error($"Equip error, type of inventory item must be equipable, item:= {itemId}");
+            if (!IsItemTypeEquipable(item)) {
+                this.Logger().Error($"Equip error, type of inventory item must be equipable, item:= {item}");
                 return;
             }
             if (_activeItemId.Value != null) {
                 RemoveActiveItemObject();
             }
             var itemOwner = Player.ActiveItemOwner;
-            var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
+            var itemObject = _worldObjectFactory.CreateObject(item.Name, itemOwner.Container);
             itemOwner.Set(itemObject);
 
-            _weaponService.SetActiveWeapon(itemId, itemOwner.GetWeapon());
-            _activeItemId.SetValueAndForceNotify(itemId);
+            _weaponService.SetActiveWeapon(item, itemOwner.GetWeapon());
+            _activeItemId.SetValueAndForceNotify(item);
         }
 
         public void UnEquip()
@@ -89,25 +91,32 @@ namespace Dino.Units.Service
             Player.ActiveItemOwner.Remove();
         }
 
-        private void OnItemAdded(ItemId itemId) => TryEquipAddedItem(itemId);
-
-        private void OnItemRemoved(ItemId itemId)
+        private void OnItemChanged(Item item)
         {
-            if (IsActiveItem(itemId)) {
+            if (item.IsZero) {
+                OnItemRemoved(item);
+            } else {
+                TryEquipAddedItem(item);
+            }
+        }
+
+        private void OnItemRemoved(Item item)
+        {
+            if (IsActiveItem(item.Id)) {
                 UnEquip();
             }
         }
-
-        private bool IsItemTypeEquipable(ItemId itemId) => itemId.Type.IsEquipable();
-
-        private void TryEquipAddedItem(ItemId itemId)
+        private void TryEquipAddedItem(Item item)
         {
-            if (!IsItemTypeEquipable(itemId)) {
+            if (!IsItemTypeEquipable(item)) {
                 return;
             }
-            if (!HasActiveItem() || itemId.Rank >= ActiveItemId.Value.Rank) {
-                Replace(itemId);
+            if (!HasActiveItem() || item.Rank >= ActiveItemId.Value.Rank) {
+                Replace(item);
             }
         }
+        private bool IsItemTypeEquipable(Item item) => item.Type.IsEquipable();
+
+     
     }
 }

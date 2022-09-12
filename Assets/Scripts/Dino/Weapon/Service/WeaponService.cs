@@ -35,7 +35,7 @@ namespace Dino.Weapon.Service
         private void OnInventoryUpdate([CanBeNull] Inventory.Model.Inventory inventory)
         {
             inventory?.GetItems(InventoryItemType.Weapon)
-                     .Select(item => item.FullName)
+                     .Select(item => item.Id.FullName)
                      .ForEach(weaponId => {
                          if (!_weapons.ContainsKey(weaponId)) {
                              _weapons[weaponId] = CreateWeaponWrapper(weaponId);
@@ -43,12 +43,12 @@ namespace Dino.Weapon.Service
                      });
         }
 
-        public void SetActiveWeapon(ItemId itemId, BaseWeapon weapon)
+        public void SetActiveWeapon(Item item, BaseWeapon weapon)
         {
-            if (IsWeapon(itemId.FullName)) {
-                SetWeapon(itemId.FullName, weapon);
+            if (IsWeapon(item.Id.FullName)) {
+                SetWeapon(item.Id.FullName, weapon);
             } else {
-                this.Logger().Warn($"Inventory item:= {itemId} is not Weapon");
+                this.Logger().Warn($"Inventory item:= {item} is not Weapon");
             }
         }
 

@@ -35,14 +35,15 @@ namespace Dino.Loot.Service
 
         public void Collect(Loot loot)
         {
-            var itemId = _inventoryService.Add(loot.ReceivedItemId, loot.ReceivedItemType, loot.ReceivedItemAmount);
+            GameObject.Destroy(loot.gameObject);
+            var itemId = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
             
             _playerProgressService.Progress.IncreaseLootCount();
-            _analytics.ReportLootItem(itemId.FullName);
+            _analytics.ReportLootItem(itemId.Id.FullName);
             _messenger.Publish(new LootCollectedMessage());
             
             loot.OnCollected?.Invoke(loot);
-            GameObject.Destroy(loot.gameObject);
+    
         }
 
         public bool CanCollect(Loot loot)
@@ -50,16 +51,16 @@ namespace Dino.Loot.Service
             return loot.ReceivedItemType != InventoryItemType.Weapon
                    || _inventoryService.GetUniqueItemsCount(InventoryItemType.Weapon) < InventoryService.MAX_UNIQUE_WEAPONS_COUNT;
         }
-        public void DropLoot(ItemId itemId)
+        public void DropLoot(Item item)
         {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == itemId.Name);
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == item.Name);
             if (lootPrefab == null) {
-                this.Logger().Error($"Loot prefab not found for itemId:= {itemId}");
+                this.Logger().Error($"Loot prefab not found for itemId:= {item}");
                 return;
             }
 
             var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
-            lootObject.InitFromItem(itemId);
+            lootObject.InitFromItem(item);
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);

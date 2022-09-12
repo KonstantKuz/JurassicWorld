@@ -7,32 +7,32 @@ namespace Dino.Inventory.Model
 {
     public class Inventory
     {
-        public List<ItemId> Items { get; } = new List<ItemId>();
-        public IEnumerable<ItemId> GetItems(InventoryItemType type) => Items.Where(it => it.Type == type);
-        public void Add(ItemId id)
+        private List<KeyValuePair<ItemId, Item>> Items { get; } = new List<KeyValuePair<ItemId, Item>>();
+        public int GetUniqueItemsCount(InventoryItemType type) => Items.Count(it => it.Value.Type == type);
+        public IEnumerable<Item> GetItems(InventoryItemType type) => Items.Where(it => it.Value.Type == type)
+                                                                          .Select(it => it.Value);
+
+        public void AddNewItem(Item item)
         {
-            if (Contains(id)) {
-                this.Logger().Error($"Inventory adding error, inventory already contains item id:= {id}");
+            if (Contains(item.Id)) {
+                this.Logger().Error($"Inventory adding error, inventory already contains item id:= {item.Id}");
                 return;
             }
-            Items.Add(id);
+            Items.Add(new KeyValuePair<ItemId, Item>(item.Id, item));
         }
 
-        [CanBeNull]
-        public ItemId FindItem(string fullName)
-        {
-            return Items.FirstOrDefault(it => it.FullName == fullName);
-        }
-        
-        public bool Contains(ItemId id) => Items.Contains(id);
-
-        public void Remove(ItemId id)
+        public void RemoveItem(ItemId id)
         {
             if (!Contains(id)) {
                 this.Logger().Error($"Inventory remove error, inventory doesn't contain item id:= {id}");
                 return;
             }
-            Items.Remove(id);
+            Items.RemoveAll(it => it.Key.Equals(id));
         }
+
+        [CanBeNull]
+        public Item FindItem(ItemId id) => Items.FirstOrDefault(it => it.Key.Equals(id)).Value;
+
+        public bool Contains(ItemId id) => Items.Exists(it => it.Key.Equals(id));
     }
 }

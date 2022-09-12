@@ -19,7 +19,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         private readonly CraftService _craftService;
         private readonly WeaponService _weaponService;
-        private readonly Action<ItemId> _onClick;
+        private readonly Action<Item> _onClick;
         private readonly Action<ItemViewModel> _onBeginDrag;
         private readonly Action<ItemViewModel> _onEndDrag;
 
@@ -36,7 +36,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
                               CraftService craftService,
                               WeaponService weaponService,
                               UiInventorySettings uiInventorySettings,
-                              Action<ItemId> onClick,
+                              Action<Item> onClick,
                               Action<ItemViewModel> onBeginDrag,
                               Action<ItemViewModel> onEndDrag)
         {
@@ -81,29 +81,29 @@ namespace Dino.UI.Screen.World.Inventory.Model
                         .ToList();
         }
 
-        private ItemViewModel CreateItemViewModel(ItemId id)
+        private ItemViewModel CreateItemViewModel(Item item)
         {
-            return new ItemViewModel(id, GetState(id), CanCraft(id), _weaponService.FindWeaponWrapper(id.FullName), () => _onClick?.Invoke(id), _onBeginDrag,
+            return new ItemViewModel(item, GetState(item), CanCraft(item), _weaponService.FindWeaponWrapper(item.Id), () => _onClick?.Invoke(item), _onBeginDrag,
                                      _onEndDrag);
         }
 
         public void UpdateItemModel(ItemViewModel model)
         {
-            model.UpdateState(GetState(model.Id));
-            model.UpdateCraftState(CanCraft(model.Id));
+            model.UpdateState(GetState(model.Item));
+            model.UpdateCraftState(CanCraft(model.Item));
         }
 
-        private bool CanCraft(ItemId id)
+        private bool CanCraft(Item item)
         {
-            return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.FullName));
+            return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(item.Id.FullName));
         }
 
-        private ItemViewState GetState([CanBeNull] ItemId id)
+        private ItemViewState GetState([CanBeNull] Item item)
         {
-            if (id == null) {
+            if (item == null) {
                 return ItemViewState.Empty;
             }
-            return _activeItemService.IsActiveItem(id) ? ItemViewState.Active : ItemViewState.Inactive;
+            return _activeItemService.IsActiveItem(item.Id) ? ItemViewState.Active : ItemViewState.Inactive;
         }
     }
 }

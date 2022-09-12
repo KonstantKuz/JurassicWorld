@@ -19,11 +19,11 @@ namespace Dino.Loot
         
         public Action<Loot> OnCollected;
         
-        public void InitFromItem(ItemId itemId)
+        public void InitFromItem(Item item)
         {
-            _receivedItemId = itemId.FullName;
-            _receivedItemType = itemId.Type;
-            _receivedItemAmount = itemId.Amount;
+            _receivedItemId = item.Id.FullName;
+            _receivedItemType = item.Type;
+            _receivedItemAmount = item.Amount;
         }
 
         public void IncreaseCollectProgress()
