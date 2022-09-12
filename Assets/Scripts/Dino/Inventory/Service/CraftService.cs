@@ -123,7 +123,7 @@ namespace Dino.Inventory.Service
                 throw new ArgumentException($"Error crafting, ingredients don't contain in inventory:= {recipeId}");
             }
             recipe.Ingredients.ForEach(ingredient => {
-                _inventoryService.DecreaseItemAmount(ItemId.Create(ingredient.Name), ingredient.Count);
+                _inventoryService.Remove(ItemId.Create(ingredient.Name), ingredient.Count);
             });
             var craftedItem = _inventoryService.Add(ItemId.Create(recipe.CraftItemId), InventoryItemType.Weapon, 1); // todo replace when changing craft, todo - _inventoryService.Add.(recipe.CraftItemId, recipe.CraftType, recipe.Amount)
             _messenger.Publish(new ItemCraftedMessage {

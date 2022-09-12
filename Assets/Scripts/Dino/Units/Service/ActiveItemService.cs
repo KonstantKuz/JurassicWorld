@@ -91,23 +91,25 @@ namespace Dino.Units.Service
             Player.ActiveItemOwner.Remove();
         }
 
-        private void OnItemChanged(Item item)
+        private void OnItemChanged(ItemChangedEvent itemChangedEvent)
         {
-            if (item.IsZero) {
-                OnItemRemoved(item);
-            } else {
-                TryEquipAddedItem(item);
+            if (itemChangedEvent.IsItemRemoved) {
+                OnItemRemoved(itemChangedEvent.ItemId);
+            }
+            if (itemChangedEvent.IsItemAddedAsNew) {
+                TryEquipAddedItem(itemChangedEvent.ItemId);
             }
         }
 
-        private void OnItemRemoved(Item item)
+        private void OnItemRemoved(ItemId id)
         {
-            if (IsActiveItem(item.Id)) {
+            if (IsActiveItem(id)) {
                 UnEquip();
             }
         }
-        private void TryEquipAddedItem(Item item)
+        private void TryEquipAddedItem(ItemId itemId)
         {
+            var item = _inventoryService.GetItem(itemId);
             if (!IsItemTypeEquipable(item)) {
                 return;
             }
