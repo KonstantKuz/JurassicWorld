@@ -43,10 +43,10 @@ namespace Dino.Weapon.Service
                      });
         }
 
-        public void SetActiveWeapon(ItemId itemId, BaseWeapon weapon)
+        public void SetActiveWeapon(ItemId itemId, BaseWeapon weaponObject)
         {
             if (IsWeapon(itemId)) {
-                SetWeapon(itemId, weapon);
+                SetWeapon(itemId, weaponObject);
             } else {
                 this.Logger().Warn($"Inventory item id:= {itemId} is not Weapon");
             }
@@ -68,10 +68,10 @@ namespace Dino.Weapon.Service
         public WeaponWrapper GetWeaponWrapper(ItemId weaponId) =>
                 _weapons.ContainsKey(weaponId) ? _weapons[weaponId] : _weapons[weaponId] = CreateWeaponWrapper(weaponId);
         
-        private void SetWeapon(ItemId weaponId, BaseWeapon weapon)
+        private void SetWeapon(ItemId weaponId, BaseWeapon weaponObject)
         {
             var weaponWrapper = GetWeaponWrapper(weaponId);
-            weaponWrapper.Weapon = weapon;
+            weaponWrapper.WeaponObject = weaponObject;
             Player.PlayerAttack.SetWeapon(weaponWrapper);
         }
 

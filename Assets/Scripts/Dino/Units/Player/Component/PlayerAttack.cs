@@ -126,9 +126,7 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && 
-                                                              _weapon.Timer.IsAttackReady.Value && _weapon.Clip.HasAmmo &&
-                                                              !_startedAttack;
+        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.IsWeaponReadyToFire && !_startedAttack;
 
         private void Attack(ITarget target)
         {

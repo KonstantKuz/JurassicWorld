@@ -24,10 +24,14 @@ namespace Dino.UI.Screen.World.Inventory.View
         {
             Dispose();
             _disposable = new CompositeDisposable();
-            _weaponWrapper = weaponWrapper;
-            
+            SetWeaponWrapper(weaponWrapper);
             _reloadingView.Init(weaponWrapper?.Timer);
             UpdateInactiveOverlay();
+        }
+
+        private void SetWeaponWrapper([CanBeNull] WeaponWrapper weaponWrapper)
+        {
+            _weaponWrapper = weaponWrapper;
             if (weaponWrapper == null) {
                 _ammoCount.text = "";
             } else {
@@ -35,6 +39,7 @@ namespace Dino.UI.Screen.World.Inventory.View
                 weaponWrapper.Timer.IsAttackReady.Subscribe(_ => UpdateInactiveOverlay()).AddTo(_disposable);
             }
         }
+
         private void UpdateAmmoCount(int ammoCount)
         {
             _ammoCount.text = ammoCount.ToString();
@@ -46,7 +51,7 @@ namespace Dino.UI.Screen.World.Inventory.View
             if (_weaponWrapper == null) {
                 _inactiveWeaponOverlay.SetActive(false);
             } else {
-                _inactiveWeaponOverlay.SetActive(!_weaponWrapper.Clip.HasAmmo || !_weaponWrapper.Timer.IsAttackReady.Value);
+                _inactiveWeaponOverlay.SetActive(!_weaponWrapper.IsWeaponReadyToFire);
             }
         }
 

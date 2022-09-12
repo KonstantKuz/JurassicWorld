@@ -9,32 +9,38 @@ namespace Dino.Weapon.Components
 {
     public class WeaponWrapper
     {
-        public ItemId WeaponId { get; set; }
+        public readonly ItemId WeaponId;
+        public readonly PlayerWeaponModel Model;
+        public readonly WeaponTimer Timer;
+        public readonly Clip Clip;
+        
         [CanBeNull]
-        public BaseWeapon Weapon { get; set; }
-        public PlayerWeaponModel Model { get; set; }
-        public WeaponTimer Timer { get; set; }
-        public Clip Clip { get; set; }
+        public BaseWeapon WeaponObject;
+
+        public WeaponWrapper(ItemId weaponId, PlayerWeaponModel model, WeaponTimer timer, Clip clip)
+        {
+            WeaponId = weaponId;
+            Model = model;
+            Timer = timer;
+            Clip = clip;
+        }
+
+        public bool IsWeaponReadyToFire => Clip.HasAmmo && Timer.IsAttackReady.Value;
 
         public void Fire(ITarget target, Action<GameObject> hitCallback)
         {
-            if (Weapon == null) {
+            if (WeaponObject == null) {
                 throw new NullReferenceException("Firing error, weapon is not set");
             }
-            Weapon.Fire(target, Model, hitCallback);
+            WeaponObject.Fire(target, Model, hitCallback);
             Clip.OnFire();
         }
         public static WeaponWrapper Create(ItemId weaponId,
-                                           PlayerWeaponModel playerWeaponModel,
-                                           WeaponTimer weaponTimer,
+                                           PlayerWeaponModel model,
+                                           WeaponTimer timer,
                                            Clip clip)
         {
-            return new WeaponWrapper {
-                    WeaponId = weaponId,
-                    Model = playerWeaponModel,
-                    Timer = weaponTimer,
-                    Clip = clip,
-            };
+            return new WeaponWrapper(weaponId, model, timer, clip);
         }
     }
 }
