@@ -35,6 +35,7 @@ namespace Dino.Loot.Service
 
         public void Collect(Loot loot)
         {
+            GameObject.Destroy(loot.gameObject);
             var itemId = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
             
             _playerProgressService.Progress.IncreaseLootCount();
@@ -42,7 +43,7 @@ namespace Dino.Loot.Service
             _messenger.Publish(new LootCollectedMessage());
             
             loot.OnCollected?.Invoke(loot);
-            GameObject.Destroy(loot.gameObject);
+    
         }
 
         public bool CanCollect(Loot loot)

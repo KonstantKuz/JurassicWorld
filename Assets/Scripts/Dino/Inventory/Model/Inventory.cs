@@ -12,16 +12,16 @@ namespace Dino.Inventory.Model
         public IEnumerable<Item> GetItems(InventoryItemType type) => Items.Where(it => it.Value.Type == type)
                                                                           .Select(it => it.Value);
 
-        public void Create(ItemId id, Item item)
+        public void AddNewItem(Item item)
         {
-            if (Contains(id)) {
-                this.Logger().Error($"Inventory adding error, inventory already contains item id:= {id}");
+            if (Contains(item.Id)) {
+                this.Logger().Error($"Inventory adding error, inventory already contains item id:= {item.Id}");
                 return;
             }
-            Items.Add(new KeyValuePair<ItemId, Item>(id, item));
+            Items.Add(new KeyValuePair<ItemId, Item>(item.Id, item));
         }
 
-        public void Remove(ItemId id)
+        public void RemoveItem(ItemId id)
         {
             if (!Contains(id)) {
                 this.Logger().Error($"Inventory remove error, inventory doesn't contain item id:= {id}");

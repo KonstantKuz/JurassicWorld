@@ -13,11 +13,12 @@ namespace Dino.Inventory.Model
         public readonly int Rank;
         public readonly InventoryItemType Type;
         public int Amount { get; private set; }
- 
+        public bool IsZero => Amount == 0;
 
         public Item(ItemId id, InventoryItemType type, int amount)
         {
             Assert.IsTrue(amount >= 0, "Error creating item, should add non-negative amount items");
+            Id = id;
             Amount = amount;
             Type = type;
             var (name, rank) = SplitFullNameToNameAndRank(id.FullName);
@@ -25,9 +26,9 @@ namespace Dino.Inventory.Model
             Rank = rank;
         }
 
-        public static Item Create(ItemId itemId, InventoryItemType type, int amount = 1)
+        public static Item Create(ItemId id, InventoryItemType type, int amount = 1)
         {
-            return new Item(itemId, type, amount);
+            return new Item(id, type, amount);
         }
 
         public void IncreaseAmount(int amount)

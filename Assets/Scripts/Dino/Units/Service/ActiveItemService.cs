@@ -15,9 +15,12 @@ namespace Dino.Units.Service
         private readonly ReactiveProperty<Item> _activeItemId = new ReactiveProperty<Item>(null);
         private readonly InventoryService _inventoryService;
 
-        [Inject] private WorldObjectFactory _worldObjectFactory;
-        [Inject] private World _world;
-        [Inject] private WeaponService _weaponService;
+        [Inject]
+        private WorldObjectFactory _worldObjectFactory;
+        [Inject]
+        private World _world;
+        [Inject]
+        private WeaponService _weaponService;
 
         private ActiveItemRepository _repository;
 
@@ -27,8 +30,7 @@ namespace Dino.Units.Service
         public ActiveItemService(InventoryService inventoryService)
         {
             _inventoryService = inventoryService;
-            inventoryService.OnItemAdded += OnItemAdded;
-            inventoryService.OnItemRemoved += OnItemRemoved;
+            inventoryService.OnItemChanged += OnItemChanged;
         }
 
         public void Init()
@@ -89,7 +91,14 @@ namespace Dino.Units.Service
             Player.ActiveItemOwner.Remove();
         }
 
-        private void OnItemAdded(Item item) => TryEquipAddedItem(item);
+        private void OnItemChanged(Item item)
+        {
+            if (item.IsZero) {
+                OnItemRemoved(item);
+            } else {
+                TryEquipAddedItem(item);
+            }
+        }
 
         private void OnItemRemoved(Item item)
         {
@@ -97,9 +106,6 @@ namespace Dino.Units.Service
                 UnEquip();
             }
         }
-
-        private bool IsItemTypeEquipable(Item item) => item.Type.IsEquipable();
-
         private void TryEquipAddedItem(Item item)
         {
             if (!IsItemTypeEquipable(item)) {
@@ -109,5 +115,8 @@ namespace Dino.Units.Service
                 Replace(item);
             }
         }
+        private bool IsItemTypeEquipable(Item item) => item.Type.IsEquipable();
+
+     
     }
 }

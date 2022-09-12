@@ -18,8 +18,7 @@ namespace Dino.Inventory.Service
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
         private Model.Inventory Inventory => _repository.Get();
 
-        public event Action<Item> OnItemAdded;
-        public event Action<Item> OnItemRemoved;
+        public event Action<Item> OnItemChanged;
 
         public int GetUniqueItemsCount(InventoryItemType type) => Inventory.GetUniqueItemsCount(type);
         public IEnumerable<Item> GetItems(InventoryItemType type) => Inventory.GetItems(type);
@@ -68,40 +67,43 @@ namespace Dino.Inventory.Service
         {
             var item = FindItem(id);
             if (item == null) {
-                return CreateNewItem(id, type, amount);
+                return AddNewItemInInventory(id, type, amount);
             }
             Assert.IsTrue(item.Type == type, $"Error adding item, type:= {type} must equal type of inventory itemId:= {id}");
             item.IncreaseAmount(amount);
             Set(Inventory);
+            OnItemChanged?.Invoke(item);
             return item;
         }
-
         public void DecreaseItemAmount(ItemId id, int amount)
         {
             var item = GetItem(id);
             var inventory = Inventory;
             item.DecreaseAmount(amount);
             if (item.Amount <= 0) {
-                inventory.Remove(id);
+                inventory.RemoveItem(id);
             }
+            OnItemChanged?.Invoke(item);
             Set(inventory);
         }
 
         public void Remove(ItemId id)
         {
+            var item = GetItem(id);
             var inventory = Inventory;
-            inventory.Remove(id);
+            item.DecreaseAmount(item.Amount);
+            inventory.RemoveItem(id);
+            OnItemChanged?.Invoke(item);
             Set(inventory);
-            OnItemRemoved?.Invoke(id);
         }
 
-        private Item CreateNewItem(ItemId id, InventoryItemType type, int amount)
+        private Item AddNewItemInInventory(ItemId id, InventoryItemType type, int amount)
         {
             var inventory = Inventory;
             var item = Item.Create(id, type, amount);
-            inventory.Create(id, item);
+            inventory.AddNewItem(item);
             Set(inventory);
-            OnItemAdded?.Invoke(item);
+            OnItemChanged?.Invoke(item);
             return item;
         }
 

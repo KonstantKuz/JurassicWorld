@@ -98,12 +98,12 @@ namespace Dino.UI.Screen.World.Inventory.Model
             return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(item.Id.FullName));
         }
 
-        private ItemViewState GetState([CanBeNull] Item id)
+        private ItemViewState GetState([CanBeNull] Item item)
         {
-            if (id == null) {
+            if (item == null) {
                 return ItemViewState.Empty;
             }
-            return _activeItemService.IsActiveItem(id) ? ItemViewState.Active : ItemViewState.Inactive;
+            return _activeItemService.IsActiveItem(item.Id) ? ItemViewState.Active : ItemViewState.Inactive;
         }
     }
 }

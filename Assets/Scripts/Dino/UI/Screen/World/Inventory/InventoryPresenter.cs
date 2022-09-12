@@ -71,8 +71,8 @@ namespace Dino.UI.Screen.World.Inventory
 
         private void RemoveItemFromInventory(ItemViewModel itemModel)
         {
-            _inventoryService.Remove(itemModel.Item.Id);
             _lootService.DropLoot(itemModel.Item);
+            _inventoryService.Remove(itemModel.Item.Id);
         }
 
         private void TryCraft(ItemViewModel firstItemModel, ItemViewModel secondItemModel)
