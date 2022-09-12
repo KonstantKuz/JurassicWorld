@@ -22,29 +22,24 @@ namespace Dino.Weapon.Service
             _weaponService = weaponService;
             _activeItemService = activeItemService;
             _inventoryService = inventoryService;
-            weaponService.ActiveWeapon.Subscribe(UpdateActiveWeapon);
+            weaponService.ActiveWeapon.Subscribe(OnUpdateActiveWeapon);
         }
 
-        private void UpdateActiveWeapon([CanBeNull] WeaponWrapper weapon)
+        private void OnUpdateActiveWeapon([CanBeNull] WeaponWrapper weapon)
         {
             Dispose();
+            if (weapon == null) {
+                return;
+            }
             _disposable = new CompositeDisposable();
-            weapon?.Clip.AmmoCount.Subscribe(AmmoCountUpdate).AddTo(_disposable);
+            weapon.Clip.AmmoCount.Subscribe(OnUpdateAmmoCount).AddTo(_disposable);
         }
-
-        private void Dispose()
-        {
-            _disposable?.Dispose();
-            _disposable = null;
-        }
-
-        public void AmmoCountUpdate(int ammoCount)
+        private void OnUpdateAmmoCount(int ammoCount)
         {
             if (ammoCount <= 0) {
                 TryChangeWeapon();
             }
         }
-
         private void TryChangeWeapon()
         {
             var newWeapon = _inventoryService.GetItems(InventoryItemType.Weapon)
@@ -55,6 +50,11 @@ namespace Dino.Weapon.Service
             }
             Dispose();
             _activeItemService.Replace(_inventoryService.GetItem(newWeapon.WeaponId));
+        }
+        private void Dispose()
+        {
+            _disposable?.Dispose();
+            _disposable = null;
         }
     }
 }
