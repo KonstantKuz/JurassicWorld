@@ -10,13 +10,13 @@ namespace Dino.Weapon.Components
         private readonly ReactiveProperty<int> _ammoCount = new ReactiveProperty<int>(0);
 
         private readonly InventoryService _inventoryService;
-        private readonly string _ammoId;
+        private readonly ItemId _ammoId;
 
         public IReactiveProperty<int> AmmoCount => _ammoCount;
         
         public bool HasAmmo => AmmoCount.Value > 0;
 
-        public Clip(InventoryService inventoryService, string ammoId)
+        public Clip(InventoryService inventoryService, ItemId ammoId)
         {
             _inventoryService = inventoryService; 
             inventoryService.InventoryProperty.Subscribe(UpdateAmmoCount);

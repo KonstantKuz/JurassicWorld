@@ -79,7 +79,7 @@ namespace Dino.Weapon.Service
         {
             var model = CreateModel(weaponId);
             var timer = new WeaponTimer(model.AttackInterval);
-            var clip = new Clip(_inventoryService, model.AmmoId);
+            var clip = new Clip(_inventoryService, ItemId.Create(model.AmmoId));
             return WeaponWrapper.Create(weaponId, model, timer, clip);
         }
 
