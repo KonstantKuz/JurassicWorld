@@ -18,7 +18,7 @@ namespace Dino.Inventory.Service
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
         private Model.Inventory Inventory => _repository.Get();
 
-        public event Action<Item> OnItemChanged;
+        public event Action<ItemChangedEvent> OnItemChanged;
 
         public int GetUniqueItemsCount(InventoryItemType type) => Inventory.GetUniqueItemsCount(type);
         public IEnumerable<Item> GetItems(InventoryItemType type) => Inventory.GetItems(type);
@@ -70,31 +70,28 @@ namespace Dino.Inventory.Service
                 return AddNewItemInInventory(id, type, amount);
             }
             Assert.IsTrue(item.Type == type, $"Error adding item, type:= {type} must equal type of inventory itemId:= {id}");
+            var previousAmount = item.Amount;
             item.IncreaseAmount(amount);
             Set(Inventory);
-            OnItemChanged?.Invoke(item);
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, previousAmount, item.Amount));
             return item;
         }
-        public void DecreaseItemAmount(ItemId id, int amount)
+        public void Remove(ItemId id, int amount)
         {
             var item = GetItem(id);
+            var previousAmount = item.Amount;
             var inventory = Inventory;
             item.DecreaseAmount(amount);
             if (item.Amount <= 0) {
                 inventory.RemoveItem(id);
             }
-            OnItemChanged?.Invoke(item);
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, previousAmount, item.Amount));
             Set(inventory);
         }
-
         public void Remove(ItemId id)
         {
             var item = GetItem(id);
-            var inventory = Inventory;
-            item.DecreaseAmount(item.Amount);
-            inventory.RemoveItem(id);
-            OnItemChanged?.Invoke(item);
-            Set(inventory);
+            Remove(id, item.Amount);
         }
 
         private Item AddNewItemInInventory(ItemId id, InventoryItemType type, int amount)
@@ -103,7 +100,7 @@ namespace Dino.Inventory.Service
             var item = Item.Create(id, type, amount);
             inventory.AddNewItem(item);
             Set(inventory);
-            OnItemChanged?.Invoke(item);
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, 0, item.Amount));
             return item;
         }
 

@@ -13,8 +13,7 @@ namespace Dino.Inventory.Model
         public readonly int Rank;
         public readonly InventoryItemType Type;
         public int Amount { get; private set; }
-        public bool IsZero => Amount == 0;
-
+        
         public Item(ItemId id, InventoryItemType type, int amount)
         {
             Assert.IsTrue(amount >= 0, "Error creating item, should add non-negative amount items");
