@@ -19,7 +19,7 @@ namespace Dino.Weapon.Components
         
         public bool IsWeaponReadyToFire => Clip.HasAmmo && Timer.IsAttackReady.Value;
 
-        public WeaponWrapper(ItemId weaponId, PlayerWeaponModel model, WeaponTimer timer, Clip clip)
+        private WeaponWrapper(ItemId weaponId, PlayerWeaponModel model, WeaponTimer timer, Clip clip)
         {
             WeaponId = weaponId;
             Model = model;

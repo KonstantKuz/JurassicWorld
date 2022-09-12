@@ -1,42 +1,55 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
+using Dino.Location;
+using Dino.Session.Messages;
+using Dino.Units.Player.Component;
 using Dino.Units.Service;
-using Dino.Weapon.Components;
-using JetBrains.Annotations;
-using UniRx;
+using SuperMaxim.Messaging;
+using Zenject;
 
 namespace Dino.Weapon.Service
 {
-    public class AutomaticWeaponChangeService
+    public class AutomaticWeaponChangeService : IWorldScope
     {
-        private readonly WeaponService _weaponService;
-        private readonly ActiveItemService _activeItemService;
-        private readonly InventoryService _inventoryService;
+        [Inject]
+        private WeaponService _weaponService;
+        [Inject]
+        private ActiveItemService _activeItemService;
+        [Inject]
+        private InventoryService _inventoryService;
+        [Inject]
+        private World _world; 
+        [Inject]
+        private IMessenger _messenger;
+        
+        private PlayerAttack PlayerAttack => _world.RequirePlayer().PlayerAttack;
 
-        private CompositeDisposable _disposable;
-
-        public AutomaticWeaponChangeService(WeaponService weaponService, ActiveItemService activeItemService, InventoryService inventoryService)
+        public void OnWorldSetup()
         {
-
-            _weaponService = weaponService;
-            _activeItemService = activeItemService;
-            _inventoryService = inventoryService;
-            weaponService.ActiveWeapon.Subscribe(OnUpdateActiveWeapon);
+            _messenger.Subscribe<SessionStartMessage>(OnSessionStart);
+            _messenger.Subscribe<SessionEndMessage>(OnSessionFinished);
         }
-
-        private void OnUpdateActiveWeapon([CanBeNull] WeaponWrapper weapon)
+        public void OnWorldCleanUp()
         {
-            Dispose();
-            if (weapon == null) {
-                return;
+            _messenger.Unsubscribe<SessionStartMessage>(OnSessionStart);
+            _messenger.Unsubscribe<SessionEndMessage>(OnSessionFinished);
+        }
+        private void OnSessionFinished(SessionEndMessage obj)
+        {
+            PlayerAttack.OnAttacked -= OnPlayerAttacked;
+        }
+        private void OnSessionStart(SessionStartMessage obj)
+        {
+            PlayerAttack.OnAttacked += OnPlayerAttacked;
+        }
+        private void OnPlayerAttacked()
+        {
+            if (PlayerAttack.WeaponWrapper == null) {
+                throw new NullReferenceException("WeaponWrapper is null on active player atack");
             }
-            _disposable = new CompositeDisposable();
-            weapon.Clip.AmmoCount.Subscribe(OnUpdateAmmoCount).AddTo(_disposable);
-        }
-        private void OnUpdateAmmoCount(int ammoCount)
-        {
-            if (ammoCount <= 0) {
+            if (!PlayerAttack.WeaponWrapper.Clip.HasAmmo) {
                 TryChangeWeapon();
             }
         }
@@ -48,13 +61,7 @@ namespace Dino.Weapon.Service
             if (newWeapon == null) {
                 return;
             }
-            Dispose();
             _activeItemService.Replace(_inventoryService.GetItem(newWeapon.WeaponId));
-        }
-        private void Dispose()
-        {
-            _disposable?.Dispose();
-            _disposable = null;
         }
     }
 }
