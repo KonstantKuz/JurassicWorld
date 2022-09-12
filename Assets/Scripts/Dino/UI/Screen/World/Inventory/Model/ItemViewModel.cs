@@ -13,14 +13,14 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         [CanBeNull]
         public Item Item { get; }
-        [CanBeNull]
+        
+        [CanBeNull] 
         public string Icon { get; }
-        public int Rank { get; }
         public IReactiveProperty<ItemViewState> State => _state;
         public IReactiveProperty<bool> CanCraft => _canCraft;
         
         [CanBeNull]
-        public WeaponTimer WeaponTimer { get; }
+        public WeaponWrapper WeaponWrapper { get; }
         [CanBeNull]
         public Action OnClick { get; }
         [CanBeNull]
@@ -31,26 +31,17 @@ namespace Dino.UI.Screen.World.Inventory.Model
         public ItemViewModel([CanBeNull] Item item,
                              ItemViewState state,
                              bool canCraft = false, 
-                             WeaponTimer weaponTimer = null,
+                             WeaponWrapper weaponWrapper = null,
                              Action onClick = null,
                              Action<ItemViewModel> onBeginDrag = null,
                              Action<ItemViewModel> onEndDrag = null)
         {
             Item = item;
-            if (item == null)
-            {
-                Icon = null;
-                Rank = 0;
-            }
-            else
-            {
-                Icon = Item.Name;
-                Rank = item.Rank;
-            }
+            Icon = item == null ? null : Item.Name;
 
             _state = new ReactiveProperty<ItemViewState>(state);
             _canCraft = new BoolReactiveProperty(canCraft);
-            WeaponTimer = weaponTimer;
+            WeaponWrapper = weaponWrapper;
             OnClick = onClick;
             OnBeginDrag = onBeginDrag;
             OnEndDrag = onEndDrag;

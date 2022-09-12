@@ -17,7 +17,7 @@ namespace Dino.Weapon.Service
 {
     public class WeaponService
     {
-        private readonly Dictionary<string, WeaponWrapper> _weapons = new Dictionary<string, WeaponWrapper>();
+        private readonly Dictionary<ItemId, WeaponWrapper> _weapons = new Dictionary<ItemId, WeaponWrapper>();
         private readonly InventoryService _inventoryService;
         private readonly StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
         private readonly World _world;
@@ -35,7 +35,7 @@ namespace Dino.Weapon.Service
         private void OnInventoryUpdate([CanBeNull] Inventory.Model.Inventory inventory)
         {
             inventory?.GetItems(InventoryItemType.Weapon)
-                     .Select(item => item.Id.FullName)
+                     .Select(item => item.Id)
                      .ForEach(weaponId => {
                          if (!_weapons.ContainsKey(weaponId)) {
                              _weapons[weaponId] = CreateWeaponWrapper(weaponId);
@@ -43,12 +43,12 @@ namespace Dino.Weapon.Service
                      });
         }
 
-        public void SetActiveWeapon(Item item, BaseWeapon weapon)
+        public void SetActiveWeapon(ItemId itemId, BaseWeapon weapon)
         {
-            if (IsWeapon(item.Id.FullName)) {
-                SetWeapon(item.Id.FullName, weapon);
+            if (IsWeapon(itemId)) {
+                SetWeapon(itemId, weapon);
             } else {
-                this.Logger().Warn($"Inventory item:= {item} is not Weapon");
+                this.Logger().Warn($"Inventory item id:= {itemId} is not Weapon");
             }
         }
 
@@ -57,25 +57,25 @@ namespace Dino.Weapon.Service
             Player.PlayerAttack.DeleteWeapon();
         }
 
-        private bool IsWeapon(string itemId)
+        private bool IsWeapon(ItemId itemId)
         {
-            return _weaponConfigs.Contains(itemId);
+            return _weaponConfigs.Contains(itemId.FullName);
         }
 
-        public WeaponWrapper GetWeaponWrapper(string weaponId) =>
-                _weapons.ContainsKey(weaponId) ? _weapons[weaponId] : _weapons[weaponId] = CreateWeaponWrapper(weaponId);
-
         [CanBeNull]
-        public WeaponWrapper FindWeaponWrapper(string weaponId) => !IsWeapon(weaponId) ? null : GetWeaponWrapper(weaponId);
-
-        private void SetWeapon(string weaponId, BaseWeapon weapon)
+        public WeaponWrapper FindWeaponWrapper(ItemId weaponId) => !IsWeapon(weaponId) ? null : GetWeaponWrapper(weaponId);
+        
+        public WeaponWrapper GetWeaponWrapper(ItemId weaponId) =>
+                _weapons.ContainsKey(weaponId) ? _weapons[weaponId] : _weapons[weaponId] = CreateWeaponWrapper(weaponId);
+        
+        private void SetWeapon(ItemId weaponId, BaseWeapon weapon)
         {
             var weaponWrapper = GetWeaponWrapper(weaponId);
             weaponWrapper.Weapon = weapon;
             Player.PlayerAttack.SetWeapon(weaponWrapper);
         }
 
-        private WeaponWrapper CreateWeaponWrapper(string weaponId)
+        private WeaponWrapper CreateWeaponWrapper(ItemId weaponId)
         {
             var model = CreateModel(weaponId);
             var timer = new WeaponTimer(model.AttackInterval);
@@ -83,9 +83,9 @@ namespace Dino.Weapon.Service
             return WeaponWrapper.Create(weaponId, model, timer, clip);
         }
 
-        private PlayerWeaponModel CreateModel(string weaponId)
+        private PlayerWeaponModel CreateModel(ItemId weaponId)
         {
-            var config = _weaponConfigs.Get(weaponId);
+            var config = _weaponConfigs.Get(weaponId.FullName);
             return new PlayerWeaponModel(config);
         }
     }

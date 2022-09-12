@@ -43,8 +43,8 @@ namespace Dino.UI.Screen.World.Inventory.View
             if (model.Icon != null) {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
             }
-            if (model.Id != null) {
-                GetComponent<TutorialUiElement>().Id = model.Id.FullName;
+            if (model.Item != null) {
+                GetComponent<TutorialUiElement>().Id = model.Item.Id.FullName;
             }
         }
         

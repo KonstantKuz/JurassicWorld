@@ -1,4 +1,5 @@
 ﻿using System;
+using Dino.Inventory.Model;
 using Dino.Units.Component.Target;
 using Dino.Units.Player.Model;
 using JetBrains.Annotations;
@@ -8,7 +9,7 @@ namespace Dino.Weapon.Components
 {
     public class WeaponWrapper
     {
-        public string WeaponId { get; set; }
+        public ItemId WeaponId { get; set; }
         [CanBeNull]
         public BaseWeapon Weapon { get; set; }
         public PlayerWeaponModel Model { get; set; }
@@ -23,7 +24,7 @@ namespace Dino.Weapon.Components
             Weapon.Fire(target, Model, hitCallback);
             Clip.OnFire();
         }
-        public static WeaponWrapper Create(string weaponId,
+        public static WeaponWrapper Create(ItemId weaponId,
                                            PlayerWeaponModel playerWeaponModel,
                                            WeaponTimer weaponTimer,
                                            Clip clip)

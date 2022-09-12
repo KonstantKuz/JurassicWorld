@@ -23,7 +23,7 @@ namespace Dino.Weapon.Components
             _ammoId = ammoId;
         }
 
-        public void OnFire() => _inventoryService.DecreaseItemAmount(_ammoId, 1);
+        public void OnFire() => _inventoryService.Remove(_ammoId, 1);
 
         private void UpdateAmmoCount(Inventory.Model.Inventory inventory)
         {
