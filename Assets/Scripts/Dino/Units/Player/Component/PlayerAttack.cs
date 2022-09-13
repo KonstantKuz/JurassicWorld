@@ -2,21 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dino.Extension;
-using Dino.Units.Component;
 using Dino.Units.Component.Animation;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
 using Dino.Weapon;
+using Dino.Weapon.Components;
 using Dino.Weapon.Model;
-using Dino.Weapon.Service;
 using Feofun.Components;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;
-using SuperMaxim.Core.Extensions;
 using UnityEngine;
-using Zenject;
 
 namespace Dino.Units.Player.Component
 {
@@ -129,7 +126,7 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.Timer.IsAttackReady.Value && !_startedAttack;
+        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.IsWeaponReadyToFire && !_startedAttack;
 
         private void Attack(ITarget target)
         {

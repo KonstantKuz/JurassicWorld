@@ -18,16 +18,12 @@ namespace Dino.UI.Screen.World.Inventory.View
     {
         [SerializeField]
         private Image _icon;
-        [SerializeField] 
-        private TextMeshProUGUI _rank;
-        
         [SerializeField]
         private SerializableDictionary<ItemViewState, GameObject> _stateContainers;
         [SerializeField]
         private GameObject _canCraftContainer;
-
         [SerializeField]
-        private ItemReloadingView _reloadingView;
+        private WeaponView _weaponView;
         
         private CompositeDisposable _disposable;
         
@@ -40,29 +36,22 @@ namespace Dino.UI.Screen.World.Inventory.View
             _disposable = new CompositeDisposable();
             
             Model = model;
-            _reloadingView.Init(model.WeaponTimer);
+            _weaponView.Init(model.WeaponWrapper);
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
-            SetRank(model);
-            
+
             if (model.Icon != null) {
                 _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
             }
-        
             if (model.Item != null) {
                 GetComponent<TutorialUiElement>().Id = model.Item.Id.FullName;
             }
         }
-
-        private void SetRank(ItemViewModel model)
-        {
-            _rank.text = model.Rank > 0 ? model.Rank.ToString() : "";
-        }
-
+        
         public void InitViewForDrag(ItemViewModel model)
         {
             _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
-            SetRank(model);
+            _weaponView.Init(model.WeaponWrapper);
             UpdateState(model.State.Value);   
             UpdateCraftState(model.CanCraft.Value);
         }
@@ -87,8 +76,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         private void SetItemsVisibility(bool visible)
         {
             _icon.gameObject.SetActive(visible);
-            _rank.gameObject.SetActive(visible);
-            _reloadingView.gameObject.SetActive(visible);
+            _weaponView.gameObject.SetActive(visible);
         }
 
         private void Dispose()

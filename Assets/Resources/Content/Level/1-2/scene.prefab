@@ -755,6 +755,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3331954039808601603}
     m_Modifications:
+    - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
+      propertyPath: _receivedItemId
+      value: AxeAmmo
+      objectReference: {fileID: 0}
+    - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
+      propertyPath: _receivedItemType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4351752094014783251, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
       propertyPath: m_Name
       value: StoneLoot
@@ -1829,6 +1837,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3331954039808601603}
     m_Modifications:
+    - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
+      propertyPath: _receivedItemId
+      value: AxeAmmo
+      objectReference: {fileID: 0}
+    - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
+      propertyPath: _receivedItemType
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4351752094014783251, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
       propertyPath: m_Name
       value: StoneLoot (1)

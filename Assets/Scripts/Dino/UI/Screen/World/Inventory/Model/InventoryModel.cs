@@ -81,9 +81,9 @@ namespace Dino.UI.Screen.World.Inventory.Model
                         .ToList();
         }
 
-        private ItemViewModel CreateItemViewModel(Item id)
+        private ItemViewModel CreateItemViewModel(Item item)
         {
-            return new ItemViewModel(id, GetState(id), CanCraft(id), _weaponService.GetTimer(id), () => _onClick?.Invoke(id), _onBeginDrag,
+            return new ItemViewModel(item, GetState(item), CanCraft(item), _weaponService.FindWeaponWrapper(item.Id), () => _onClick?.Invoke(item), _onBeginDrag,
                                      _onEndDrag);
         }
 

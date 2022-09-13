@@ -3,7 +3,8 @@
     public enum InventoryItemType
     {
         Weapon, 
-        Material
+        Material,
+        Ammo
     }
 
     public static class InventoryItemTypeExt

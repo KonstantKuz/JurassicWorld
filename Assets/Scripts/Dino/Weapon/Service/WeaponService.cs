@@ -1,86 +1,91 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Dino.Inventory.Model;
+using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Units.Player;
-using Dino.Units.Player.Component;
 using Dino.Units.Player.Model;
 using Dino.Weapon.Components;
 using Dino.Weapon.Config;
-using Dino.Weapon.Model;
 using Feofun.Config;
 using JetBrains.Annotations;
 using Logger.Extension;
-using Zenject;
+using SuperMaxim.Core.Extensions;
+using UniRx;
 
 namespace Dino.Weapon.Service
 {
     public class WeaponService
     {
-        private readonly Dictionary<Item, Action<Item, BaseWeapon>> _specialWeapons;
-        private readonly Dictionary<Item, WeaponTimer> _weaponTimers;
+        private readonly Dictionary<ItemId, WeaponWrapper> _weapons = new Dictionary<ItemId, WeaponWrapper>();
+        private readonly InventoryService _inventoryService;
+        private readonly StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
+        private readonly World _world;
 
-        [Inject]
-        private StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
-        [Inject]
-        private World _world;
-        
         private PlayerUnit Player => _world.RequirePlayer();
-        
-        public WeaponService()
+
+        public WeaponService(InventoryService inventoryService, StringKeyedConfigCollection<WeaponConfig> weaponConfigs, World world)
         {
-            _specialWeapons = new Dictionary<Item, Action<Item, BaseWeapon>>();
-            _weaponTimers = new Dictionary<Item, WeaponTimer>();
+            _inventoryService = inventoryService;
+            _weaponConfigs = weaponConfigs;
+            _world = world;
+            inventoryService.InventoryProperty.Subscribe(OnInventoryUpdate);
         }
-        public void TrySetWeapon(Item item, BaseWeapon weapon)
+
+        private void OnInventoryUpdate([CanBeNull] Inventory.Model.Inventory inventory)
         {
-            if (IsWeapon(item)) {
-                Set(item, weapon);
+            inventory?.GetItems(InventoryItemType.Weapon)
+                     .Select(item => item.Id)
+                     .ForEach(weaponId => {
+                         if (!_weapons.ContainsKey(weaponId)) {
+                             _weapons[weaponId] = CreateWeaponWrapper(weaponId);
+                         }
+                     });
+        }
+
+        public void SetActiveWeapon(ItemId itemId, BaseWeapon weaponObject)
+        {
+            if (IsWeapon(itemId)) {
+                SetWeapon(itemId, weaponObject);
             } else {
-                this.Logger().Debug($"Inventory item:= {item} is not Weapon");
+                this.Logger().Warn($"Inventory item id:= {itemId} is not Weapon");
             }
         }
-        public void Set(Item item, BaseWeapon weapon)
-        {
-            if (_specialWeapons.ContainsKey(item)) {
-                _specialWeapons[item].Invoke(item, weapon);
-            } else {
-                SetWeapon(item, weapon);
-            }
-        }
-        public void Remove()
+
+        public void RemoveActiveWeapon()
         {
             Player.PlayerAttack.DeleteWeapon();
         }
-        private bool IsWeapon(Item item)
+
+        private bool IsWeapon(ItemId itemId)
         {
-            return _weaponConfigs.Contains(item.Id.FullName);
+            return _weaponConfigs.Contains(itemId.FullName);
         }
 
         [CanBeNull]
-        public WeaponTimer GetTimer(Item weapon)
-        {
-            var model = CreateModel(weapon);
-            return _weaponTimers.ContainsKey(weapon) ? _weaponTimers[weapon] : CreateTimer(weapon, model);
-        }
+        public WeaponWrapper FindWeaponWrapper(ItemId weaponId) => !IsWeapon(weaponId) ? null : GetWeaponWrapper(weaponId);
         
-        private void SetWeapon(Item item, BaseWeapon weapon)
+        public WeaponWrapper GetWeaponWrapper(ItemId weaponId) =>
+                _weapons.ContainsKey(weaponId) ? _weapons[weaponId] : _weapons[weaponId] = CreateWeaponWrapper(weaponId);
+        
+        private void SetWeapon(ItemId weaponId, BaseWeapon weaponObject)
         {
-            var model = CreateModel(item);
-            var attack = Player.PlayerAttack;
-            var weaponWrapper = WeaponWrapper.Create(item, weapon, model, GetTimer(item));
-            attack.SetWeapon(weaponWrapper);
+            var weaponWrapper = GetWeaponWrapper(weaponId);
+            weaponWrapper.WeaponObject = weaponObject;
+            Player.PlayerAttack.SetWeapon(weaponWrapper);
         }
 
-        private WeaponTimer CreateTimer(Item weapon, IWeaponModel weaponModel)
+        private WeaponWrapper CreateWeaponWrapper(ItemId weaponId)
         {
-            _weaponTimers[weapon] = new WeaponTimer(weaponModel.AttackInterval);
-            return _weaponTimers[weapon];
+            var model = CreateModel(weaponId);
+            var timer = new WeaponTimer(model.AttackInterval);
+            var clip = new Clip(_inventoryService, ItemId.Create(model.AmmoId));
+            return WeaponWrapper.Create(weaponId, model, timer, clip);
         }
 
-        private PlayerWeaponModel CreateModel(Item weapon)
+        private PlayerWeaponModel CreateModel(ItemId weaponId)
         {
-            var config = _weaponConfigs.Get(weapon.Id.FullName);
+            var config = _weaponConfigs.Get(weaponId.FullName);
             return new PlayerWeaponModel(config);
         }
     }
