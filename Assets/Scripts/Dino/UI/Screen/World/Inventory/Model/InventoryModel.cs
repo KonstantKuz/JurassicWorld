@@ -7,7 +7,6 @@ using Dino.Inventory.Service;
 using Dino.Units.Service;
 using Dino.Weapon.Service;
 using JetBrains.Annotations;
-using Logger.Extension;
 using UniRx;
 
 namespace Dino.UI.Screen.World.Inventory.Model
@@ -20,8 +19,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly ActiveItemService _activeItemService;
         private readonly CraftService _craftService;
         private readonly WeaponService _weaponService;
-
-        private readonly Action<ItemId> _onClick;
+        private readonly Action<Item> _onClick;
         private readonly Action<ItemViewModel> _onBeginDrag;
         private readonly Action<ItemViewModel> _onEndDrag;
 
@@ -30,19 +28,20 @@ namespace Dino.UI.Screen.World.Inventory.Model
         
         public readonly bool IsDropEnabled;    
         public readonly bool IsCraftEnabled;
+        public readonly InventoryItemType InventoryType;
         public IReactiveProperty<List<ItemViewModel>> Items => _items;
-
-
-        public InventoryModel(InventoryService inventoryService,
+        
+        public InventoryModel(InventoryItemType inventoryType,InventoryService inventoryService,
                               ActiveItemService activeItemService,
                               CraftService craftService,
                               WeaponService weaponService,
                               UiInventorySettings uiInventorySettings,
-                              Action<ItemId> onClick,
+                              Action<Item> onClick,
                               Action<ItemViewModel> onBeginDrag,
                               Action<ItemViewModel> onEndDrag)
         {
             _disposable = new CompositeDisposable();
+            InventoryType = inventoryType;
             _inventoryService = inventoryService;
             _activeItemService = activeItemService;
             _craftService = craftService;
@@ -74,15 +73,15 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private List<ItemViewModel> CreateItems()
         {
             if (!_inventoryService.HasInventory()) {
-                return Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT).ToList();
+                return Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_UNIQUE_WEAPONS_COUNT).ToList();
             }
-            var items = _inventoryService.InventoryProperty.Value.Items;
+            var items = _inventoryService.GetItems(InventoryType).ToList();
             return items.Select(CreateItemViewModel)
-                        .Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_ITEMS_COUNT - items.Count))
+                        .Concat(Enumerable.Repeat(ItemViewModel.Empty(), InventoryService.MAX_UNIQUE_WEAPONS_COUNT - items.Count))
                         .ToList();
         }
 
-        private ItemViewModel CreateItemViewModel(ItemId id)
+        private ItemViewModel CreateItemViewModel(Item id)
         {
             return new ItemViewModel(id, GetState(id), CanCraft(id), _weaponService.GetTimer(id), () => _onClick?.Invoke(id), _onBeginDrag,
                                      _onEndDrag);
@@ -90,24 +89,21 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         public void UpdateItemModel(ItemViewModel model)
         {
-            model.UpdateState(GetState(model.Id));
-            model.UpdateCraftState(CanCraft(model.Id));
+            model.UpdateState(GetState(model.Item));
+            model.UpdateCraftState(CanCraft(model.Item));
         }
 
-        private bool CanCraft(ItemId id)
+        private bool CanCraft(Item item)
         {
-            return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(id.FullName));
+            return IsCraftEnabled && _allPossibleRecipes.Any(recipe => recipe.ContainsIngredient(item.Id.FullName));
         }
 
-        private ItemViewState GetState([CanBeNull] ItemId id)
+        private ItemViewState GetState([CanBeNull] Item item)
         {
-            if (id == null) {
+            if (item == null) {
                 return ItemViewState.Empty;
             }
-            if (_activeItemService.HasActiveItem() && _activeItemService.ActiveItemId.Value.Equals(id)) {
-                return ItemViewState.Active;
-            }
-            return ItemViewState.Inactive;
+            return _activeItemService.IsActiveItem(item.Id) ? ItemViewState.Active : ItemViewState.Inactive;
         }
     }
 }

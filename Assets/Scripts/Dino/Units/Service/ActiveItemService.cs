@@ -12,24 +12,26 @@ namespace Dino.Units.Service
 {
     public class ActiveItemService
     {
-        private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
-        
+        private readonly ReactiveProperty<Item> _activeItemId = new ReactiveProperty<Item>(null);
+        private readonly InventoryService _inventoryService;
+
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
         [Inject]
         private World _world;
         [Inject]
-        private WeaponService _weaponService;     
-        [Inject]
-        private InventoryService _inventoryService;
-        
-        private ActiveItemRepository _repository;        
+        private WeaponService _weaponService;
 
-        public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
-        
+        private ActiveItemRepository _repository;
+
+        public IReadOnlyReactiveProperty<Item> ActiveItemId => _activeItemId;
         private PlayerUnit Player => _world.RequirePlayer();
 
-        public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
+        public ActiveItemService(InventoryService inventoryService)
+        {
+            _inventoryService = inventoryService;
+            inventoryService.OnItemChanged += OnItemChanged;
+        }
 
         public void Init()
         {
@@ -37,47 +39,50 @@ namespace Dino.Units.Service
 
             if (!_repository.Exists()) {
                 _repository.Set(null);
-            }
-            else
-            {
+            } else {
                 Equip(_repository.Get());
             }
         }
-        public void Replace(ItemId itemId)
+
+        public void Save()
+        {
+            _repository.Set(ActiveItemId.Value);
+        }
+
+        public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
+        public bool IsActiveItem(ItemId itemId) => HasActiveItem() && itemId.Equals(_activeItemId.Value.Id);
+
+        public void Replace(Item item)
         {
             UnEquip();
-            Equip(itemId);
+            Equip(item);
         }
 
-        public bool IsActiveItem(ItemId itemId)
+        public void Equip(Item item)
         {
-            if (!HasActiveItem()) {
-                return false;
+            if (!_inventoryService.Contains(item.Id)) {
+                this.Logger().Error($"Equip error, inventory must contain the item:= {item}");
+                return;
             }
-            return itemId.Equals(_activeItemId.Value);
-        }
-
-        public void Equip(ItemId itemId)
-        {
-            if (!_inventoryService.Contains(itemId)) {
-                this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
+            if (!IsItemTypeEquipable(item)) {
+                this.Logger().Error($"Equip error, type of inventory item must be equipable, item:= {item}");
                 return;
             }
             if (_activeItemId.Value != null) {
                 RemoveActiveItemObject();
             }
             var itemOwner = Player.ActiveItemOwner;
-            var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
-            _activeItemId.SetValueAndForceNotify(itemId);
+            var itemObject = _worldObjectFactory.CreateObject(item.Name, itemOwner.Container);
             itemOwner.Set(itemObject);
-            
-            _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
+
+            _weaponService.TrySetWeapon(item, itemOwner.GetWeapon());
+            _activeItemId.SetValueAndForceNotify(item);
         }
 
         public void UnEquip()
         {
-            _activeItemId.SetValueAndForceNotify(null);
             RemoveActiveItemObject();
+            _activeItemId.SetValueAndForceNotify(null);
         }
 
         public void RemoveActiveItemObject()
@@ -86,9 +91,34 @@ namespace Dino.Units.Service
             Player.ActiveItemOwner.Remove();
         }
 
-        public void Save()
+        private void OnItemChanged(ItemChangedEvent itemChangedEvent)
         {
-            _repository.Set(ActiveItemId.Value);
+            if (itemChangedEvent.IsItemRemoved) {
+                OnItemRemoved(itemChangedEvent.ItemId);
+            }
+            if (itemChangedEvent.IsItemAddedAsNew) {
+                TryEquipAddedItem(itemChangedEvent.ItemId);
+            }
         }
+
+        private void OnItemRemoved(ItemId id)
+        {
+            if (IsActiveItem(id)) {
+                UnEquip();
+            }
+        }
+        private void TryEquipAddedItem(ItemId itemId)
+        {
+            var item = _inventoryService.GetItem(itemId);
+            if (!IsItemTypeEquipable(item)) {
+                return;
+            }
+            if (!HasActiveItem() || item.Rank >= ActiveItemId.Value.Rank) {
+                Replace(item);
+            }
+        }
+        private bool IsItemTypeEquipable(Item item) => item.Type.IsEquipable();
+
+     
     }
 }

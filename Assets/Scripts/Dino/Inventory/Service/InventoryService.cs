@@ -1,92 +1,107 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Dino.Inventory.Model;
 using Dino.Location;
-using Logger.Extension;
-using ModestTree;
+using JetBrains.Annotations;
 using UniRx;
+using UnityEngine.Assertions;
 
 namespace Dino.Inventory.Service
 {
     public class InventoryService : IWorldScope
     {
-        public const int MAX_ITEMS_COUNT = 4;
-        
+        public const int MAX_UNIQUE_WEAPONS_COUNT = 4;
+
         private readonly ReactiveProperty<Model.Inventory> _inventory = new ReactiveProperty<Model.Inventory>(null);
-        
         private InventoryRepository _repository = new InventoryRepository();
+
         public IReadOnlyReactiveProperty<Model.Inventory> InventoryProperty => _inventory;
-        
         private Model.Inventory Inventory => _repository.Get();
-        public int ItemsCount => Inventory.Items.Count;
-        
+
+        public event Action<ItemChangedEvent> OnItemChanged;
+
+        public int GetUniqueItemsCount(InventoryItemType type) => Inventory.GetUniqueItemsCount(type);
+        public IEnumerable<Item> GetItems(InventoryItemType type) => Inventory.GetItems(type);
+
         public void OnWorldSetup()
         {
             _repository = new InventoryRepository();
 
             if (!_repository.Exists()) {
                 _repository.Set(new Model.Inventory());
-            } 
+            }
             _inventory.SetValueAndForceNotify(Inventory);
         }
 
         public void OnWorldCleanUp()
         {
-           
         }
+
         public void Save()
         {
             _repository.Set(Inventory);
         }
+
         public bool HasInventory() => _repository.Exists() && _inventory.HasValue && _inventory.Value != null;
         public bool Contains(ItemId id) => Inventory.Contains(id);
-        public int Count(string itemName) => Inventory.Items.Count(it => it.FullName == itemName);
 
-        public ItemId Add(string itemName)
+        [CanBeNull]
+        public Item FindItem(ItemId id) => Inventory.FindItem(id);
+
+        public Item GetItem(ItemId id)
         {
-            if (ItemsCount >= MAX_ITEMS_COUNT) {
-                throw new Exception($"Can't add item {itemName} because inventory is full. ");
+            var itemId = FindItem(id);
+            if (itemId == null) {
+                throw new NullReferenceException($"Error getting item, inventory doesn't contain itemId:= {id}");
             }
-            
-            var inventory = Inventory;
-            var itemId = CreateNewId(itemName);
-            inventory.Add(itemId);
-            Set(inventory);
             return itemId;
         }
 
+        public int GetAmount(ItemId id)
+        {
+            var item = FindItem(id);
+            return item?.Amount ?? 0;
+        }
+
+        public Item Add(ItemId id, InventoryItemType type, int amount)
+        {
+            var item = FindItem(id);
+            if (item == null) {
+                return AddNewItemInInventory(id, type, amount);
+            }
+            Assert.IsTrue(item.Type == type, $"Error adding item, type:= {type} must equal type of inventory itemId:= {id}");
+            var previousAmount = item.Amount;
+            item.IncreaseAmount(amount);
+            Set(Inventory);
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, previousAmount, item.Amount));
+            return item;
+        }
+        public void Remove(ItemId id, int amount)
+        {
+            var item = GetItem(id);
+            var previousAmount = item.Amount;
+            var inventory = Inventory;
+            item.DecreaseAmount(amount);
+            if (item.Amount <= 0) {
+                inventory.RemoveItem(id);
+            }
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, previousAmount, item.Amount));
+            Set(inventory);
+        }
         public void Remove(ItemId id)
         {
-            var inventory = Inventory;
-            inventory.Remove(id);
-            Set(inventory);
-        }
-        public IEnumerable<ItemId> GetAll(string itemName)
-        {
-            var items = _inventory.Value.Items.Where(it => it.FullName == itemName).ToList();
-            if (items.IsEmpty()) {
-                throw new NullReferenceException($"Error getting items, inventory doesn't contain items:= {itemName}");
-            }
-            return items;
-        }
-        public ItemId GetLast(string itemName)
-        {
-            var itemId = _inventory.Value.Items.Where(it => it.FullName == itemName).OrderBy(it => it.Number).LastOrDefault();
-            if (itemId == null) {
-                throw new NullReferenceException($"Error getting last item, inventory doesn't contain item name:= {itemName}");
-            }
-            return itemId;
+            var item = GetItem(id);
+            Remove(id, item.Amount);
         }
 
-        private ItemId CreateNewId(string itemName)
+        private Item AddNewItemInInventory(ItemId id, InventoryItemType type, int amount)
         {
-            var items = Inventory.Items.Where(it => it.FullName == itemName).ToList();
-            if (items.IsEmpty()) {
-                return ItemId.Create(itemName, 1);
-            }
-            var count = items.Max(it => it.Number) + 1;
-            return ItemId.Create(itemName, count);
+            var inventory = Inventory;
+            var item = Item.Create(id, type, amount);
+            inventory.AddNewItem(item);
+            Set(inventory);
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, 0, item.Amount));
+            return item;
         }
 
         private void Set(Model.Inventory model)

@@ -6,7 +6,6 @@ using Dino.Location;
 using Dino.Location.Service;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
-using Dino.Units.Service;
 using Logger.Extension;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -22,10 +21,7 @@ namespace Dino.Loot.Service
 
         [Inject]
         private InventoryService _inventoryService;
-        [Inject]
-        private ActiveItemService _activeItemService;
-
-        [Inject]
+        [Inject] 
         private World _world;
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
@@ -39,32 +35,36 @@ namespace Dino.Loot.Service
 
         public void Collect(Loot loot)
         {
-            var itemId = _inventoryService.Add(loot.ReceivedItemId);
-            if (!_activeItemService.HasActiveItem() || itemId.Rank >= _activeItemService.ActiveItemId.Value.Rank) {
-                _activeItemService.Replace(itemId);
-            }
-            _playerProgressService.Progress.IncreaseLootCount();
-            _analytics.ReportLootItem(itemId.FullName);
-            _messenger.Publish(new LootCollectedMessage());
-            loot.OnCollected?.Invoke(loot);
             GameObject.Destroy(loot.gameObject);
+            var itemId = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
+            
+            _playerProgressService.Progress.IncreaseLootCount();
+            _analytics.ReportLootItem(itemId.Id.FullName);
+            _messenger.Publish(new LootCollectedMessage());
+            
+            loot.OnCollected?.Invoke(loot);
+    
         }
 
-        public void DropLoot(ItemId itemId)
+        public bool CanCollect(Loot loot)
         {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == itemId.Name);
+            return loot.ReceivedItemType != InventoryItemType.Weapon
+                   || _inventoryService.GetUniqueItemsCount(InventoryItemType.Weapon) < InventoryService.MAX_UNIQUE_WEAPONS_COUNT;
+        }
+        public void DropLoot(Item item)
+        {
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == item.Name);
             if (lootPrefab == null) {
-                this.Logger().Error($"Loot prefab not found for itemId:= {itemId}");
+                this.Logger().Error($"Loot prefab not found for itemId:= {item}");
                 return;
             }
 
             var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
-            lootObject.ReceivedItemId = itemId.FullName;
+            lootObject.InitFromItem(item);
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);
         }
-
         private void SetLootPositionAndRotation(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {
             lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer).XZ(), Quaternion.identity);
