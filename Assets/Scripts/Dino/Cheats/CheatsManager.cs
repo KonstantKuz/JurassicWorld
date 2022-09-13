@@ -4,6 +4,10 @@ using Dino.Cheats.Repository;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Units.Service;
+using Feofun.ABTest;
+using Feofun.ABTest.Providers;
+using Feofun.Advertisment.Providers;
+using Feofun.Advertisment.Service;
 using Feofun.Localization.Service;
 using Logger.Extension;
 using UnityEngine;
@@ -11,7 +15,7 @@ using Zenject;
 
 namespace Dino.Cheats
 {
-    public class CheatsManager : MonoBehaviour
+    public class CheatsManager : MonoBehaviour, IABTestCheatManager
     {
         private const string TEST_LOG_MESSAGE = "Test log message";
         private readonly CheatRepository _repository = new CheatRepository();
@@ -21,7 +25,9 @@ namespace Dino.Cheats
         [Inject] private InventoryService _inventoryService;    
         [Inject] private CraftService _craftService;     
         [Inject] private Analytics.Analytics _analytics;     
-
+        [Inject] private Feofun.ABTest.ABTest _abTest;
+        [Inject] private AdsManager _adsManager;    
+        [Inject] private DiContainer _diContainer;           
 
         [SerializeField] private GameObject _fpsMonitor;
         [SerializeField] private GameObject _debugConsole;
@@ -106,6 +112,28 @@ namespace Dino.Cheats
                 _fpsMonitor.SetActive(value);
             }
         }
+        
+        public void SetCheatAbTest(string variantId)
+        {
+            OverrideABTestProvider.SetVariantId(variantId);
+            _abTest.Reload();
+        }
+        
+        public bool IsAdsCheatEnabled  {
+            get => _adsManager.AdsProvider is CheatAdsProvider;
+            set => _adsManager.AdsProvider = value ? new CheatAdsProvider() : _diContainer.Resolve<IAdsProvider>();
+        } 
+        
+        public bool IsABTestCheatEnabled
+        {
+            get => Settings.ABTestCheatEnabled;
+            set
+            {
+                UpdateSettings(settings => { settings.ABTestCheatEnabled = value; });
+                _abTest.Reload();
+            }
+        }    
+        
     }
 }
 

@@ -1,3 +1,5 @@
+using Dino.ABTest;
+using Dino.Advertisment;
 using Dino.Analytics;
 using Dino.Cheats.Installer;
 using Dino.Config;
@@ -9,6 +11,7 @@ using Dino.Reward.Installer;
 using Dino.Tutorial;
 using Dino.UI;
 using Dino.Units.Installer;
+using Feofun.ABTest.Installer;
 using Feofun.Localization.Service;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -37,7 +40,6 @@ namespace Dino.Core.MonoInstaller
             Container.Bind<IMessenger>().FromInstance(Messenger.Default).AsSingle();     
             Container.Bind<LocalizationService>().AsSingle();
 
-
             ConfigsInstaller.Install(Container);
             ModifiersInstaller.Install(Container);  
             
@@ -46,6 +48,8 @@ namespace Dino.Core.MonoInstaller
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container);
             TutorialInstaller.Install(Container);
+            ABTestServicesInstaller.Install(Container, ABTestVariantId.Control);
+            AdsServicesInstaller.Install(Container);
             
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);
