@@ -2399,11 +2399,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
       propertyPath: _receivedItemId
-      value: AxeAmmo
+      value: Stone
       objectReference: {fileID: 0}
     - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
       propertyPath: _receivedItemType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
       propertyPath: _receivedItemAmount

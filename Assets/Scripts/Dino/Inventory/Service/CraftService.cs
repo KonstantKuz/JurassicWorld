@@ -65,8 +65,8 @@ namespace Dino.Inventory.Service
             if (ingredients.Count != recipe.Ingredients.Count) {
                 return false;
             }
-            return recipe.Ingredients.All(ingredient => ingredients.ContainsKey(ingredient.Name)
-                                                        && ingredients[ingredient.Name] == ingredient.Count);
+            return recipe.Ingredients.All(ingredient => ingredients.ContainsKey(ingredient.Id)
+                                                        && ingredients[ingredient.Id] == ingredient.Count);
         }
         [CanBeNull]
         public CraftRecipeConfig FindHighestRankPossibleRecipeBy(string craftItemName)
@@ -90,7 +90,7 @@ namespace Dino.Inventory.Service
 
         private bool HasIngredientsInInventory(CraftRecipeConfig recipe)
         {
-            return recipe.Ingredients.All(ingredient => _inventoryService.GetAmount(ItemId.Create(ingredient.Name)) >= ingredient.Count);
+            return recipe.Ingredients.All(ingredient => _inventoryService.GetAmount(ItemId.Create(ingredient.Id)) >= ingredient.Count);
         }
 
         public bool HasIngredientsForRecipe(string recipeName)
@@ -123,7 +123,7 @@ namespace Dino.Inventory.Service
                 throw new ArgumentException($"Error crafting, ingredients don't contain in inventory:= {recipeId}");
             }
             recipe.Ingredients.ForEach(ingredient => {
-                _inventoryService.Remove(ItemId.Create(ingredient.Name), ingredient.Count);
+                _inventoryService.Remove(ItemId.Create(ingredient.Id), ingredient.Count);
             });
             var craftedItem = _inventoryService.Add(ItemId.Create(recipe.CraftItemId), InventoryItemType.Weapon, 1); // todo replace when changing craft, todo - _inventoryService.Add.(recipe.CraftItemId, recipe.CraftType, recipe.Amount)
             _messenger.Publish(new ItemCraftedMessage {

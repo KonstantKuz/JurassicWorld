@@ -5,18 +5,20 @@ namespace Dino.Inventory.Config
 {
     public class CraftRecipeConfig
     {
-        public string CraftItemId { get; }
+        public CraftItemConfig CraftItem { get; }
         public IReadOnlyList<IngredientConfig> Ingredients { get; }
-        
-        public CraftRecipeConfig(string craftItemId, IEnumerable<IngredientConfig> ingredients)
+
+        public string CraftItemId => CraftItem.Id;
+
+        public CraftRecipeConfig(CraftItemConfig craftItemConfig, IEnumerable<IngredientConfig> ingredients)
         {
-            CraftItemId = craftItemId;
+            CraftItem = craftItemConfig;
             Ingredients = ingredients.ToList();
         }
 
-        public bool ContainsIngredient(string itemName)
+        public bool ContainsIngredient(string ingredientId)
         {
-            return Ingredients.Select(it => it.Name).Contains(itemName);
+            return Ingredients.Select(it => it.Id).Contains(ingredientId);
         }
     }
 }

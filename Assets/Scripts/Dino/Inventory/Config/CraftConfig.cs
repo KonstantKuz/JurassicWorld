@@ -22,11 +22,15 @@ namespace Dino.Inventory.Config
         }
         public void Load(Stream stream)
         {
-            var parsed = new CsvSerializer().ReadNestedTable<IngredientConfig>(stream);
-            Crafts = parsed.ToDictionary(it => it.Key, it => new CraftRecipeConfig(it.Key, it.Value));
+            Crafts = new CsvSerializer().ReadObjectAndNestedTable<CraftItemConfig, IngredientConfig>(stream)
+                                        .ToDictionary(it => it.Key,
+                                                      it => CreateRecipeConfig(it.Key, it.Value.Item1, it.Value.Item2));
         }
-        
-    
 
+        private CraftRecipeConfig CreateRecipeConfig(string craftItemId, CraftItemConfig craftItemConfig, IReadOnlyList<IngredientConfig> ingredients)
+        {
+            var craftItemConfigWithId = CraftItemConfig.Create(craftItemId, craftItemConfig);
+            return new CraftRecipeConfig(craftItemConfigWithId, ingredients);
+        }
     }
 }
