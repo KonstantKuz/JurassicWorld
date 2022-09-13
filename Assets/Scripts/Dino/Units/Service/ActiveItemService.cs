@@ -113,20 +113,20 @@ namespace Dino.Units.Service
             if (!IsItemTypeEquipable(newItem)) {
                 return;
             }
-            if (!HasActiveItem() || CanEquipAddedItem(ActiveItemId.Value, newItem)) {
+            if (!HasActiveItem() || ShouldEquipAddedItem(ActiveItemId.Value, newItem)) {
                 Replace(newItem);
             }
         }
 
-        private bool CanEquipAddedItem(Item currentItem, Item nextItem)
+        private bool ShouldEquipAddedItem(Item currentItem, Item nextItem)
         {
             if (!_weaponService.IsWeapon(currentItem.Id) || !_weaponService.IsWeapon(nextItem.Id)) {
                 return nextItem.Rank >= currentItem.Rank;
             }
             var currentItemAmmoCount = _weaponService.GetWeaponWrapper(currentItem.Id).Clip.AmmoCount.Value;
             var nextItemAmmoCount = _weaponService.GetWeaponWrapper(nextItem.Id).Clip.AmmoCount.Value;
-            if (currentItemAmmoCount == nextItemAmmoCount) {
-                return nextItem.Rank >= currentItem.Rank; 
+            if (currentItemAmmoCount <= 0 && nextItemAmmoCount > 0) {
+                return true;
             }
             if (currentItemAmmoCount <= 0) {
                 return true;

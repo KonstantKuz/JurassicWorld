@@ -38,13 +38,13 @@ namespace Dino.Weapon.Service
         }
         private void OnSessionFinished(SessionEndMessage obj)
         {
-            PlayerAttack.OnAttacked -= OnPlayerAttacked;
+            PlayerAttack.OnAttacked -= OnPlayerAttack;
         }
         private void OnSessionStart(SessionStartMessage obj)
         {
-            PlayerAttack.OnAttacked += OnPlayerAttacked;
+            PlayerAttack.OnAttacked += OnPlayerAttack;
         }
-        private void OnPlayerAttacked()
+        private void OnPlayerAttack()
         {
             if (PlayerAttack.WeaponWrapper == null) {
                 throw new NullReferenceException("WeaponWrapper is null on active player atack");
