@@ -44,6 +44,11 @@ namespace Dino.Units.Player.Component
         private ITarget _target;
         private bool IsTargetInvalid => !_target.IsTargetValidAndAlive();
         private bool HasWeaponAnimationHandler => _weaponAnimationHandler != null;
+        
+        [CanBeNull]
+        public WeaponWrapper WeaponWrapper => _weapon;
+
+        public event Action OnAttacked;
 
         private void Awake()
         {
@@ -158,6 +163,7 @@ namespace Dino.Units.Player.Component
             _weapon.Fire(_target, DoDamage);
             _weapon.Timer.OnAttack();
             _startedAttack = false;
+            OnAttacked?.Invoke();
         }
         
         private void DoDamage(GameObject target)

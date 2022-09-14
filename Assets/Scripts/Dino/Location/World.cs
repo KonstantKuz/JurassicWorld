@@ -19,7 +19,9 @@ namespace Dino.Location
         [SerializeField]
         private CameraController _cameraController;
 
+        [CanBeNull]
         private PlayerUnit _player;
+        
         public Transform Ground => _ground;
         public GameObject Spawn => _spawn;
         public bool IsPaused => Time.timeScale == 0;
@@ -71,6 +73,8 @@ namespace Dino.Location
 
         public void CleanUp()
         {
+            Level = null;
+            Player = null;
             GetAllOf<IWorldScope>().ForEach(it => it.OnWorldCleanUp());
         }
 

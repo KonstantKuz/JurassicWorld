@@ -117,10 +117,7 @@ namespace Dino.Session.Service
             Dispose();
             _unitService.DeactivateAll();
             _activeItemService.RemoveActiveItemObject();
-
-            _world.Level = null;
-            _world.Player = null;
-
+            
             Session.SetResultByUnitType(winner);
             _analytics.ReportLevelFinish(Session.Result.Value);
             

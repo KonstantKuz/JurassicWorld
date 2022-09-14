@@ -13,7 +13,6 @@ namespace Dino.Weapon.Components
         private readonly ItemId _ammoId;
 
         public IReactiveProperty<int> AmmoCount => _ammoCount;
-        
         public bool HasAmmo => AmmoCount.Value > 0;
 
         public Clip(InventoryService inventoryService, ItemId ammoId)
