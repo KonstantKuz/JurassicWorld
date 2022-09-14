@@ -13,5 +13,6 @@
         public const string ITEM_ID = "item_id";
         public const string CRAFT_COUNT = "craft_count";
         public const string LOOT_COUNT = "loot_count";
+        public const string AB_TEST_ID = "ab_test_id";
     }
 }

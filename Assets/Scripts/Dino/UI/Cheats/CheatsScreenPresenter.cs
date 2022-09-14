@@ -1,10 +1,11 @@
 ﻿using System.Linq;
+using Dino.ABTest;
 using Dino.Cheats;
 using Dino.Inventory.Config;
 using Dino.Weapon.Config;
-using Dino.Weapon.Model;
 using Feofun.Cheats;
 using Feofun.Config;
+using Feofun.Extension;
 using Feofun.UI.Components.Button;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ namespace Dino.UI.Cheats
 
         [SerializeField] private ActionToggle _toggleConsoleButton;
         [SerializeField] private ActionToggle _toggleFPSButton;
+        [SerializeField] private ActionToggle _toggleAdsButton;   
+        [SerializeField] private ActionToggle _toggleABTestButton; 
 
         [SerializeField] private ActionButton _resetProgressButton;
 
@@ -36,9 +39,9 @@ namespace Dino.UI.Cheats
         [SerializeField] private ActionButton _removeActiveItemButton; 
         [SerializeField] private ActionButton _removeInventoryItemButton;   
         [SerializeField] private ActionButton _addInventoryItemButton;       
-        
-        
+                
         [SerializeField] private DropdownWithButtonView _craftDropdown;
+        [SerializeField] private DropdownWithButtonView _abTestDropdown;
 
         [Inject] private CheatsManager _cheatsManager;
         [Inject] private CheatsActivator _cheatsActivator;
@@ -52,6 +55,8 @@ namespace Dino.UI.Cheats
 
             _toggleConsoleButton.Init(_cheatsManager.IsConsoleEnabled, value => { _cheatsManager.IsConsoleEnabled = value; });
             _toggleFPSButton.Init(_cheatsManager.IsFPSMonitorEnabled, value => { _cheatsManager.IsFPSMonitorEnabled = value; });
+            _toggleAdsButton.Init(_cheatsManager.IsAdsCheatEnabled, value => _cheatsManager.IsAdsCheatEnabled = value);
+            _toggleABTestButton.Init(_cheatsManager.IsABTestCheatEnabled, value => _cheatsManager.IsABTestCheatEnabled = value);
 
             _resetProgressButton.Init(_cheatsManager.ResetProgress);
 
@@ -63,11 +68,12 @@ namespace Dino.UI.Cheats
                     
             _inventoryDropdown.Init(_weaponConfigs.Keys.Select(it => it.ToString()).ToList(), _cheatsManager.SetActiveWeapon);
             _removeActiveItemButton.Init(_cheatsManager.RemoveActiveItem);
+            
             _removeInventoryItemButton.Init(() => _cheatsManager.RemoveInventoryWeapon(_inventoryDropdown.CurrentValue));
             _addInventoryItemButton.Init(() => _cheatsManager.AddInventoryWeapon(_inventoryDropdown.CurrentValue));
             
-            
             _craftDropdown.Init(_craftConfig.Crafts.Keys.ToList(), _cheatsManager.Craft);
+            _abTestDropdown.Init(EnumExt.Values<ABTestVariantId>().Select(it => it.ToCamelCase()).ToList(), _cheatsManager.SetCheatAbTest);
         }
 
         private void DisableCheats()

@@ -11,7 +11,7 @@ namespace Dino.Cheats.Installer
         
         public void Install(DiContainer container)
         {
-            container.Bind<CheatsManager>().FromInstance(_cheatsManager).AsSingle();
+            container.BindInterfacesAndSelfTo<CheatsManager>().FromInstance(_cheatsManager).AsSingle();
             container.Bind<CheatsActivator>().FromInstance(_cheatsActivator).AsSingle();
         }
     }

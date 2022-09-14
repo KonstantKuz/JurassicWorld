@@ -50,8 +50,7 @@ namespace Dino.Session.Service
             CreateLevel();
             CreatePlayer();
             InitEnemies();
-            
-            _messenger.Publish(new SessionStartMessage());
+            _messenger.Publish(new SessionStartMessage(Session.LevelId, _playerProgressService.Progress.LevelNumber));
         }
 
         private void CreateSession()
