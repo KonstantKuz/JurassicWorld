@@ -30,11 +30,7 @@ namespace Dino.UI.Hud.Workbench
         private void OnProgressUpdate(CraftProgress progress)
         {
             _progressBarRoot.gameObject.SetActive(progress.Enabled);
-            if (!progress.Enabled) {
-                _progressBar.Reset();
-            } else {
-                _progressBar.SetData(progress.Progress);
-            }
+            _progressBar.Reset(progress.Progress);
         }
         private void Dispose()
         {
