@@ -9,6 +9,7 @@ namespace Dino.Cheats.Data
         public bool ConsoleEnabled; 
         [DataMember]
         public bool FPSMonitorEnabled;
-        
+        [DataMember]
+        public bool ABTestCheatEnabled;
     }
 }

@@ -48,7 +48,8 @@ namespace Dino.Analytics.Wrapper
                 BuildFloatAttribute("levels", additionalParams[EventParams.LEVEL_NUMBER]),
                 BuildFloatAttribute("level_retry", additionalParams[EventParams.PASS_NUMBER]),
                 BuildFloatAttribute("craft_count", additionalParams[EventParams.CRAFT_COUNT]),
-                BuildFloatAttribute("loot_count", additionalParams[EventParams.LOOT_COUNT])
+                BuildFloatAttribute("loot_count", additionalParams[EventParams.LOOT_COUNT]),
+                BuildStringAttribute("ab_test_id", (string) additionalParams[EventParams.AB_TEST_ID])
             };
             var profileParams = updates.ToDictionary(it => it.Key, it => string.Join("-", it.Values));
             LoggerFactory.GetLogger<AppMetricaAnalyticsWrapper>().Debug($"Update profile params := {string.Join(":", profileParams)}");
@@ -67,6 +68,7 @@ namespace Dino.Analytics.Wrapper
                 EventParams.LEVEL_NUMBER,
                 EventParams.CRAFT_COUNT,
                 EventParams.LOOT_COUNT,
+                EventParams.AB_TEST_ID
             });
             if (eventName == Events.LEVEL_FINISHED)
             {
