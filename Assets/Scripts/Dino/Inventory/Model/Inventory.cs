@@ -2,14 +2,16 @@
 using System.Linq;
 using JetBrains.Annotations;
 using Logger.Extension;
+using Newtonsoft.Json;
 
 namespace Dino.Inventory.Model
 {
     public class Inventory
     {
-        private List<Item> Items { get; } = new List<Item>();
-        public int GetUniqueItemsCount(InventoryItemType type) => Items.Count(it => it.Type == type);
-        public IEnumerable<Item> GetItems(InventoryItemType type) => Items.Where(it => it.Type == type);
+        [JsonProperty]
+        private readonly List<Item> _items = new List<Item>();
+        public int GetUniqueItemsCount(InventoryItemType type) => _items.Count(it => it.Type == type);
+        public IEnumerable<Item> GetItems(InventoryItemType type) => _items.Where(it => it.Type == type);
 
         public void AddNewItem(Item item)
         {
@@ -17,7 +19,7 @@ namespace Dino.Inventory.Model
                 this.Logger().Error($"Inventory adding error, inventory already contains item id:= {item.Id}");
                 return;
             }
-            Items.Add(item);
+            _items.Add(item);
         }
 
         public void RemoveItem(ItemId id)
@@ -26,12 +28,12 @@ namespace Dino.Inventory.Model
                 this.Logger().Error($"Inventory remove error, inventory doesn't contain item id:= {id}");
                 return;
             }
-            Items.RemoveAll(it => it.Id.Equals(id));
+            _items.RemoveAll(it => it.Id.Equals(id));
         }
 
         [CanBeNull]
-        public Item FindItem(ItemId id) => Items.FirstOrDefault(it => it.Id.Equals(id));
+        public Item FindItem(ItemId id) => _items.FirstOrDefault(it => it.Id.Equals(id));
 
-        public bool Contains(ItemId id) => Items.Exists(it => it.Id.Equals(id));
+        public bool Contains(ItemId id) => _items.Exists(it => it.Id.Equals(id));
     }
 }

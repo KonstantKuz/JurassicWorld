@@ -75,7 +75,7 @@ namespace Dino.Units.Service
             var itemObject = _worldObjectFactory.CreateObject(item.Name, itemOwner.Container);
             itemOwner.Set(itemObject);
 
-            _weaponService.SetActiveWeapon(item.Id, itemOwner.GetWeapon());
+            _weaponService.SetWeapon(item.Id, itemOwner.GetWeapon());
             _activeItemId.SetValueAndForceNotify(item);
         }
 
@@ -109,14 +109,34 @@ namespace Dino.Units.Service
         }
         private void TryEquipAddedItem(ItemId itemId)
         {
-            var item = _inventoryService.GetItem(itemId);
-            if (!IsItemTypeEquipable(item)) {
+            var newItem = _inventoryService.GetItem(itemId);
+            if (!IsItemTypeEquipable(newItem)) {
                 return;
             }
-            if (!HasActiveItem() || item.Rank >= ActiveItemId.Value.Rank) {
-                Replace(item);
+            if (!HasActiveItem() || ShouldEquipAddedItem(ActiveItemId.Value, newItem)) {
+                Replace(newItem);
             }
         }
+
+        private bool ShouldEquipAddedItem(Item currentItem, Item nextItem)
+        {
+            if (!_weaponService.IsWeapon(currentItem.Id) || !_weaponService.IsWeapon(nextItem.Id)) {
+                return nextItem.Rank >= currentItem.Rank;
+            }
+            var currentItemAmmoCount = _weaponService.GetWeaponWrapper(currentItem.Id).Clip.AmmoCount.Value;
+            var nextItemAmmoCount = _weaponService.GetWeaponWrapper(nextItem.Id).Clip.AmmoCount.Value;
+            if (currentItemAmmoCount <= 0 && nextItemAmmoCount > 0) {
+                return true;
+            }
+            if (currentItemAmmoCount <= 0) {
+                return true;
+            }   
+            if (nextItemAmmoCount <= 0) {
+                return false;
+            }
+            return nextItem.Rank >= currentItem.Rank;
+        }
+
         private bool IsItemTypeEquipable(Item item) => item.Type.IsEquipable();
 
      

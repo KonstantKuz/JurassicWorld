@@ -24,6 +24,10 @@ namespace Dino.Inventory.Model
         {
             return obj is ItemId other && Equals(other);
         }
+        public override string ToString()
+        {
+            return $"ItemId:= {FullName}";
+        }
         public override int GetHashCode()
         {
             return (FullName != null ? FullName.GetHashCode() : 0);

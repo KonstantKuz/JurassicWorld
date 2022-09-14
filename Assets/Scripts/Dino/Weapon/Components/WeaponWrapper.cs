@@ -16,16 +16,23 @@ namespace Dino.Weapon.Components
         
         [CanBeNull]
         public BaseWeapon WeaponObject;
+        
+        public bool IsWeaponReadyToFire => Clip.HasAmmo && Timer.IsAttackReady.Value;
 
-        public WeaponWrapper(ItemId weaponId, PlayerWeaponModel model, WeaponTimer timer, Clip clip)
+        private WeaponWrapper(ItemId weaponId, PlayerWeaponModel model, WeaponTimer timer, Clip clip)
         {
             WeaponId = weaponId;
             Model = model;
             Timer = timer;
             Clip = clip;
         }
-
-        public bool IsWeaponReadyToFire => Clip.HasAmmo && Timer.IsAttackReady.Value;
+        public static WeaponWrapper Create(ItemId weaponId,
+                                           PlayerWeaponModel model,
+                                           WeaponTimer timer,
+                                           Clip clip)
+        {
+            return new WeaponWrapper(weaponId, model, timer, clip);
+        }
 
         public void Fire(ITarget target, Action<GameObject> hitCallback)
         {
@@ -35,12 +42,6 @@ namespace Dino.Weapon.Components
             WeaponObject.Fire(target, Model, hitCallback);
             Clip.OnFire();
         }
-        public static WeaponWrapper Create(ItemId weaponId,
-                                           PlayerWeaponModel model,
-                                           WeaponTimer timer,
-                                           Clip clip)
-        {
-            return new WeaponWrapper(weaponId, model, timer, clip);
-        }
+     
     }
 }
