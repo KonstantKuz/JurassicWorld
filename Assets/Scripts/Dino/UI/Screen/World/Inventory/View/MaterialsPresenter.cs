@@ -1,5 +1,6 @@
 ﻿using Dino.Inventory.Service;
 using Dino.UI.Screen.World.Inventory.Model;
+using Feofun.UI.Components;
 using UnityEngine;
 using Zenject;
 
@@ -8,7 +9,7 @@ namespace Dino.UI.Screen.World.Inventory.View
     public class MaterialsPresenter : MonoBehaviour
     {
         [SerializeField] 
-        private MaterialsView _view;
+        private ListView _view;
 
         private MaterialsModel _model;
         
@@ -24,7 +25,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         private void Init()
         {
             _model = new MaterialsModel(_inventoryService);
-            _view.Init(_model);
+            _view.Init(_model.Materials);
         }
 
         private void Dispose()

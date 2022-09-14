@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _root: {fileID: 9045365291168451597}
-  _materialPrefab: {fileID: 2703943624679781784, guid: cba21c97a8a0f194d9ba2bb24ea62878, type: 3}
+  _itemPrefab: {fileID: 5992899183347041723, guid: cba21c97a8a0f194d9ba2bb24ea62878, type: 3}
 --- !u!1 &3528765548246397446
 GameObject:
   m_ObjectHideFlags: 0

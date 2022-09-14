@@ -1,39 +1,39 @@
 using System;
 using System.Collections.Generic;
-using Dino.UI.Screen.World.Inventory.Model;
+using Feofun.Components;
 using Feofun.Extension;
 using SuperMaxim.Core.Extensions;
 using UniRx;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.UI.Screen.World.Inventory.View
+namespace Feofun.UI.Components
 {
-    public class MaterialsView : MonoBehaviour
+    public class ListView : MonoBehaviour
     {
         [SerializeField] 
         private Transform _root;
         [SerializeField] 
-        private MaterialView _materialPrefab;
+        private GameObject _itemPrefab;
 
         private IDisposable _disposable;
         
         [Inject]
         private DiContainer _container;
         
-        public void Init(MaterialsModel model)
+        public void Init<T>(IReadOnlyReactiveProperty<List<T>> itemModels) where T : class
         {
             Dispose();
-            _disposable = model.Materials.Subscribe(UpdateMaterials);
+            _disposable = itemModels.Subscribe(UpdateMaterials);
         }
 
-        private void UpdateMaterials(IReadOnlyList<MaterialViewModel> materialViews)
+        private void UpdateMaterials<T>(IReadOnlyList<T> itemModels) where T : class
         {
             _root.DestroyAllChildren();
-            materialViews.ForEach(it =>
+            itemModels.ForEach(itemModel =>
             {
-                var materialView = _container.InstantiatePrefabForComponent<MaterialView>(_materialPrefab, _root);
-                materialView.Init(it);
+                var itemView = _container.InstantiatePrefabForComponent<IInitializable<T>>(_itemPrefab, _root);
+                itemView.Init(itemModel);
             });
         }
 
