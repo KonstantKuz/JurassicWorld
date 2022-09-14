@@ -373,7 +373,7 @@ RectTransform:
   m_Father: {fileID: 3514698042742675079}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.09652083}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -775,6 +775,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1440054084512962596}
     m_Modifications:
+    - target: {fileID: 1717012522153553542, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.49951172
+      objectReference: {fileID: 0}
     - target: {fileID: 4510510540947579704, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
       propertyPath: m_Name
       value: DebriefingScreen
@@ -783,6 +787,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5456325370486005087, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.4000244
+      objectReference: {fileID: 0}
     - target: {fileID: 5609561371697322177, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
       propertyPath: m_SizeDelta.x
       value: 48.6
@@ -798,6 +806,10 @@ PrefabInstance:
     - target: {fileID: 5610599030091805194, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
       propertyPath: m_SizeDelta.y
       value: 108.58
+      objectReference: {fileID: 0}
+    - target: {fileID: 5956254032384333781, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 6859138781341265126, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
       propertyPath: m_AnchorMax.y
