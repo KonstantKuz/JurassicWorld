@@ -6,7 +6,7 @@ using Dino.Units.Service;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.Location
+namespace Dino.Location.Installer
 {
     public class WorldServicesInstaller : MonoBehaviour
     {

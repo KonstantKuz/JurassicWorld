@@ -20,6 +20,6 @@ namespace Dino.Units.Player.Model
         public float AttackInterval => _config.AttackInterval;
         
         public string Animation => _config.Animation;       
-        public string Ammo => _config.Ammo;
+        public string AmmoId => _config.AmmoId;
     }
 }

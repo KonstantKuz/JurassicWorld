@@ -3,7 +3,6 @@ using Dino.ABTest;
 using Dino.Cheats;
 using Dino.Inventory.Config;
 using Dino.Weapon.Config;
-using Dino.Weapon.Model;
 using Feofun.Cheats;
 using Feofun.Config;
 using Feofun.Extension;
@@ -67,11 +66,12 @@ namespace Dino.UI.Cheats
             _testLogButton.Init(_cheatsManager.LogTestMessage);
             _analyticsTestButton.Init(_cheatsManager.ReportAnalyticsTestEvent);
                     
-            _inventoryDropdown.Init(_weaponConfigs.Keys.Select(it => it.ToString()).ToList(), _cheatsManager.SetActiveItem);
+            _inventoryDropdown.Init(_weaponConfigs.Keys.Select(it => it.ToString()).ToList(), _cheatsManager.SetActiveWeapon);
             _removeActiveItemButton.Init(_cheatsManager.RemoveActiveItem);
-            _removeInventoryItemButton.Init(() => _cheatsManager.RemoveInventoryItem(_inventoryDropdown.CurrentValue));
-            _addInventoryItemButton.Init(() => _cheatsManager.AddInventoryItem(_inventoryDropdown.CurrentValue));
-                        
+            
+            _removeInventoryItemButton.Init(() => _cheatsManager.RemoveInventoryWeapon(_inventoryDropdown.CurrentValue));
+            _addInventoryItemButton.Init(() => _cheatsManager.AddInventoryWeapon(_inventoryDropdown.CurrentValue));
+            
             _craftDropdown.Init(_craftConfig.Crafts.Keys.ToList(), _cheatsManager.Craft);
             _abTestDropdown.Init(EnumExt.Values<ABTestVariantId>().Select(it => it.ToCamelCase()).ToList(), _cheatsManager.SetCheatAbTest);
         }

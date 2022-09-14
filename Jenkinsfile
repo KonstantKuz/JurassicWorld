@@ -130,7 +130,7 @@ pipeline {
             post {
                 always {
                     script {
-                        if(params.Platform == "iOS" && params.PostBuildClean) {
+                        if(params.Platform == "Android" && params.PostBuildClean) {
                             sh 'git checkout .'
                             sh 'git clean -fd'
                         }

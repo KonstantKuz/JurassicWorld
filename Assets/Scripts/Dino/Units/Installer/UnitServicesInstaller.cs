@@ -15,6 +15,7 @@ namespace Dino.Units.Installer
             container.Bind<PlayerUnitModelBuilder>().AsSingle();    
    
             container.Bind<WeaponService>().AsSingle();
+            container.BindInterfacesAndSelfTo<AutomaticWeaponChangeService>().AsSingle();
             container.BindInterfacesAndSelfTo<ActiveItemService>().AsSingle();    
         }
     }

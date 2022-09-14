@@ -1,6 +1,7 @@
-﻿using Feofun.Repository;
+﻿using Dino.Tutorial.Model;
+using Feofun.Repository;
 
-namespace Dino.Tutorial
+namespace Dino.Tutorial.Service
 {
     public class TutorialRepository: LocalPrefsSingleRepository<TutorialState>
     {

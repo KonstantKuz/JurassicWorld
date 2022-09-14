@@ -4,11 +4,11 @@ using Dino.Analytics;
 using Dino.Cheats.Installer;
 using Dino.Config;
 using Dino.Inventory.Installer;
-using Dino.Location;
+using Dino.Location.Installer;
 using Dino.Modifiers;
 using Dino.Player.Installer;
 using Dino.Reward.Installer;
-using Dino.Tutorial;
+using Dino.Tutorial.Installer;
 using Dino.UI;
 using Dino.Units.Installer;
 using Feofun.ABTest.Installer;
@@ -30,6 +30,8 @@ namespace Dino.Core.MonoInstaller
         private UIInstaller _uiInstaller;     
         [SerializeField]
         private CheatsInstaller _cheatsInstaller;
+        [SerializeField]
+        private TutorialInstaller _tutorialInstaller;
 
         public override void InstallBindings()
         {
@@ -47,14 +49,13 @@ namespace Dino.Core.MonoInstaller
             InventoryServicesInstaller.Install(Container);
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container);
-            TutorialInstaller.Install(Container);
             ABTestServicesInstaller.Install(Container, ABTestVariantId.Control);
             AdsServicesInstaller.Install(Container);
             
+            _tutorialInstaller.Install(Container);
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);
             _cheatsInstaller.Install(Container);
-            
         }
     }
 }

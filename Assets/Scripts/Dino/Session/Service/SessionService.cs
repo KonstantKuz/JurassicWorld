@@ -1,15 +1,12 @@
 ﻿using Dino.Config;
-using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Level;
 using Dino.Location.Level.Service;
 using Dino.Player.Progress.Service;
 using Dino.Session.Messages;
-using Dino.Session.Model;
 using Dino.Units;
 using Dino.Units.Service;
 using Logger.Extension;
-using SuperMaxim.Core.Extensions;
 using SuperMaxim.Messaging;
 using UniRx;
 using Zenject;
@@ -53,7 +50,7 @@ namespace Dino.Session.Service
             CreateLevel();
             CreatePlayer();
             InitEnemies();
-            _messenger.Publish(new SessionStartMessage(Session.LevelId, _playerProgressService.Progress.LevelNumber));            
+            _messenger.Publish(new SessionStartMessage(Session.LevelId, _playerProgressService.Progress.LevelNumber));
         }
 
         private void CreateSession()
@@ -118,7 +115,8 @@ namespace Dino.Session.Service
         {
             Dispose();
             _unitService.DeactivateAll();
-
+            _activeItemService.RemoveActiveItemObject();
+            
             Session.SetResultByUnitType(winner);
             _analytics.ReportLevelFinish(Session.Result.Value);
             

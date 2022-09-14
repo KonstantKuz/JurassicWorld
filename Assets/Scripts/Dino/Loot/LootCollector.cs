@@ -1,5 +1,4 @@
-﻿using Dino.Inventory.Service;
-using Dino.Location;
+﻿using Dino.Location;
 using Dino.Loot.Service;
 using Dino.Session.Service;
 using UnityEngine;
@@ -19,7 +18,6 @@ namespace Dino.Loot
         [Inject] private LootService _lootService;
         [Inject] private SessionService _sessionService;
         [Inject] private World _world;
-        [Inject] private InventoryService _inventoryService;
 
         public float CollectRadius => _collectRadius;
         
@@ -52,8 +50,7 @@ namespace Dino.Loot
 
         private void TryCollect(Loot loot)
         {
-            if (_world.IsPaused || _inventoryService.ItemsCount >= InventoryService.MAX_ITEMS_COUNT)
-            {
+            if (_world.IsPaused || !_lootService.CanCollect(loot)) {
                 return;
             }
             
@@ -64,7 +61,6 @@ namespace Dino.Loot
       
             _lootHud.Hide();
             _lootService.Collect(loot);
-            Destroy(loot.gameObject);
         }
     }
 }

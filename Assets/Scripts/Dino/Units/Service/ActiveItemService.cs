@@ -10,26 +10,28 @@ using Zenject;
 
 namespace Dino.Units.Service
 {
-    public class ActiveItemService : IWorldScope
+    public class ActiveItemService
     {
-        private readonly ReactiveProperty<ItemId> _activeItemId = new ReactiveProperty<ItemId>(null);
-        
+        private readonly ReactiveProperty<Item> _activeItemId = new ReactiveProperty<Item>(null);
+        private readonly InventoryService _inventoryService;
+
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
         [Inject]
         private World _world;
         [Inject]
-        private WeaponService _weaponService;     
-        [Inject]
-        private InventoryService _inventoryService;
-        
-        private ActiveItemRepository _repository;        
+        private WeaponService _weaponService;
 
-        public IReadOnlyReactiveProperty<ItemId> ActiveItemId => _activeItemId;
-        
-        private PlayerUnit Player => _world.GetPlayer();
+        private ActiveItemRepository _repository;
 
-        public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
+        public IReadOnlyReactiveProperty<Item> ActiveItemId => _activeItemId;
+        private PlayerUnit Player => _world.RequirePlayer();
+
+        public ActiveItemService(InventoryService inventoryService)
+        {
+            _inventoryService = inventoryService;
+            inventoryService.OnItemChanged += OnItemChanged;
+        }
 
         public void Init()
         {
@@ -37,67 +39,106 @@ namespace Dino.Units.Service
 
             if (!_repository.Exists()) {
                 _repository.Set(null);
-            }
-            else
-            {
+            } else {
                 Equip(_repository.Get());
             }
-        }
-        public void Replace(ItemId itemId)
-        {
-            UnEquip();
-            Equip(itemId);
-        }
-
-        public bool IsActiveItem(ItemId itemId)
-        {
-            if (!HasActiveItem()) {
-                return false;
-            }
-            return itemId.Equals(_activeItemId.Value);
-        }
-
-        public void Equip(ItemId itemId)
-        {
-            if (!_inventoryService.Contains(itemId)) {
-                this.Logger().Error($"Equip error, inventory must contain the item:= {itemId}");
-                return;
-            }
-            if (_activeItemId.Value != null) {
-                RemoveActiveItemObject();
-            }
-            var itemOwner = Player.ActiveItemOwner;
-            var itemObject = _worldObjectFactory.CreateObject(itemId.Name, itemOwner.Container);
-            _activeItemId.SetValueAndForceNotify(itemId);
-            itemOwner.Set(itemObject);
-            
-            _weaponService.TrySetWeapon(itemId, itemOwner.GetWeapon());
-        }
-
-        public void UnEquip()
-        {
-            _activeItemId.SetValueAndForceNotify(null);
-            RemoveActiveItemObject();
-        }
-
-        public void OnWorldSetup()
-        {
-        }
-
-        public void OnWorldCleanUp()
-        {
-            RemoveActiveItemObject();
-        }
-
-        private void RemoveActiveItemObject()
-        {
-            _weaponService.Remove();
-            Player.ActiveItemOwner.Remove();
         }
 
         public void Save()
         {
             _repository.Set(ActiveItemId.Value);
         }
+
+        public bool HasActiveItem() => _activeItemId.HasValue && _activeItemId.Value != null;
+        public bool IsActiveItem(ItemId itemId) => HasActiveItem() && itemId.Equals(_activeItemId.Value.Id);
+
+        public void Replace(Item item)
+        {
+            UnEquip();
+            Equip(item);
+        }
+
+        public void Equip(Item item)
+        {
+            if (!_inventoryService.Contains(item.Id)) {
+                this.Logger().Error($"Equip error, inventory must contain the item:= {item}");
+                return;
+            }
+            if (!IsItemTypeEquipable(item)) {
+                this.Logger().Error($"Equip error, type of inventory item must be equipable, item:= {item}");
+                return;
+            }
+            if (_activeItemId.Value != null) {
+                RemoveActiveItemObject();
+            }
+            var itemOwner = Player.ActiveItemOwner;
+            var itemObject = _worldObjectFactory.CreateObject(item.Name, itemOwner.Container);
+            itemOwner.Set(itemObject);
+
+            _weaponService.SetWeapon(item.Id, itemOwner.GetWeapon());
+            _activeItemId.SetValueAndForceNotify(item);
+        }
+
+        public void UnEquip()
+        {
+            RemoveActiveItemObject();
+            _activeItemId.SetValueAndForceNotify(null);
+        }
+
+        public void RemoveActiveItemObject()
+        {
+            _weaponService.RemoveActiveWeapon();
+            Player.ActiveItemOwner.Remove();
+        }
+
+        private void OnItemChanged(ItemChangedEvent itemChangedEvent)
+        {
+            if (itemChangedEvent.IsItemRemoved) {
+                OnItemRemoved(itemChangedEvent.ItemId);
+            }
+            if (itemChangedEvent.IsItemAddedAsNew) {
+                TryEquipAddedItem(itemChangedEvent.ItemId);
+            }
+        }
+
+        private void OnItemRemoved(ItemId id)
+        {
+            if (IsActiveItem(id)) {
+                UnEquip();
+            }
+        }
+        private void TryEquipAddedItem(ItemId itemId)
+        {
+            var newItem = _inventoryService.GetItem(itemId);
+            if (!IsItemTypeEquipable(newItem)) {
+                return;
+            }
+            if (!HasActiveItem() || ShouldEquipAddedItem(ActiveItemId.Value, newItem)) {
+                Replace(newItem);
+            }
+        }
+
+        private bool ShouldEquipAddedItem(Item currentItem, Item nextItem)
+        {
+            if (!_weaponService.IsWeapon(currentItem.Id) || !_weaponService.IsWeapon(nextItem.Id)) {
+                return nextItem.Rank >= currentItem.Rank;
+            }
+            var currentItemAmmoCount = _weaponService.GetWeaponWrapper(currentItem.Id).Clip.AmmoCount.Value;
+            var nextItemAmmoCount = _weaponService.GetWeaponWrapper(nextItem.Id).Clip.AmmoCount.Value;
+            if (currentItemAmmoCount <= 0 && nextItemAmmoCount > 0) {
+                return true;
+            }
+            if (currentItemAmmoCount <= 0) {
+                return true;
+            }   
+            if (nextItemAmmoCount <= 0) {
+                return false;
+            }
+            return nextItem.Rank >= currentItem.Rank;
+        }
+
+        private bool IsItemTypeEquipable(Item item) => item.Type.IsEquipable();
+
+     
     }
 }

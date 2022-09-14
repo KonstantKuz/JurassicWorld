@@ -12,15 +12,15 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly BoolReactiveProperty _canCraft;
 
         [CanBeNull]
-        public ItemId Id { get; }
-        [CanBeNull]
+        public Item Item { get; }
+        
+        [CanBeNull] 
         public string Icon { get; }
-        public int Rank { get; }
         public IReactiveProperty<ItemViewState> State => _state;
         public IReactiveProperty<bool> CanCraft => _canCraft;
         
         [CanBeNull]
-        public WeaponTimer WeaponTimer { get; }
+        public WeaponWrapper WeaponWrapper { get; }
         [CanBeNull]
         public Action OnClick { get; }
         [CanBeNull]
@@ -28,29 +28,20 @@ namespace Dino.UI.Screen.World.Inventory.Model
         [CanBeNull]
         public Action<ItemViewModel> OnEndDrag { get; }
 
-        public ItemViewModel([CanBeNull] ItemId id,
+        public ItemViewModel([CanBeNull] Item item,
                              ItemViewState state,
                              bool canCraft = false, 
-                             WeaponTimer weaponTimer = null,
+                             WeaponWrapper weaponWrapper = null,
                              Action onClick = null,
                              Action<ItemViewModel> onBeginDrag = null,
                              Action<ItemViewModel> onEndDrag = null)
         {
-            Id = id;
-            if (id == null)
-            {
-                Icon = null;
-                Rank = 0;
-            }
-            else
-            {
-                Icon = Id.Name;
-                Rank = id.Rank;
-            }
+            Item = item;
+            Icon = item == null ? null : Item.Name;
 
             _state = new ReactiveProperty<ItemViewState>(state);
             _canCraft = new BoolReactiveProperty(canCraft);
-            WeaponTimer = weaponTimer;
+            WeaponWrapper = weaponWrapper;
             OnClick = onClick;
             OnBeginDrag = onBeginDrag;
             OnEndDrag = onEndDrag;
@@ -64,9 +55,9 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _canCraft.SetValueAndForceNotify(canCraft);
         }
 
-        public static ItemViewModel ForDrag(ItemId id, bool canCraft)
+        public static ItemViewModel ForDrag(Item item, bool canCraft)
         {
-            return new ItemViewModel(id, ItemViewState.Inactive, canCraft);
+            return new ItemViewModel(item, ItemViewState.Inactive, canCraft);
         }
 
         public static ItemViewModel Empty()

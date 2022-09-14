@@ -53,21 +53,21 @@ namespace Dino.Cheats
             _analytics.ReportTest();
         }
 
-        public void SetActiveItem(string itemName)
+        public void SetActiveWeapon(string itemName)
         {
-            _activeItemService.Replace(ItemId.Create(itemName, 1));
+            _activeItemService.Replace(_inventoryService.GetItem(ItemId.Create(itemName)));
         } 
         public void RemoveActiveItem()
         {
             _activeItemService.UnEquip();
         }      
-        public void RemoveInventoryItem(string itemName)
+        public void RemoveInventoryWeapon(string itemName)
         { 
-            _inventoryService.Remove(_inventoryService.GetLast(itemName));
+            _inventoryService.Remove(ItemId.Create(itemName));
         }  
-        public void AddInventoryItem(string itemName)
+        public void AddInventoryWeapon(string itemName)
         { 
-            _inventoryService.Add(itemName);
+            _inventoryService.Add(ItemId.Create(itemName), InventoryItemType.Weapon, 1);
         }   
         public void Craft(string craftItemId)
         { 

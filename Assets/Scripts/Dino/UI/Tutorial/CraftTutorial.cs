@@ -50,13 +50,15 @@ namespace Dino.UI.Tutorial
             _tutorialUiTools.TutorialHand.Hide();
         }        
 
-        [CanBeNull] private InventoryItemView GetFirstIngredientView(CraftRecipeConfig receiptConfig)
+        [CanBeNull] 
+        private InventoryItemView GetFirstIngredientView(CraftRecipeConfig receiptConfig)
         {
             var firstIngredient = receiptConfig.Ingredients.First().Name;
             return _inventoryView.GetItemViews(firstIngredient).FirstOrDefault();
         }
 
-        [CanBeNull] private InventoryItemView GetSecondIngredientView(CraftRecipeConfig receiptConfig)
+        [CanBeNull] 
+        private InventoryItemView GetSecondIngredientView(CraftRecipeConfig receiptConfig)
         {
             if (receiptConfig.Ingredients.Count == 1)
             {

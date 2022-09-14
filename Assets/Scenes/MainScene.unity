@@ -241,6 +241,7 @@ MonoBehaviour:
   _worldServicesInstaller: {fileID: 8746036833688596025}
   _uiInstaller: {fileID: 3514698042878797254}
   _cheatsInstaller: {fileID: 1296089094}
+  _tutorialInstaller: {fileID: 2048647284}
 --- !u!114 &876315364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,6 +533,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2048647284 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6251380332883874309, guid: 35125c194a51b14489fcf91a7da5dd53, type: 3}
+  m_PrefabInstance: {fileID: 3514698042878797253}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acef95b266794d6c871d21d6a40cd058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3514698042878797253
 PrefabInstance:
   m_ObjectHideFlags: 0
