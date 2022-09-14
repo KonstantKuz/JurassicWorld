@@ -6,13 +6,12 @@ namespace Dino.Location.Workbench
     public class Workbench : MonoBehaviour
     {
         [SerializeField]
-        private string _craftItemName;
-
+        private string _craftItemId;
 
         public event Action OnPlayerTriggered;
         public bool IsPlayerInCraftingArea { get; private set; }
 
-        public string CraftItemName => _craftItemName;
+        public string CraftItemId => _craftItemId;
 
         
         private void OnTriggerEnter(Collider collider)

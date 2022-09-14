@@ -30,7 +30,7 @@ namespace Dino.UI.Hud.Workbench
         }
         private void LoadIcon(WorkbenchHudModel model)
         {
-            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.CraftItemName));
+            _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.CraftItemId));
         }
         private void SetButtonActive(bool shown)
         {

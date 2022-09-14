@@ -15,7 +15,7 @@ namespace Dino.UI.Hud.Workbench
         public IReadOnlyReactiveProperty<bool> CraftButtonShown => _craftButtonShown;
         public IReadOnlyReactiveProperty<bool> CraftAvailable => _craftAvailable;
         public Location.Workbench.Workbench Workbench { get; }
-        public string CraftItemName => Workbench.CraftItemName;
+        public string CraftItemId => Workbench.CraftItemId;
    
         
         public WorkbenchHudModel(Location.Workbench.Workbench workbench, CraftService craftService, Action onCraft)
@@ -31,6 +31,6 @@ namespace Dino.UI.Hud.Workbench
             _craftAvailable.SetValueAndForceNotify(CanCraftRecipe());
             _craftButtonShown.SetValueAndForceNotify(Workbench.IsPlayerInCraftingArea);
         }
-        private bool CanCraftRecipe() => _craftService.FindHighestRankPossibleRecipeBy(CraftItemName) != null;
+        public bool CanCraftRecipe() => _craftService.HasIngredientsForRecipe(CraftItemId);
     }
 }

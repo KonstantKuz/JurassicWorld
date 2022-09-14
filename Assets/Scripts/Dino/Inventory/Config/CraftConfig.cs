@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Feofun.Config;
 using Feofun.Config.Csv;
+using JetBrains.Annotations;
 
 namespace Dino.Inventory.Config
 {
@@ -19,6 +20,11 @@ namespace Dino.Inventory.Config
                 throw new NullReferenceException($"CraftRecipeConfig is null by id:= {recipeId}");
             }
             return Crafts[recipeId];
+        }   
+        [CanBeNull]
+        public CraftRecipeConfig FindRecipe(string recipeId)
+        {
+            return !Crafts.ContainsKey(recipeId) ? null : Crafts[recipeId];
         }
         public void Load(Stream stream)
         {

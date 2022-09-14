@@ -1,5 +1,4 @@
 ﻿using Dino.Inventory.Service;
-using Dino.Units.Service;
 using Logger.Extension;
 using UniRx;
 using UnityEngine;
@@ -11,12 +10,8 @@ namespace Dino.UI.Hud.Workbench
     {
         [SerializeField] private WorkbenchHudView _view;
 
-        [Inject]
-        private InventoryService _inventoryService;
-        [Inject]
-        private CraftService _craftService;
-        [Inject]
-        private ActiveItemService _activeItemService;
+        [Inject] private InventoryService _inventoryService;
+        [Inject] private CraftService _craftService;
 
         private CompositeDisposable _disposable;
         
@@ -35,13 +30,11 @@ namespace Dino.UI.Hud.Workbench
         }
         private void OnCraft()
         {
-            var recipe = _craftService.FindHighestRankPossibleRecipeBy(_model.CraftItemName);
-            if (recipe == null) {
-                this.Logger().Error($"Recipe crafting error, missing ingredients, craftItemName:= {_model.CraftItemName}");
+            if (!_model.CanCraftRecipe()) {
+                this.Logger().Error($"Recipe crafting error, missing ingredients, craftItemId:= {_model.CraftItemId}");
                 return;
-            }
-            var item = _craftService.Craft(recipe.CraftItemId);
-            _activeItemService.Replace(item);
+            } 
+            _craftService.Craft(_model.CraftItemId);
         }
         private void OnModelUpdate() => _model.Update();
         private void Dispose()
