@@ -1,36 +1,63 @@
-﻿using System;
-using Dino.Inventory.Service;
+﻿using Dino.Location.Workbench;
+using Dino.Util;
+using JetBrains.Annotations;
 using UniRx;
 
 namespace Dino.UI.Hud.Workbench
 {
     public class WorkbenchHudModel
     {
-        private readonly BoolReactiveProperty _craftAvailable;
-        private readonly BoolReactiveProperty _craftButtonShown;
-        private readonly CraftService _craftService;
-        
-      
-        public readonly Action OnCraft;
-        public IReadOnlyReactiveProperty<bool> CraftButtonShown => _craftButtonShown;
-        public IReadOnlyReactiveProperty<bool> CraftAvailable => _craftAvailable;
-        public Location.Workbench.Workbench Workbench { get; }
-        public string CraftItemId => Workbench.CraftItemId;
-   
-        
-        public WorkbenchHudModel(Location.Workbench.Workbench workbench, CraftService craftService, Action onCraft)
+        private readonly ReactiveProperty<CraftProgress> _craftProgress;
+        private readonly Location.Workbench.Workbench _workbench;
+
+        private CompositeDisposable _timerDisposable;
+
+        public readonly string Icon;
+
+        public IReadOnlyReactiveProperty<CraftProgress> CraftProgress => _craftProgress;
+
+        public WorkbenchHudModel(Location.Workbench.Workbench workbench)
         {
-            Workbench = workbench;
-            _craftService = craftService;
-            _craftAvailable = new BoolReactiveProperty(CanCraftRecipe());
-            _craftButtonShown = new BoolReactiveProperty(Workbench.IsPlayerInCraftingArea);
-            OnCraft = onCraft;
+            _workbench = workbench;
+            _craftProgress = new ReactiveProperty<CraftProgress>(new CraftProgress());
+            Icon = IconPath.GetForCraft(workbench.CraftItemId);
+            _workbench.OnCrafterCreated += OnCrafterCreated;
+            _workbench.OnCrafterRemoved += OnCrafterRemoved;
         }
-        public void Update()
+
+        public void Dispose()
         {
-            _craftAvailable.SetValueAndForceNotify(CanCraftRecipe());
-            _craftButtonShown.SetValueAndForceNotify(Workbench.IsPlayerInCraftingArea);
+            DisposeCraftTimer();
+            _workbench.OnCrafterCreated -= OnCrafterCreated;
+            _workbench.OnCrafterRemoved -= OnCrafterRemoved;
         }
-        public bool CanCraftRecipe() => _craftService.HasIngredientsForRecipe(CraftItemId);
+
+        private void OnCrafterCreated(CrafterByTimer crafter)
+        {
+            DisposeCraftTimer();
+            _timerDisposable = new CompositeDisposable();
+            crafter.CraftTimerProperty.Subscribe(OnTimerUpdatable).AddTo(_timerDisposable);
+        }
+
+        private void OnTimerUpdatable([CanBeNull] CraftTimer timer)
+        {
+            var craftProgress = new CraftProgress();
+            if (timer != null) {
+                craftProgress = new CraftProgress(true, timer.Progress / timer.Duration);
+            }
+            _craftProgress.SetValueAndForceNotify(craftProgress);
+        }
+
+        private void OnCrafterRemoved()
+        {
+            DisposeCraftTimer();
+            _craftProgress.SetValueAndForceNotify(new CraftProgress());
+        }
+
+        private void DisposeCraftTimer()
+        {
+            _timerDisposable?.Dispose();
+            _timerDisposable = null;
+        }
     }
 }

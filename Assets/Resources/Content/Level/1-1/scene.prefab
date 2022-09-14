@@ -2333,8 +2333,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 3331954039808601603}
     m_Modifications:
     - target: {fileID: 999640405999484962, guid: f168b87efeca0da429083af153b8576e, type: 3}
+      propertyPath: _receivedItemId
+      value: BowAmmo
+      objectReference: {fileID: 0}
+    - target: {fileID: 999640405999484962, guid: f168b87efeca0da429083af153b8576e, type: 3}
       propertyPath: _receivedItemType
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 999640405999484962, guid: f168b87efeca0da429083af153b8576e, type: 3}
+      propertyPath: _receivedItemAmount
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2447968333576790693, guid: f168b87efeca0da429083af153b8576e, type: 3}
       propertyPath: m_Name
@@ -2474,7 +2482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2163629929231408513, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
       propertyPath: _receivedItemAmount
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4351752094014783251, guid: f43e3bbacae79314a801baf6ad9bd094, type: 3}
       propertyPath: m_Name
