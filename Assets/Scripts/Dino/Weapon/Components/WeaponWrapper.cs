@@ -12,14 +12,14 @@ namespace Dino.Weapon.Components
         public readonly ItemId WeaponId;
         public readonly PlayerWeaponModel Model;
         public readonly WeaponTimer Timer;
-        public readonly Clip Clip;
+        public readonly IClip Clip;
         
         [CanBeNull]
         public BaseWeapon WeaponObject;
         
         public bool IsWeaponReadyToFire => Clip.HasAmmo && Timer.IsAttackReady.Value;
 
-        private WeaponWrapper(ItemId weaponId, PlayerWeaponModel model, WeaponTimer timer, Clip clip)
+        private WeaponWrapper(ItemId weaponId, PlayerWeaponModel model, WeaponTimer timer, IClip clip)
         {
             WeaponId = weaponId;
             Model = model;
@@ -29,7 +29,7 @@ namespace Dino.Weapon.Components
         public static WeaponWrapper Create(ItemId weaponId,
                                            PlayerWeaponModel model,
                                            WeaponTimer timer,
-                                           Clip clip)
+                                           IClip clip)
         {
             return new WeaponWrapper(weaponId, model, timer, clip);
         }

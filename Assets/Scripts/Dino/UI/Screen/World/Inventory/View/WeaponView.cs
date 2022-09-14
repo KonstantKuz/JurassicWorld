@@ -32,12 +32,14 @@ namespace Dino.UI.Screen.World.Inventory.View
         private void SetWeaponWrapper([CanBeNull] WeaponWrapper weaponWrapper)
         {
             _weaponWrapper = weaponWrapper;
+            _ammoCount.text = "";
             if (weaponWrapper == null) {
-                _ammoCount.text = "";
-            } else {
+                return;
+            } 
+            if (!(_weaponWrapper.Clip is InfiniteClip)) { 
                 weaponWrapper.Clip.AmmoCount.Subscribe(UpdateAmmoCount).AddTo(_disposable);
-                weaponWrapper.Timer.IsAttackReady.Subscribe(_ => UpdateInactiveOverlay()).AddTo(_disposable);
             }
+            weaponWrapper.Timer.IsAttackReady.Subscribe(_ => UpdateInactiveOverlay()).AddTo(_disposable);
         }
 
         private void UpdateAmmoCount(int ammoCount)

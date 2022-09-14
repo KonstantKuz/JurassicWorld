@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Dino.ABTest;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
@@ -22,13 +23,15 @@ namespace Dino.Weapon.Service
         private readonly InventoryService _inventoryService;
         private readonly StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
         private readonly World _world;
+        private readonly Feofun.ABTest.ABTest _abTest;
         
         private PlayerUnit Player => _world.RequirePlayer();
 
-        public WeaponService(InventoryService inventoryService, StringKeyedConfigCollection<WeaponConfig> weaponConfigs, World world)
+        public WeaponService(InventoryService inventoryService, StringKeyedConfigCollection<WeaponConfig> weaponConfigs, World world, Feofun.ABTest.ABTest abTest)
         {
             _inventoryService = inventoryService;
             _weaponConfigs = weaponConfigs;
+            _abTest = abTest;
             _world = world;
             inventoryService.InventoryProperty.Subscribe(OnInventoryUpdate);
         }
@@ -85,8 +88,16 @@ namespace Dino.Weapon.Service
         {
             var model = CreateModel(weaponId);
             var timer = new WeaponTimer(model.AttackInterval);
-            var clip = new Clip(_inventoryService, ItemId.Create(model.AmmoId));
+            var clip = CreateClip(model);
             return WeaponWrapper.Create(weaponId, model, timer, clip);
+        }
+
+        private IClip CreateClip(PlayerWeaponModel model)
+        {
+            if (_abTest.WithoutAmmo()) {
+                return new InfiniteClip();
+            } 
+            return new Clip(_inventoryService, ItemId.Create(model.AmmoId));
         }
 
         private PlayerWeaponModel CreateModel(ItemId weaponId)

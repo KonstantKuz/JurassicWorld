@@ -3,10 +3,9 @@
     public enum ABTestVariantId
     {
         Control,
-        WithDisasters
+        WithoutAmmo
         
     }
-
     public static class ABTestIdExtension
     {
         public static string ToCamelCase(this ABTestVariantId abTestVariantId)
