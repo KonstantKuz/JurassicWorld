@@ -1,4 +1,4 @@
-CraftItemId,CraftItemType,CraftItemCount,IngredientId,Count
+ItemId,ItemType,ItemCount,IngredientId,Count
 ThrowingAxeAmmo,Ammo,1,,
 ,,,Stone,1
 BowAmmo,Ammo,1,,

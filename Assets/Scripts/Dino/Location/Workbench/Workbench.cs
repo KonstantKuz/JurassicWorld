@@ -1,35 +1,44 @@
 ﻿using System;
+using JetBrains.Annotations;
 using UnityEngine;
+using Zenject;
 
 namespace Dino.Location.Workbench
 {
     public class Workbench : MonoBehaviour
     {
-        [SerializeField]
-        private string _craftItemName;
+        [SerializeField] private string _craftItemId;
+        [SerializeField] private float _craftDuration;
 
-
-        public event Action OnPlayerTriggered;
-        public bool IsPlayerInCraftingArea { get; private set; }
-
-        public string CraftItemName => _craftItemName;
-
+        [Inject] private DiContainer _diContainer;
         
-        private void OnTriggerEnter(Collider collider)
+        [CanBeNull]
+        private CrafterByTimer _crafterByTimer;
+        public event Action<CrafterByTimer> OnCrafterCreated;
+        public event Action OnCrafterRemoved;
+        
+        public string CraftItemId => _craftItemId;
+
+        private void OnTriggerEnter(Collider other)
         {
-            OnPlayerTrigger(true);
+            _crafterByTimer = CreateCrafter();
+            OnCrafterCreated?.Invoke(_crafterByTimer);
+        }
+
+        private void OnTriggerStay(Collider collider)
+        {
+            _crafterByTimer?.Update();
         }
 
         private void OnTriggerExit(Collider collider)
-        {   
-            OnPlayerTrigger(false);
-        }
-
-
-        private void OnPlayerTrigger(bool entered)
         {
-            IsPlayerInCraftingArea = entered;
-            OnPlayerTriggered?.Invoke();
+            _crafterByTimer?.Dispose();
+            _crafterByTimer = null;
+            OnCrafterRemoved?.Invoke();
+        }
+        private CrafterByTimer CreateCrafter()
+        {
+            return _diContainer.Instantiate<CrafterByTimer>(new[] {(object) _craftItemId, _craftDuration});
         }
     }
 }
