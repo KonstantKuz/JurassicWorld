@@ -1,26 +1,26 @@
 ﻿using Dino.Location.Workbench;
 using Dino.Util;
-using JetBrains.Annotations;
 using UniRx;
 
 namespace Dino.UI.Hud.Workbench
 {
     public class WorkbenchHudModel
     {
-        private readonly ReactiveProperty<CraftProgress> _craftProgress;
+        private readonly ReactiveProperty<float> _craftProgress = new ReactiveProperty<float>();
+        private readonly ReactiveProperty<bool> _isCrafting = new ReactiveProperty<bool>();
         private readonly Location.Workbench.Workbench _workbench;
 
-        private CompositeDisposable _crafterDisposable;  
+        private CompositeDisposable _crafterDisposable;
         private CompositeDisposable _timerDisposable;
 
         public readonly string Icon;
 
-        public IReadOnlyReactiveProperty<CraftProgress> CraftProgress => _craftProgress;
+        public IReactiveProperty<float> CraftProgress => _craftProgress;
+        public IReactiveProperty<bool> IsCrafting => _isCrafting;
 
         public WorkbenchHudModel(Location.Workbench.Workbench workbench)
         {
             _workbench = workbench;
-            _craftProgress = new ReactiveProperty<CraftProgress>(new CraftProgress());
             Icon = IconPath.GetForCraft(workbench.CraftItemId);
             _workbench.OnCrafterCreated += OnCrafterCreated;
             _workbench.OnCrafterRemoved += OnCrafterRemoved;
@@ -39,28 +39,33 @@ namespace Dino.UI.Hud.Workbench
             _crafterDisposable = new CompositeDisposable();
             crafter.HasActiveTimer.Subscribe(hasActiveTimer => OnTimerActivate(crafter, hasActiveTimer)).AddTo(_crafterDisposable);
         }
+
         private void OnTimerActivate(CrafterByTimer crafter, bool hasActiveTimer)
         {
+            
             DisposeTimer();
-            if (hasActiveTimer) {
-                _timerDisposable = new CompositeDisposable();
-                crafter.CraftTimer.Progress.Subscribe(_ => OnTimerUpdate(crafter.CraftTimer)).AddTo(_timerDisposable);
-            } else {
-                _craftProgress.SetValueAndForceNotify(new CraftProgress());
+            _isCrafting.SetValueAndForceNotify(hasActiveTimer);
+            if (!hasActiveTimer) {
+                return;
             }
+            _timerDisposable = new CompositeDisposable();
+            crafter.CraftTimer.Progress.Subscribe(_ => OnTimerUpdate(crafter.CraftTimer)).AddTo(_timerDisposable);
+
         }
-        private void OnTimerUpdate(ActionTimer timer) => _craftProgress.SetValueAndForceNotify(new CraftProgress(true, timer.Progress.Value / timer.Duration));
+        private void OnTimerUpdate(ActionTimer timer) => _craftProgress.SetValueAndForceNotify(timer.Progress.Value / timer.Duration);
 
         private void OnCrafterRemoved()
         {
             DisposeCrafter();
-            _craftProgress.SetValueAndForceNotify(new CraftProgress());
+            _isCrafting.SetValueAndForceNotify(false);
         }
+
         private void DisposeTimer()
         {
             _timerDisposable?.Dispose();
             _timerDisposable = null;
         }
+
         private void DisposeCrafter()
         {
             _crafterDisposable?.Dispose();
