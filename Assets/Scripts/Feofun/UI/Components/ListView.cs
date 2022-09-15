@@ -34,6 +34,7 @@ namespace Feofun.UI.Components
                 var itemView = _container.InstantiatePrefabForComponent<IUiInitializable<T>>(_itemPrefab, _root);
                 itemView.Init(itemModel);
             });
+            _root.gameObject.SetActive(itemModels.Count > 0);
         }
 
         private void Dispose()
