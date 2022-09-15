@@ -54,22 +54,12 @@ namespace Dino.Location.Level
             return levelBounds;
         }
         
-        public void Init(int levelNumber)
+        public void Init()
         {
             Dispose();
             _disposable = new CompositeDisposable();
-            SpawnIndicatorAboveLoot(levelNumber);
             _finish.OnTriggerEnterCallback += OnFinishTriggered;
             _messenger.SubscribeWithDisposable<AllEnemiesKilledMessage>(SpawnIndicatorAboveFinish).AddTo(_disposable);
-        }
-
-        private void SpawnIndicatorAboveLoot(int levelNumber)
-        {
-            if (levelNumber != 0) return;
-            
-            var loot = GetComponentInChildren<Loot.Loot>();
-            _lootIndicator = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_ITEM_OFFSET);
-            _messenger.SubscribeWithDisposable<LootCollectedMessage>(RemoveIndicatorAboveLoot).AddTo(_disposable);
         }
 
         private void SpawnIndicatorAboveFinish(AllEnemiesKilledMessage _)
@@ -77,14 +67,6 @@ namespace Dino.Location.Level
             ArrowIndicator.SpawnAbove(_worldObjectFactory, _finish.transform, Vector3.zero);
         }
 
-        private void RemoveIndicatorAboveLoot(LootCollectedMessage _)
-        {
-            if (_lootIndicator == null) {
-                return;
-            }
-            Destroy(_lootIndicator.gameObject);
-        }
-        
         private void OnFinishTriggered(Collider other)
         {
             if (other.TryGetComponent(out Unit unit) && unit.UnitType == UnitType.PLAYER)
