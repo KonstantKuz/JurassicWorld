@@ -2,16 +2,16 @@
 
 namespace Dino.Weapon.Components
 {
-    public class InfiniteClip : IClip
+    public class ConstantClip : IClip
     {
-        private const int INFINITE_AMMO_COUNT = 100000;
+        private const int CONSTANT_AMMO_COUNT = 1;
         public bool HasAmmo => true;
         public IReactiveProperty<int> AmmoCount { get; }
         public void OnFire() { }
 
-        public InfiniteClip()
+        public ConstantClip()
         {
-            AmmoCount = new ReactiveProperty<int>(INFINITE_AMMO_COUNT);
+            AmmoCount = new ReactiveProperty<int>(CONSTANT_AMMO_COUNT);
         }
     }
 }

@@ -19,13 +19,11 @@ namespace Dino.UI.Screen.World.Inventory.View
         private WeaponTimer _weaponTimer;
         private Tween _reloadAnimation;
 
-        public void Init([CanBeNull] WeaponTimer weaponTimer)
+        public void Init(WeaponTimer weaponTimer)
         {
             Dispose();
             _disposable = new CompositeDisposable();
-
-            if(weaponTimer == null) return;
-         
+            
             _weaponTimer = weaponTimer;
             _weaponTimer.IsAttackReady.Subscribe(PlayReloadAnimation).AddTo(_disposable);
         }

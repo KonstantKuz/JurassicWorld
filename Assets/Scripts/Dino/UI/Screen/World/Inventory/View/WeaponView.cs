@@ -1,4 +1,5 @@
-﻿using Dino.Weapon.Components;
+﻿using Dino.UI.Screen.World.Inventory.Model;
+using Dino.Weapon.Components;
 using JetBrains.Annotations;
 using TMPro;
 using UniRx;
@@ -16,30 +17,35 @@ namespace Dino.UI.Screen.World.Inventory.View
         private GameObject _inactiveWeaponOverlay;
         
         private CompositeDisposable _disposable;
-
         [CanBeNull]
         private WeaponWrapper _weaponWrapper;
         
-        public void Init([CanBeNull] WeaponWrapper weaponWrapper)
+        public void Init(WeaponViewModel model)
         {
             Dispose();
+            DisableView();
+            if (!model.Enabled) {
+                return;
+            }
             _disposable = new CompositeDisposable();
-            SetWeaponWrapper(weaponWrapper);
-            _reloadingView.Init(weaponWrapper?.Timer);
+            SetWeaponWrapper(model);
+            _reloadingView.Init(model.WeaponWrapper?.Timer);
             UpdateInactiveOverlay();
         }
 
-        private void SetWeaponWrapper([CanBeNull] WeaponWrapper weaponWrapper)
+        private void DisableView()
         {
-            _weaponWrapper = weaponWrapper;
             _ammoCount.text = "";
-            if (weaponWrapper == null) {
-                return;
-            } 
-            if (!(_weaponWrapper.Clip is InfiniteClip)) { 
-                weaponWrapper.Clip.AmmoCount.Subscribe(UpdateAmmoCount).AddTo(_disposable);
+            _inactiveWeaponOverlay.SetActive(false);
+        }
+
+        private void SetWeaponWrapper(WeaponViewModel model)
+        {
+            _weaponWrapper = model.WeaponWrapper;
+            if (model.AmmoCountEnabled) { 
+                _weaponWrapper?.Clip.AmmoCount.Subscribe(UpdateAmmoCount).AddTo(_disposable);
             }
-            weaponWrapper.Timer.IsAttackReady.Subscribe(_ => UpdateInactiveOverlay()).AddTo(_disposable);
+            _weaponWrapper?.Timer.IsAttackReady.Subscribe(_ => UpdateInactiveOverlay()).AddTo(_disposable);
         }
 
         private void UpdateAmmoCount(int ammoCount)
@@ -47,16 +53,10 @@ namespace Dino.UI.Screen.World.Inventory.View
             _ammoCount.text = ammoCount.ToString();
             UpdateInactiveOverlay();
         }
-
         private void UpdateInactiveOverlay()
         {
-            if (_weaponWrapper == null) {
-                _inactiveWeaponOverlay.SetActive(false);
-            } else {
-                _inactiveWeaponOverlay.SetActive(!_weaponWrapper.IsWeaponReadyToFire);
-            }
+            _inactiveWeaponOverlay.SetActive(_weaponWrapper is {IsWeaponReadyToFire: false});
         }
-
         private void OnDestroy()
         {
             Dispose();

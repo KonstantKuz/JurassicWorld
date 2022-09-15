@@ -95,7 +95,7 @@ namespace Dino.Weapon.Service
         private IClip CreateClip(PlayerWeaponModel model)
         {
             if (_abTest.WithoutAmmo()) {
-                return new InfiniteClip();
+                return new ConstantClip();
             } 
             return new Clip(_inventoryService, ItemId.Create(model.AmmoId));
         }
