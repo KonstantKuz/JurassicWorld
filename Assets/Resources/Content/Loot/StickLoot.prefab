@@ -49,6 +49,8 @@ MonoBehaviour:
   _objectId: StickLoot
   _objectType: 2
   _receivedItemId: Stick
+  _receivedItemType: 1
+  _receivedItemAmount: 1
 --- !u!135 &4912628231845887348
 SphereCollider:
   m_ObjectHideFlags: 0

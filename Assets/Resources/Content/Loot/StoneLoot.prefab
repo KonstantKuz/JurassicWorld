@@ -49,6 +49,8 @@ MonoBehaviour:
   _objectId: StoneLoot
   _objectType: 2
   _receivedItemId: Stone
+  _receivedItemType: 1
+  _receivedItemAmount: 1
 --- !u!135 &7054366696054155532
 SphereCollider:
   m_ObjectHideFlags: 0
