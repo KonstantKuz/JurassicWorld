@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Center: {x: -1.2280102, y: 2, z: 2.111661}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 1152
+    m_Bits: 5248
   m_UseGeometry: 0
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
