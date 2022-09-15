@@ -1,13 +1,13 @@
 ﻿using Dino.UI.Screen.World.Inventory.Model;
 using Dino.Util;
-using Feofun.Components;
+using Feofun.UI.Components;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Dino.UI.Screen.World.Inventory.View
 {
-    public class MaterialView : MonoBehaviour, IInitializable<MaterialViewModel>
+    public class MaterialView : MonoBehaviour, IUiInitializable<MaterialViewModel>
     {
         [SerializeField]
         private Image _image;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Feofun.Components;
 using Feofun.Extension;
 using SuperMaxim.Core.Extensions;
 using UniRx;
@@ -21,18 +20,18 @@ namespace Feofun.UI.Components
         [Inject]
         private DiContainer _container;
         
-        public void Init<T>(IReadOnlyReactiveProperty<List<T>> itemModels) where T : class
+        public void Init<T>(IReadOnlyReactiveProperty<List<T>> itemModels)
         {
             Dispose();
             _disposable = itemModels.Subscribe(UpdateMaterials);
         }
 
-        private void UpdateMaterials<T>(IReadOnlyList<T> itemModels) where T : class
+        private void UpdateMaterials<T>(IReadOnlyList<T> itemModels)
         {
             _root.DestroyAllChildren();
             itemModels.ForEach(itemModel =>
             {
-                var itemView = _container.InstantiatePrefabForComponent<IInitializable<T>>(_itemPrefab, _root);
+                var itemView = _container.InstantiatePrefabForComponent<IUiInitializable<T>>(_itemPrefab, _root);
                 itemView.Init(itemModel);
             });
         }

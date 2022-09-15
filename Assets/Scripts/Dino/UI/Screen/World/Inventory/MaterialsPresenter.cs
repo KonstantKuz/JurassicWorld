@@ -4,7 +4,7 @@ using Feofun.UI.Components;
 using UnityEngine;
 using Zenject;
 
-namespace Dino.UI.Screen.World.Inventory.View
+namespace Dino.UI.Screen.World.Inventory
 {
     public class MaterialsPresenter : MonoBehaviour
     {
