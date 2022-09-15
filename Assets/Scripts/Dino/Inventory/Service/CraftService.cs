@@ -95,10 +95,7 @@ namespace Dino.Inventory.Service
             if (recipe == null) {
                 throw new ArgumentException($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
             }
-            ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient.Id));
-            var craftedItem = _inventoryService.Add(ItemId.Create(recipe.CraftItem.Id), recipe.CraftItem.Type, recipe.CraftItem.Count);
-            ReportCraftedItem(recipe);
-            return craftedItem;
+            return Craft(recipe);
         }
 
         public Item Craft(string recipeId)
@@ -107,6 +104,11 @@ namespace Dino.Inventory.Service
             if (!HasIngredientsInInventory(recipe)) {
                 throw new ArgumentException($"Error crafting, ingredients don't contain in inventory:= {recipeId}");
             }
+            return Craft(recipe);
+        }
+
+        private Item Craft(CraftRecipeConfig recipe)
+        {
             recipe.Ingredients.ForEach(ingredient => { _inventoryService.Remove(ItemId.Create(ingredient.Id), ingredient.Count); });
             var craftedItem = _inventoryService.Add(ItemId.Create(recipe.CraftItem.Id), recipe.CraftItem.Type, recipe.CraftItem.Count);
             ReportCraftedItem(recipe);

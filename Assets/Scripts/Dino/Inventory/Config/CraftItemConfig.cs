@@ -8,10 +8,10 @@ namespace Dino.Inventory.Config
     {
         public string Id { get; set; }
 
-        [DataMember(Name = "CraftItemType")]
+        [DataMember(Name = "ItemType")]
         public InventoryItemType Type;
 
-        [DataMember(Name = "CraftItemCount")]
+        [DataMember(Name = "ItemCount")]
         public int Count;
 
         public static CraftItemConfig Create(string id, CraftItemConfig config)
