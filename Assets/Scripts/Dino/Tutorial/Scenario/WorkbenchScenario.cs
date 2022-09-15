@@ -61,12 +61,15 @@ namespace Dino.Tutorial.Scenario
         
         protected IEnumerator WaitForLootCollected(List<Loot.Loot> loots)
         {
-            loots.ForEach(it =>
-            {
-                var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, it.transform, ARROW_OFFSET);
-                arrow.transform.SetParent(it.transform);
-            });
-            yield return new WaitForLootCollected(loots);
+            return loots.Select(WaitForLootCollected).GetEnumerator();
+        }
+        
+        private IEnumerator WaitForLootCollected(Loot.Loot loot)
+        {
+            var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_OFFSET);
+            arrow.transform.SetParent(loot.transform);
+            TutorialService.NavigatePlayerTo(loot.transform);
+            yield return new WaitForLootCollected(loot);
         }
 
         protected void PlayCameraLookAtWorkbench()
@@ -79,7 +82,7 @@ namespace Dino.Tutorial.Scenario
         {
             var workbench = _tutorialItems.First(it => it.ItemId == WORKBENCH_ID);
             var indicator = ArrowIndicator.SpawnAbove(_worldObjectFactory, workbench.transform, ARROW_OFFSET);
-            
+            TutorialService.NavigatePlayerTo(workbench.transform);
             yield return new WaitForMessage<ItemCraftedMessage>(_messenger);
             
             Destroy(indicator.gameObject);
