@@ -29,7 +29,7 @@ namespace Dino.UI.Screen.World.Inventory
         [Inject] private DiContainer _container;
         [Inject] private WeaponService _weaponService;
         [Inject] private UiInventorySettings _uiInventorySettings;
-        
+        [Inject] private Feofun.ABTest.ABTest _abTest;
         private InventoryModel _model;
 
         private void OnEnable()
@@ -41,6 +41,7 @@ namespace Dino.UI.Screen.World.Inventory
                                         _craftService, 
                                         _weaponService, 
                                         _uiInventorySettings, 
+                                        _abTest,
                                         UpdateActiveItem, 
                                         OnBeginItemDrag, 
                                         OnEndItemDrag); 

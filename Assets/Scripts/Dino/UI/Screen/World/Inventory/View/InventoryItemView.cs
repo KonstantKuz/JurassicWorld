@@ -5,7 +5,6 @@ using Feofun.Util.SerializableDictionary;
 using JetBrains.Annotations;
 using Logger.Extension;
 using SuperMaxim.Core.Extensions;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +24,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         [SerializeField]
         private WeaponView _weaponView;
         
+        
         private CompositeDisposable _disposable;
         
         [CanBeNull]
@@ -36,7 +36,7 @@ namespace Dino.UI.Screen.World.Inventory.View
             _disposable = new CompositeDisposable();
             
             Model = model;
-            _weaponView.Init(model.WeaponWrapper);
+            _weaponView.Init(model.WeaponModel);
             model.State.Subscribe(UpdateState).AddTo(_disposable);
             model.CanCraft.Subscribe(UpdateCraftState).AddTo(_disposable);
 
@@ -51,7 +51,7 @@ namespace Dino.UI.Screen.World.Inventory.View
         public void InitViewForDrag(ItemViewModel model)
         {
             _icon.sprite = Resources.Load<Sprite>(IconPath.GetInventory(model.Icon));
-            _weaponView.Init(model.WeaponWrapper);
+            _weaponView.Init(model.WeaponModel);
             UpdateState(model.State.Value);   
             UpdateCraftState(model.CanCraft.Value);
         }

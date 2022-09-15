@@ -2,7 +2,7 @@
 {
     public static class ABTestExt
     {
-        public static bool WithDisasters(this Feofun.ABTest.ABTest abTest) => 
-            abTest.CurrentVariantId.Equals(ABTestVariantId.WithDisasters.ToCamelCase());
+        public static bool WithoutAmmo(this Feofun.ABTest.ABTest abTest) =>
+                abTest.CurrentVariantId.Equals(ABTestVariantId.WithoutAmmo.ToCamelCase());
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Dino.ABTest;
 using Dino.Inventory.Config;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
@@ -22,6 +23,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
         private readonly Action<Item> _onClick;
         private readonly Action<ItemViewModel> _onBeginDrag;
         private readonly Action<ItemViewModel> _onEndDrag;
+        private readonly Feofun.ABTest.ABTest _abTest;
 
         private List<CraftRecipeConfig> _allPossibleRecipes = new List<CraftRecipeConfig>();
         private CompositeDisposable _disposable;
@@ -36,6 +38,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
                               CraftService craftService,
                               WeaponService weaponService,
                               UiInventorySettings uiInventorySettings,
+                              Feofun.ABTest.ABTest abTest,
                               Action<Item> onClick,
                               Action<ItemViewModel> onBeginDrag,
                               Action<ItemViewModel> onEndDrag)
@@ -49,6 +52,7 @@ namespace Dino.UI.Screen.World.Inventory.Model
             _onClick = onClick;
             _onBeginDrag = onBeginDrag;
             _onEndDrag = onEndDrag;
+            _abTest = abTest;
             IsDropEnabled = uiInventorySettings.IsDropEnabled;
             IsCraftEnabled = uiInventorySettings.IsCraftEnabled;
             UpdateModel();
@@ -83,8 +87,13 @@ namespace Dino.UI.Screen.World.Inventory.Model
 
         private ItemViewModel CreateItemViewModel(Item item)
         {
-            return new ItemViewModel(item, GetState(item), CanCraft(item), _weaponService.FindWeaponWrapper(item.Id), () => _onClick?.Invoke(item), _onBeginDrag,
+            return new ItemViewModel(item, GetState(item), CreateWeaponModel(item), CanCraft(item), () => _onClick?.Invoke(item), _onBeginDrag,
                                      _onEndDrag);
+        }
+
+        private WeaponViewModel CreateWeaponModel(Item item)
+        {
+            return new WeaponViewModel(!_abTest.WithoutAmmo(), _weaponService.FindWeaponWrapper(item.Id));
         }
 
         public void UpdateItemModel(ItemViewModel model)
