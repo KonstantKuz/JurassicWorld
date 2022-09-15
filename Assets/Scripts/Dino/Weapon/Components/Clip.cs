@@ -5,7 +5,7 @@ using UniRx;
 
 namespace Dino.Weapon.Components
 {
-    public class Clip
+    public class Clip : IClip
     {
         private readonly ReactiveProperty<int> _ammoCount = new ReactiveProperty<int>(0);
 

@@ -53,7 +53,7 @@ namespace Dino.UI.Tutorial
         [CanBeNull] 
         private InventoryItemView GetFirstIngredientView(CraftRecipeConfig receiptConfig)
         {
-            var firstIngredient = receiptConfig.Ingredients.First().Name;
+            var firstIngredient = receiptConfig.Ingredients.First().Id;
             return _inventoryView.GetItemViews(firstIngredient).FirstOrDefault();
         }
 
@@ -62,11 +62,11 @@ namespace Dino.UI.Tutorial
         {
             if (receiptConfig.Ingredients.Count == 1)
             {
-                var firstIngredient = receiptConfig.Ingredients.First().Name;
+                var firstIngredient = receiptConfig.Ingredients.First().Id;
                 return _inventoryView.GetItemViews(firstIngredient).Skip(1).FirstOrDefault();    
             }
 
-            var secondIngredient = receiptConfig.Ingredients.Skip(1).First().Name;
+            var secondIngredient = receiptConfig.Ingredients.Skip(1).First().Id;
             return _inventoryView.GetItemViews(secondIngredient).FirstOrDefault();
         }
     }

@@ -17,12 +17,8 @@ namespace Dino.Inventory.Service
 {
     public class CraftService
     {
-        [Inject]
-        public CraftConfig _craftConfig;
-
-        [Inject]
-        public InventoryService _inventoryService;
-
+        [Inject] public CraftConfig _craftConfig;
+        [Inject] public InventoryService _inventoryService;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private Analytics.Analytics _analytics;
         [Inject] private IMessenger _messenger;
@@ -35,11 +31,13 @@ namespace Dino.Inventory.Service
                 return null;
             }
             if (recipes.Count > 1) {
-                this.Logger().Warn($"Count of recipes > 1 by ingredients:= {Join(", ", ingredients)}," 
-                                   + $" recipes:= {Join(", ", recipes.Select(it => it.CraftItemId))}");
+                this.Logger()
+                    .Warn($"Count of recipes > 1 by ingredients:= {Join(", ", ingredients)},"
+                          + $" recipes:= {Join(", ", recipes.Select(it => it.CraftItemId))}");
             }
             return recipes.First();
-        }       
+        }
+
         [CanBeNull]
         public CraftRecipeConfig FindFirstPossibleRecipe(HashSet<Item> ingredients)
         {
@@ -65,19 +63,9 @@ namespace Dino.Inventory.Service
             if (ingredients.Count != recipe.Ingredients.Count) {
                 return false;
             }
-            return recipe.Ingredients.All(ingredient => ingredients.ContainsKey(ingredient.Name)
-                                                        && ingredients[ingredient.Name] == ingredient.Count);
+            return recipe.Ingredients.All(ingredient => ingredients.ContainsKey(ingredient.Id) && ingredients[ingredient.Id] == ingredient.Count);
         }
-        [CanBeNull]
-        public CraftRecipeConfig FindHighestRankPossibleRecipeBy(string craftItemName)
-        {
-            return GetAllPossibleRecipes()
-                   .Select(config => (config, Item.SplitFullNameToNameAndRank(config.CraftItemId)))
-                   .Where(it => it.Item2.Item1.Equals(craftItemName))
-                   .OrderByDescending(it => it.Item2.Item2)
-                   .Select(it => it.Item1)
-                   .FirstOrDefault();
-        }
+        
         public IEnumerable<CraftRecipeConfig> GetAllPossibleRecipes()
         {
             foreach (var recipe in _craftConfig.Crafts.Values) {
@@ -90,15 +78,16 @@ namespace Dino.Inventory.Service
 
         private bool HasIngredientsInInventory(CraftRecipeConfig recipe)
         {
-            return recipe.Ingredients.All(ingredient => _inventoryService.GetAmount(ItemId.Create(ingredient.Name)) >= ingredient.Count);
+            return recipe.Ingredients.All(ingredient => _inventoryService.GetAmount(ItemId.Create(ingredient.Id)) >= ingredient.Count);
         }
 
-        public bool HasIngredientsForRecipe(string recipeName)
+        public bool HasIngredientsForRecipe(string recipeId)
         {
-            var recipe = _craftConfig.GetRecipe(recipeName);
-            if (recipe == null) return false;
-            return HasIngredientsInInventory(recipe);
+            var recipe = _craftConfig.FindRecipe(recipeId);
+            return recipe != null && HasIngredientsInInventory(recipe);
         }
+
+        public CraftRecipeConfig GetRecipeConfig(string recipeId) => _craftConfig.GetRecipe(recipeId);
 
         public Item Craft(HashSet<Item> ingredients)
         {
@@ -106,14 +95,7 @@ namespace Dino.Inventory.Service
             if (recipe == null) {
                 throw new ArgumentException($"Error Craft, recipe not found by ingredients := {Join(", ", ingredients)} or ingredients don't contain in inventory");
             }
-            ingredients.ForEach(ingredient => _inventoryService.Remove(ingredient.Id)); 
-            _playerProgressService.Progress.IncreaseCraftCount();
-            _analytics.ReportCraftItem(recipe.CraftItemId);
-            var craftedItem = _inventoryService.Add(ItemId.Create(recipe.CraftItemId), InventoryItemType.Weapon, 1); // todo replace when changing craft, todo - _inventoryService.Add.(recipe.CraftItemId, recipe.CraftType, recipe.Amount)
-            _messenger.Publish(new ItemCraftedMessage {
-                    ItemId = recipe.CraftItemId
-            });
-            return craftedItem;
+            return Craft(recipe);
         }
 
         public Item Craft(string recipeId)
@@ -122,20 +104,24 @@ namespace Dino.Inventory.Service
             if (!HasIngredientsInInventory(recipe)) {
                 throw new ArgumentException($"Error crafting, ingredients don't contain in inventory:= {recipeId}");
             }
-            recipe.Ingredients.ForEach(ingredient => {
-                _inventoryService.Remove(ItemId.Create(ingredient.Name), ingredient.Count);
-            });
-            var craftedItem = _inventoryService.Add(ItemId.Create(recipe.CraftItemId), InventoryItemType.Weapon, 1); // todo replace when changing craft, todo - _inventoryService.Add.(recipe.CraftItemId, recipe.CraftType, recipe.Amount)
-            _messenger.Publish(new ItemCraftedMessage {
-                    ItemId = recipe.CraftItemId
-            });
-            _analytics.ReportCraftItem(recipe.CraftItemId);
+            return Craft(recipe);
+        }
+
+        private Item Craft(CraftRecipeConfig recipe)
+        {
+            recipe.Ingredients.ForEach(ingredient => { _inventoryService.Remove(ItemId.Create(ingredient.Id), ingredient.Count); });
+            var craftedItem = _inventoryService.Add(ItemId.Create(recipe.CraftItem.Id), recipe.CraftItem.Type, recipe.CraftItem.Count);
+            ReportCraftedItem(recipe);
             return craftedItem;
         }
 
-        public CraftRecipeConfig GetRecipeConfig(string recipe)
+        private void ReportCraftedItem(CraftRecipeConfig recipe)
         {
-            return _craftConfig.GetRecipe(recipe);
+            _playerProgressService.Progress.IncreaseCraftCount();
+            _analytics.ReportCraftItem(recipe.CraftItemId);
+            _messenger.Publish(new ItemCraftedMessage {
+                    ItemId = recipe.CraftItemId
+            });
         }
     }
 }

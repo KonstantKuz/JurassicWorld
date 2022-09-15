@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Feofun.Config;
 using Feofun.Config.Csv;
+using JetBrains.Annotations;
 
 namespace Dino.Inventory.Config
 {
@@ -19,14 +20,23 @@ namespace Dino.Inventory.Config
                 throw new NullReferenceException($"CraftRecipeConfig is null by id:= {recipeId}");
             }
             return Crafts[recipeId];
+        }   
+        [CanBeNull]
+        public CraftRecipeConfig FindRecipe(string recipeId)
+        {
+            return !Crafts.ContainsKey(recipeId) ? null : Crafts[recipeId];
         }
         public void Load(Stream stream)
         {
-            var parsed = new CsvSerializer().ReadNestedTable<IngredientConfig>(stream);
-            Crafts = parsed.ToDictionary(it => it.Key, it => new CraftRecipeConfig(it.Key, it.Value));
+            Crafts = new CsvSerializer().ReadObjectAndNestedTable<CraftItemConfig, IngredientConfig>(stream)
+                                        .ToDictionary(it => it.Key,
+                                                      it => CreateRecipeConfig(it.Key, it.Value.Item1, it.Value.Item2));
         }
-        
-    
 
+        private CraftRecipeConfig CreateRecipeConfig(string craftItemId, CraftItemConfig craftItemConfig, IReadOnlyList<IngredientConfig> ingredients)
+        {
+            var craftItemConfigWithId = CraftItemConfig.Create(craftItemId, craftItemConfig);
+            return new CraftRecipeConfig(craftItemConfigWithId, ingredients);
+        }
     }
 }
