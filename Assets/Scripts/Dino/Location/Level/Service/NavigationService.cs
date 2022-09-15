@@ -1,5 +1,4 @@
 ﻿using Dino.Location.Service;
-using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
 
@@ -25,10 +24,15 @@ namespace Dino.Location.Level.Service
             return arrow;
         }
 
-        public void NavigatePlayerTo([CanBeNull]Transform target)
+        public void PointNavArrowAt(Transform target)
         {
-            NavigationArrow.gameObject.SetActive(target != null);
+            NavigationArrow.gameObject.SetActive(true);
             NavigationArrow.Target = target;
+        }
+
+        public void HideNavArrow()
+        {
+            NavigationArrow.gameObject.SetActive(false);
         }
 
         public void OnWorldCleanUp()
