@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: e509baba2b5ccf248a162be9c525224f, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 0f788484613e14a4da8a236f6801fc44, type: 2}
 --- !u!1 &72460172
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,14 +659,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 705507994, guid: d6eb7c9c829425d47a84bcef4eeb0c9e, type: 3}
-      propertyPath: m_Lightmapping
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 705507994, guid: d6eb7c9c829425d47a84bcef4eeb0c9e, type: 3}
-      propertyPath: m_Shadows.m_Strength
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 8746036833993048137, guid: d6eb7c9c829425d47a84bcef4eeb0c9e, type: 3}
       propertyPath: m_Name
       value: Location
