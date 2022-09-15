@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
+using UnityEngine;
 
 namespace Dino.Tutorial.Scenario
 {
@@ -13,7 +14,10 @@ namespace Dino.Tutorial.Scenario
             var firstLoots = GetTutorialLoots(FIRST_STICKS_ID);
             yield return WaitForLootCollected(firstLoots);
             PlayCameraLookAtWorkbench();
-            yield return WaitForCraft();
+            
+            // yield return WaitForCraft();
+            yield return new WaitForSeconds(8);
+            
             var secondLoots = GetTutorialLoots(SECOND_STICKS_ID);
             PlayCameraLookAtItems(secondLoots.Select(it => it.transform).ToList());
             yield return WaitForLootCollected(secondLoots);

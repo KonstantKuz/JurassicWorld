@@ -5,6 +5,7 @@ using Dino.Extension;
 using Dino.Inventory.Message;
 using Dino.Location;
 using Dino.Location.Level;
+using Dino.Location.Level.Service;
 using Dino.Location.Service;
 using Dino.Session.Messages;
 using Dino.Session.Service;
@@ -29,6 +30,7 @@ namespace Dino.Tutorial.Scenario
         [Inject] private World _world;
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private SessionService _sessionService;
+        [Inject] private NavigationService _navigationService;
         
         public override void Init()
         {
@@ -55,7 +57,7 @@ namespace Dino.Tutorial.Scenario
         protected List<Loot.Loot> GetTutorialLoots(string itemsId)
         {
             return _tutorialItems
-                .Where(it => it.ItemId == itemsId)
+                .Where(it => it != null && it.ItemId == itemsId)
                 .Select(it => it.gameObject.RequireComponent<Loot.Loot>()).ToList();
         }
         
@@ -68,7 +70,7 @@ namespace Dino.Tutorial.Scenario
         {
             var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_OFFSET);
             arrow.transform.SetParent(loot.transform);
-            TutorialService.NavigatePlayerTo(loot.transform);
+            _navigationService.NavigatePlayerTo(loot.transform);
             yield return new WaitForLootCollected(loot);
         }
 
@@ -82,7 +84,7 @@ namespace Dino.Tutorial.Scenario
         {
             var workbench = _tutorialItems.First(it => it.ItemId == WORKBENCH_ID);
             var indicator = ArrowIndicator.SpawnAbove(_worldObjectFactory, workbench.transform, ARROW_OFFSET);
-            TutorialService.NavigatePlayerTo(workbench.transform);
+            _navigationService.NavigatePlayerTo(workbench.transform);
             yield return new WaitForMessage<ItemCraftedMessage>(_messenger);
             
             Destroy(indicator.gameObject);

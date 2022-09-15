@@ -2,6 +2,7 @@
 using System.Linq;
 using Dino.Location;
 using Dino.Location.Level;
+using Dino.Location.Level.Service;
 using Dino.Location.Service;
 using Dino.Tutorial.Model;
 using Dino.Tutorial.Scenario;
@@ -17,23 +18,13 @@ namespace Dino.Tutorial.Service
         [SerializeField] private float _cameraLookAtTime;
         
         private List<TutorialScenario> _scenarios;
-        private NavigationArrow _navigationArrow;
         
         [Inject] private TutorialRepository _repository;
         [Inject] private Joystick _joystick;
         [Inject] private World _world;
-        [Inject] private WorldObjectFactory _worldObjectFactory;
         
         private List<TutorialScenario> Scenarios => _scenarios ??= GetComponentsInChildren<TutorialScenario>().ToList();
         private TutorialState State => _repository.Get() ?? new TutorialState();
-        private NavigationArrow NavigationArrow => _navigationArrow ??= InitNavigationArrow();
-
-        private NavigationArrow InitNavigationArrow()
-        {
-            var arrow = NavigationArrow.Spawn(_worldObjectFactory);
-            arrow.Parent = _world.RequirePlayer().transform;
-            return arrow;
-        }
         
         public void OnWorldSetup()
         {
@@ -80,12 +71,6 @@ namespace Dino.Tutorial.Service
         {
             SetInputEnabled(false);
             _world.CameraController.PlayLookAt(point, _cameraLookAtSpeed, _cameraLookAtTime, () => SetInputEnabled(true));
-        }
-
-        public void NavigatePlayerTo([CanBeNull]Transform target)
-        {
-            NavigationArrow.gameObject.SetActive(target != null);
-            NavigationArrow.Target = target;
         }
 
         public void OnWorldCleanUp()
