@@ -1,5 +1,4 @@
-﻿using Dino.Util;
-using Feofun.DroppingLoot.Config;
+﻿using Feofun.DroppingLoot.Config;
 using UnityEngine;
 
 namespace Feofun.DroppingLoot.Model
@@ -18,7 +17,7 @@ namespace Feofun.DroppingLoot.Model
             Config = config;
             Duration = Config.DroppingTime + Random.Range(-Config.DroppingTimeDispersion, Config.DroppingTimeDispersion);
             TrajectoryHeight = Random.Range(Config.MinTrajectoryHeight, Config.MaxTrajectoryHeight);
-            Icon = IconPath.GetInventory(initParams.LootId);
+            Icon = initParams.IconPath;
             StartPosition = startPosition;
             RemovePosition = initParams.FinishPosition;
         }

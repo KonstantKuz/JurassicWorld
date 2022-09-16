@@ -6,21 +6,21 @@ namespace Feofun.DroppingLoot.Message
     public struct UILootReceivedMessage
     {
         public DroppingLootType Type { get; }
-        public string LootId { get; }
+        public string IconPath { get; }
         public int Count { get; }
         public Vector2 StartPosition { get; }
 
-        public UILootReceivedMessage(DroppingLootType type, string lootId, int count, Vector2 startPosition)
+        public UILootReceivedMessage(DroppingLootType type, string iconPath, int count, Vector2 startPosition)
         {
             Type = type;
             Count = count;
             StartPosition = startPosition;
-            LootId = lootId;
+            IconPath = iconPath;
         }
 
-        public static UILootReceivedMessage Create(DroppingLootType type, string lootId, int count, Vector2 startPosition)
+        public static UILootReceivedMessage Create(DroppingLootType type, string iconPath, int count, Vector2 startPosition)
         {
-            return new UILootReceivedMessage(type, lootId, count, startPosition);
+            return new UILootReceivedMessage(type, iconPath, count, startPosition);
         }
     }
 }

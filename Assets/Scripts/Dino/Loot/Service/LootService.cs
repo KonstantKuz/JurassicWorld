@@ -1,13 +1,12 @@
 using System.Linq;
 using Dino.Extension;
+using Dino.Inventory.Extension;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Location.Service;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
-using Feofun.DroppingLoot.Message;
-using Feofun.DroppingLoot.Model;
 using Logger.Extension;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -40,7 +39,7 @@ namespace Dino.Loot.Service
             Object.Destroy(loot.gameObject);
 
             var item = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
-            TryPublishReceivedLoot(item, loot.ReceivedItemAmount, loot.transform.position);
+            item.TryPublishReceivedLoot(_messenger, loot.ReceivedItemAmount, loot.transform.position.WorldToScreenPoint());
 
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(item.Id.FullName);
@@ -48,19 +47,7 @@ namespace Dino.Loot.Service
 
             loot.OnCollected?.Invoke(loot);
         }
-
-        public void TryPublishReceivedLoot(Item item, int count, Vector3 lootPosition)
-        {
-            var droppingLootType = DroppingLootTypeExt.ValueOf(item.Type.ToString());
-            var message = UILootReceivedMessage.Create(droppingLootType, item.Name, count, GetLootScreenPosition(lootPosition));
-            _messenger.Publish(message);
-        }
-
-        private Vector2 GetLootScreenPosition(Vector3 lootPosition)
-        {
-            return UnityEngine.Camera.main.WorldToScreenPoint(lootPosition);
-        }
-
+        
         public bool CanCollect(Loot loot)
         {
             return loot.ReceivedItemType != InventoryItemType.Weapon
