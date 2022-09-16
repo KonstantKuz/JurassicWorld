@@ -28,7 +28,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3514698043271504086}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -66,7 +66,7 @@ RectTransform:
   - {fileID: 1440054084512962596}
   - {fileID: 4404964276299212595}
   m_Father: {fileID: 3514698043271504086}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -185,7 +185,7 @@ RectTransform:
   m_Children:
   - {fileID: 2431223545085035787}
   m_Father: {fileID: 3514698043271504086}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -373,7 +373,7 @@ MonoBehaviour:
   _screenSwitcher: {fileID: 3322225681223616483}
   _dialogManager: {fileID: 8552542862248544232}
   _tutorialUiTools: {fileID: 5865344595650028864}
-  _craftTutorial: {fileID: 4811061053678071075}
+  _craftTutorial: {fileID: 0}
 --- !u!1 &3514698043271504087
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,11 +402,11 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 8097110987442227737}
   - {fileID: 7335175243458314080}
   - {fileID: 3777410919712268507}
-  - {fileID: 8097110987442227737}
-  - {fileID: 5101380951787237163}
   - {fileID: 2371261716587825388}
+  - {fileID: 5101380951787237163}
   m_Father: {fileID: 3514698042742675079}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -457,7 +457,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3514698043271504086}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -714,7 +714,7 @@ PrefabInstance:
     - target: {fileID: 7109976518827960727, guid: 21ef672e84a377046a8062fbc7f6013d, type: 3}
       propertyPath: _craftTutorial
       value: 
-      objectReference: {fileID: 4811061053678071075}
+      objectReference: {fileID: 0}
     - target: {fileID: 8432401920955065340, guid: 21ef672e84a377046a8062fbc7f6013d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -725,7 +725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8432401920955065340, guid: 21ef672e84a377046a8062fbc7f6013d, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8432401920955065340, guid: 21ef672e84a377046a8062fbc7f6013d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -994,6 +994,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
+--- !u!224 &2624912484658284709 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7172425760286209250, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
+  m_PrefabInstance: {fileID: 5180297103904341063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5062490388244674272 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 118651506266524327, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
@@ -1005,11 +1010,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbcc556d96043afa1860d94e7b1bae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!224 &2624912484658284709 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 7172425760286209250, guid: 7db92583dd5ea8445b086e37d7ecd05b, type: 3}
-  m_PrefabInstance: {fileID: 5180297103904341063}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6932106598274561831
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1257,16 +1257,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a47f546fc70ec8428172694e78e4288, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4811061053678071075 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2611038086704310406, guid: 972ccb21d8f739d4fabc59268ee480f5, type: 3}
-  m_PrefabInstance: {fileID: 7419706532179477925}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b3495e3c9a2e42f7a61696b29576637d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

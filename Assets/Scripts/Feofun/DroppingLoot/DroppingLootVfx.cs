@@ -40,7 +40,10 @@ namespace Feofun.DroppingLoot
 
         private IEnumerator CreateLoot(DroppingLootInitParams initParams, int lootCount)
         {
-            var startPosition = initParams.StartPosition + GetRandomGlobalOffset();
+            var startPosition = initParams.StartPosition;
+            if (lootCount != 1) {
+                startPosition = initParams.StartPosition + GetRandomGlobalOffset();
+            }
             var model = DroppingObjectViewModel.Create(initParams, _config, startPosition);
             CreateDroppingObject(model);
             

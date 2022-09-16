@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DroppingLootConfig
   m_EditorClassIdentifier: 
   InstancePrefab: {fileID: 8468287871644565171, guid: 66eacc8df649d9d4ea29867db8a6f785, type: 3}
-  CreateDispersionX: 0
-  CreateDispersionY: 0
+  CreateDispersionX: 130
+  CreateDispersionY: 130
   CreateDelay: 0
   DroppingTime: 0.45
   DroppingTimeDispersion: 0
@@ -22,5 +22,5 @@ MonoBehaviour:
   MaxTrajectoryHeight: 350
   MinTrajectoryHeight: 350
   ScaleFactorBeforeDrop: 3.5
-  FinalScaleFactor: 1
+  FinalScaleFactor: 0.9
   RotationSpeedDispersion: 1
