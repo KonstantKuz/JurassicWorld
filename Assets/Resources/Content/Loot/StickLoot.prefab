@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: StickLoot
   _objectType: 2
+  _receivedItem:
+    Id: Stick
+    Type: 1
+    Amount: 1
   _receivedItemId: Stick
   _receivedItemType: 1
   _receivedItemAmount: 1

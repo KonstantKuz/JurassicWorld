@@ -48,7 +48,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: SpearLoot
   _objectType: 2
+  _receivedItem:
+    Id: Spear
+    Type: 0
+    Amount: 1
   _receivedItemId: Spear
+  _receivedItemType: 0
+  _receivedItemAmount: 1
 --- !u!135 &7439385254463210453
 SphereCollider:
   m_ObjectHideFlags: 0

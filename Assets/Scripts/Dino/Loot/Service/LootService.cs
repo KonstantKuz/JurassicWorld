@@ -6,6 +6,8 @@ using Dino.Location;
 using Dino.Location.Service;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
+using GluonGui.WorkspaceWindow.Views.WorkspaceExplorer.Search;
+using JetBrains.Annotations;
 using Logger.Extension;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -35,37 +37,85 @@ namespace Dino.Loot.Service
 
         public void Collect(Loot loot)
         {
-            GameObject.Destroy(loot.gameObject);
-            var itemId = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
+            var itemId = _inventoryService.Add(ItemId.Create(loot.ReceivedItem.Id), loot.ReceivedItem.Type, loot.ReceivedItem.Amount);
             
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(itemId.Id.FullName);
-            _messenger.Publish(new LootCollectedMessage());
             
             loot.OnCollected?.Invoke(loot);
-    
+            _messenger.Publish(new LootCollectedMessage
+            {
+                Id = loot.ObjectId,
+                ReceivedItem = loot.ReceivedItem,
+                Position = loot.transform.position
+            });
+
+            Object.Destroy(loot.gameObject);
         }
 
         public bool CanCollect(Loot loot)
         {
-            return loot.ReceivedItemType != InventoryItemType.Weapon
+            return loot.ReceivedItem.Type != InventoryItemType.Weapon
                    || _inventoryService.GetUniqueItemsCount(InventoryItemType.Weapon) < InventoryService.MAX_UNIQUE_WEAPONS_COUNT;
         }
         public void DropLoot(Item item)
         {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == item.Name);
-            if (lootPrefab == null) {
-                this.Logger().Error($"Loot prefab not found for itemId:= {item}");
-                return;
-            }
+            var receivedItem = ReceivedItem.CreateFromItem(item);
+            var lootPrefab = GetLootPrefabByReceivedItem(receivedItem.Id);
+            if (lootPrefab == null) return;
 
-            var lootObject = _worldObjectFactory.CreateObject(lootPrefab.gameObject).GetComponent<Loot>();
-            lootObject.InitFromItem(item);
+            var loot = SpawnLoot(lootPrefab.gameObject, receivedItem);
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
-            SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);
+            PlaceLootNearbyPlayer(loot.gameObject, playerPosition, radiusFromPlayer);
         }
-        private void SetLootPositionAndRotation(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
+        
+        public Loot SpawnLoot(string lootId, ReceivedItem receivedItem)
+        {
+            var lootPrefab = GetLootPrefab(lootId).gameObject;
+            return SpawnLoot(lootPrefab, receivedItem);
+        }
+
+        private Loot SpawnLoot(GameObject prefab, ReceivedItem receivedItem)
+        {
+            var lootObject = _worldObjectFactory.CreateObject<Loot>(prefab);
+            lootObject.Init(receivedItem);
+            return lootObject;
+        }
+
+        [CanBeNull]
+        public Loot FindLootPrefab(string lootId)
+        {
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ObjectId == lootId);
+            if (lootPrefab == null) {
+                this.Logger().Debug($"Loot prefab not found with id:= {lootId}");
+                return null;
+            }
+            return lootPrefab;
+        }
+
+        private Loot GetLootPrefab(string lootId)
+        {
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ObjectId == lootId);
+            if (lootPrefab == null) {
+                this.Logger().Error($"Loot prefab not found with id:= {lootId}");
+                return null;
+            }
+            return lootPrefab;
+        }
+
+        [CanBeNull]
+        private Loot GetLootPrefabByReceivedItem(string receivedItemId)
+        {
+            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItem.Id == receivedItemId);
+            if (lootPrefab == null) {
+                this.Logger().Error($"Loot prefab not found with received item id:= {receivedItemId}");
+                return null;
+            }
+            return lootPrefab;
+        }
+
+        private void PlaceLootNearbyPlayer(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {
             lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer).XZ(), Quaternion.identity);
         }

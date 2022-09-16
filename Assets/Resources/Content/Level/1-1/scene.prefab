@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 1877617638158978271}
   - component: {fileID: 7344886779220326482}
   m_Layer: 9
-  m_Name: BowAmmo
+  m_Name: AxeAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -246,9 +246,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: ThrowingAxeAmmoLoot
   _objectType: 2
-  _receivedItemId: ThrowingAxeAmmo
-  _receivedItemType: 2
-  _receivedItemAmount: 10
+  _receivedItem:
+    Id: ThrowingAxeAmmo
+    Type: 2
+    Amount: 30
 --- !u!135 &7344886779220326482
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -383,10 +384,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3331954039808601603}
     m_Modifications:
-    - target: {fileID: 3949547855334046122, guid: e4efb49e2316dcb43a331f5e9781be5a, type: 3}
-      propertyPath: _receivedItemId
-      value: ThrowingAxe1
-      objectReference: {fileID: 0}
     - target: {fileID: 4345931713137357721, guid: e4efb49e2316dcb43a331f5e9781be5a, type: 3}
       propertyPath: m_Name
       value: ThrowingAxeLoot

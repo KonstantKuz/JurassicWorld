@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: StoneLoot
   _objectType: 2
+  _receivedItem:
+    Id: Stone
+    Type: 1
+    Amount: 1
   _receivedItemId: Stone
   _receivedItemType: 1
   _receivedItemAmount: 1

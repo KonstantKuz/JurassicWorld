@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: AxeLoot
   _objectType: 2
+  _receivedItem:
+    Id: Axe
+    Type: 0
+    Amount: 1
   _receivedItemId: Axe
   _receivedItemType: 0
   _receivedItemAmount: 1

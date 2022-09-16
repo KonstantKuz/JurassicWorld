@@ -6,18 +6,16 @@ namespace Dino.Config
     public class ConstantsConfig
     {
         [DataMember(Name = "FirstUnit")]
-        private string _firstUnit;      
-        
-        [DataMember(Name = "FirstItem")]
-        private string _firstItem;    
+        private string _firstUnit;
+
+        [DataMember(Name = "ItemRespawnTime")] 
+        private float _itemRespawnTime;
         
         [DataMember(Name = "LoopStartLevelIndex")]
         private int _loopStartLevelIndex;
         
         public string FirstUnit => _firstUnit;
-        [CanBeNull]
-        public string FirstItem => _firstItem;
-
+        public float ItemRespawnTime => _itemRespawnTime;
         public int LoopStartLevelIndex => _loopStartLevelIndex;
     }
 }
