@@ -6,6 +6,7 @@ namespace Feofun.DroppingLoot.Model
     {
         Weapon,
         Material,
+        Ammo,
     }
     
     public static class DroppingLootTypeExt

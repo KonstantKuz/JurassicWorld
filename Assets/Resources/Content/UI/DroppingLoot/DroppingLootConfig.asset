@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf674bc39284fc3913c8389facdbe0a, type: 3}
   m_Name: DroppingLootConfig
   m_EditorClassIdentifier: 
-  InstancePrefab: {fileID: 0}
-  CreateDispersionX: 130
-  CreateDispersionY: 130
-  CreateDelay: 0.02
-  DroppingTime: 0.9
-  DroppingTimeDispersion: 0.2
-  TimeBeforeDrop: 0.3
-  MaxTrajectoryHeight: 400
-  MinTrajectoryHeight: 0
-  ScaleFactorBeforeDrop: 2
-  FinalScaleFactor: 0.2
-  RotationSpeedDispersion: 3
+  InstancePrefab: {fileID: 8468287871644565171, guid: 66eacc8df649d9d4ea29867db8a6f785, type: 3}
+  CreateDispersionX: 0
+  CreateDispersionY: 0
+  CreateDelay: 0
+  DroppingTime: 0.6
+  DroppingTimeDispersion: 0
+  TimeBeforeDrop: 0.2
+  MaxTrajectoryHeight: 350
+  MinTrajectoryHeight: 350
+  ScaleFactorBeforeDrop: 3
+  FinalScaleFactor: 1
+  RotationSpeedDispersion: 0

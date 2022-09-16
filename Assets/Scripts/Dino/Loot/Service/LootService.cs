@@ -23,7 +23,7 @@ namespace Dino.Loot.Service
 
         [Inject]
         private InventoryService _inventoryService;
-        [Inject] 
+        [Inject]
         private World _world;
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
@@ -38,27 +38,27 @@ namespace Dino.Loot.Service
         public void Collect(Loot loot)
         {
             Object.Destroy(loot.gameObject);
-            TryPublishReceivedLoot(loot);
-            
-            var itemId = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
-            
+
+            var item = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
+            TryPublishReceivedLoot(item, loot.ReceivedItemAmount, loot.transform.position);
+
             _playerProgressService.Progress.IncreaseLootCount();
-            _analytics.ReportLootItem(itemId.Id.FullName);
+            _analytics.ReportLootItem(item.Id.FullName);
             _messenger.Publish(new LootCollectedMessage());
-            
+
             loot.OnCollected?.Invoke(loot);
-    
         }
-        public void TryPublishReceivedLoot(Loot loot)
+
+        public void TryPublishReceivedLoot(Item item, int count, Vector3 lootPosition)
         {
-            var droppingLootType = DroppingLootTypeExt.ValueOf(loot.ReceivedItemType.ToString());
-            var message = UiLootReceivedMessage.Create(droppingLootType, loot.ReceivedItemId, loot.ReceivedItemAmount,  GetLootScreenPosition());
+            var droppingLootType = DroppingLootTypeExt.ValueOf(item.Type.ToString());
+            var message = UiLootReceivedMessage.Create(droppingLootType, item.Name, count, GetLootScreenPosition(lootPosition));
             _messenger.Publish(message);
         }
 
-        private Vector2 GetLootScreenPosition()
+        private Vector2 GetLootScreenPosition(Vector3 lootPosition)
         {
-            return UnityEngine.Camera.main.WorldToScreenPoint(_world.RequirePlayer().transform.position);
+            return UnityEngine.Camera.main.WorldToScreenPoint(lootPosition);
         }
 
         public bool CanCollect(Loot loot)
@@ -66,6 +66,7 @@ namespace Dino.Loot.Service
             return loot.ReceivedItemType != InventoryItemType.Weapon
                    || _inventoryService.GetUniqueItemsCount(InventoryItemType.Weapon) < InventoryService.MAX_UNIQUE_WEAPONS_COUNT;
         }
+
         public void DropLoot(Item item)
         {
             var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItemId == item.Name);
@@ -80,6 +81,7 @@ namespace Dino.Loot.Service
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             SetLootPositionAndRotation(lootObject.gameObject, playerPosition, radiusFromPlayer);
         }
+
         private void SetLootPositionAndRotation(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {
             lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer).XZ(), Quaternion.identity);
