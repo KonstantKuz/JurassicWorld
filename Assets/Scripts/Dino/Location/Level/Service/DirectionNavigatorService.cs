@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Dino.Location.Level.Service
 {
-    public class NavigationService : IWorldScope
+    public class DirectionNavigatorService : IWorldScope
     {
         private NavigationArrow _navigationArrow;
 

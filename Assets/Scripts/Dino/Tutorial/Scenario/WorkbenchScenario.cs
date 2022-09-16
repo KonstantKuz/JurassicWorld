@@ -31,7 +31,7 @@ namespace Dino.Tutorial.Scenario
         [Inject] private World _world;
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private SessionService _sessionService;
-        [Inject] private NavigationService _navigationService;
+        [Inject] private DirectionNavigatorService _navigatorService;
         
         public override void Init()
         {
@@ -71,9 +71,9 @@ namespace Dino.Tutorial.Scenario
         {
             var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_OFFSET);
             arrow.transform.SetParent(loot.transform);
-            _navigationService.PointNavArrowAt(loot.transform);
+            _navigatorService.PointNavArrowAt(loot.transform);
             yield return new WaitForLootCollected(loot);
-            _navigationService.HideNavArrow();
+            _navigatorService.HideNavArrow();
         }
 
         protected void PlayCameraLookAtWorkbench()
@@ -86,9 +86,9 @@ namespace Dino.Tutorial.Scenario
         {
             var workbench = _tutorialItems.First(it => it.ItemId == WORKBENCH_ID);
             var indicator = ArrowIndicator.SpawnAbove(_worldObjectFactory, workbench.transform, ARROW_OFFSET);
-            _navigationService.PointNavArrowAt(workbench.transform);
+            _navigatorService.PointNavArrowAt(workbench.transform);
             yield return new WaitForMessage<ItemCraftedMessage>(_messenger);
-            _navigationService.HideNavArrow();
+            _navigatorService.HideNavArrow();
             Destroy(indicator.gameObject);
         }
 
