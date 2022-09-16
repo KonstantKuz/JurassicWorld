@@ -40,8 +40,7 @@ namespace Dino.Location.Level
         public static NavigationArrow Spawn(WorldObjectFactory worldObjectFactory)
         {
             var indicatorPrefab = worldObjectFactory.GetPrefabComponents<NavigationArrow>().First();
-            var indicator = worldObjectFactory.CreateObject(indicatorPrefab.gameObject).GetComponent<NavigationArrow>();
-            return indicator;
+            return worldObjectFactory.CreateObject<NavigationArrow>(indicatorPrefab.gameObject);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Dino.Location.Level.Service
         [Inject] private World _world;
         [Inject] private WorldObjectFactory _worldObjectFactory;
 
-        public NavigationArrow NavigationArrow => _navigationArrow ??= CreateNavigationArrow();
+        private NavigationArrow NavigationArrow => _navigationArrow ??= CreateNavigationArrow();
 
         public void OnWorldSetup()
         {
@@ -33,6 +33,7 @@ namespace Dino.Location.Level.Service
         public void HideNavArrow()
         {
             NavigationArrow.gameObject.SetActive(false);
+            NavigationArrow.Target = null;
         }
 
         public void OnWorldCleanUp()

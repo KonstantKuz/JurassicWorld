@@ -25,6 +25,7 @@ namespace Dino.Tutorial.Scenario
         [SerializeField] private string _playAtLevelId;
         
         private List<IndicatedTutorialItem> _tutorialItems;
+        private Coroutine _tutorialCoroutine;
         
         [Inject] private IMessenger _messenger;
         [Inject] private World _world;
@@ -43,7 +44,7 @@ namespace Dino.Tutorial.Scenario
             if (_sessionService.Session.LevelId != _playAtLevelId) return;
 
             CacheTutorialItems();
-            StartCoroutine(RunScenario());
+            _tutorialCoroutine = StartCoroutine(RunScenario());
         }
 
         private void CacheTutorialItems()
@@ -103,6 +104,12 @@ namespace Dino.Tutorial.Scenario
         {
             _messenger.Unsubscribe<SessionStartMessage>(OnSessionStart);
             _messenger.Unsubscribe<SessionEndMessage>(msg => Dispose());
+
+            if (_tutorialCoroutine != null)
+            {
+                StopCoroutine(_tutorialCoroutine);
+                _tutorialCoroutine = null;
+            }
         }
     }
 }

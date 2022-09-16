@@ -17,7 +17,6 @@ namespace Dino.Location.Level
 {
     public class Level : WorldObject
     {
-        private static Vector3 ARROW_ITEM_OFFSET = Vector3.up * 2 + Vector3.forward / 2;
         private const string GROUND_ROOT_NAME = "Ground";
         
         [SerializeField] private Transform _start;

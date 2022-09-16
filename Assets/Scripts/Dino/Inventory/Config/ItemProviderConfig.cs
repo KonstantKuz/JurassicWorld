@@ -8,16 +8,16 @@ namespace Dino.Inventory.Config
 {
     public class ItemProviderConfig : ILoadableConfig
     {
-        private Dictionary<string, IReadOnlyList<ProvidedItemConfig>> ItemsMap { get; set; }
+        private Dictionary<string, IReadOnlyList<ProvidedItemConfig>> _itemsMap;
         public void Load(Stream stream)
         {
-            ItemsMap = new CsvSerializer().ReadNestedTable<ProvidedItemConfig>(stream)
+            _itemsMap = new CsvSerializer().ReadNestedTable<ProvidedItemConfig>(stream)
                 .ToDictionary(it => it.Key, it => it.Value);
         }
 
-        public IReadOnlyList<ProvidedItemConfig> GetProvidedItems(string levelId)
+        public IReadOnlyList<ProvidedItemConfig> FindProvidedItems(string levelId)
         {
-            return ItemsMap.ContainsKey(levelId) ? ItemsMap[levelId] : null;
+            return _itemsMap.ContainsKey(levelId) ? _itemsMap[levelId] : null;
         }
     }
 }

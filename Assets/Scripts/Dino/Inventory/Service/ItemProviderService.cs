@@ -23,7 +23,7 @@ namespace Dino.Inventory.Service
 
         private void OnSessionStarted(SessionStartMessage msg)
         {
-            var providedItems = _providerConfig.GetProvidedItems(msg.LevelId);
+            var providedItems = _providerConfig.FindProvidedItems(msg.LevelId);
             providedItems?.ForEach(it => _inventoryService.Add(ItemId.Create(it.ItemId), it.Type, it.Amount));
         }
         
