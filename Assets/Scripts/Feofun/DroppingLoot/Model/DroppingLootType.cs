@@ -4,10 +4,8 @@ namespace Feofun.DroppingLoot.Model
 {
     public enum DroppingLootType
     {
-        Soft,
-        Hard,
-        Exp,
-        BattlePassExp,
+        Weapon,
+        Material,
     }
     
     public static class DroppingLootTypeExt

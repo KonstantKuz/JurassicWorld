@@ -3,7 +3,6 @@ using Feofun.DroppingLoot.Message;
 using Feofun.DroppingLoot.Model;
 using Feofun.UI;
 using Feofun.UI.Loader;
-using LegionMaster.DroppingLoot;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using Zenject;

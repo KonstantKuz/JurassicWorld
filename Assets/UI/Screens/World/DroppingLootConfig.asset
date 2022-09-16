@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf674bc39284fc3913c8389facdbe0a, type: 3}
+  m_Name: DroppingLootConfig
+  m_EditorClassIdentifier: 
+  InstancePrefab: {fileID: 0}
+  CreateDispersionX: 130
+  CreateDispersionY: 130
+  CreateDelay: 0.02
+  DroppingTime: 0.9
+  DroppingTimeDispersion: 0.2
+  TimeBeforeDrop: 0.3
+  MaxTrajectoryHeight: 400
+  MinTrajectoryHeight: 0
+  ScaleFactorBeforeDrop: 2
+  FinalScaleFactor: 0.2
+  RotationSpeedDispersion: 3

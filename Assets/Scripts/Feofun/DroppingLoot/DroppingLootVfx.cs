@@ -6,7 +6,7 @@ using Feofun.DroppingLoot.Model;
 using Feofun.UI.Loader;
 using UnityEngine;
 
-namespace LegionMaster.DroppingLoot
+namespace Feofun.DroppingLoot
 {
     public class DroppingLootVfx : MonoBehaviour
     {

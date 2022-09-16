@@ -6,6 +6,8 @@ using Dino.Location;
 using Dino.Location.Service;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
+using Feofun.DroppingLoot.Message;
+using Feofun.DroppingLoot.Model;
 using Logger.Extension;
 using SuperMaxim.Messaging;
 using UnityEngine;
@@ -35,7 +37,9 @@ namespace Dino.Loot.Service
 
         public void Collect(Loot loot)
         {
-            GameObject.Destroy(loot.gameObject);
+            Object.Destroy(loot.gameObject);
+            TryPublishReceivedLoot(loot);
+            
             var itemId = _inventoryService.Add(ItemId.Create(loot.ReceivedItemId), loot.ReceivedItemType, loot.ReceivedItemAmount);
             
             _playerProgressService.Progress.IncreaseLootCount();
@@ -44,6 +48,17 @@ namespace Dino.Loot.Service
             
             loot.OnCollected?.Invoke(loot);
     
+        }
+        public void TryPublishReceivedLoot(Loot loot)
+        {
+            var droppingLootType = DroppingLootTypeExt.ValueOf(loot.ReceivedItemType.ToString());
+            var message = UiLootReceivedMessage.Create(droppingLootType, loot.ReceivedItemId, loot.ReceivedItemAmount,  GetLootScreenPosition());
+            _messenger.Publish(message);
+        }
+
+        private Vector2 GetLootScreenPosition()
+        {
+            return UnityEngine.Camera.main.WorldToScreenPoint(_world.RequirePlayer().transform.position);
         }
 
         public bool CanCollect(Loot loot)
