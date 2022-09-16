@@ -14,9 +14,9 @@ namespace LegionMaster.DroppingLoot
 
         private UILoader _uiLoader;
         private DroppingLootConfig _config;     
-        private GameObject _lootContainer;
+        private Transform _lootContainer;
 
-        public DroppingLootVfx Init(UILoader uiLoader, DroppingLootConfig config, GameObject lootContainer)
+        public DroppingLootVfx Init(UILoader uiLoader, DroppingLootConfig config, Transform lootContainer)
         {
             _uiLoader = uiLoader;
             _config = config;
@@ -38,21 +38,21 @@ namespace LegionMaster.DroppingLoot
             StartCoroutine(CreateLoot(droppingLoot, lootCount));
         }
 
-        private IEnumerator CreateLoot(DroppingLootModel loot, int lootCount)
+        private IEnumerator CreateLoot(DroppingLootModel lootModel, int lootCount)
         {
-            var startPosition = loot.StartPosition + GetRandomGlobalOffset();
-            var model = DroppingObjectModel.Create(loot.Type, _config, startPosition, loot.FinishPosition);
+            var startPosition = lootModel.StartPosition + GetRandomGlobalOffset();
+            var model = DroppingObjectModel.Create(lootModel, _config, startPosition);
             CreateDroppingObject(model);
             
             yield return new WaitForSeconds(_config.CreateDelay);
             lootCount--;
-            AddLoot(loot, lootCount);
+            AddLoot(lootModel, lootCount);
         }
         private void CreateDroppingObject(DroppingObjectModel model)
         {
             _uiLoader.Instance(UIModel<DroppingObject, DroppingObjectModel>
                                .Create(model)
-                               .Container(_lootContainer.transform)
+                               .Container(_lootContainer)
                                .Prefab(_config.InstancePrefab));
         }
         private Vector2 GetRandomGlobalOffset() =>

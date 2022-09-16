@@ -1,4 +1,5 @@
-﻿using Feofun.DroppingLoot.Config;
+﻿using Dino.Util;
+using Feofun.DroppingLoot.Config;
 using UnityEngine;
 
 namespace Feofun.DroppingLoot.Model
@@ -12,19 +13,19 @@ namespace Feofun.DroppingLoot.Model
         public Vector2 RemovePosition { get; }
         public DroppingLootConfig Config { get; }
 
-        public DroppingObjectModel(DroppingLootType lootType, DroppingLootConfig config, Vector2 startPosition, Vector2 removePosition)
+        public DroppingObjectModel(DroppingLootModel lootModel, DroppingLootConfig config, Vector2 startPosition)
         {
             Config = config;
             DroppingTime = Config.DroppingTime + Random.Range(-Config.DroppingTimeDispersion, Config.DroppingTimeDispersion);
             DroppingTrajectoryHeight = Random.Range(Config.MinTrajectoryHeight, Config.MaxTrajectoryHeight);
-            Icon = IconPath.GetDroppingLoot(lootType.ToString());
+            Icon = IconPath.GetInventory(lootModel.LootId);
             StartPosition = startPosition;
-            RemovePosition = removePosition;
+            RemovePosition = lootModel.FinishPosition;
         }
 
-        public static DroppingObjectModel Create(DroppingLootType lootType, DroppingLootConfig config, Vector2 startPosition, Vector2 removePosition)
+        public static DroppingObjectModel Create(DroppingLootModel lootModel, DroppingLootConfig config, Vector2 startPosition)
         {
-            return new DroppingObjectModel(lootType, config, startPosition, removePosition);
+            return new DroppingObjectModel(lootModel, config, startPosition);
         }
     }
 }
