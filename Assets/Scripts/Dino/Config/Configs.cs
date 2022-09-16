@@ -9,7 +9,7 @@ namespace Dino.Config
         public const string CONSTANTS = "Constants";
         public const string MISSION_REWARDS = "MissionRewards";
         public const string WEAPONS = "Weapons";
-        public const string ITEM_PROVIDER = "ItemProvider";
+        public const string INITIAL_INVENTORY = "InitialInventory";
         public const string CRAFT = "Craft";      
         public const string LEVELS = "Levels";
     }

@@ -26,7 +26,7 @@ namespace Dino.Config
                 .RegisterStringKeyedCollection<WeaponConfig>(Configs.WEAPONS)
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)           
                 .RegisterSingle<CraftConfig>(Configs.CRAFT)
-                .RegisterSingle<ItemProviderConfig>(Configs.ITEM_PROVIDER)
+                .RegisterSingle<InitialInventoryConfig>(Configs.INITIAL_INVENTORY)
                 .RegisterStringKeyedCollection<ParameterUpgradeConfig>(Configs.MODIFIERS, true)
                 .RegisterCollection<SessionResult, MissionRewardsConfig>(Configs.MISSION_REWARDS);
         }

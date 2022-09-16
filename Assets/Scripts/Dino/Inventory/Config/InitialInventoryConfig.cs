@@ -6,7 +6,7 @@ using Feofun.Config.Csv;
 
 namespace Dino.Inventory.Config
 {
-    public class ItemProviderConfig : ILoadableConfig
+    public class InitialInventoryConfig : ILoadableConfig
     {
         private Dictionary<string, IReadOnlyList<ProvidedItemConfig>> _itemsMap;
         public void Load(Stream stream)
