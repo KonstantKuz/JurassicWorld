@@ -52,7 +52,7 @@ namespace Dino.Loot.Service
         public void TryPublishReceivedLoot(Item item, int count, Vector3 lootPosition)
         {
             var droppingLootType = DroppingLootTypeExt.ValueOf(item.Type.ToString());
-            var message = UiLootReceivedMessage.Create(droppingLootType, item.Name, count, GetLootScreenPosition(lootPosition));
+            var message = UILootReceivedMessage.Create(droppingLootType, item.Name, count, GetLootScreenPosition(lootPosition));
             _messenger.Publish(message);
         }
 

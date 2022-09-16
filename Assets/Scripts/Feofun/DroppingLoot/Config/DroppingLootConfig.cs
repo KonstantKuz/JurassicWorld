@@ -1,4 +1,4 @@
-﻿using Feofun.DroppingLoot.Component;
+﻿using Feofun.DroppingLoot.View;
 using UnityEngine;
 
 namespace Feofun.DroppingLoot.Config
@@ -6,7 +6,7 @@ namespace Feofun.DroppingLoot.Config
     [CreateAssetMenu(fileName = "DroppingLootConfig", menuName = "Feofun/DroppingLoot")]
     public class DroppingLootConfig : ScriptableObject
     {
-        public DroppingObject InstancePrefab;
+        public DroppingObjectView InstancePrefab;
         
         public float CreateDispersionX = 130;
         public float CreateDispersionY = 130;

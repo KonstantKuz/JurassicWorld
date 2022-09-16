@@ -6,9 +6,9 @@ using Feofun.UI.Components;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Feofun.DroppingLoot.Component
+namespace Feofun.DroppingLoot.View
 {
-    public class DroppingObject : MonoBehaviour, IUiInitializable<DroppingObjectModel>
+    public class DroppingObjectView : MonoBehaviour, IUiInitializable<DroppingObjectViewModel>
     {
         private const string SPEED_PARAM_NAME = "Speed"; 
         private const string ROTATING_PARAM_NAME = "Rotating";
@@ -22,7 +22,7 @@ namespace Feofun.DroppingLoot.Component
         private DroppingTrajectoryTween _trajectory;
         private RectTransform _rectTransform;
 
-        public void Init(DroppingObjectModel model)
+        public void Init(DroppingObjectViewModel model)
         {
             _icon.sprite = Resources.Load<Sprite>(model.Icon);
             _rectTransform = GetComponent<RectTransform>();
@@ -30,18 +30,18 @@ namespace Feofun.DroppingLoot.Component
             StartCoroutine(PrepareDrop(model));
         }
 
-        private IEnumerator PrepareDrop(DroppingObjectModel model)
+        private IEnumerator PrepareDrop(DroppingObjectViewModel model)
         {
             _rectTransform.position = model.StartPosition;
             _rectTransform.localScale *= model.Config.ScaleFactorBeforeDrop;
             yield return _rectTransform.DOScale(Vector3.one, model.Config.TimeBeforeDrop).WaitForCompletion();
-            _rectTransform.DOScale(Vector3.one * model.Config.FinalScaleFactor, model.DroppingTime).WaitForCompletion();
+            _rectTransform.DOScale(Vector3.one * model.Config.FinalScaleFactor, model.Duration);
             StartRotateAnimation(model);
             _trajectory.Drop(DroppingObjectTrajectory.FromDroppingObject(model), () => { Destroy(gameObject); });
         }
-        private void StartRotateAnimation(DroppingObjectModel model)
+        private void StartRotateAnimation(DroppingObjectViewModel viewModel)
         {
-            _animator.SetFloat(_speedParam, Random.Range(0, model.Config.RotationSpeedDispersion));
+            _animator.SetFloat(_speedParam, Random.Range(0, viewModel.Config.RotationSpeedDispersion));
             _animator.SetBool(_rotatingParam, true);
         }
     }

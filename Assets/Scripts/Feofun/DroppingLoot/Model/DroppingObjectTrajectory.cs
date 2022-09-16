@@ -16,9 +16,9 @@ namespace Feofun.DroppingLoot.Model
             Height = height;
             Time = time;
         }
-        public static DroppingObjectTrajectory FromDroppingObject(DroppingObjectModel model)
+        public static DroppingObjectTrajectory FromDroppingObject(DroppingObjectViewModel viewModel)
         {
-            return new DroppingObjectTrajectory(model.StartPosition, model.RemovePosition, model.DroppingTrajectoryHeight, model.DroppingTime);
+            return new DroppingObjectTrajectory(viewModel.StartPosition, viewModel.RemovePosition, viewModel.TrajectoryHeight, viewModel.Duration);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Linq;
-using Feofun.DroppingLoot.Component;
 using Feofun.DroppingLoot.Config;
 using Feofun.DroppingLoot.Model;
+using Feofun.DroppingLoot.View;
 using Feofun.UI.Loader;
 using UnityEngine;
 
@@ -24,34 +24,34 @@ namespace Feofun.DroppingLoot
             return this;
         }
 
-        public void Play(DroppingLootModel loot)
+        public void Play(DroppingLootInitParams initParams)
         {
-            int lootCount = GetDisplayedItemCount(loot.Count);
-            AddLoot(loot, lootCount);
+            int lootCount = GetDisplayedItemCount(initParams.Count);
+            AddLoot(initParams, lootCount);
         }
 
-        private void AddLoot(DroppingLootModel droppingLoot, int lootCount)
+        private void AddLoot(DroppingLootInitParams initParams, int lootCount)
         {
             if (lootCount == 0) {
                 return;
             }
-            StartCoroutine(CreateLoot(droppingLoot, lootCount));
+            StartCoroutine(CreateLoot(initParams, lootCount));
         }
 
-        private IEnumerator CreateLoot(DroppingLootModel lootModel, int lootCount)
+        private IEnumerator CreateLoot(DroppingLootInitParams initParams, int lootCount)
         {
-            var startPosition = lootModel.StartPosition + GetRandomGlobalOffset();
-            var model = DroppingObjectModel.Create(lootModel, _config, startPosition);
+            var startPosition = initParams.StartPosition + GetRandomGlobalOffset();
+            var model = DroppingObjectViewModel.Create(initParams, _config, startPosition);
             CreateDroppingObject(model);
             
             yield return new WaitForSeconds(_config.CreateDelay);
             lootCount--;
-            AddLoot(lootModel, lootCount);
+            AddLoot(initParams, lootCount);
         }
-        private void CreateDroppingObject(DroppingObjectModel model)
+        private void CreateDroppingObject(DroppingObjectViewModel viewModel)
         {
-            _uiLoader.Instance(UIModel<DroppingObject, DroppingObjectModel>
-                               .Create(model)
+            _uiLoader.Instance(UIModel<DroppingObjectView, DroppingObjectViewModel>
+                               .Create(viewModel)
                                .Container(_lootContainer)
                                .Prefab(_config.InstancePrefab));
         }
