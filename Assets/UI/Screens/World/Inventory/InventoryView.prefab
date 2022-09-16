@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 3740475084371357071}
   - component: {fileID: 459821121477062033}
   - component: {fileID: 4819040599049687968}
+  - component: {fileID: 7407974724353031338}
   m_Layer: 0
   m_Name: MateraialsView
   m_TagString: Untagged
@@ -100,6 +101,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _root: {fileID: 9045365291168451597}
   _itemPrefab: {fileID: 5992899183347041723, guid: cba21c97a8a0f194d9ba2bb24ea62878, type: 3}
+--- !u!114 &7407974724353031338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2943607400180471783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d95f41b92b54f9fb8671cc76c55f4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootType: Material
+  _receivingContainer: {fileID: 3740475084371357071}
+  _config: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
 --- !u!1 &3528765548246397446
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +125,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7358095759732566729}
+  - component: {fileID: 8074813129435682958}
+  - component: {fileID: 7967423099378558295}
   m_Layer: 8
   m_Name: ItemsView
   m_TagString: Untagged
@@ -137,6 +155,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8074813129435682958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528765548246397446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d95f41b92b54f9fb8671cc76c55f4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootType: Weapon
+  _receivingContainer: {fileID: 7358095759732566729}
+  _config: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
+--- !u!114 &7967423099378558295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528765548246397446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d95f41b92b54f9fb8671cc76c55f4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootType: Ammo
+  _receivingContainer: {fileID: 7358095759732566729}
+  _config: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
 --- !u!1 &5019466898017977266
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,6 +272,7 @@ GameObject:
   - component: {fileID: 5814314518929357047}
   - component: {fileID: 8238121720608841784}
   - component: {fileID: 9070718725183425343}
+  - component: {fileID: 2611038086704310406}
   m_Layer: 0
   m_Name: InventoryView
   m_TagString: Untagged
@@ -294,6 +343,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cursorRoot: {fileID: 6278726391209819875}
+--- !u!114 &2611038086704310406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6519402656967006694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3495e3c9a2e42f7a61696b29576637d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8231033953272735153
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -668,7 +729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -774,7 +835,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -880,7 +941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 220
       objectReference: {fileID: 0}
     - target: {fileID: 1077887017283678422, guid: d896eac57f44b1745a857f54ff9f3fa6, type: 3}
       propertyPath: m_LocalPosition.x

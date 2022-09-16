@@ -12,7 +12,7 @@ namespace Feofun.DroppingLoot.Component
     public class DroppingLootReceiver : MonoBehaviour
     {
         [SerializeField]
-        private DroppingLootType _lootType;    
+        private string _lootType;    
         [SerializeField]
         private RectTransform _receivingContainer;    
         [SerializeField]
@@ -28,7 +28,7 @@ namespace Feofun.DroppingLoot.Component
 
         private void OnDroppingLootReceived(UILootReceivedMessage msg)
         {
-            if (msg.Type != _lootType) {
+            if (!msg.Type.Equals(_lootType)) {
                 return;
             }
             PlayVfx(msg);

@@ -1,20 +1,24 @@
 ﻿using System;
+using Dino.Extension;
+using Dino.Inventory.Extension;
 using Dino.Inventory.Service;
 using JetBrains.Annotations;
 using Logger.Extension;
+using SuperMaxim.Messaging;
 using UniRx;
+using UnityEngine;
 
 namespace Dino.Location.Workbench
 {
     public class CrafterByTimer : IDisposable
     {
-
         private readonly ReactiveProperty<bool> _hasActiveTimer = new ReactiveProperty<bool>(false);
-        
         private readonly CraftService _craftService;
+        private readonly IMessenger _messenger;
 
         private readonly string _craftItemId;
         private readonly float _craftDuration;
+        private readonly Vector3 _craftItemPosition;
 
         private CompositeDisposable _disposable;
 
@@ -26,14 +30,19 @@ namespace Dino.Location.Workbench
         public IReactiveProperty<bool> HasActiveTimer => _hasActiveTimer;
 
         public CrafterByTimer(InventoryService inventoryService, 
-                              CraftService craftService, 
-                              string craftItemId, float craftDuration)
+                              CraftService craftService,
+                              IMessenger messanger,
+                              string craftItemId, 
+                              float craftDuration, 
+                              Vector3 craftItemPosition)
         {
             Dispose();
             _disposable = new CompositeDisposable();
             _craftService = craftService;
+            _messenger = messanger;
             _craftItemId = craftItemId;
             _craftDuration = craftDuration;
+            _craftItemPosition = craftItemPosition;
             inventoryService.InventoryProperty.Subscribe(it => OnInventoryUpdated()).AddTo(_disposable);
         }
 
@@ -72,7 +81,9 @@ namespace Dino.Location.Workbench
                 return;
             }
             DeleteTimer();
-            _craftService.Craft(_craftItemId);
+            var recipeConfig = _craftService.GetRecipeConfig(_craftItemId);
+            var item = _craftService.Craft(recipeConfig.CraftItemId);
+            item.TryPublishReceivedLoot(_messenger, recipeConfig.CraftItem.Count, _craftItemPosition.WorldToScreenPoint());
         }
 
         public void Dispose()
