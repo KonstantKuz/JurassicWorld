@@ -26,7 +26,7 @@ namespace Dino.Cheats
         [Inject] private CraftService _craftService;     
         [Inject] private Analytics.Analytics _analytics;     
         [Inject] private Feofun.ABTest.ABTest _abTest;
-        [Inject] private AdsManager _adsManager;    
+        [Inject(Optional = true)] private AdsManager _adsManager;    
         [Inject] private DiContainer _diContainer;           
 
         [SerializeField] private GameObject _fpsMonitor;
@@ -120,8 +120,12 @@ namespace Dino.Cheats
         }
         
         public bool IsAdsCheatEnabled  {
-            get => _adsManager.AdsProvider is CheatAdsProvider;
-            set => _adsManager.AdsProvider = value ? new CheatAdsProvider() : _diContainer.Resolve<IAdsProvider>();
+            get => _adsManager?.AdsProvider is CheatAdsProvider;
+            set 
+            {
+                if (_adsManager == null) return;
+                _adsManager.AdsProvider = value ? new CheatAdsProvider() : _diContainer.Resolve<IAdsProvider>(); 
+            }
         } 
         
         public bool IsABTestCheatEnabled

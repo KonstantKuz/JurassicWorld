@@ -4,7 +4,6 @@ using Feofun.ABTest.InitStep;
 using Feofun.App;
 using Feofun.App.Init;
 using JetBrains.Annotations;
-using Survivors.App.InitSteps;
 using UnityEditor;
 using UnityEngine;
 using Zenject;
@@ -45,7 +44,6 @@ namespace Dino
 #if UNITY_IOS
             initSequence.AddStep<IosATTInitStep>();            
 #endif
-            initSequence.AddStep<YsoCorpSDKInitStep>(new []{this});
             initSequence.AddStep<ABTestInitStep>();
             initSequence.AddStep<AnalyticsInitStep>();
             initSequence.AddStep<StartGameInitStep>();
