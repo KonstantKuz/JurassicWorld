@@ -28,7 +28,7 @@ namespace Dino.Loot.Service
         [Inject] 
         private World _world;
         [Inject]
-        private WorldObjectFactory _worldObjectFactory;
+        private LootFactory _lootFactory;
         [Inject]
         private LootRespawnService _lootRespawnService;
         [Inject]
@@ -46,7 +46,7 @@ namespace Dino.Loot.Service
             _analytics.ReportLootItem(itemId.Id.FullName);
 
             if (loot.AutoRespawn) {
-                _lootRespawnService.RegisterRespawn(loot.ObjectId, loot.ReceivedItem, loot.transform.position);
+                _lootRespawnService.AddToRespawn(loot.ObjectId, loot.ReceivedItem, loot.transform.position);
             }
             
             loot.OnCollected?.Invoke(loot);
@@ -63,45 +63,14 @@ namespace Dino.Loot.Service
         public void DropLoot(Item item)
         {
             var receivedItem = ReceivedItem.CreateFromItem(item);
-            var lootPrefab = GetLootPrefabByReceivedItemName(item.Name);
-            var loot = SpawnLoot(lootPrefab.gameObject, receivedItem);
+            var lootPrefab = _lootFactory.GetLootPrefabByReceivedItemName(item.Name);
+            var loot = _lootFactory.SpawnLoot(lootPrefab.gameObject, receivedItem);
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
-            PlaceLootNearbyPlayer(loot.gameObject, playerPosition, radiusFromPlayer);
-        }
-        
-        public Loot SpawnLoot(string lootId, ReceivedItem receivedItem)
-        {
-            var lootPrefab = GetLootPrefab(lootId).gameObject;
-            return SpawnLoot(lootPrefab, receivedItem);
+            PlaceLootNearPlayer(loot.gameObject, playerPosition, radiusFromPlayer);
         }
 
-        private Loot SpawnLoot(GameObject prefab, ReceivedItem receivedItem)
-        {
-            var lootObject = _worldObjectFactory.CreateObject<Loot>(prefab);
-            lootObject.Init(receivedItem);
-            return lootObject;
-        }
-
-        private Loot GetLootPrefab(string lootId)
-        {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ObjectId == lootId);
-            if (lootPrefab == null) {
-                throw new NullReferenceException($"Loot prefab not found with id:= {lootId}");
-            }
-            return lootPrefab;
-        }
-
-        private Loot GetLootPrefabByReceivedItemName(string receivedItemName)
-        {
-            var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItem.Id == receivedItemName);
-            if (lootPrefab == null) {
-                throw new NullReferenceException($"Loot prefab not found with received item name:= {receivedItemName}");
-            }
-            return lootPrefab;
-        }
-
-        private void PlaceLootNearbyPlayer(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
+        private void PlaceLootNearPlayer(GameObject lootObject, Vector3 playerPosition, float radiusFromPlayer)
         {
             lootObject.transform.SetPositionAndRotation(GetLootSpawnPosition(playerPosition, radiusFromPlayer).XZ(), Quaternion.identity);
         }

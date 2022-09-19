@@ -16,7 +16,7 @@ namespace Dino.Loot.Service
     {
         private CompositeDisposable _disposable;
         
-        [Inject] private LootService _lootService;
+        [Inject] private LootFactory _lootFactory;
         [Inject] private ConstantsConfig _constantsConfig;
         
         public void OnWorldSetup()
@@ -25,7 +25,7 @@ namespace Dino.Loot.Service
             _disposable = new CompositeDisposable();
         }
 
-        public void RegisterRespawn(string lootId, ReceivedItem receivedItem, Vector3 position)
+        public void AddToRespawn(string lootId, ReceivedItem receivedItem, Vector3 position)
         {
             Observable.Timer(TimeSpan.FromSeconds(_constantsConfig.ItemRespawnTime))
                 .Subscribe(it => { RespawnLoot(lootId, receivedItem, position); })
@@ -34,7 +34,7 @@ namespace Dino.Loot.Service
 
         private void RespawnLoot(string lootId, ReceivedItem receivedItem, Vector3 position)
         {
-            var respawnedLoot = _lootService.SpawnLoot(lootId, receivedItem);
+            var respawnedLoot = _lootFactory.SpawnLoot(lootId, receivedItem);
             respawnedLoot.transform.position = position;
         }
 
