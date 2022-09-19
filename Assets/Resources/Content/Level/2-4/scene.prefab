@@ -396,7 +396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 937600829833350205, guid: 1e5131f48ea9c3243a0e4250ae4edc64, type: 3}
       propertyPath: <Level>k__BackingField
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2047533565645016285, guid: 1e5131f48ea9c3243a0e4250ae4edc64, type: 3}
       propertyPath: m_Name
