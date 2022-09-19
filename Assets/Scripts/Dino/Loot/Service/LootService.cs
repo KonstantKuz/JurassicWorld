@@ -36,7 +36,7 @@ namespace Dino.Loot.Service
         public void Collect(Loot loot)
         {
             var item = _inventoryService.Add(ItemId.Create(loot.ReceivedItem.Id), loot.ReceivedItem.Type, loot.ReceivedItem.Amount);
-            item.TryPublishReceivedLoot(_messenger, loot.ReceivedItem.Amount, loot.transform.position.WorldToScreenPoint());
+            _messenger.Publish(item.ToLootReceivedMessage(loot.ReceivedItem.Amount, loot.transform.position.WorldToScreenPoint()));
             
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(item.Id.FullName);

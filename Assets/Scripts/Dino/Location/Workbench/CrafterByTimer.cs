@@ -102,7 +102,7 @@ namespace Dino.Location.Workbench
             DeleteTimer();
             var recipeConfig = _craftService.GetRecipeConfig(_craftItemId);
             var item = _craftService.Craft(recipeConfig.CraftItemId);
-            item.TryPublishReceivedLoot(_messenger, recipeConfig.CraftItem.Count, _craftItemPosition.WorldToScreenPoint());
+            _messenger.Publish(item.ToLootReceivedMessage(recipeConfig.CraftItem.Count, _craftItemPosition.WorldToScreenPoint()));
 
         }
 
