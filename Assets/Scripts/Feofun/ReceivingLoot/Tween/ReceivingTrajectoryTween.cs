@@ -1,20 +1,20 @@
-﻿using Feofun.DroppingLoot.Model;
+﻿using Feofun.ReceivingLoot.Model;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Feofun.DroppingLoot.Tween
+namespace Feofun.ReceivingLoot.Tween
 {
-    public class DroppingTrajectoryTween : MonoBehaviour
+    public class ReceivingTrajectoryTween : MonoBehaviour
     {
-        private DroppingObjectTrajectory _trajectory;
+        private ReceivedLootTrajectory _trajectory;
         private UnityAction _onCompleteCallback;
         
         private RectTransform _rectTransform;
         private bool _isPlaying;
         private float _time;
 
-        public void Drop(DroppingObjectTrajectory trajectory, [CanBeNull] UnityAction onCompleteCallback)
+        public void Drop(ReceivedLootTrajectory trajectory, [CanBeNull] UnityAction onCompleteCallback)
         {
             _trajectory = trajectory;
             _onCompleteCallback = onCompleteCallback;

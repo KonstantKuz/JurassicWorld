@@ -1,5 +1,6 @@
 ﻿using Dino.Extension;
 using Dino.Units.StateMachine.States;
+using Feofun.Extension;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine

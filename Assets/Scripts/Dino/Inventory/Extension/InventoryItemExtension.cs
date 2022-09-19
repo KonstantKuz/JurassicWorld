@@ -1,5 +1,5 @@
 ﻿using Dino.Inventory.Model;
-using Feofun.DroppingLoot.Message;
+using Feofun.ReceivingLoot.Message;
 using SuperMaxim.Messaging;
 using UnityEngine;
 

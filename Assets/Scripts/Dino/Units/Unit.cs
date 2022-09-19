@@ -10,6 +10,7 @@ using Dino.Units.Model;
 using Dino.Units.Service;
 using EasyButtons;
 using Feofun.Components;
+using Feofun.Extension;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
 using Zenject;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Feofun.DroppingLoot.Message
+namespace Feofun.ReceivingLoot.Message
 {
     public struct UILootReceivedMessage
     {
