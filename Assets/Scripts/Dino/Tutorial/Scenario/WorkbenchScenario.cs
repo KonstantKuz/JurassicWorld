@@ -5,6 +5,7 @@ using Dino.Extension;
 using Dino.Inventory.Message;
 using Dino.Location;
 using Dino.Location.Level;
+using Dino.Location.Level.Service;
 using Dino.Location.Service;
 using Dino.Session.Messages;
 using Dino.Session.Service;
@@ -24,11 +25,13 @@ namespace Dino.Tutorial.Scenario
         [SerializeField] private string _playAtLevelId;
         
         private List<IndicatedTutorialItem> _tutorialItems;
+        private Coroutine _tutorialCoroutine;
         
         [Inject] private IMessenger _messenger;
         [Inject] private World _world;
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private SessionService _sessionService;
+        [Inject] private DirectionNavigatorService _navigatorService;
         
         public override void Init()
         {
@@ -41,7 +44,7 @@ namespace Dino.Tutorial.Scenario
             if (_sessionService.Session.LevelId != _playAtLevelId) return;
 
             CacheTutorialItems();
-            StartCoroutine(RunScenario());
+            _tutorialCoroutine = StartCoroutine(RunScenario());
         }
 
         private void CacheTutorialItems()
@@ -55,18 +58,24 @@ namespace Dino.Tutorial.Scenario
         protected List<Loot.Loot> GetTutorialLoots(string itemsId)
         {
             return _tutorialItems
-                .Where(it => it.ItemId == itemsId)
+                .Where(it => it != null && it.ItemId == itemsId)
                 .Select(it => it.gameObject.RequireComponent<Loot.Loot>()).ToList();
         }
         
         protected IEnumerator WaitForLootCollected(List<Loot.Loot> loots)
         {
-            loots.ForEach(it =>
-            {
-                var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, it.transform, ARROW_OFFSET);
-                arrow.transform.SetParent(it.transform);
-            });
-            yield return new WaitForLootCollected(loots);
+            return loots.Select(WaitForLootCollected).GetEnumerator();
+        }
+        
+        private IEnumerator WaitForLootCollected(Loot.Loot loot)
+        {
+            if(loot == null) yield break;
+            
+            var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_OFFSET);
+            arrow.transform.SetParent(loot.transform);
+            _navigatorService.PointNavArrowAt(loot.transform);
+            yield return new WaitForLootCollected(loot);
+            _navigatorService.HideNavArrow();
         }
 
         protected void PlayCameraLookAtWorkbench()
@@ -79,9 +88,9 @@ namespace Dino.Tutorial.Scenario
         {
             var workbench = _tutorialItems.First(it => it.ItemId == WORKBENCH_ID);
             var indicator = ArrowIndicator.SpawnAbove(_worldObjectFactory, workbench.transform, ARROW_OFFSET);
-            
+            _navigatorService.PointNavArrowAt(workbench.transform);
             yield return new WaitForMessage<ItemCraftedMessage>(_messenger);
-            
+            _navigatorService.HideNavArrow();
             Destroy(indicator.gameObject);
         }
 
@@ -97,6 +106,12 @@ namespace Dino.Tutorial.Scenario
         {
             _messenger.Unsubscribe<SessionStartMessage>(OnSessionStart);
             _messenger.Unsubscribe<SessionEndMessage>(msg => Dispose());
+
+            if (_tutorialCoroutine != null)
+            {
+                StopCoroutine(_tutorialCoroutine);
+                _tutorialCoroutine = null;
+            }
         }
     }
 }

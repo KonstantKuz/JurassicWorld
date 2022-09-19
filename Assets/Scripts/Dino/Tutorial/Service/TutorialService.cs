@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Dino.Location;
+using Dino.Location.Level;
+using Dino.Location.Level.Service;
+using Dino.Location.Service;
 using Dino.Tutorial.Model;
 using Dino.Tutorial.Scenario;
+using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;
 
@@ -21,7 +25,7 @@ namespace Dino.Tutorial.Service
         
         private List<TutorialScenario> Scenarios => _scenarios ??= GetComponentsInChildren<TutorialScenario>().ToList();
         private TutorialState State => _repository.Get() ?? new TutorialState();
-
+        
         public void OnWorldSetup()
         {
             Scenarios.ForEach(it =>
@@ -68,7 +72,7 @@ namespace Dino.Tutorial.Service
             SetInputEnabled(false);
             _world.CameraController.PlayLookAt(point, _cameraLookAtSpeed, _cameraLookAtTime, () => SetInputEnabled(true));
         }
-        
+
         public void OnWorldCleanUp()
         {
         }

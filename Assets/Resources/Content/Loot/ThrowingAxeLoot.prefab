@@ -48,7 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: ThrowingAxeLoot
   _objectType: 2
-  _receivedItemId: ThrowingAxe
+  _autoRespawn: 0
+  _receivedItem:
+    Id: ThrowingAxe
+    Type: 0
+    Amount: 1
 --- !u!135 &8137069662002386435
 SphereCollider:
   m_ObjectHideFlags: 0

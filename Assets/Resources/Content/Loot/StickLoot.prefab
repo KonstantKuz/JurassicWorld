@@ -48,9 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: StickLoot
   _objectType: 2
-  _receivedItemId: Stick
-  _receivedItemType: 1
-  _receivedItemAmount: 1
+  _autoRespawn: 1
+  _receivedItem:
+    Id: Stick
+    Type: 1
+    Amount: 1
 --- !u!135 &4912628231845887348
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -89,7 +91,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 87b9e4caad0e3a34cb49cf98282354ed, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.31
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 87b9e4caad0e3a34cb49cf98282354ed, type: 3}
       propertyPath: m_LocalPosition.y
@@ -97,7 +99,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 87b9e4caad0e3a34cb49cf98282354ed, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.155
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 87b9e4caad0e3a34cb49cf98282354ed, type: 3}
       propertyPath: m_LocalRotation.w
@@ -149,7 +151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.316
+      value: 0.006
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -157,7 +159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.146
+      value: -0.009
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalRotation.w
