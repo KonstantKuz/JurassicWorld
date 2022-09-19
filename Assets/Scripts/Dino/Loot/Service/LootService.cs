@@ -63,8 +63,7 @@ namespace Dino.Loot.Service
         public void DropLoot(Item item)
         {
             var receivedItem = ReceivedItem.CreateFromItem(item);
-            var lootPrefab = _lootFactory.GetLootPrefabByReceivedItemName(item.Name);
-            var loot = _lootFactory.CreateLoot(lootPrefab.gameObject, receivedItem);
+            var loot = _lootFactory.CreateLootByReceivedItem(item.Name, receivedItem);
             var playerPosition = _world.RequirePlayer().SelfTarget.Root.position.XZ();
             var radiusFromPlayer = _world.RequirePlayer().LootCollector.CollectRadius * 2;
             PlaceLootNearPlayer(loot.gameObject, playerPosition, radiusFromPlayer);

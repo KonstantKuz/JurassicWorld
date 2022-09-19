@@ -17,7 +17,13 @@ namespace Dino.Loot.Service
             return CreateLoot(lootPrefab, receivedItem);
         }
 
-        public Loot CreateLoot(GameObject prefab, ReceivedItem receivedItem)
+        public Loot CreateLootByReceivedItem(string receivedItemName, ReceivedItem receivedItem)
+        {
+            var lootPrefab = GetLootPrefabByReceivedItemName(receivedItemName).gameObject;
+            return CreateLoot(lootPrefab, receivedItem);
+        }
+
+        private Loot CreateLoot(GameObject prefab, ReceivedItem receivedItem)
         {
             var lootObject = _worldObjectFactory.CreateObject<Loot>(prefab);
             lootObject.Init(receivedItem);
@@ -33,7 +39,7 @@ namespace Dino.Loot.Service
             return lootPrefab;
         }
 
-        public Loot GetLootPrefabByReceivedItemName(string receivedItemName)
+        private Loot GetLootPrefabByReceivedItemName(string receivedItemName)
         {
             var lootPrefab = _worldObjectFactory.GetPrefabComponents<Loot>().FirstOrDefault(it => it.ReceivedItem.Id == receivedItemName);
             if (lootPrefab == null) {
