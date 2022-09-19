@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 222402463209787788}
   - component: {fileID: 114025023783592790}
   m_Layer: 5
-  m_Name: DropElement
+  m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 5592766658728695462}
   - component: {fileID: 4826617285336716591}
   m_Layer: 5
-  m_Name: DroppingObject
+  m_Name: ReceivedLootView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
