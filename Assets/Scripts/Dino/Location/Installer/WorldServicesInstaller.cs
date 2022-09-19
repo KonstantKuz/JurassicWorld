@@ -1,6 +1,5 @@
 ﻿using Dino.Location.Level.Service;
 using Dino.Location.Service;
-using Dino.Loot.Service;
 using Dino.Session.Service;
 using Dino.Units.Service;
 using UnityEngine;
@@ -24,8 +23,6 @@ namespace Dino.Location.Installer
             container.Bind<LevelService>().AsSingle();
             container.BindInterfacesAndSelfTo<SessionService>().AsSingle();
             container.Bind<SessionRepository>().AsSingle();
-            
-            container.BindInterfacesAndSelfTo<LootService>().AsSingle();
             container.BindInterfacesAndSelfTo<DirectionNavigatorService>().AsSingle();
         }
     }
