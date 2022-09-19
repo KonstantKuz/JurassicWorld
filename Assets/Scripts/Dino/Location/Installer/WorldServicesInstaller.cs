@@ -23,6 +23,7 @@ namespace Dino.Location.Installer
             container.Bind<LevelService>().AsSingle();
             container.BindInterfacesAndSelfTo<SessionService>().AsSingle();
             container.Bind<SessionRepository>().AsSingle();
+            container.BindInterfacesAndSelfTo<DirectionNavigatorService>().AsSingle();
         }
     }
 }
