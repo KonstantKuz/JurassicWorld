@@ -11,13 +11,13 @@ namespace Dino.Loot.Service
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
         
-        public Loot SpawnLoot(string lootId, ReceivedItem receivedItem)
+        public Loot CreateLoot(string lootId, ReceivedItem receivedItem)
         {
             var lootPrefab = GetLootPrefab(lootId).gameObject;
-            return SpawnLoot(lootPrefab, receivedItem);
+            return CreateLoot(lootPrefab, receivedItem);
         }
 
-        public Loot SpawnLoot(GameObject prefab, ReceivedItem receivedItem)
+        public Loot CreateLoot(GameObject prefab, ReceivedItem receivedItem)
         {
             var lootObject = _worldObjectFactory.CreateObject<Loot>(prefab);
             lootObject.Init(receivedItem);

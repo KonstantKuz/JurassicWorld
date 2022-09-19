@@ -34,7 +34,7 @@ namespace Dino.Loot.Service
 
         private void RespawnLoot(string lootId, ReceivedItem receivedItem, Vector3 position)
         {
-            var respawnedLoot = _lootFactory.SpawnLoot(lootId, receivedItem);
+            var respawnedLoot = _lootFactory.CreateLoot(lootId, receivedItem);
             respawnedLoot.transform.position = position;
         }
 
