@@ -1,4 +1,5 @@
 ﻿using Feofun.UI.Components;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace Feofun.UI.Loader
@@ -7,7 +8,9 @@ namespace Feofun.UI.Loader
     {
         public TParam InitParameter { get; private set; }
         public Transform UIContainer { get; private set; }
+        [CanBeNull]
         public string UIPath { get; private set; }
+        [CanBeNull]
         public TUIObject UIPrefab { get; private set; }
 
         public static UIModel<TUIObject, TParam> Create(TParam initParameter)

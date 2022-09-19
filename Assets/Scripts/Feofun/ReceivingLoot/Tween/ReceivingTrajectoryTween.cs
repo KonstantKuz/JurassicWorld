@@ -14,7 +14,7 @@ namespace Feofun.ReceivingLoot.Tween
         private bool _isPlaying;
         private float _time;
 
-        public void Drop(ReceivedLootTrajectory trajectory, [CanBeNull] UnityAction onCompleteCallback)
+        public void Play(ReceivedLootTrajectory trajectory, [CanBeNull] UnityAction onCompleteCallback)
         {
             _trajectory = trajectory;
             _onCompleteCallback = onCompleteCallback;
