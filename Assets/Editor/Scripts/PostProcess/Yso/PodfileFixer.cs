@@ -23,9 +23,11 @@ namespace Editor.Scripts.PostProcess
         [PostProcessBuild(BUILD_ORDER_CHANGE_PODFILE)]
         public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
+/*
             var podfilePath = LoadPodfile(pathToBuiltProject, out var lines);
             FixAdMobLinkage(lines);
             SavePodfile(podfilePath, lines);
+*/            
         }
 
         private static string LoadPodfile(string pathToBuiltProject, out List<string> lines)
