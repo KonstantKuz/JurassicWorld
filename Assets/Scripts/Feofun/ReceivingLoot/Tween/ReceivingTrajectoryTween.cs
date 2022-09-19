@@ -10,7 +10,7 @@ namespace Feofun.ReceivingLoot.Tween
         public static IEnumerator Play(ReceivedLootTrajectory trajectory, RectTransform rectTransform)
         {
             yield return DOTween.To(() => 0, elapsedTime => { UpdatePosition(rectTransform, elapsedTime, trajectory); }, trajectory.Time,
-                                    trajectory.Time).WaitForCompletion();
+                                    trajectory.Time).SetEase(Ease.Linear).WaitForCompletion();
         }
 
         private static void UpdatePosition(RectTransform rectTransform, float elapsedTime, ReceivedLootTrajectory trajectory)

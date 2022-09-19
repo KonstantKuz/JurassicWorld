@@ -16,11 +16,11 @@ MonoBehaviour:
   CreateDispersionX: 130
   CreateDispersionY: 130
   CreateDelay: 0
-  DroppingTime: 0.45
-  DroppingTimeDispersion: 0
-  TimeBeforeDrop: 0.3
+  ReceivedTime: 0.5
+  ReceivedTimeDispersion: 0
+  TimeBeforeReceive: 0.3
   MaxTrajectoryHeight: 350
   MinTrajectoryHeight: 350
-  ScaleFactorBeforeDrop: 3.5
+  ScaleFactorBeforeReceive: 3.5
   FinalScaleFactor: 0.9
-  RotationSpeedDispersion: 1
+  RotationSpeedDispersion: 0
