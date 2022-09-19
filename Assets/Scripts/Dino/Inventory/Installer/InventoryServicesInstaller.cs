@@ -1,6 +1,7 @@
 ﻿using Dino.Inventory.Service;
 using Dino.Weapon.Service;
 using Zenject;
+using Dino.Loot.Service;
 
 namespace Dino.Inventory.Installer
 {
@@ -10,6 +11,9 @@ namespace Dino.Inventory.Installer
         {
             container.BindInterfacesAndSelfTo<InventoryService>().AsSingle();
             container.Bind<CraftService>().AsSingle();
+            container.Bind<LootFactory>().AsSingle();
+            container.BindInterfacesAndSelfTo<LootService>().AsSingle();
+            container.BindInterfacesAndSelfTo<LootRespawnService>().AsSingle();
             container.BindInterfacesAndSelfTo<LevelInitialInventoryService>().AsSingle();
         }
     }
