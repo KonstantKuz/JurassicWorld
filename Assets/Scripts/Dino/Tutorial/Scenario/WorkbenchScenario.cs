@@ -69,6 +69,8 @@ namespace Dino.Tutorial.Scenario
         
         private IEnumerator WaitForLootCollected(Loot.Loot loot)
         {
+            if(loot == null) yield break;
+            
             var arrow = ArrowIndicator.SpawnAbove(_worldObjectFactory, loot.transform, ARROW_OFFSET);
             arrow.transform.SetParent(loot.transform);
             _navigatorService.PointNavArrowAt(loot.transform);
