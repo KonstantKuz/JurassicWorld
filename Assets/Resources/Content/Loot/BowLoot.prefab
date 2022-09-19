@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: BowLoot
   _objectType: 2
-  _receivedItemId: Bow1
+  _receivedItemId: Bow
   _receivedItemType: 0
   _receivedItemAmount: 1
 --- !u!135 &151745535278259455

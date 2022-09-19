@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: ThrowingAxeLoot
   _objectType: 2
-  _receivedItemId: ThrowingAxe1
+  _receivedItemId: ThrowingAxe
   _receivedItemType: 0
   _receivedItemAmount: 1
 --- !u!135 &8137069662002386435
