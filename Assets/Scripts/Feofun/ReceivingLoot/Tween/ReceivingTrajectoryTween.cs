@@ -1,47 +1,24 @@
-﻿using Feofun.ReceivingLoot.Model;
-using JetBrains.Annotations;
+﻿using System.Collections;
+using DG.Tweening;
+using Feofun.ReceivingLoot.Model;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Feofun.ReceivingLoot.Tween
 {
-    public class ReceivingTrajectoryTween : MonoBehaviour
+    public static class ReceivingTrajectoryTween
     {
-        private ReceivedLootTrajectory _trajectory;
-        private UnityAction _onCompleteCallback;
-        
-        private RectTransform _rectTransform;
-        private bool _isPlaying;
-        private float _time;
+        public static IEnumerator Play(ReceivedLootTrajectory trajectory, RectTransform rectTransform)
+        {
+            yield return DOTween.To(() => 0, elapsedTime => { UpdatePosition(rectTransform, elapsedTime, trajectory); }, trajectory.Time,
+                                    trajectory.Time).WaitForCompletion();
+        }
 
-        public void Play(ReceivedLootTrajectory trajectory, [CanBeNull] UnityAction onCompleteCallback)
+        private static void UpdatePosition(RectTransform rectTransform, float elapsedTime, ReceivedLootTrajectory trajectory)
         {
-            _trajectory = trajectory;
-            _onCompleteCallback = onCompleteCallback;
-            _isPlaying = true;
+            rectTransform.position = CalcParabolaWithHeight(trajectory.StartPosition, trajectory.RemovePosition, trajectory.Height,
+                                                            elapsedTime / trajectory.Time);
         }
-        private void Start()
-        {
-            _rectTransform = gameObject.GetComponent<RectTransform>();
-        }
-        private void Update()
-        {
-            UpdatePosition();
-        }
-        private void UpdatePosition()
-        {
-            if (!_isPlaying) {
-                return;
-            }
-            _time += Time.deltaTime;
 
-            if (_time < _trajectory.Time) {
-                _rectTransform.position = CalcParabolaWithHeight(_trajectory.StartPosition, _trajectory.RemovePosition, _trajectory.Height, _time / _trajectory.Time);
-            } else {
-                _isPlaying = false;
-                _onCompleteCallback?.Invoke();
-            }
-        }
         private static Vector2 CalcParabolaWithHeight(Vector2 start, Vector2 end, float height, float t)
         {
             return new Vector2(((Vector3) Vector2.Lerp(start, end, t)).x, Func(t) + Mathf.Lerp(start.y, end.y, t));

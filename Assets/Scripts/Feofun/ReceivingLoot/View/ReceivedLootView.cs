@@ -19,15 +19,13 @@ namespace Feofun.ReceivingLoot.View
 
         [SerializeField] private Image _icon;
         [SerializeField] private Animator _animator;    
-       
-        private ReceivingTrajectoryTween _trajectory;
+
         private RectTransform _rectTransform;
 
         public void Init(ReceivedLootViewModel model)
         {
             _icon.sprite = Resources.Load<Sprite>(model.Icon);
             _rectTransform = gameObject.RequireComponent<RectTransform>();
-            _trajectory = gameObject.RequireComponent<ReceivingTrajectoryTween>();
             StartCoroutine(PrepareDrop(model));
         }
 
@@ -38,7 +36,8 @@ namespace Feofun.ReceivingLoot.View
             yield return _rectTransform.DOScale(Vector3.one, model.VfxConfig.TimeBeforeReceive).WaitForCompletion();
             _rectTransform.DOScale(Vector3.one * model.VfxConfig.FinalScaleFactor, model.Duration);
             StartRotateAnimation(model);
-            _trajectory.Play(ReceivedLootTrajectory.FromReceivedLootModel(model), () => { Destroy(gameObject); });
+            yield return ReceivingTrajectoryTween.Play(ReceivedLootTrajectory.FromReceivedLootModel(model), _rectTransform);
+            Destroy(gameObject);
         }
         private void StartRotateAnimation(ReceivedLootViewModel viewModel)
         {
