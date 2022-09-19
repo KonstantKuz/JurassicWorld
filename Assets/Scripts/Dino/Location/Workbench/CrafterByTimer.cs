@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Linq;
+using Dino.Inventory.Model;
 using Dino.Inventory.Service;
+using Dino.Weapon.Config;
+using Feofun.Config;
 using JetBrains.Annotations;
 using Logger.Extension;
 using UniRx;
@@ -8,16 +12,14 @@ namespace Dino.Location.Workbench
 {
     public class CrafterByTimer : IDisposable
     {
-
         private readonly ReactiveProperty<bool> _hasActiveTimer = new ReactiveProperty<bool>(false);
-        
         private readonly CraftService _craftService;
-
+        private readonly InventoryService _inventoryService;
+        private readonly StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
         private readonly string _craftItemId;
         private readonly float _craftDuration;
-
+        
         private CompositeDisposable _disposable;
-
         [CanBeNull]
         private ActionTimer _craftTimer;
 
@@ -26,12 +28,16 @@ namespace Dino.Location.Workbench
         public IReactiveProperty<bool> HasActiveTimer => _hasActiveTimer;
 
         public CrafterByTimer(InventoryService inventoryService, 
-                              CraftService craftService, 
-                              string craftItemId, float craftDuration)
+                              CraftService craftService,
+                              StringKeyedConfigCollection<WeaponConfig> weaponConfigs,
+                              string craftItemId,
+                              float craftDuration)
         {
             Dispose();
             _disposable = new CompositeDisposable();
             _craftService = craftService;
+            _inventoryService = inventoryService;
+            _weaponConfigs = weaponConfigs;
             _craftItemId = craftItemId;
             _craftDuration = craftDuration;
             inventoryService.InventoryProperty.Subscribe(it => OnInventoryUpdated()).AddTo(_disposable);
@@ -63,7 +69,17 @@ namespace Dino.Location.Workbench
             _hasActiveTimer.SetValueAndForceNotify(false);
         }
 
-        private bool CanCraft() => _craftService.HasIngredientsForRecipe(_craftItemId);
+        private bool CanCraft() => _craftService.HasIngredientsForRecipe(_craftItemId) && HasWeaponToCraftAmmo();
+
+        private bool HasWeaponToCraftAmmo()
+        {
+            var recipe = _craftService.GetRecipeConfig(_craftItemId);
+            if (recipe.CraftItem.Type != InventoryItemType.Ammo) {
+                return true;
+            }
+            var weapons = _weaponConfigs.Values.Where(it => it.AmmoId == recipe.CraftItemId);
+            return weapons.Any(it => _inventoryService.Contains(new ItemId(it.Id)));
+        }
 
         private void OnCraft()
         {
