@@ -14,11 +14,8 @@ namespace Dino.Loot.Service
 {
     public class LootRespawnService : IWorldScope
     {
-        private List<Loot> _levelLoots;
-        private List<ActionTimer> _respawnTimers;
         private CompositeDisposable _disposable;
         
-        [Inject] private IMessenger _messenger;
         [Inject] private LootService _lootService;
         [Inject] private ConstantsConfig _constantsConfig;
         
@@ -26,22 +23,18 @@ namespace Dino.Loot.Service
         {
             Dispose();
             _disposable = new CompositeDisposable();
-            _messenger.SubscribeWithDisposable<LootCollectedMessage>(RespawnLootWithDelay).AddTo(_disposable);
         }
 
-        private void RespawnLootWithDelay(LootCollectedMessage msg)
+        public void RegisterRespawn(string lootId, ReceivedItem receivedItem, Vector3 position)
         {
             Observable.Timer(TimeSpan.FromSeconds(_constantsConfig.ItemRespawnTime))
-                .Subscribe(it => { RespawnLoot(msg.Id, msg.ReceivedItem, msg.Position); })
+                .Subscribe(it => { RespawnLoot(lootId, receivedItem, position); })
                 .AddTo(_disposable);
         }
 
-        private void RespawnLoot(string id, ReceivedItem receivedItem, Vector3 position)
+        private void RespawnLoot(string lootId, ReceivedItem receivedItem, Vector3 position)
         {
-            var lootPrefab = _lootService.FindLootPrefab(id);
-            if(lootPrefab == null) return;
-            
-            var respawnedLoot = _lootService.SpawnLoot(id, receivedItem);
+            var respawnedLoot = _lootService.SpawnLoot(lootId, receivedItem);
             respawnedLoot.transform.position = position;
         }
 

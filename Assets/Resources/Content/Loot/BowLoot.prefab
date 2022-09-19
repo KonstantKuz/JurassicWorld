@@ -48,13 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: BowLoot
   _objectType: 2
+  _autoRespawn: 0
   _receivedItem:
-    Id: Bow1
+    Id: Bow
     Type: 0
     Amount: 1
-  _receivedItemId: Bow1
-  _receivedItemType: 0
-  _receivedItemAmount: 1
 --- !u!135 &151745535278259455
 SphereCollider:
   m_ObjectHideFlags: 0
