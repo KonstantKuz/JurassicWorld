@@ -11,15 +11,16 @@ namespace Dino.Units.Component.TargetSearcher
     public class ConeTargetSearcher : MonoBehaviour, IInitializable<Unit>, ITargetSearcher
     {
         [SerializeField] private int _checkRaysCount = 3;
-        [SerializeField] private LayerMask _obstacleMask;
-        
+
         private PatrolStateModel _stateModel;
+        private LayerMaskProvider _layerMaskProvider;
         
         public void Init(Unit owner)
         {
             var enemyModel = (EnemyUnitModel) owner.Model;
             Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
             _stateModel = enemyModel.PatrolStateModel;
+            _layerMaskProvider = owner.gameObject.RequireComponent<LayerMaskProvider>();
         }
 
         public ITarget Find()
@@ -51,7 +52,7 @@ namespace Dino.Units.Component.TargetSearcher
             {
                 var checkPosition = target.transform.position + transform.right * offset;
                 Debug.DrawRay(transform.position, checkPosition - transform.position, Color.red);
-                if (Physics.Linecast(transform.position, checkPosition, _obstacleMask.value))
+                if (Physics.Linecast(transform.position, checkPosition, _layerMaskProvider.ObstacleMask.value))
                 {
                     offset += offsetStep;
                     continue;

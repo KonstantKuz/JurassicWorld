@@ -1,3 +1,5 @@
-Id,Scale,Health,MoveSpeed,AttackDistance,AttackDamage,AttackInterval,FieldOfViewAngle,FieldOfViewDistance,PatrolIdleTime,LookAroundTime,LookAroundSpeed,HealthStep,DamageStep
-SimpleEnemy,1,100,9,2,25,2,75,10,2,2,1,250,25
-Boss,1,500,6,2,50,2,75,10,2,2,1,1500,25
+Id,Scale,Health,HealthStep,DamageStep,MoveSpeed,AttackDistance,AttackDamage,AttackInterval,FieldOfViewAngle,FieldOfViewDistance,PatrolIdleTime,LookAroundTime,LookAroundSpeed,BulldozingSpeed,BulldozingRotationSpeed,JumpingDuration,JumpingHeight,JumpingDamageRadius,JumpingSafeTime
+SimpleEnemy,1,100,250,25,9,2,25,2,75,10,2,2,1,,,,,,
+Boss,1,500,1500,25,6,2,50,2,75,10,2,2,1,,,,,,
+BulldozingEnemy,1,2000,250,25,9,10,25,3,75,10,2,2,1,12,3,,,,
+JumpingEnemy,1,2000,250,25,9,10,25,3,75,10,2,2,1,,,0.5,3,3,1

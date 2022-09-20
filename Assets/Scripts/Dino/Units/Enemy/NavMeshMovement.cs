@@ -39,5 +39,10 @@ namespace Dino.Units.Enemy
             var finalSpeed = Math.Abs(rotationSpeed) > Mathf.Epsilon ? rotationSpeed : _rotationSpeed; 
             transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * finalSpeed);
         }
+
+        public void Warp(Vector3 position)
+        {
+            _agent.Warp(position);
+        }
     }
 }

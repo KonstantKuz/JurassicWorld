@@ -1,12 +1,8 @@
-﻿using Dino.Extension;
+﻿using System;
+using Dino.Extension;
 using Dino.Units.Component.Health;
-using Dino.Units.Component.Target;
-using Dino.Units.Enemy.Model;
-using Dino.Units.Model;
-using Dino.Weapon;
-using Dino.Weapon.Components;
+using Dino.Units.Enemy.Model.EnemyAttack;
 using Logger.Extension;
-using UniRx;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine
@@ -15,106 +11,53 @@ namespace Dino.Units.StateMachine
     {
         private class AttackState : BaseState
         {
-            private readonly int _attackHash = Animator.StringToHash("Attack");
-
-            private readonly BaseWeapon _weapon;
             private readonly EnemyAttackModel _attackModel;
-            private readonly WeaponTimer _weaponTimer;
-            
-            private Unit Owner => StateMachine._owner;
-            private ITarget Target => StateMachine._targetProvider.Target;
-            private bool IsTargetInvalid => !Target.IsTargetValidAndAlive();
+            private AttackSubState _currentAttack;
             
             public AttackState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                var enemyModel = Owner.Model as EnemyUnitModel;
-                if (enemyModel == null)
-                {
-                    this.Logger().Error("Unit model must be EnemyUnitModel");
-                    return;
-                }
+                var enemyModel = StateMachine._owner.RequireEnemyModel();
                 _attackModel = enemyModel.AttackModel;
-                _weapon = Owner.gameObject.RequireComponentInChildren<BaseWeapon>();
-                _weaponTimer = new WeaponTimer(_attackModel.AttackInterval);
-                _weaponTimer.SetAttackAsReady();
+                _currentAttack = BuildAttack(AttackVariant.Bulldozing);
             }
 
             public override void OnEnterState()
             {
-                StateMachine._animationWrapper.PlayIdleSmooth();
-                StateMachine._movementController.IsStopped = true;
-                
-                if (HasWeaponAnimationHandler)
-                {
-                    StateMachine._weaponAnimationHandler.OnFireEvent += Fire;
-                }
+                _currentAttack.OnEnterState();
             }
 
             public override void OnExitState()
             {
-                if (HasWeaponAnimationHandler)
-                {
-                    StateMachine._weaponAnimationHandler.OnFireEvent -= Fire;
-                }
+                _currentAttack.OnExitState();
             }
 
             public override void OnTick()
             {
-                if (IsTargetInvalid)
-                {
-                    StateMachine.SetState(UnitState.Patrol);
-                    return;
-                }
-                
-                if (!IsTargetInAttackRange())
-                {
-                    StateMachine.SetState(UnitState.Chase);
-                    return;
-                }
-
-                StateMachine._movementController.RotateTo(Target.Root.position, 0f);
-
-                if (_weaponTimer.IsAttackReady.Value)
-                {
-                    Attack();
-                }
+                _currentAttack.OnTick();
             }
             
-            private void Attack()
-            {
-                if (!HasWeaponAnimationHandler)
-                {
-                    Fire();
-                }
-
-                StateMachine._animator.SetTrigger(_attackHash);
-                _weaponTimer.OnAttack();
-            }
-            
-            private void Fire()
-            {
-                if (IsTargetInvalid) return;
-                _weapon.Fire(Target, null, DoDamage);
-            }
-            
-            private bool IsTargetInAttackRange()
-            {
-                return Vector3.Distance(Target.Root.position, Owner.transform.position) < _attackModel.AttackDistance;
-            }
-
             private void DoDamage(GameObject target)
             {
                 var damageable = target.RequireComponent<IDamageable>();
                 var damageParams = new HitParams
                 {
                     Damage = _attackModel.AttackDamage,
-                    AttackerPosition = Owner.SelfTarget.Root.position
+                    AttackerPosition = StateMachine._owner.SelfTarget.Root.position
                 };
                 damageable.TakeDamage(damageParams);
                 this.Logger().Trace($"Damage applied, target:= {target.name}");
             }
 
-            private bool HasWeaponAnimationHandler => StateMachine._weaponAnimationHandler != null;
+            private AttackSubState BuildAttack(AttackVariant attackVariant)
+            {
+                return attackVariant switch
+                {
+                    AttackVariant.Regular => (AttackSubState) new RegularAttack(StateMachine, _attackModel, DoDamage),
+                    AttackVariant.Bulldozing => new BulldozingAttack(StateMachine, _attackModel, DoDamage),
+                    AttackVariant.Jumping => new JumpingAttack(StateMachine, _attackModel, DoDamage),
+                    _ => throw new ArgumentOutOfRangeException(nameof(attackVariant), attackVariant, null)
+                };
+            }
         }
     }
 }

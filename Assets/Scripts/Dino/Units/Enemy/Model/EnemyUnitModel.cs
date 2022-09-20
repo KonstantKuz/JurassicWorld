@@ -1,7 +1,6 @@
 ﻿using Dino.Units.Enemy.Config;
+using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Units.Model;
-using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.Units.Enemy.Model
 {
@@ -21,7 +20,7 @@ namespace Dino.Units.Enemy.Model
             Level = level;
             MoveSpeed = config.MoveSpeed;
             HealthModel = new EnemyHealthModel(config.GetHealthForLevel(Level));
-            AttackModel = new EnemyAttackModel(config.GetDamageForLevel(Level), config.EnemyAttackConfig);
+            AttackModel = new EnemyAttackModel(level, config, config.EnemyAttackConfig);
             PatrolStateModel = new PatrolStateModel(config.PatrolStateConfig);
             LookAroundStateModel = new LookAroundStateModel(config.LookAroundStateConfig);
         }

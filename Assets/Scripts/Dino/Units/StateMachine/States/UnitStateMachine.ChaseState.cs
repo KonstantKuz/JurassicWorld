@@ -1,7 +1,5 @@
-﻿using Dino.Extension;
-using Dino.Units.Enemy.Model;
-using Dino.Units.Model;
-using Logger.Extension;
+﻿using Dino.Units.Component.Target;
+using Dino.Units.Enemy.Model.EnemyAttack;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine
@@ -13,18 +11,15 @@ namespace Dino.Units.StateMachine
             private readonly EnemyAttackModel _attackModel;
             
             private Unit Owner => StateMachine._owner;
-
-            private Vector3 TargetPosition => StateMachine._targetProvider.Target.Root.position;
+            private ITarget Target => StateMachine._targetProvider.Target;
+            private Vector3 TargetPosition => Target.Root.position;
             private float DistanceToTarget => Vector3.Distance(Owner.transform.position, TargetPosition);
-            
+            protected bool IsTargetBlocked =>
+                Physics.Linecast(Owner.SelfTarget.Center.position, Target.Center.position, StateMachine._layerMaskProvider.ObstacleMask);
+
             public ChaseState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                var enemyModel = Owner.Model as EnemyUnitModel;
-                if (enemyModel == null)
-                {
-                    this.Logger().Error("Unit model must be EnemyUnitModel");
-                    return;
-                }
+                var enemyModel = Owner.RequireEnemyModel();
                 _attackModel = enemyModel.AttackModel;
             }            
 
@@ -39,7 +34,7 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
-                if (DistanceToTarget < _attackModel.AttackDistance)
+                if (DistanceToTarget < _attackModel.AttackDistance && !IsTargetBlocked)
                 {
                     StateMachine.SetState(UnitState.Attack);
                     return;

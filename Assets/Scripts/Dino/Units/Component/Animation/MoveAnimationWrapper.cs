@@ -10,10 +10,22 @@ namespace Dino.Units.Component.Animation
         private readonly int _horizontalMotionHash = Animator.StringToHash("HorizontalMotion");
         private readonly int _motionAnimationHash = Animator.StringToHash("Motion");
         private readonly Animator _animator;
-
+        private readonly float _originSpeed;
+        
         public MoveAnimationWrapper(Animator animator)
         {
             _animator = animator;
+            _originSpeed = _animator.speed;
+        }
+
+        public void SetSpeed(float speed)
+        {
+            _animator.speed = speed;
+        }
+
+        public void ResetSpeed()
+        {
+            _animator.speed = _originSpeed;
         }
 
         public void PlayIdleSmooth()

@@ -5,11 +5,11 @@ namespace Dino.Units.Enemy.Config
     [DataContract]
     public class EnemyAttackConfig
     {
+        [DataMember] 
+        public RegularAttackConfig RegularAttackConfig;
         [DataMember]
-        public float AttackDistance;
+        public BulldozingAttackConfig BulldozingAttackConfig;
         [DataMember]
-        public int AttackDamage;
-        [DataMember]
-        public float AttackInterval;
+        public JumpingAttackConfig JumpingAttackConfig;
     }
 }

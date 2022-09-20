@@ -25,6 +25,6 @@ namespace Dino.Units.Enemy.Config
         public string Id => _id;
 
         public int GetHealthForLevel(int level) => Health + (level - MIN_LEVEL) * RankParamsConfig.HealthStep;
-        public int GetDamageForLevel(int level) => EnemyAttackConfig.AttackDamage + (level - MIN_LEVEL) * RankParamsConfig.DamageStep;
+        public float GetDamageForLevel(int level, float originDamage) => originDamage + (level - MIN_LEVEL) * RankParamsConfig.DamageStep;
     }
 }
