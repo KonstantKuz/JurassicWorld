@@ -48,9 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: ThrowingAxeLoot
   _objectType: 2
-  _receivedItemId: ThrowingAxe1
-  _receivedItemType: 0
-  _receivedItemAmount: 1
+  _autoRespawn: 0
+  _receivedItem:
+    Id: ThrowingAxe
+    Type: 0
+    Amount: 1
 --- !u!135 &8137069662002386435
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -89,7 +91,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.386
+      value: -0.301
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_LocalPosition.y
@@ -97,7 +99,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.487
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_LocalRotation.w
@@ -149,7 +151,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.015999995
+      value: 0.101
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -157,7 +159,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.013999999
+      value: 0.501
       objectReference: {fileID: 0}
     - target: {fileID: 4222031733953142587, guid: 4ddfaaa18a4d7aa4fb9d40521fc28e5a, type: 3}
       propertyPath: m_LocalRotation.w

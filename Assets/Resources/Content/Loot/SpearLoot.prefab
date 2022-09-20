@@ -48,6 +48,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: SpearLoot
   _objectType: 2
+  _receivedItem:
+    Id: Spear
+    Type: 0
+    Amount: 1
   _receivedItemId: Spear
   _receivedItemType: 0
   _receivedItemAmount: 1
