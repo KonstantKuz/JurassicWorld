@@ -7,6 +7,8 @@ namespace Feofun.ReceivingLoot.Config
     public class FlyingIconVfxConfig : ScriptableObject
     {
         public FlyingIconView InstancePrefab;
+     
+        public int[] IconCounts = {1, 2, 3, 5, 10, 50, 100, 200, 400, 1000, 2000};
         
         public float CreateDispersionX = 130;
         public float CreateDispersionY = 130;

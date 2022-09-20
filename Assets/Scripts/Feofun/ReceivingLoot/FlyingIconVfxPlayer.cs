@@ -10,8 +10,6 @@ namespace Feofun.ReceivingLoot
 {
     public class FlyingIconVfxPlayer : MonoBehaviour
     {
-        private static readonly int[] _iconCounts = {1, 2, 3, 5, 10, 50, 100, 200, 400, 1000, 2000};
-
         private UILoader _uiLoader;
         private FlyingIconVfxConfig _vfxConfig;
         private Transform _iconContainer;
@@ -59,6 +57,6 @@ namespace Feofun.ReceivingLoot
                 new Vector2(Random.Range(-_vfxConfig.CreateDispersionX, _vfxConfig.CreateDispersionX),
                             Random.Range(-_vfxConfig.CreateDispersionY, _vfxConfig.CreateDispersionY));
 
-        private int GetDisplayedIconCount(int itemCount) => _iconCounts.Count(it => it <= itemCount);
+        private int GetDisplayedIconCount(int itemCount) => _vfxConfig.IconCounts.Count(it => it <= itemCount);
     }
 }
