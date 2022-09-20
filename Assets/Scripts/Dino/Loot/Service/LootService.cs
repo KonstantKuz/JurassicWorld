@@ -19,22 +19,14 @@ namespace Dino.Loot.Service
         private const int SEARCH_POSITION_ANGLE_STEP = 10;
         private const int SEARCH_POSITION_ANGLE_MAX = 360;
 
-        [Inject]
-        private InventoryService _inventoryService;
-        [Inject] 
-        private World _world;
-        [Inject]
-        private LootFactory _lootFactory;
-        [Inject]
-        private LootRespawnService _lootRespawnService;
-        [Inject]
-        private PlayerProgressService _playerProgressService;
-        [Inject]
-        private Analytics.Analytics _analytics;
-        [Inject]
-        private IMessenger _messenger;   
-        [Inject]
-        private FlyingIconReceivingManager _flyingIconManager;
+        [Inject] private InventoryService _inventoryService;
+        [Inject] private World _world;
+        [Inject] private LootFactory _lootFactory;
+        [Inject] private LootRespawnService _lootRespawnService;
+        [Inject] private PlayerProgressService _playerProgressService;
+        [Inject] private Analytics.Analytics _analytics;
+        [Inject] private IMessenger _messenger;   
+        [Inject] private FlyingIconReceivingManager _flyingIconManager;
 
         public void Collect(Loot loot)
         {

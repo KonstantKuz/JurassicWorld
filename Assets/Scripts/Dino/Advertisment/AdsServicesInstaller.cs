@@ -6,7 +6,6 @@ namespace Dino.Advertisment
     {
         public static void Install(DiContainer container)
         {
-            container.Bind<YsoSessionEventHandler>().AsSingle().NonLazy();
             Feofun.Advertisment.Installer.AdsServicesInstaller.Install(container);
         }
     }

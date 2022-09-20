@@ -52,8 +52,7 @@ namespace Dino.Core.MonoInstaller
             PlayerServicesInstaller.Install(Container);
             RewardServicesInstaller.Install(Container);
             ABTestServicesInstaller.Install(Container, ABTestVariantId.Control);
-            AdsServicesInstaller.Install(Container);
-            
+
             _tutorialInstaller.Install(Container);
             _worldServicesInstaller.Install(Container);
             _uiInstaller.Install(Container);
