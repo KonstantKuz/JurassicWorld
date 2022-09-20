@@ -444,7 +444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3603301991565831358, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
       propertyPath: <Level>k__BackingField
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
@@ -724,7 +724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3603301991565831358, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
       propertyPath: <Level>k__BackingField
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
@@ -1592,7 +1592,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3603301991565831358, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
       propertyPath: <Level>k__BackingField
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49688800dfa9c36448a489123b40ec96, type: 3}

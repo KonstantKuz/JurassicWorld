@@ -1,3 +1,3 @@
 Id,Scale,Health,MoveSpeed,AttackDistance,AttackDamage,AttackInterval,FieldOfViewAngle,FieldOfViewDistance,PatrolIdleTime,LookAroundTime,LookAroundSpeed,HealthStep,DamageStep
-SimpleEnemy,1,50,9,2,25,2,75,10,2,2,1,250,25
-Boss,1,250,6,2,50,2,75,10,2,2,1,1500,25
+SimpleEnemy,1,100,6,2,25,2,75,10,2,2,0.8,100,25
+Boss,1,200,4,2,50,2,75,10,2,2,0.8,1500,25
