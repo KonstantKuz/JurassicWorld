@@ -49,6 +49,9 @@ namespace Dino.Units.Player.Component
         
         [CanBeNull]
         public WeaponWrapper WeaponWrapper => _weapon;
+        
+        private bool IsAttackAllowedByWeapon => _weapon != null && _weapon.IsWeaponReadyToFire;
+        private bool IsAttackAllowedByMovement => !_movementController.IsMoving || _shootOnMove;
 
         public event Action OnAttacked;
 
@@ -139,13 +142,12 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null &&
-                                                              target != null && 
-                                                              _weapon.IsWeaponReadyToFire && 
-                                                              !_startedAttack && 
-                                                              CanAttackOnMove();
+        private bool CanAttack([CanBeNull] ITarget target) => target != null 
+                                                              && !_startedAttack &&
+                                                              IsAttackAllowedByWeapon &&
+                                                              IsAttackAllowedByMovement;
 
-        private bool CanAttackOnMove() => !_movementController.IsMoving || _shootOnMove;
+
 
         private void Attack(ITarget target)
         {
