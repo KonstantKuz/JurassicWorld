@@ -14,7 +14,7 @@ namespace Feofun.ABTest.Installer
             container.Bind<IABTestProvider>()
                 .To<OverrideABTestProvider>()
                 .AsSingle()
-                .WithArguments(new YCABTestProvider(controlVariant, abVariants), controlVariant);
+                .WithArguments((IABTestProvider)null, controlVariant);
         }
 
         public static void Install<T>(DiContainer container, T controlVariant) where T: struct //enum
