@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace Feofun.ReceivingLoot.Tween
 {
-    public static class ReceivingTrajectoryTween
+    public static class FlyingIconTrajectoryTween
     {
-        public static DG.Tweening.Tween Play(ReceivedLootTrajectory trajectory, RectTransform rectTransform)
+        public static DG.Tweening.Tween Play(FlyingIconTrajectory trajectory, RectTransform rectTransform)
         {
             return DOTween.To(() => 0, elapsedTime => { UpdatePosition(rectTransform, elapsedTime, trajectory); }, trajectory.Time, trajectory.Time)
                           .SetEase(Ease.Linear);
         }
 
-        private static void UpdatePosition(RectTransform rectTransform, float elapsedTime, ReceivedLootTrajectory trajectory)
+        private static void UpdatePosition(RectTransform rectTransform, float elapsedTime, FlyingIconTrajectory trajectory)
         {
             rectTransform.position = CalcParabolaWithHeight(trajectory.StartPosition, trajectory.RemovePosition, trajectory.Height,
                                                             elapsedTime / trajectory.Time);

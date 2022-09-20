@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Feofun.ReceivingLoot.Config
 {
-    [CreateAssetMenu(fileName = "ReceivedLootVfxConfig", menuName = "Feofun/ReceivedLootVfx")]
-    public class ReceivedLootVfxConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "FlyingIconVfxConfig", menuName = "Feofun/FlyingIconVfx")]
+    public class FlyingIconVfxConfig : ScriptableObject
     {
-        public ReceivedLootView InstancePrefab;
+        public FlyingIconView InstancePrefab;
         
         public float CreateDispersionX = 130;
         public float CreateDispersionY = 130;

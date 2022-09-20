@@ -2,14 +2,14 @@
 
 namespace Feofun.ReceivingLoot.Message
 {
-    public struct UILootReceivedMessage
+    public struct FlyingIconVfxReceivedMessage
     {
         public string Type { get; }
         public string IconPath { get; }
         public int Count { get; }
         public Vector2 StartPosition { get; }
 
-        public UILootReceivedMessage(string type, string iconPath, int count, Vector2 startPosition)
+        public FlyingIconVfxReceivedMessage(string type, string iconPath, int count, Vector2 startPosition)
         {
             Type = type;
             Count = count;
@@ -17,9 +17,9 @@ namespace Feofun.ReceivingLoot.Message
             IconPath = iconPath;
         }
 
-        public static UILootReceivedMessage Create(string type, string iconPath, int count, Vector2 startPosition)
+        public static FlyingIconVfxReceivedMessage Create(string type, string iconPath, int count, Vector2 startPosition)
         {
-            return new UILootReceivedMessage(type, iconPath, count, startPosition);
+            return new FlyingIconVfxReceivedMessage(type, iconPath, count, startPosition);
         }
     }
 }
