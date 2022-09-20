@@ -88,11 +88,8 @@ namespace Dino.Units
             OnDeath = null;
         }
 
-        public int GetLevel()
-        {
-            return gameObject.RequireComponent<EnemyLevel>().Level;
-        }
-        
+        public int GetLevel() => gameObject.RequireComponent<UnitLevel>().Level;
+
         private void DieOnZeroHealth()
         {
             Kill(DeathCause.Killed);

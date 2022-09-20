@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Dino.Units.Enemy
 {
-    public class EnemyLevel : MonoBehaviour, ILevelStatOwner
+    public class UnitLevel : MonoBehaviour, ILevelStatOwner
     {
         [field: SerializeField] public int Level { get; private set; } = EnemyUnitConfig.MIN_LEVEL;
     }
