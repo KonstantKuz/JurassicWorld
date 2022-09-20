@@ -18,14 +18,14 @@ namespace Dino.Units.Player.Component
         private readonly int _verticalMotionHash = Animator.StringToHash("VerticalMotion");
         private readonly int _horizontalMotionHash = Animator.StringToHash("HorizontalMotion");
 
+        [Inject] private Joystick _joystick;
+        
         [SerializeField]
         private float _rotationSpeed = 10;
         
         private Animator _animator;
         private NavMeshAgent _agent;
-
-        [Inject] private Joystick _joystick;
-
+        
         public bool IsStopped
         {
             get => _agent.isStopped;

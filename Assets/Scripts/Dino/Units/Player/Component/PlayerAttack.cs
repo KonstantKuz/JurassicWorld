@@ -6,6 +6,7 @@ using Dino.Units.Component.Animation;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Component.TargetSearcher;
+using Dino.Units.Player.Model;
 using Dino.Weapon;
 using Dino.Weapon.Components;
 using Dino.Weapon.Model;
@@ -19,7 +20,7 @@ namespace Dino.Units.Player.Component
 {
     [RequireComponent(typeof(ITargetSearcher))]
     [RequireComponent(typeof(MovementController))]
-    public class PlayerAttack : MonoBehaviour, IUpdatableComponent
+    public class PlayerAttack : MonoBehaviour, IUpdatableComponent, IInitializable<Unit>
     {
         private static readonly int AttackSpeedMultiplierHash = Animator.StringToHash("AttackSpeedMultiplier");
         private static readonly int AttackHash = Animator.StringToHash("Attack");
@@ -35,7 +36,8 @@ namespace Dino.Units.Player.Component
         private MovementController _movementController;
         private List<IInitializable<IWeaponModel>> _weaponDependentComponents;
         private bool _startedAttack;
-        
+        private bool _shootOnMove;
+
         [CanBeNull]
         private WeaponWrapper _weapon;
         [CanBeNull]
@@ -62,7 +64,13 @@ namespace Dino.Units.Player.Component
                 _weaponAnimationHandler.OnFireEvent += Fire;
             }
         }
-
+        public void Init(Unit unit)
+        {
+            if (!(unit.Model is PlayerUnitModel model)) {
+                throw new InvalidCastException($"The player model must be of type:= {nameof(PlayerUnitModel)}");
+            }
+            _shootOnMove = model.ShootOnMove;
+        }
         public void SetWeapon(WeaponWrapper changeableWeapon)
         {
             Assert.IsNull(_weapon, $"Player weapon is not null, should delete the previous weapon");
@@ -131,7 +139,13 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null && target != null && _weapon.IsWeaponReadyToFire && !_startedAttack;
+        private bool CanAttack([CanBeNull] ITarget target) => _weapon != null &&
+                                                              target != null && 
+                                                              _weapon.IsWeaponReadyToFire && 
+                                                              !_startedAttack && 
+                                                              CanAttackOnMove();
+
+        private bool CanAttackOnMove() => !_movementController.IsMoving || _shootOnMove;
 
         private void Attack(ITarget target)
         {
@@ -173,8 +187,7 @@ namespace Dino.Units.Player.Component
                 return;
             }
             var damageable = target.RequireComponent<IDamageable>();
-            var damageParams = new HitParams
-            {
+            var damageParams = new HitParams {
                 Damage = _weapon.Model.AttackDamage,
                 AttackerPosition = transform.position
             };
