@@ -1,7 +1,7 @@
 Id,AttackDistance,AttackDamage,AttackInterval,Animation,AmmoId
 Axe,3,50,1,StickAttack,AxeAmmo
 Spear,7,50,1,StoneAttack,SpearAmmo
-ThrowingAxe1,5.5,100,2,StickAttack,ThrowingAxeAmmo
+ThrowingAxe1,6,100,2,StickAttack,ThrowingAxeAmmo
 ThrowingAxe2,7,400,2,StickAttack,ThrowingAxeAmmo
 ThrowingAxe3,7,600,2,StickAttack,ThrowingAxeAmmo
 ThrowingAxe4,7,800,2,StickAttack,ThrowingAxeAmmo
