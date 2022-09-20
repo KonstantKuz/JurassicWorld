@@ -1,4 +1,4 @@
-﻿using Feofun.ReceivingLoot.Message;
+﻿using Feofun.ReceivingLoot.Component;
 using UnityEngine;
 
 namespace Feofun.ReceivingLoot.Model
@@ -18,7 +18,7 @@ namespace Feofun.ReceivingLoot.Model
             FinishPosition = finishPosition;
         }
 
-        public static FlyingIconVfxParams FromReceivedMessage(FlyingIconVfxReceivedMessage msg, Vector2 finishPosition)
+        public static FlyingIconVfxParams FromReceivedMessage(FlyingIconReceivingParams msg, Vector2 finishPosition)
         {
             return new FlyingIconVfxParams(msg.Count, msg.IconPath, msg.StartPosition, finishPosition);
         }

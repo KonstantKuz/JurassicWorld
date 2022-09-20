@@ -13,6 +13,7 @@ using Dino.UI;
 using Dino.Units.Installer;
 using Feofun.ABTest.Installer;
 using Feofun.Localization.Service;
+using Feofun.ReceivingLoot;
 using SuperMaxim.Messaging;
 using UnityEngine;
 
@@ -41,6 +42,7 @@ namespace Dino.Core.MonoInstaller
             Container.Bind<UpdateManager>().FromInstance(_updateManager).AsSingle();
             Container.Bind<IMessenger>().FromInstance(Messenger.Default).AsSingle();     
             Container.Bind<LocalizationService>().AsSingle();
+            Container.Bind<FlyingIconReceivingManager>().AsSingle();
 
             ConfigsInstaller.Install(Container);
             ModifiersInstaller.Install(Container);  

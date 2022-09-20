@@ -5,6 +5,7 @@ using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Loot.Messages;
 using Dino.Player.Progress.Service;
+using Feofun.ReceivingLoot;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.AI;
@@ -31,12 +32,14 @@ namespace Dino.Loot.Service
         [Inject]
         private Analytics.Analytics _analytics;
         [Inject]
-        private IMessenger _messenger;
+        private IMessenger _messenger;   
+        [Inject]
+        private FlyingIconReceivingManager _flyingIconManager;
 
         public void Collect(Loot loot)
         {
             var item = _inventoryService.Add(ItemId.Create(loot.ReceivedItem.Id), loot.ReceivedItem.Type, loot.ReceivedItem.Amount);
-            _messenger.Publish(item.ToLootReceivedMessage(loot.ReceivedItem.Amount, loot.transform.position.WorldToScreenPoint()));
+            _flyingIconManager.ReceiveIcons(item.ToFlyingIconReceivingParams(loot.ReceivedItem.Amount, loot.transform.position.WorldToScreenPoint()));
             
             _playerProgressService.Progress.IncreaseLootCount();
             _analytics.ReportLootItem(item.Id.FullName);
