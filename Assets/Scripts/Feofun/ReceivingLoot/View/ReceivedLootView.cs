@@ -36,7 +36,7 @@ namespace Feofun.ReceivingLoot.View
             yield return _rectTransform.DOScale(Vector3.one, model.VfxConfig.TimeBeforeReceive).WaitForCompletion();
             _rectTransform.DOScale(Vector3.one * model.VfxConfig.FinalScaleFactor, model.Duration);
             StartRotateAnimation(model);
-            yield return ReceivingTrajectoryTween.Play(ReceivedLootTrajectory.FromReceivedLootModel(model), _rectTransform);
+            yield return ReceivingTrajectoryTween.Play(ReceivedLootTrajectory.FromReceivedLootModel(model), _rectTransform).WaitForCompletion();
             Destroy(gameObject);
         }
         private void StartRotateAnimation(ReceivedLootViewModel viewModel)

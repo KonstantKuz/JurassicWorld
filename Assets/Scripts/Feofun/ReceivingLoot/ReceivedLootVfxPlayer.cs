@@ -24,27 +24,27 @@ namespace Feofun.ReceivingLoot
             return this;
         }
 
-        public void Play(ReceivedLootInitParams initParams)
+        public void Play(ReceivedLootVfxParams vfxParams)
         {
-            int lootCount = GetDisplayedItemCount(initParams.Count);
-            StartCoroutine(CreateLootVfx(initParams, lootCount));
+            int lootCount = GetDisplayedItemCount(vfxParams.Count);
+            StartCoroutine(CreateLootVfx(vfxParams, lootCount));
         }
 
-        private IEnumerator CreateLootVfx(ReceivedLootInitParams initParams, int lootCount)
+        private IEnumerator CreateLootVfx(ReceivedLootVfxParams vfxParams, int lootCount)
         {
             for (int i = 0; i < lootCount; i++) {
-                CreateVfxItem(initParams, lootCount);
+                CreateVfxItem(vfxParams, lootCount);
                 yield return new WaitForSeconds(_vfxConfig.CreateDelay);
             }
         }
 
-        private void CreateVfxItem(ReceivedLootInitParams initParams, int lootCount)
+        private void CreateVfxItem(ReceivedLootVfxParams vfxParams, int lootCount)
         {
-            var startPosition = initParams.StartPosition;
+            var startPosition = vfxParams.StartPosition;
             if (lootCount > 1) {
-                startPosition = initParams.StartPosition + GetRandomGlobalOffset();
+                startPosition = vfxParams.StartPosition + GetRandomGlobalOffset();
             }
-            var model = ReceivedLootViewModel.Create(initParams, _vfxConfig, startPosition);
+            var model = ReceivedLootViewModel.Create(vfxParams, _vfxConfig, startPosition);
             CreateVfxItemView(model);
         }
 

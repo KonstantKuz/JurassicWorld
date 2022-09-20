@@ -12,19 +12,19 @@ namespace Feofun.ReceivingLoot.Model
         public Vector2 RemovePosition { get; }
         public ReceivedLootVfxConfig VfxConfig { get; }
 
-        public ReceivedLootViewModel(ReceivedLootInitParams initParams, ReceivedLootVfxConfig vfxConfig, Vector2 startPosition)
+        public ReceivedLootViewModel(ReceivedLootVfxParams vfxParams, ReceivedLootVfxConfig vfxConfig, Vector2 startPosition)
         {
             VfxConfig = vfxConfig;
             Duration = VfxConfig.ReceivedTime + Random.Range(-VfxConfig.ReceivedTimeDispersion, VfxConfig.ReceivedTimeDispersion);
             TrajectoryHeight = Random.Range(VfxConfig.MinTrajectoryHeight, VfxConfig.MaxTrajectoryHeight);
-            Icon = initParams.IconPath;
+            Icon = vfxParams.IconPath;
             StartPosition = startPosition;
-            RemovePosition = initParams.FinishPosition;
+            RemovePosition = vfxParams.FinishPosition;
         }
 
-        public static ReceivedLootViewModel Create(ReceivedLootInitParams initParams, ReceivedLootVfxConfig vfxConfig, Vector2 startPosition)
+        public static ReceivedLootViewModel Create(ReceivedLootVfxParams vfxParams, ReceivedLootVfxConfig vfxConfig, Vector2 startPosition)
         {
-            return new ReceivedLootViewModel(initParams, vfxConfig, startPosition);
+            return new ReceivedLootViewModel(vfxParams, vfxConfig, startPosition);
         }
     }
 }

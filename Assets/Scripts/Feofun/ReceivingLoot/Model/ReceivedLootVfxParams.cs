@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Feofun.ReceivingLoot.Model
 {
-    public class ReceivedLootInitParams
+    public class ReceivedLootVfxParams
     {
         public int Count { get; }
         public string IconPath { get; }
         public Vector2 StartPosition { get; }
         public Vector2 FinishPosition { get; }
 
-        public ReceivedLootInitParams(int count, string iconPath, Vector2 startPosition, Vector2 finishPosition)
+        public ReceivedLootVfxParams(int count, string iconPath, Vector2 startPosition, Vector2 finishPosition)
         {
             Count = count;
             IconPath = iconPath;
@@ -18,9 +18,9 @@ namespace Feofun.ReceivingLoot.Model
             FinishPosition = finishPosition;
         }
 
-        public static ReceivedLootInitParams FromReceivedMessage(UILootReceivedMessage msg, Vector2 finishPosition)
+        public static ReceivedLootVfxParams FromReceivedMessage(UILootReceivedMessage msg, Vector2 finishPosition)
         {
-            return new ReceivedLootInitParams(msg.Count, msg.IconPath, msg.StartPosition, finishPosition);
+            return new ReceivedLootVfxParams(msg.Count, msg.IconPath, msg.StartPosition, finishPosition);
         }
     }
 }

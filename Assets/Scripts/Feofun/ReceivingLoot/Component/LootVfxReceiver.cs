@@ -37,7 +37,7 @@ namespace Feofun.ReceivingLoot.Component
 
         private void PlayVfx(UILootReceivedMessage msg)
         {
-            ReceivedLootVfxPlayer.Play(ReceivedLootInitParams.FromReceivedMessage(msg, _receivingContainer.position));
+            ReceivedLootVfxPlayer.Play(ReceivedLootVfxParams.FromReceivedMessage(msg, _receivingContainer.position));
         }
 
         private ReceivedLootVfxPlayer ReceivedLootVfxPlayer =>
