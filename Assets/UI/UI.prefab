@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2371261716587825388}
   m_Layer: 5
-  m_Name: ReceivedLootContainer
+  m_Name: FlyingIconContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <HudContainer>k__BackingField: {fileID: 8097110987442227737}
-  <ReceivedLootContainer>k__BackingField: {fileID: 2371261716587825388}
+  <FlyingIconContainer>k__BackingField: {fileID: 2371261716587825388}
 --- !u!223 &3514698043046846572
 Canvas:
   m_ObjectHideFlags: 0

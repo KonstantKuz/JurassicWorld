@@ -41,6 +41,6 @@ namespace Feofun.ReceivingLoot.Component
         }
 
         private FlyingIconVfxPlayer FlyingIconVfxPlayer =>
-                _vfxPlayer ??= gameObject.AddComponent<FlyingIconVfxPlayer>().Init(_uiLoader, _vfxConfig, _uiRoot.ReceivedLootContainer);
+                _vfxPlayer ??= gameObject.AddComponent<FlyingIconVfxPlayer>().Init(_uiLoader, _vfxConfig, _uiRoot.FlyingIconContainer);
     }
 }
