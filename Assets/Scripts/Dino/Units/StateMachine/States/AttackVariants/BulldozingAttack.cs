@@ -22,7 +22,6 @@ namespace Dino.Units.StateMachine
             private Trigger _damageTrigger;
             private Collider _collider;
             private LineRenderer _attackIndicator;
-            private bool _isSafeTimeStarted;
 
             private Collider Collider => _collider ??= Owner.gameObject.GetComponent<Collider>();
             private Trigger DamageTrigger => _damageTrigger ??= GetOrAddSelfDamageTrigger();
@@ -95,22 +94,16 @@ namespace Dino.Units.StateMachine
 
             private void Attack()
             {
-                EnableAttackCollision();
                 _attackTween = PlayBulldozing();
                 _attackTween.onComplete = OnCompleteBulldozing;
                 
+                EnableAttackCollision();
                 if (!IsTargetInvalid)
                 {
                     Target.OnTargetInvalid += Dispose;
                 }
             }
 
-            private void OnCompleteBulldozing()
-            {
-                StateMachine._movementController.Warp(Owner.transform.position);
-                Dispose();
-            }
-            
             private void EnableAttackCollision()
             {
                 Collider.isTrigger = true;
@@ -124,6 +117,12 @@ namespace Dino.Units.StateMachine
                 var distance = (Owner.transform.position - hit.position).magnitude;
                 var moveDuration = distance / AttackModel.Bulldozing.Speed;
                 return Owner.transform.DOMove(hit.position, moveDuration).SetEase(Ease.Linear);
+            }
+
+            private void OnCompleteBulldozing()
+            {
+                StateMachine._movementController.Warp(Owner.transform.position);
+                Dispose();
             }
 
             public override void OnExitState()

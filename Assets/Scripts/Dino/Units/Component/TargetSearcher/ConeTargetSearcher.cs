@@ -17,8 +17,7 @@ namespace Dino.Units.Component.TargetSearcher
         
         public void Init(Unit owner)
         {
-            var enemyModel = (EnemyUnitModel) owner.Model;
-            Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
+            var enemyModel = owner.RequireEnemyModel();
             _stateModel = enemyModel.PatrolStateModel;
             _layerMaskProvider = owner.gameObject.RequireComponent<LayerMaskProvider>();
         }
