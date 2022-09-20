@@ -48,13 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: AxeLoot
   _objectType: 2
+  _autoRespawn: 0
   _receivedItem:
     Id: Axe
     Type: 0
     Amount: 1
-  _receivedItemId: Axe
-  _receivedItemType: 0
-  _receivedItemAmount: 1
 --- !u!135 &2688945697516823126
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -149,9 +147,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 2766658304846633844, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3982098900121719653, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_Layer
       value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982098900121719653, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_RootOrder
@@ -196,6 +202,18 @@ PrefabInstance:
     - target: {fileID: 5251207788646004907, guid: 0d505791338031947911205419fddbae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -16.214
+      objectReference: {fileID: 0}
+    - target: {fileID: 5712783983346422127, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.123
+      objectReference: {fileID: 0}
+    - target: {fileID: 5712783983346422127, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.721
+      objectReference: {fileID: 0}
+    - target: {fileID: 5712783983346422127, guid: 0d505791338031947911205419fddbae, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6721616754510473569, guid: 0d505791338031947911205419fddbae, type: 3}
