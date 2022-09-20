@@ -6,6 +6,8 @@ namespace Dino.Units.Enemy.Config
     public class EnemyAttackConfig
     {
         [DataMember] 
+        public AttackVariant AttackVariant;
+        [DataMember] 
         public RegularAttackConfig RegularAttackConfig;
         [DataMember]
         public BulldozingAttackConfig BulldozingAttackConfig;

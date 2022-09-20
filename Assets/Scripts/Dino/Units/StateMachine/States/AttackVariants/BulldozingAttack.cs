@@ -73,6 +73,7 @@ namespace Dino.Units.StateMachine
             {
                 if(_attackIndicator == null) return;
                 
+                _attackIndicator.SetPosition(0, Owner.transform.position);
                 _attackIndicator.SetPosition(1, AttackPosition);
             }
 

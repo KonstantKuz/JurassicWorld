@@ -6,12 +6,14 @@ namespace Dino.Units.Enemy.Model.EnemyAttack
     {
         public EnemyAttackModel(int level, EnemyUnitConfig unitConfig, EnemyAttackConfig config)
         {
+            AttackVariant = config.AttackVariant;
             var regularDamage = unitConfig.GetDamageForLevel(level, config.RegularAttackConfig.AttackDamage);
             Regular = new RegularAttackModel(regularDamage, config.RegularAttackConfig);
             Bulldozing = new BulldozingAttackModel(config.BulldozingAttackConfig);
             Jumping = new JumpingAttackModel(config.JumpingAttackConfig);
         }
         
+        public AttackVariant AttackVariant { get; }
         public RegularAttackModel Regular { get; }
         public BulldozingAttackModel Bulldozing { get; }
         public JumpingAttackModel Jumping { get; }

@@ -18,7 +18,7 @@ namespace Dino.Units.StateMachine
             {
                 var enemyModel = StateMachine._owner.RequireEnemyModel();
                 _attackModel = enemyModel.AttackModel;
-                _currentAttack = BuildAttack(AttackVariant.Bulldozing);
+                _currentAttack = BuildAttack(_attackModel.AttackVariant);
             }
 
             public override void OnEnterState()
@@ -52,7 +52,7 @@ namespace Dino.Units.StateMachine
             {
                 return attackVariant switch
                 {
-                    AttackVariant.Regular => (AttackSubState) new RegularAttack(StateMachine, _attackModel, DoDamage),
+                    AttackVariant.Regular => new RegularAttack(StateMachine, _attackModel, DoDamage),
                     AttackVariant.Bulldozing => new BulldozingAttack(StateMachine, _attackModel, DoDamage),
                     AttackVariant.Jumping => new JumpingAttack(StateMachine, _attackModel, DoDamage),
                     _ => throw new ArgumentOutOfRangeException(nameof(attackVariant), attackVariant, null)
