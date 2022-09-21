@@ -1,4 +1,5 @@
-﻿using Logger.Extension;
+﻿using JetBrains.Annotations;
+using Logger.Extension;
 using UnityEngine;
 using Zenject;
 
@@ -14,12 +15,15 @@ namespace Feofun.ABTest.Providers
         [Inject]
         private IABTestCheatManager _cheatsManager;
 
-        public OverrideABTestProvider(IABTestProvider impl, string controlVariant)
+        public OverrideABTestProvider([CanBeNull] IABTestProvider impl, string controlVariant)
         {
             _impl = impl;
             _controlVariant = controlVariant;
         }
-        public string GetVariant() => _cheatsManager.IsABTestCheatEnabled ? GetOverrideVariant() : _impl.GetVariant();
+        public string GetVariant() => _cheatsManager.IsABTestCheatEnabled ? GetOverrideVariant() : ImplVariant;
+
+        private string ImplVariant => _impl?.GetVariant() ?? _controlVariant;
+
         private string GetOverrideVariant()
         {
             var variantId = GetVariantFromPlayerPrefs();

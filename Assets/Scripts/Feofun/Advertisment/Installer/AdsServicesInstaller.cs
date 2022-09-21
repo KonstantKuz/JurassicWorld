@@ -8,7 +8,6 @@ namespace Feofun.Advertisment.Installer
     {
         public static void Install(DiContainer container)
         {
-            container.Bind<IAdsProvider>().To<YCAdsProviderAdapter>().AsSingle();
             container.Bind<AdsManager>().AsSingle();
         }
     }
