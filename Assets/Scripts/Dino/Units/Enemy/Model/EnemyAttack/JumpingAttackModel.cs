@@ -9,12 +9,12 @@ namespace Dino.Units.Enemy.Model.EnemyAttack
             Duration = config.Duration;
             Height = config.Height;
             DamageRadius = config.DamageRadius;
-            PlayerSafeTime = config.PlayerSafeTime;
+            SafeTime = config.SafeTime;
         }
         
         public float Duration { get; }
         public float Height { get; }
         public float DamageRadius { get; }
-        public float PlayerSafeTime { get; }
+        public float SafeTime { get; }
     }
 }

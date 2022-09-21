@@ -1,4 +1,5 @@
 ﻿using System;
+using Dino.Units.Component;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model.EnemyAttack;
@@ -17,6 +18,9 @@ namespace Dino.Units.StateMachine
             protected readonly UnitStateMachine StateMachine;
             protected readonly EnemyAttackModel AttackModel;
             protected readonly Action<GameObject> HitCallback;
+
+            [CanBeNull]
+            protected IFieldOfViewRenderer _fieldOfViewRenderer;
             
             protected bool HasWeaponAnimationHandler => StateMachine._weaponAnimationHandler != null;
             protected Unit Owner => StateMachine._owner;
@@ -33,6 +37,8 @@ namespace Dino.Units.StateMachine
                 StateMachine = stateMachine;
                 AttackModel = attackModel;
                 HitCallback = hitCallback;
+                
+                _fieldOfViewRenderer = Owner.gameObject.GetComponentInChildren<IFieldOfViewRenderer>();
             }
             
             public abstract void OnEnterState();

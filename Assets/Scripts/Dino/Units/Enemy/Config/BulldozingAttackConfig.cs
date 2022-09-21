@@ -9,5 +9,7 @@ namespace Dino.Units.Enemy.Config
         public float Speed;
         [DataMember(Name = "BulldozingRotationSpeed")] 
         public float RotationSpeed;
+        [DataMember(Name = "BulldozingSafeTime")]
+        public float SafeTime;
     }
 }

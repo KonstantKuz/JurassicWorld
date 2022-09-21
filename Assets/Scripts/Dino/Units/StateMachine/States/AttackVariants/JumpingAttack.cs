@@ -26,7 +26,7 @@ namespace Dino.Units.StateMachine
             private bool IsAttackReady => _attackTimer.IsAttackReady.Value;
             private Vector3 AttackPosition { get; set; }
             
-            private float PlayerSafeTime => AttackModel.Jumping.PlayerSafeTime; // time between dino stopped aiming on player and actual attack jump
+            private float PlayerSafeTime => AttackModel.Jumping.SafeTime; // time between dino stopped aiming on player and actual attack jump
             private float JumpHeight => AttackModel.Jumping.Height;
             private float JumpDuration => AttackModel.Jumping.Duration;
             private float DamageRadius => AttackModel.Jumping.DamageRadius;
@@ -76,10 +76,11 @@ namespace Dino.Units.StateMachine
 
             private void PrepareToAttack()
             {
-                if (_attackTimer.ReloadTimeLeft > AttackModel.Jumping.PlayerSafeTime) return;
+                if (_attackTimer.ReloadTimeLeft > AttackModel.Jumping.SafeTime) return;
                 if(_isSafeTimeStarted) return;
                 _isSafeTimeStarted = true;
                 CreateAttackIndicator();
+                _fieldOfViewRenderer?.SetActive(false);
             }
 
             private void CreateAttackIndicator()
@@ -138,7 +139,8 @@ namespace Dino.Units.StateMachine
                 _attackTween?.Kill();
                 _attackTween = null;
                 _isSafeTimeStarted = false;
-                
+                _fieldOfViewRenderer?.SetActive(true);
+
                 DeleteAttackIndicator();
                 
                 StateMachine._owner.OnDeath -= (unit, cause) => Dispose();

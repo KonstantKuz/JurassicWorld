@@ -2,6 +2,7 @@
 using DG.Tweening;
 using Dino.Extension;
 using Dino.Location;
+using Dino.Units.Component;
 using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Weapon.Components;
 using UnityEngine;
@@ -22,9 +23,12 @@ namespace Dino.Units.StateMachine
             private Trigger _damageTrigger;
             private Collider _collider;
             private LineRenderer _attackIndicator;
+            private IFieldOfViewRenderer _fovRenderer;
+            private bool _isSafeTimeStarted;
 
             private Collider Collider => _collider ??= Owner.gameObject.GetComponent<Collider>();
             private Trigger DamageTrigger => _damageTrigger ??= GetOrAddSelfDamageTrigger();
+            private float PlayerSafeTime => AttackModel.Bulldozing.SafeTime; // time between dino stopped aiming on player and actual attack jump
             private bool IsAttacking => _attackTween != null;
             private bool IsAttackReady => _attackTimer.IsAttackReady.Value;
             private Vector3 AttackPosition => Owner.transform.position + Owner.transform.forward * AttackModel.AttackDistance;
@@ -55,8 +59,10 @@ namespace Dino.Units.StateMachine
                 if (IsAttacking) return;
                 if (IsRequiredPatrolState()) return;
 
-                StateMachine._movementController.RotateTo(TargetPosition, AttackModel.Bulldozing.RotationSpeed);
-                UpdateAttackIndicator();
+                if (!_isSafeTimeStarted)
+                {
+                    StateMachine._movementController.RotateTo(TargetPosition, AttackModel.Bulldozing.RotationSpeed);
+                }
                 
                 if (IsRequiredChaseState()) return;
                 if (!IsAttackReady)
@@ -68,22 +74,18 @@ namespace Dino.Units.StateMachine
                 Attack();
             }
 
-            private void UpdateAttackIndicator()
-            {
-                if(_attackIndicator == null) return;
-                
-                _attackIndicator.SetPosition(0, Owner.transform.position);
-                _attackIndicator.SetPosition(1, AttackPosition);
-            }
-
             private void PrepareToAttack()
             {
+                if (_attackTimer.ReloadTimeLeft > PlayerSafeTime) return;
+
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
-                StateMachine._animationWrapper.SetSpeed(_attackTimer.ReloadProgress * _animationSpeedMultiplier);
+                var animationSpeed = 1f - _attackTimer.ReloadTimeLeft / AttackModel.Bulldozing.SafeTime;
+                StateMachine._animationWrapper.SetSpeed(animationSpeed * _animationSpeedMultiplier);
                 
-                if(_attackIndicator != null) return;
-                
+                if(_isSafeTimeStarted) return;
+                _isSafeTimeStarted = true;
                 CreateAttackIndicator();
+                _fieldOfViewRenderer?.SetActive(false);
             }
 
             private void CreateAttackIndicator()
@@ -135,7 +137,9 @@ namespace Dino.Units.StateMachine
                 _attackTimer.OnAttack();
                 _attackTween?.Kill();
                 _attackTween = null;
-                
+                _isSafeTimeStarted = false;
+                _fieldOfViewRenderer?.SetActive(true);
+ 
                 DeleteAttackIndicator();
                 ResetAttackAnimation();
                 DisableAttackCollision();

@@ -12,6 +12,6 @@ namespace Dino.Units.Enemy.Config
         [DataMember(Name = "JumpingDamageRadius")]
         public float DamageRadius;
         [DataMember(Name = "JumpingSafeTime")]
-        public float PlayerSafeTime;
+        public float SafeTime;
     }
 }
