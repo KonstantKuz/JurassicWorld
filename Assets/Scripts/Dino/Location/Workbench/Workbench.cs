@@ -8,7 +8,8 @@ namespace Dino.Location.Workbench
     public class Workbench : MonoBehaviour
     {
         [SerializeField] private string _craftItemId;
-        [SerializeField] private float _craftDuration;
+        [SerializeField] private float _craftDuration;   
+        [SerializeField] private Transform _craftItemPosition;
 
         [Inject] private DiContainer _diContainer;
         
@@ -38,7 +39,7 @@ namespace Dino.Location.Workbench
         }
         private CrafterByTimer CreateCrafter()
         {
-            return _diContainer.Instantiate<CrafterByTimer>(new[] {(object) _craftItemId, _craftDuration});
+            return _diContainer.Instantiate<CrafterByTimer>(new[] {(object) _craftItemId, _craftDuration, _craftItemPosition.position});
         }
     }
 }

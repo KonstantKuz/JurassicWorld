@@ -2,6 +2,7 @@
 using Dino.UI.Tutorial;
 using Feofun.UI;
 using Feofun.UI.Dialog;
+using Feofun.UI.Loader;
 using Feofun.UI.Screen;
 using UnityEngine;
 using Zenject;
@@ -30,7 +31,8 @@ namespace Dino.UI
             container.Bind<DialogManager>().FromInstance(_dialogManager).AsSingle();
             container.Bind<TutorialUiTools>().FromInstance(_tutorialUiTools).AsSingle();
             container.Bind<CraftTutorial>().FromInstance(_craftTutorial).AsSingle();
-            container.Bind<UiInventorySettings>().AsSingle();            
+            container.Bind<UiInventorySettings>().AsSingle();
+            container.Bind<UILoader>().AsSingle();
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dino.Extension;
 using Dino.Location.Model;
+using Feofun.Extension;
 using JetBrains.Annotations;
 using UniRx;
 using UniRx.Triggers;

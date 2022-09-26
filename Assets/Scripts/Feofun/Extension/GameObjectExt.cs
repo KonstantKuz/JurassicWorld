@@ -1,7 +1,7 @@
 ﻿using ModestTree;
 using UnityEngine;
 
-namespace Dino.Extension
+namespace Feofun.Extension
 {
     public static class GameObjectExt
     {
