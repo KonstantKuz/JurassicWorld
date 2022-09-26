@@ -4,6 +4,7 @@ using Dino.Extension;
 using Dino.Units.Component;
 using Dino.Units.Enemy.Model;
 using Feofun.Components;
+using Feofun.Extension;
 using UnityEngine;
 using UnityEngine.Assertions;
 

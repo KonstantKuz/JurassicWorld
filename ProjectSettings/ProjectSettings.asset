@@ -133,7 +133,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1.2
+  bundleVersion: 2.0.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -821,8 +821,8 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    4: APP_METRICA_TRACK_LOCATION_DISABLED;gameanalytics_max_enabled;tenjin_applovin_enabled
-    7: APP_METRICA_TRACK_LOCATION_DISABLED;gameanalytics_max_enabled;tenjin_applovin_enabled
+    4: APP_METRICA_TRACK_LOCATION_DISABLED;tenjin_applovin_enabled
+    7: APP_METRICA_TRACK_LOCATION_DISABLED;tenjin_applovin_enabled
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

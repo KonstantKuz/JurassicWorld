@@ -115,7 +115,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lootType: Material
   _receivingContainer: {fileID: 3740475084371357071}
-  _config: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
+  _vfxConfig: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
 --- !u!1 &3528765548246397446
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lootType: Weapon
   _receivingContainer: {fileID: 7358095759732566729}
-  _config: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
+  _vfxConfig: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
 --- !u!114 &7967423099378558295
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lootType: Ammo
   _receivingContainer: {fileID: 7358095759732566729}
-  _config: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
+  _vfxConfig: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
 --- !u!1 &5019466898017977266
 GameObject:
   m_ObjectHideFlags: 0

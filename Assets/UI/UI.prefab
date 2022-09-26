@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2371261716587825388}
   m_Layer: 5
-  m_Name: DroppingLootContainer
+  m_Name: FlyingIconContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <HudContainer>k__BackingField: {fileID: 8097110987442227737}
-  <DroppingLootContainer>k__BackingField: {fileID: 2371261716587825388}
+  <FlyingIconContainer>k__BackingField: {fileID: 2371261716587825388}
 --- !u!223 &3514698043046846572
 Canvas:
   m_ObjectHideFlags: 0
@@ -410,7 +410,7 @@ RectTransform:
   m_Father: {fileID: 3514698042742675079}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.09652083}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
@@ -1095,11 +1095,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3c818119c74d1543ac4c16d4d8a4300, type: 3}
---- !u!224 &2340136798314658824 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4632546218681469743, guid: b3c818119c74d1543ac4c16d4d8a4300, type: 3}
-  m_PrefabInstance: {fileID: 6932106598274561831}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6775348085651855315 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4482512192203989236, guid: b3c818119c74d1543ac4c16d4d8a4300, type: 3}
@@ -1111,6 +1106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729ae676591429d409020565e3628667, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &2340136798314658824 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4632546218681469743, guid: b3c818119c74d1543ac4c16d4d8a4300, type: 3}
+  m_PrefabInstance: {fileID: 6932106598274561831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7419706532179477925
 PrefabInstance:
   m_ObjectHideFlags: 0

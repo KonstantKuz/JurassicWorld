@@ -140,9 +140,33 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 352925952473898643, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 799151397082236052, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
       propertyPath: m_Name
       value: ThrowingAxe
+      objectReference: {fileID: 0}
+    - target: {fileID: 799151397082236052, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1668080554120671937, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2201795525702726083, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2766658304846633844, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3982098900121719653, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5251207788646004907, guid: fb835ec6106c6bb4b971c0ed861313e3, type: 3}
       propertyPath: m_RootOrder

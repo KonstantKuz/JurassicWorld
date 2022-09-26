@@ -6,6 +6,7 @@ using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Weapon.Config;
 using Feofun.Config;
+using Feofun.ReceivingLoot;
 using JetBrains.Annotations;
 using Logger.Extension;
 using SuperMaxim.Messaging;
@@ -20,7 +21,7 @@ namespace Dino.Location.Workbench
         private readonly CraftService _craftService;
         private readonly InventoryService _inventoryService;
         private readonly StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
-        private readonly IMessenger _messenger;
+        private readonly FlyingIconReceivingManager _flyingIconManager;
         
         private readonly string _craftItemId;
         private readonly float _craftDuration;
@@ -37,7 +38,7 @@ namespace Dino.Location.Workbench
 
         public CrafterByTimer(InventoryService inventoryService, 
                               CraftService craftService,
-                              IMessenger messanger,
+                              FlyingIconReceivingManager flyingIconManager,
                               StringKeyedConfigCollection<WeaponConfig> weaponConfigs,
                               string craftItemId,
                               float craftDuration,
@@ -47,7 +48,7 @@ namespace Dino.Location.Workbench
             _disposable = new CompositeDisposable();
             _craftService = craftService;
             _inventoryService = inventoryService;
-            _messenger = messanger;
+            _flyingIconManager = flyingIconManager;
             _weaponConfigs = weaponConfigs;
             _craftItemId = craftItemId;
             _craftDuration = craftDuration;
@@ -102,8 +103,7 @@ namespace Dino.Location.Workbench
             DeleteTimer();
             var recipeConfig = _craftService.GetRecipeConfig(_craftItemId);
             var item = _craftService.Craft(recipeConfig.CraftItemId);
-            item.TryPublishReceivedLoot(_messenger, recipeConfig.CraftItem.Count, _craftItemPosition.WorldToScreenPoint());
-
+            _flyingIconManager.ReceiveIcons(item.ToFlyingIconReceivingParams(recipeConfig.CraftItem.Count, _craftItemPosition.WorldToScreenPoint()));
         }
 
         public void Dispose()

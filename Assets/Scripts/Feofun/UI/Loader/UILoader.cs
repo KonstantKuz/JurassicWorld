@@ -1,4 +1,5 @@
 ﻿using System;
+using Feofun.Extension;
 using Feofun.UI.Components;
 using UnityEngine;
 using Zenject;
@@ -14,17 +15,16 @@ namespace Feofun.UI.Loader
         public TUIObject Load<TUIObject, TParam>(UIModel<TUIObject, TParam> model) where TUIObject : MonoBehaviour, IUiInitializable<TParam>
         {
             if (model.UIPath == null) {
-                throw new Exception("Path to prefab is null");
+                throw new NullReferenceException("Path to prefab is null");
             }
             var loadedPrefab = Resources.Load<TUIObject>(model.UIPath);
-            var uiObject = InstancePrefab<TUIObject>(loadedPrefab, model.UIContainer);
-            uiObject.Init(model.InitParameter);
-            return uiObject;
+            model.Prefab(loadedPrefab);
+            return Instance(model);
         }
         public TUIObject Instance<TUIObject, TParam>(UIModel<TUIObject, TParam> model) where TUIObject : MonoBehaviour, IUiInitializable<TParam>
         {
             if (model.UIPrefab == null) {
-                throw new Exception("Instance prefab is null");
+                throw new NullReferenceException("Instance prefab is null");
             }
             var uiObject = InstancePrefab<TUIObject>(model.UIPrefab, model.UIContainer);
             uiObject.Init(model.InitParameter);
@@ -32,7 +32,7 @@ namespace Feofun.UI.Loader
         }
         private TUIObject InstancePrefab<TUIObject>(Object prefab, Transform position) where TUIObject : MonoBehaviour
         {
-            return _container.InstantiatePrefab(prefab, position).GetComponent<TUIObject>();
+            return _container.InstantiatePrefab(prefab, position).RequireComponent<TUIObject>();
         }
     }
 }
