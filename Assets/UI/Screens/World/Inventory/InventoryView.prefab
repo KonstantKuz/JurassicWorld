@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 3740475084371357071}
   - component: {fileID: 459821121477062033}
   - component: {fileID: 4819040599049687968}
+  - component: {fileID: 7407974724353031338}
   m_Layer: 0
   m_Name: MateraialsView
   m_TagString: Untagged
@@ -100,6 +101,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _root: {fileID: 9045365291168451597}
   _itemPrefab: {fileID: 5992899183347041723, guid: cba21c97a8a0f194d9ba2bb24ea62878, type: 3}
+--- !u!114 &7407974724353031338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2943607400180471783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d95f41b92b54f9fb8671cc76c55f4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootType: Material
+  _receivingContainer: {fileID: 3740475084371357071}
+  _vfxConfig: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
 --- !u!1 &3528765548246397446
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,6 +125,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7358095759732566729}
+  - component: {fileID: 8074813129435682958}
+  - component: {fileID: 7967423099378558295}
   m_Layer: 8
   m_Name: ItemsView
   m_TagString: Untagged
@@ -137,6 +155,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8074813129435682958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528765548246397446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d95f41b92b54f9fb8671cc76c55f4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootType: Weapon
+  _receivingContainer: {fileID: 7358095759732566729}
+  _vfxConfig: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
+--- !u!114 &7967423099378558295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528765548246397446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d95f41b92b54f9fb8671cc76c55f4fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootType: Ammo
+  _receivingContainer: {fileID: 7358095759732566729}
+  _vfxConfig: {fileID: 11400000, guid: 59965394ae998aa49b32644890efb6c9, type: 2}
 --- !u!1 &5019466898017977266
 GameObject:
   m_ObjectHideFlags: 0

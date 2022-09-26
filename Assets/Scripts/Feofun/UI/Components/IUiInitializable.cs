@@ -2,6 +2,6 @@
 {
     public interface IUiInitializable<in TParam>
     {
-        void Init(TParam param);
+        void Init(TParam model);
     }
 }

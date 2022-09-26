@@ -11,6 +11,7 @@ using Dino.Weapon;
 using Dino.Weapon.Components;
 using Dino.Weapon.Model;
 using Feofun.Components;
+using Feofun.Extension;
 using JetBrains.Annotations;
 using Logger.Extension;
 using ModestTree;

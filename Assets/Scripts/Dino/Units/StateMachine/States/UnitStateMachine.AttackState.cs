@@ -5,6 +5,7 @@ using Dino.Units.Enemy.Model;
 using Dino.Units.Model;
 using Dino.Weapon;
 using Dino.Weapon.Components;
+using Feofun.Extension;
 using Logger.Extension;
 using UniRx;
 using UnityEngine;

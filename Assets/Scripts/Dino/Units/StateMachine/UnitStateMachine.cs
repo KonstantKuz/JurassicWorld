@@ -7,6 +7,7 @@ using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
 using Dino.Weapon;
 using Feofun.Components;
+using Feofun.Extension;
 using JetBrains.Annotations;
 using UnityEngine;
 using Zenject;

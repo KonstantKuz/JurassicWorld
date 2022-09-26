@@ -2,6 +2,7 @@
 using Dino.Loot;
 using Dino.Units.Component;
 using Dino.Units.Player.Component;
+using Feofun.Extension;
 using UnityEngine;
 using UnityEngine.AI;
 
