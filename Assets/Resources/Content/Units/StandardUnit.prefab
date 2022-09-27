@@ -740,6 +740,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 3186b949f8b973a47948333f20d6031e, type: 2}
+    - target: {fileID: 2443172705940926986, guid: 7954bbb88f42cdc4fbf55fb07331805d, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2485673322708327877, guid: 7954bbb88f42cdc4fbf55fb07331805d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -923,6 +927,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9c12da3e56468304682005d245dd3837, type: 2}
+    - target: {fileID: 7737676181935949627, guid: 940a50d18614e23498db95f0980ea33b, type: 3}
+      propertyPath: m_CullingMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 940a50d18614e23498db95f0980ea33b, type: 3}
 --- !u!4 &2124312091160418913 stripped
