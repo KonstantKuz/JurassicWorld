@@ -16,7 +16,6 @@ namespace Dino.Units.Service
         [Inject] private WorldObjectFactory _worldObjectFactory;
         [Inject] private StringKeyedConfigCollection<EnemyUnitConfig> _enemyUnitConfigs;
         [Inject] private PlayerUnitModelBuilder _playerUnitModelBuilder;
-        [Inject] private EnemyAttacksConfig _attacksConfig;
         
         public PlayerUnit CreatePlayerUnit(string unitId, Vector3 position = new Vector3())
         {
@@ -31,7 +30,7 @@ namespace Dino.Units.Service
         {
             var enemy = _worldObjectFactory.CreateObject(unitId).RequireComponent<Unit>();
             var config = _enemyUnitConfigs.Get(unitId);
-            var model = new EnemyUnitModel(config, _attacksConfig, level);
+            var model = new EnemyUnitModel(config, level);
             enemy.Init(model);
             return enemy;
         }

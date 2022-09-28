@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using Dino.Units.Enemy.Config;
 using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Weapon.Components;
 using SuperMaxim.Core.Extensions;
@@ -13,7 +14,8 @@ namespace Dino.Units.StateMachine
         {
             private const string ATTACK_RADIUS_PREFAB = "JumpingAttackRadius";
             private const string ATTACK_VFX_PREFAB = "JumpingAttackVfx";
-            
+
+            private readonly JumpingAttackModel _jumpingAttackModel;
             private readonly WeaponTimer _attackTimer;
 
             private Tween _attackTween;
@@ -26,14 +28,16 @@ namespace Dino.Units.StateMachine
             private bool IsAttackReady => _attackTimer.IsAttackReady.Value;
             private Vector3 AttackPosition { get; set; }
             
-            private float PlayerSafeTime => AttackModel.Jumping.SafeTime; // time between dino stopped aiming on player and actual attack jump
-            private float JumpHeight => AttackModel.Jumping.Height;
-            private float JumpDuration => AttackModel.Jumping.Duration;
-            private float DamageRadius => AttackModel.Jumping.DamageRadius;
+            private float PlayerSafeTime => _jumpingAttackModel.SafeTime; // time between dino stopped aiming on player and actual attack jump
+            private float JumpHeight => _jumpingAttackModel.Height;
+            private float JumpDuration => _jumpingAttackModel.Duration;
+            private float DamageRadius => _jumpingAttackModel.DamageRadius;
 
             public JumpingAttack(UnitStateMachine stateMachine, EnemyAttackModel attackModel, Action<GameObject> hitCallback) 
                 : base(stateMachine, attackModel, hitCallback)
             {
+                var jumpingConfig = EnemyAttackConfigs.Get(AttackVariant.Jumping) as JumpingAttackConfig;
+                _jumpingAttackModel = new JumpingAttackModel(jumpingConfig);
                 _attackTimer = new WeaponTimer(AttackModel.AttackInterval);
             }
 
@@ -53,7 +57,7 @@ namespace Dino.Units.StateMachine
 
                 if (!_isSafeTimeStarted)
                 {
-                    StateMachine._movementController.RotateTo(TargetPosition, AttackModel.Bulldozing.RotationSpeed);
+                    StateMachine._movementController.RotateTo(TargetPosition, _jumpingAttackModel.AimSpeed);
                     AttackPosition = TargetPosition;
                 }
                 
@@ -76,7 +80,7 @@ namespace Dino.Units.StateMachine
 
             private void PrepareToAttack()
             {
-                if (_attackTimer.ReloadTimeLeft > AttackModel.Jumping.SafeTime) return;
+                if (_attackTimer.ReloadTimeLeft > PlayerSafeTime) return;
                 if(_isSafeTimeStarted) return;
                 _isSafeTimeStarted = true;
                 CreateAttackIndicator();
@@ -88,7 +92,7 @@ namespace Dino.Units.StateMachine
                 _attackIndicator = StateMachine._worldObjectFactory.CreateObject(ATTACK_RADIUS_PREFAB);
                 _attackIndicator.transform.position = TargetPosition;
                 _attackIndicator.transform.localScale = Vector3.zero;
-                _indicatorScale = _attackIndicator.transform.DOScale(Vector3.one * AttackModel.Jumping.DamageRadius, PlayerSafeTime);
+                _indicatorScale = _attackIndicator.transform.DOScale(Vector3.one * DamageRadius, PlayerSafeTime);
             }
             
             private void Attack()

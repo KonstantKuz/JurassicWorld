@@ -6,8 +6,8 @@ namespace Dino.Units.Enemy.Model.EnemyAttack
     {
         public BulldozingAttackModel(BulldozingAttackConfig config)
         {
-            RotationSpeed = config.RotationSpeed;
-            Speed = config.Speed;
+            RotationSpeed = config.AimSpeed;
+            Speed = config.MoveSpeed;
             SafeTime = config.SafeTime;
         }
         

@@ -15,8 +15,12 @@ namespace Dino.Units.Enemy.Config
         public float MoveSpeed;
         [DataMember] 
         public AttackVariant AttackVariant;
-        [DataMember] 
-        public RegularAttackConfig RegularAttackConfig;
+        [DataMember]
+        public float AttackDamage;
+        [DataMember]
+        public float AttackDistance;
+        [DataMember]
+        public float AttackInterval;
         [DataMember] 
         public PatrolStateConfig PatrolStateConfig;
         [DataMember]

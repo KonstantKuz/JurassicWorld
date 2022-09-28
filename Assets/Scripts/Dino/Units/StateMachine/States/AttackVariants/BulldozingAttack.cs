@@ -2,6 +2,7 @@
 using DG.Tweening;
 using Dino.Location;
 using Dino.Units.Component;
+using Dino.Units.Enemy.Config;
 using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Weapon.Components;
 using Feofun.Extension;
@@ -15,7 +16,8 @@ namespace Dino.Units.StateMachine
         public class BulldozingAttack : AttackSubState
         {
             private const string ATTACK_LINE_PREFAB = "BulldozingAttackLine";
-            
+
+            private readonly BulldozingAttackModel _bulldozingAttackModel;
             private readonly WeaponTimer _attackTimer;
             private readonly float _animationSpeedMultiplier;
 
@@ -28,7 +30,7 @@ namespace Dino.Units.StateMachine
 
             private Collider Collider => _collider ??= Owner.gameObject.GetComponent<Collider>();
             private Trigger DamageTrigger => _damageTrigger ??= GetOrAddSelfDamageTrigger();
-            private float PlayerSafeTime => AttackModel.Bulldozing.SafeTime; // time between dino stopped aiming on player and actual attack jump
+            private float PlayerSafeTime => _bulldozingAttackModel.SafeTime; // time between dino stopped aiming on player and actual attack jump
             private bool IsAttacking => _attackTween != null;
             private bool IsAttackReady => _attackTimer.IsAttackReady.Value;
             private Vector3 AttackPosition => Owner.transform.position + Owner.transform.forward * AttackModel.AttackDistance;
@@ -36,8 +38,10 @@ namespace Dino.Units.StateMachine
             public BulldozingAttack(UnitStateMachine stateMachine, EnemyAttackModel attackModel, Action<GameObject> hitCallback) 
                 : base(stateMachine, attackModel, hitCallback)
             {
+                var bulldozingConfig = EnemyAttackConfigs.Get(AttackVariant.Bulldozing) as BulldozingAttackConfig;
+                _bulldozingAttackModel = new BulldozingAttackModel(bulldozingConfig);
                 _attackTimer = new WeaponTimer(AttackModel.AttackInterval);
-                _animationSpeedMultiplier = AttackModel.Bulldozing.Speed / Owner.Model.MoveSpeed;
+                _animationSpeedMultiplier = _bulldozingAttackModel.Speed / Owner.Model.MoveSpeed;
             }
 
             private Trigger GetOrAddSelfDamageTrigger()
@@ -61,7 +65,7 @@ namespace Dino.Units.StateMachine
 
                 if (!_isSafeTimeStarted)
                 {
-                    StateMachine._movementController.RotateTo(TargetPosition, AttackModel.Bulldozing.RotationSpeed);
+                    StateMachine._movementController.RotateTo(TargetPosition, _bulldozingAttackModel.RotationSpeed);
                 }
                 
                 if (IsRequiredChaseState()) return;
@@ -79,7 +83,7 @@ namespace Dino.Units.StateMachine
                 if (_attackTimer.ReloadTimeLeft > PlayerSafeTime) return;
 
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
-                var animationSpeed = 1f - _attackTimer.ReloadTimeLeft / AttackModel.Bulldozing.SafeTime;
+                var animationSpeed = 1f - _attackTimer.ReloadTimeLeft / _bulldozingAttackModel.SafeTime;
                 StateMachine._animationWrapper.SetSpeed(animationSpeed * _animationSpeedMultiplier);
                 
                 if(_isSafeTimeStarted) return;
@@ -117,7 +121,7 @@ namespace Dino.Units.StateMachine
                 NavMesh.SamplePosition(AttackPosition, out var hit, AttackModel.AttackDistance, NavMesh.AllAreas);
                 
                 var distance = (Owner.transform.position - hit.position).magnitude;
-                var moveDuration = distance / AttackModel.Bulldozing.Speed;
+                var moveDuration = distance / _bulldozingAttackModel.Speed;
                 return Owner.transform.DOMove(hit.position, moveDuration).SetEase(Ease.Linear);
             }
 

@@ -1,17 +1,14 @@
-﻿using System.Runtime.Serialization;
+﻿using UnityEngine;
 
 namespace Dino.Units.Enemy.Config
 {
-    [DataContract]
-    public class JumpingAttackConfig
+    [CreateAssetMenu(menuName = "EnemyAttackConfig/JumpingAttackConfig", fileName = "JumpingAttackConfig")]
+    public class JumpingAttackConfig : EnemyAttackConfig
     {
-        [DataMember(Name = "JumpingDuration")] 
+        public float AimSpeed;
         public float Duration;
-        [DataMember(Name = "JumpingHeight")] 
         public float Height;
-        [DataMember(Name = "JumpingDamageRadius")]
         public float DamageRadius;
-        [DataMember(Name = "JumpingSafeTime")]
         public float SafeTime;
     }
 }

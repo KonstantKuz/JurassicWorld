@@ -1,15 +1,12 @@
-﻿using System.Runtime.Serialization;
+﻿using UnityEngine;
 
 namespace Dino.Units.Enemy.Config
 {
-    [DataContract]
-    public class BulldozingAttackConfig
+    [CreateAssetMenu(menuName = "EnemyAttackConfig/BulldozingAttackConfig", fileName = "BulldozingAttackConfig")]
+    public class BulldozingAttackConfig : EnemyAttackConfig
     {
-        [DataMember(Name = "BulldozingSpeed")] 
-        public float Speed;
-        [DataMember(Name = "BulldozingRotationSpeed")] 
-        public float RotationSpeed;
-        [DataMember(Name = "BulldozingSafeTime")]
+        public float AimSpeed;
+        public float MoveSpeed;
         public float SafeTime;
     }
 }
