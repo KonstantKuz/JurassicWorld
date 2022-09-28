@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Linq;
+using Dino.Extension;
+using Dino.Inventory.Extension;
 using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Weapon.Config;
 using Feofun.Config;
+using Feofun.ReceivingLoot;
 using JetBrains.Annotations;
 using Logger.Extension;
+using SuperMaxim.Messaging;
 using UniRx;
+using UnityEngine;
 
 namespace Dino.Location.Workbench
 {
@@ -16,8 +21,12 @@ namespace Dino.Location.Workbench
         private readonly CraftService _craftService;
         private readonly InventoryService _inventoryService;
         private readonly StringKeyedConfigCollection<WeaponConfig> _weaponConfigs;
+        private readonly FlyingIconReceivingManager _flyingIconManager;
+        
         private readonly string _craftItemId;
         private readonly float _craftDuration;
+        private readonly Vector3 _craftItemPosition;
+        
         
         private CompositeDisposable _disposable;
         [CanBeNull]
@@ -29,17 +38,21 @@ namespace Dino.Location.Workbench
 
         public CrafterByTimer(InventoryService inventoryService, 
                               CraftService craftService,
+                              FlyingIconReceivingManager flyingIconManager,
                               StringKeyedConfigCollection<WeaponConfig> weaponConfigs,
                               string craftItemId,
-                              float craftDuration)
+                              float craftDuration,
+                              Vector3 craftItemPosition)
         {
             Dispose();
             _disposable = new CompositeDisposable();
             _craftService = craftService;
             _inventoryService = inventoryService;
+            _flyingIconManager = flyingIconManager;
             _weaponConfigs = weaponConfigs;
             _craftItemId = craftItemId;
             _craftDuration = craftDuration;
+            _craftItemPosition = craftItemPosition;
             inventoryService.InventoryProperty.Subscribe(it => OnInventoryUpdated()).AddTo(_disposable);
         }
 
@@ -88,7 +101,9 @@ namespace Dino.Location.Workbench
                 return;
             }
             DeleteTimer();
-            _craftService.Craft(_craftItemId);
+            var recipeConfig = _craftService.GetRecipeConfig(_craftItemId);
+            var item = _craftService.Craft(recipeConfig.CraftItemId);
+            _flyingIconManager.ReceiveIcons(item.ToFlyingIconReceivingParams(recipeConfig.CraftItem.Count, _craftItemPosition.WorldToScreenPoint()));
         }
 
         public void Dispose()

@@ -9,5 +9,7 @@ namespace Dino.Extension
         public static Vector3 XZ(this Vector3 v) => new Vector3(v.x, 0, v.z);
         
         public static Vector2 ToVector2XZ(this Vector3 v) => new Vector2(v.x, v.z);
+        
+        public static Vector2 WorldToScreenPoint(this Vector3 v) => UnityEngine.Camera.main.WorldToScreenPoint(v);
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using DG.Tweening;
-using Dino.Extension;
 using Dino.Location;
 using Dino.Units.Component;
 using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Weapon.Components;
+using Feofun.Extension;
 using UnityEngine;
 using UnityEngine.AI;
 

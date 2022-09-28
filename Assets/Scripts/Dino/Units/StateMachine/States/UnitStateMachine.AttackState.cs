@@ -2,6 +2,7 @@
 using Dino.Extension;
 using Dino.Units.Component.Health;
 using Dino.Units.Enemy.Model.EnemyAttack;
+using Feofun.Extension;
 using Logger.Extension;
 using UnityEngine;
 

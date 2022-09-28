@@ -1,2 +1,2 @@
 Id,Health,MoveSpeed,ShootOnMove
-StandardUnit,100,5,TRUE
+StandardUnit,100,6,FALSE

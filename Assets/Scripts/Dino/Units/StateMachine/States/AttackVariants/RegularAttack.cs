@@ -1,8 +1,8 @@
 ﻿using System;
-using Dino.Extension;
 using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Weapon;
 using Dino.Weapon.Components;
+using Feofun.Extension;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine

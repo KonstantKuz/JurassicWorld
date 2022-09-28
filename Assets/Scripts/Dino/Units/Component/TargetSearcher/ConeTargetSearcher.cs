@@ -3,8 +3,8 @@ using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model;
 using Dino.Weapon.Projectiles;
 using Feofun.Components;
+using Feofun.Extension;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.Units.Component.TargetSearcher
 {

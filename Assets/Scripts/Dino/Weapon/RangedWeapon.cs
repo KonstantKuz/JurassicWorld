@@ -5,6 +5,7 @@ using Dino.Units.Component.Target;
 using Dino.Weapon.Components;
 using Dino.Weapon.Model;
 using Dino.Weapon.Projectiles;
+using Feofun.Extension;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Zenject;

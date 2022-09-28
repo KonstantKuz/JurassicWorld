@@ -11,6 +11,7 @@ using Dino.Session.Messages;
 using Dino.Session.Service;
 using Dino.Tutorial.Components;
 using Dino.Tutorial.WaitConditions;
+using Feofun.Extension;
 using SuperMaxim.Messaging;
 using UnityEngine;
 using UnityEngine.Assertions;

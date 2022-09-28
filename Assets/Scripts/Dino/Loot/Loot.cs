@@ -1,9 +1,6 @@
 ﻿using System;
-using Dino.Inventory.Model;
 using Dino.Location.Model;
-using Dino.Loot.Service;
 using UnityEngine;
-using Zenject;
 
 namespace Dino.Loot
 {

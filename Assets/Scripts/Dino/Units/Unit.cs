@@ -10,6 +10,7 @@ using Dino.Units.Model;
 using Dino.Units.Service;
 using EasyButtons;
 using Feofun.Components;
+using Feofun.Extension;
 using JetBrains.Annotations;
 using SuperMaxim.Core.Extensions;
 using Zenject;
@@ -88,11 +89,8 @@ namespace Dino.Units
             OnDeath = null;
         }
 
-        public int GetLevel()
-        {
-            return gameObject.RequireComponent<EnemyLevel>().Level;
-        }
-        
+        public int GetLevel() => gameObject.RequireComponent<UnitLevel>().Level;
+
         private void DieOnZeroHealth()
         {
             Kill(DeathCause.Killed);
