@@ -11,15 +11,17 @@ namespace Dino.Units.Player.Component
         [SerializeField] private GameObject _root;
         [SerializeField] private Material _hiddenMaterial;
 
-        private readonly Dictionary<Renderer, Material> _initialMaterials = new Dictionary<Renderer, Material>();
+        private readonly Dictionary<Renderer, Material[]> _initialMaterials = new Dictionary<Renderer, Material[]>();
         private IDisposable _disposable;
+        private Material[] _replacementMaterialArray;
 
         private void Awake()
         {
+            _replacementMaterialArray = new[] { _hiddenMaterial };
             _disposable = GetComponent<AreaChangeDetector>().CurrentAreaType.Subscribe(OnAreaChanged);
             foreach (var renderer in _root.GetComponentsInChildren<Renderer>())
             {
-                _initialMaterials[renderer] = renderer.material;
+                _initialMaterials[renderer] = renderer.materials;
             }
             SetVisible(true);
         }
@@ -38,7 +40,7 @@ namespace Dino.Units.Player.Component
         {
             foreach (var renderer in _initialMaterials.Keys)
             {
-                renderer.material = isVisible ? _initialMaterials[renderer] : _hiddenMaterial;
+                renderer.materials = isVisible ? _initialMaterials[renderer] : _replacementMaterialArray;
             }
         }
     }
