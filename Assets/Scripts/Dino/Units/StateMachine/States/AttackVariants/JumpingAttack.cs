@@ -10,7 +10,7 @@ namespace Dino.Units.StateMachine
 {
     public partial class UnitStateMachine
     {
-        public class JumpingAttack : AttackSubState
+        public class JumpingAttack : AttackStateBase
         {
             private const string ATTACK_RADIUS_PREFAB = "JumpingAttackRadius";
             private const string ATTACK_VFX_PREFAB = "JumpingAttackVfx";
@@ -53,7 +53,7 @@ namespace Dino.Units.StateMachine
             public override void OnTick()
             {
                 if (IsAttacking) return;
-                if (IsRequiredPatrolState()) return;
+                if (SwitchToPatrolStateIfShould()) return;
 
                 if (!_isSafeTimeStarted)
                 {
@@ -61,7 +61,7 @@ namespace Dino.Units.StateMachine
                     AttackPosition = TargetPosition;
                 }
                 
-                if (IsRequiredChaseState()) return;
+                if (SwitchToChaseStateIfShould()) return;
                 if (!IsAttackReady)
                 {
                     PrepareToAttack();
@@ -71,7 +71,7 @@ namespace Dino.Units.StateMachine
                 Attack();
             }
 
-            protected override bool IsRequiredChaseState()
+            protected override bool SwitchToChaseStateIfShould()
             {
                 if (IsTargetInAttackRange) return false;
                 StateMachine.SetState(UnitState.Chase);

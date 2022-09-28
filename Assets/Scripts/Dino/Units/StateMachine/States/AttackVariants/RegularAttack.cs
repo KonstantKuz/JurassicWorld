@@ -9,7 +9,7 @@ namespace Dino.Units.StateMachine
 {
     public partial class UnitStateMachine
     {
-        public class RegularAttack : AttackSubState
+        public class RegularAttack : AttackStateBase
         {
             private readonly BaseWeapon _weapon;
             private readonly WeaponTimer _weaponTimer;

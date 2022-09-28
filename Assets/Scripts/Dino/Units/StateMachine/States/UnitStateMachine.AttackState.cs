@@ -13,7 +13,7 @@ namespace Dino.Units.StateMachine
         private class AttackState : BaseState
         {
             private readonly EnemyAttackModel _attackModel;
-            private AttackSubState _currentAttack;
+            private AttackStateBase _currentAttack;
             
             public AttackState(UnitStateMachine stateMachine) : base(stateMachine)
             {
@@ -49,7 +49,7 @@ namespace Dino.Units.StateMachine
                 this.Logger().Trace($"Damage applied, target:= {target.name}");
             }
 
-            private AttackSubState BuildAttack(AttackVariant attackVariant)
+            private AttackStateBase BuildAttack(AttackVariant attackVariant)
             {
                 return attackVariant switch
                 {

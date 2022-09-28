@@ -11,7 +11,7 @@ namespace Dino.Units.StateMachine
 {
     public partial class UnitStateMachine
     {
-        public abstract class AttackSubState
+        public abstract class AttackStateBase
         {
             protected readonly int AttackHash = Animator.StringToHash("Attack");
 
@@ -32,7 +32,7 @@ namespace Dino.Units.StateMachine
             protected bool IsTargetBlocked =>
                 Physics.Linecast(Owner.SelfTarget.Center.position, Target.Center.position, StateMachine._layerMaskProvider.ObstacleMask);
 
-            protected AttackSubState(UnitStateMachine stateMachine, EnemyAttackModel attackModel, Action<GameObject> hitCallback)
+            protected AttackStateBase(UnitStateMachine stateMachine, EnemyAttackModel attackModel, Action<GameObject> hitCallback)
             {
                 StateMachine = stateMachine;
                 AttackModel = attackModel;
@@ -57,14 +57,14 @@ namespace Dino.Units.StateMachine
                        StateMachine._layerMaskProvider.DamageMask.Contains(collider.gameObject.layer);
             }
 
-            protected bool IsRequiredPatrolState()
+            protected bool SwitchToPatrolStateIfShould()
             {
                 if (!IsTargetInvalid) return false;
                 StateMachine.SetState(UnitState.Patrol);
                 return true;
             }
 
-            protected virtual bool IsRequiredChaseState()
+            protected virtual bool SwitchToChaseStateIfShould()
             {
                 if (IsTargetInAttackRange && !IsTargetBlocked) return false;
                 StateMachine.SetState(UnitState.Chase);

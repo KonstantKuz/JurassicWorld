@@ -13,7 +13,7 @@ namespace Dino.Units.StateMachine
 {
     public partial class UnitStateMachine
     {
-        public class BulldozingAttack : AttackSubState
+        public class BulldozingAttack : AttackStateBase
         {
             private const string ATTACK_LINE_PREFAB = "BulldozingAttackLine";
 
@@ -61,14 +61,14 @@ namespace Dino.Units.StateMachine
             public override void OnTick()
             {
                 if (IsAttacking) return;
-                if (IsRequiredPatrolState()) return;
+                if (SwitchToPatrolStateIfShould()) return;
 
                 if (!_isSafeTimeStarted)
                 {
                     StateMachine._movementController.RotateTo(TargetPosition, _bulldozingAttackModel.RotationSpeed);
                 }
                 
-                if (IsRequiredChaseState()) return;
+                if (SwitchToChaseStateIfShould()) return;
                 if (!IsAttackReady)
                 {
                     PrepareToAttack();
