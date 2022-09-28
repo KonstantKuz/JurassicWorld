@@ -3,7 +3,6 @@ using Dino.Extension;
 using Dino.Units.Component;
 using Feofun.Components;
 using JetBrains.Annotations;
-using SuperMaxim.Core.Extensions;
 using UnityEngine;
 using UnityEngine.AI;
 using Zenject;
@@ -24,7 +23,7 @@ namespace Dino.Units.Player.Component
         [SerializeField]
         private float _rotationSpeed = 10;
         
-        private Animator[] _animators;
+        private Animator _animator;
         private NavMeshAgent _agent;
         
         public bool IsStopped
@@ -38,7 +37,7 @@ namespace Dino.Units.Player.Component
 
         private void Awake()
         {
-            _animators = GetComponentsInChildren<Animator>();
+            _animator = GetComponentInChildren<Animator>();
             _agent = GetComponent<NavMeshAgent>();
         }
 
@@ -70,7 +69,7 @@ namespace Dino.Units.Player.Component
 
         private void PlayAnimation(bool isMoving)
         {
-            _animators.ForEach(it =>  it.Play(isMoving ? _runHash : _idleHash));
+            _animator.Play(isMoving ? _runHash : _idleHash);
         }
 
         public void RotateTo(Vector3 position, float rotationSpeed)
@@ -100,30 +99,21 @@ namespace Dino.Units.Player.Component
 
         private void StopAnimation()
         {
-            foreach (var animator in _animators)
-            {
-                animator.Play(_idleHash);
-                animator.SetFloat(_horizontalMotionHash, 0);
-                animator.SetFloat(_verticalMotionHash, 0);
-            }
+            _animator.Play(_idleHash);
+            _animator.SetFloat(_horizontalMotionHash, 0);
+            _animator.SetFloat(_verticalMotionHash, 0);
         }
 
         private void UpdateAnimationRotateValues(Vector3 moveDirection)
         {
             if (moveDirection.sqrMagnitude <= 0) {
-                foreach (var animator in _animators)
-                {
-                    animator.SetFloat(_horizontalMotionHash, 0);
-                    animator.SetFloat(_verticalMotionHash, 0);
-                }
+                _animator.SetFloat(_horizontalMotionHash, 0);
+                _animator.SetFloat(_verticalMotionHash, 0);
                 return;
             }
             var signedAngle = GetRotateSignedAngle(moveDirection);
-            foreach (var animator in _animators)
-            {
-                animator.SetFloat(_horizontalMotionHash, (float)Math.Sin(GetRadian(signedAngle)));
-                animator.SetFloat(_verticalMotionHash, (float)Math.Cos(GetRadian(signedAngle)));
-            }
+            _animator.SetFloat(_horizontalMotionHash, (float) Math.Sin(GetRadian(signedAngle)));
+            _animator.SetFloat(_verticalMotionHash, (float) Math.Cos(GetRadian(signedAngle)));
         }
         private double GetRadian(float signedAngle) => Mathf.Deg2Rad * signedAngle;
         private float GetRotateSignedAngle(Vector3 moveDirection) => Vector2.SignedAngle(transform.forward.ToVector2XZ(), moveDirection.ToVector2XZ());

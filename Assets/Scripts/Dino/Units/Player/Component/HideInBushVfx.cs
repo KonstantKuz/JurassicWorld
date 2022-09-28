@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
@@ -7,15 +8,19 @@ namespace Dino.Units.Player.Component
     [RequireComponent(typeof(AreaChangeDetector))]
     public class HideInBushVfx : MonoBehaviour
     {
-        [SerializeField] private GameObject _visibleRoot;
-        [SerializeField] private GameObject _hiddenRoot;
+        [SerializeField] private GameObject _root;
+        [SerializeField] private Material _hiddenMaterial;
 
-        private Renderer[] _renderers;
+        private readonly Dictionary<Renderer, Material> _initialMaterials = new Dictionary<Renderer, Material>();
         private IDisposable _disposable;
 
         private void Awake()
         {
             _disposable = GetComponent<AreaChangeDetector>().CurrentAreaType.Subscribe(OnAreaChanged);
+            foreach (var renderer in _root.GetComponentsInChildren<Renderer>())
+            {
+                _initialMaterials[renderer] = renderer.material;
+            }
             SetVisible(true);
         }
 
@@ -31,8 +36,10 @@ namespace Dino.Units.Player.Component
 
         private void SetVisible(bool isVisible)
         {
-            _visibleRoot.SetActive(isVisible);
-            _hiddenRoot.SetActive(!isVisible);
+            foreach (var renderer in _initialMaterials.Keys)
+            {
+                renderer.material = isVisible ? _initialMaterials[renderer] : _hiddenMaterial;
+            }
         }
     }
 }
