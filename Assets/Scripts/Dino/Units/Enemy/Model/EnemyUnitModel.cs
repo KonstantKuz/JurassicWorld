@@ -14,15 +14,15 @@ namespace Dino.Units.Enemy.Model
         public PatrolStateModel PatrolStateModel { get; }
         public LookAroundStateModel LookAroundStateModel { get; }
 
-        public EnemyUnitModel(EnemyUnitConfig config, int level)
+        public EnemyUnitModel(EnemyUnitConfig unitConfig, EnemyAttacksConfig attacksConfig, int level)
         {
-            Id = config.Id;
+            Id = unitConfig.Id;
             Level = level;
-            MoveSpeed = config.MoveSpeed;
-            HealthModel = new EnemyHealthModel(config.GetHealthForLevel(Level));
-            AttackModel = new EnemyAttackModel(level, config, config.EnemyAttackConfig);
-            PatrolStateModel = new PatrolStateModel(config.PatrolStateConfig);
-            LookAroundStateModel = new LookAroundStateModel(config.LookAroundStateConfig);
+            MoveSpeed = unitConfig.MoveSpeed;
+            HealthModel = new EnemyHealthModel(unitConfig.GetHealthForLevel(Level));
+            AttackModel = new EnemyAttackModel(level, unitConfig, attacksConfig);
+            PatrolStateModel = new PatrolStateModel(unitConfig.PatrolStateConfig);
+            LookAroundStateModel = new LookAroundStateModel(unitConfig.LookAroundStateConfig);
         }
     }
 }

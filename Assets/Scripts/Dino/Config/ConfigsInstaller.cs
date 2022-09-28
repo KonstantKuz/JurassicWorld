@@ -22,6 +22,7 @@ namespace Dino.Config
                 .RegisterSingle<LocalizationConfig>(Configs.LOCALIZATION)
                 .RegisterStringKeyedCollection<PlayerUnitConfig>(Configs.PLAYER_UNIT)
                 .RegisterStringKeyedCollection<EnemyUnitConfig>(Configs.ENEMY_UNIT)           
+                .RegisterSingleObjectConfig<EnemyAttacksConfig>(Configs.ENEMY_ATTACKS)           
                 .RegisterSingle<LevelsConfig>(Configs.LEVELS)
                 .RegisterStringKeyedCollection<WeaponConfig>(Configs.WEAPONS)
                 .RegisterSingleObjectConfig<ConstantsConfig>(Configs.CONSTANTS)           

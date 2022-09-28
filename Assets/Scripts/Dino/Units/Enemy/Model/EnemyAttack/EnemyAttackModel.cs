@@ -4,13 +4,13 @@ namespace Dino.Units.Enemy.Model.EnemyAttack
 {
     public class EnemyAttackModel
     {
-        public EnemyAttackModel(int level, EnemyUnitConfig unitConfig, EnemyAttackConfig config)
+        public EnemyAttackModel(int level, EnemyUnitConfig unitConfig, EnemyAttacksConfig attacksConfig)
         {
-            AttackVariant = config.AttackVariant;
-            var regularDamage = unitConfig.GetDamageForLevel(level, config.RegularAttackConfig.AttackDamage);
-            Regular = new RegularAttackModel(regularDamage, config.RegularAttackConfig);
-            Bulldozing = new BulldozingAttackModel(config.BulldozingAttackConfig);
-            Jumping = new JumpingAttackModel(config.JumpingAttackConfig);
+            AttackVariant = unitConfig.AttackVariant;
+            var regularDamage = unitConfig.GetDamageForLevel(level, unitConfig.RegularAttackConfig.AttackDamage);
+            Regular = new RegularAttackModel(regularDamage, unitConfig.RegularAttackConfig);
+            Bulldozing = new BulldozingAttackModel(attacksConfig.BulldozingAttackConfig);
+            Jumping = new JumpingAttackModel(attacksConfig.JumpingAttackConfig);
         }
         
         public AttackVariant AttackVariant { get; }

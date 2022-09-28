@@ -15,7 +15,8 @@ namespace Dino.Units.Service
     public class EnemyInitService : MonoBehaviour
     {
         [Inject] private StringKeyedConfigCollection<EnemyUnitConfig> _enemyUnitConfigs;
-        
+        [Inject] private EnemyAttacksConfig _attacksConfig;
+
         public void InitEnemies(IEnumerable<Unit> units)
         {
             foreach (var unit in units)
@@ -31,7 +32,7 @@ namespace Dino.Units.Service
                     continue;
                 }
 
-                var model = new EnemyUnitModel(config, unit.GetLevel());
+                var model = new EnemyUnitModel(config, _attacksConfig, unit.GetLevel());
                 unit.Init(model);
             }
         }
