@@ -43,7 +43,7 @@ namespace Dino.Units.StateMachine
             {
                 if (!Target.IsTargetValidAndAlive())
                 {
-                    StateMachine.SetState(UnitState.Patrol);
+                    StateMachine.SetState(UnitState.LookAround);
                     return;
                 }
                 if (DistanceToTarget < _attackModel.AttackDistance)
