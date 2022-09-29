@@ -41,7 +41,7 @@ namespace Dino.Loot.Respawn
         {
             switch (evn.Type) {
                 case InventoryItemType.Material:
-                    TryIncreaseRespawnAmount(evn);
+                    TryIncreaseRespawnAmount(evn); // we need to know how many materials were spent on the current location, because the materials may remain with the last session or be partially crafted
                     return;
                 case InventoryItemType.Ammo:
                     TryRespawnLoot(evn);
@@ -51,7 +51,7 @@ namespace Dino.Loot.Respawn
 
         private void TryRespawnLoot(ItemChangedEvent evn)
         {
-            if (!evn.IsItemRemoved) {
+            if (!evn.IsLastItemRemoved) {
                 return;
             }
             var recipe = _craftConfig.FindRecipe(evn.ItemId.FullName);

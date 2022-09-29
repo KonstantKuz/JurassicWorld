@@ -93,7 +93,7 @@ namespace Dino.Units.Service
 
         private void OnItemChanged(ItemChangedEvent itemChangedEvent)
         {
-            if (itemChangedEvent.IsItemRemoved) {
+            if (itemChangedEvent.IsLastItemRemoved) {
                 OnItemRemoved(itemChangedEvent.ItemId);
             }
             if (itemChangedEvent.IsItemAddedAsNew) {

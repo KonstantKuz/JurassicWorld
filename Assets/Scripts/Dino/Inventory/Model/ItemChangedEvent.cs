@@ -8,7 +8,7 @@
         public readonly int CurrentAmount;
 
         public bool IsItemDecreased => CurrentAmount < PreviousAmount;   
-        public bool IsItemRemoved => CurrentAmount == 0 && PreviousAmount != 0;      
+        public bool IsLastItemRemoved => CurrentAmount == 0 && PreviousAmount != 0;      
         public bool IsItemAddedAsNew => PreviousAmount == 0 && CurrentAmount != 0;
         
         public ItemChangedEvent(ItemId itemId, InventoryItemType type, int previousAmount, int currentAmount)
