@@ -36,7 +36,7 @@ namespace Dino.Units.StateMachine
             public JumpingAttack(UnitStateMachine stateMachine, EnemyAttackModel attackModel, Action<GameObject> hitCallback) 
                 : base(stateMachine, attackModel, hitCallback)
             {
-                var jumpingConfig = EnemyAttackConfigs.Get(AttackVariant.Jumping) as JumpingAttackConfig;
+                var jumpingConfig = AttackConfigs.Get<JumpingAttackConfig>(AttackVariant.Jumping);
                 _jumpingAttackModel = new JumpingAttackModel(jumpingConfig);
                 _attackTimer = new WeaponTimer(AttackModel.AttackInterval);
             }

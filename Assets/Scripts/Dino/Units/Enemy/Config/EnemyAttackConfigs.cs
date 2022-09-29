@@ -8,12 +8,19 @@ namespace Dino.Units.Enemy.Config
     {
         private const string CONFIGS_PATH = "Configs/AttackConfigs/";
 
-        public static EnemyAttackConfig Get(AttackVariant variant)
+        private List<EnemyAttackConfig> _attackConfigs;
+        private List<EnemyAttackConfig> AttackConfigs => _attackConfigs ??= LoadConfigs();
+        
+        public T Get<T>(AttackVariant variant) where T : EnemyAttackConfig
         {
-            var configs = GetAll();
-            return configs.First(it => it.AttackVariant == variant);
+            return AttackConfigs.First(it => it.AttackVariant == variant) as T;
         }
 
-        private static List<EnemyAttackConfig> GetAll() => Resources.LoadAll<ScriptableObject>(CONFIGS_PATH).Select(it => it as EnemyAttackConfig).ToList();
+        public EnemyAttackConfig Get(AttackVariant variant)
+        {
+            return AttackConfigs.First(it => it.AttackVariant == variant);
+        }
+
+        private List<EnemyAttackConfig> LoadConfigs() => Resources.LoadAll<ScriptableObject>(CONFIGS_PATH).Select(it => it as EnemyAttackConfig).ToList();
     }
 }
