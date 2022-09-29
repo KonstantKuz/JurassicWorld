@@ -2,7 +2,6 @@
 using DG.Tweening;
 using Dino.Location;
 using Dino.Units.Component;
-using Dino.Units.Enemy.Config;
 using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Weapon.Components;
 using Feofun.Extension;
@@ -29,7 +28,7 @@ namespace Dino.Units.StateMachine
             private bool _isSafeTimeStarted;
 
             private Collider Collider => _collider ??= Owner.gameObject.GetComponent<Collider>();
-            private Trigger DamageTrigger => _damageTrigger ??= GetOrAddSelfDamageTrigger();
+            private Trigger DamageTrigger => _damageTrigger ??= Owner.gameObject.GetOrAdd<Trigger>();
             private float PlayerSafeTime => _bulldozingAttackModel.SafeTime; // time between dino stopped aiming on player and actual attack jump
             private bool IsAttacking => _attackTween != null;
             private bool IsAttackReady => _attackTimer.IsAttackReady.Value;
@@ -43,18 +42,18 @@ namespace Dino.Units.StateMachine
                 _animationSpeedMultiplier = _bulldozingAttackModel.Speed / Owner.Model.MoveSpeed;
             }
 
-            private Trigger GetOrAddSelfDamageTrigger()
-            {
-                return Owner.gameObject.GetComponent<Trigger>() ?? Owner.gameObject.AddComponent<Trigger>();
-            }
-
             public override void OnEnterState()
             {
                 Dispose();
                 
                 StateMachine._animationWrapper.PlayIdleSmooth();
                 StateMachine._movementController.IsStopped = true;
-                StateMachine._owner.OnDeath += (unit, cause) => Dispose();
+                StateMachine._owner.OnDeath += OnOwnerDeath;
+            }
+
+            private void OnOwnerDeath(Unit unit, DeathCause cause)
+            {
+                Dispose();
             }
 
             public override void OnTick()
@@ -146,8 +145,8 @@ namespace Dino.Units.StateMachine
                 DeleteAttackIndicator();
                 ResetAttackAnimation();
                 DisableAttackCollision();
-                
-                StateMachine._owner.OnDeath -= (unit, cause) => Dispose();
+
+                StateMachine._owner.OnDeath -= OnOwnerDeath;
                 
                 if (!IsTargetInvalid)
                 {
