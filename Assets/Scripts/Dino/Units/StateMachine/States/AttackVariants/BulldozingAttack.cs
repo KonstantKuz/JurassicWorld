@@ -38,8 +38,7 @@ namespace Dino.Units.StateMachine
             public BulldozingAttack(UnitStateMachine stateMachine, EnemyAttackModel attackModel, Action<GameObject> hitCallback) 
                 : base(stateMachine, attackModel, hitCallback)
             {
-                var bulldozingConfig = AttackConfigs.Get<BulldozingAttackConfig>(AttackVariant.Bulldozing);
-                _bulldozingAttackModel = new BulldozingAttackModel(bulldozingConfig);
+                _bulldozingAttackModel = attackModel.CreateCurrentVariantModel<BulldozingAttackModel>();
                 _attackTimer = new WeaponTimer(AttackModel.AttackInterval);
                 _animationSpeedMultiplier = _bulldozingAttackModel.Speed / Owner.Model.MoveSpeed;
             }

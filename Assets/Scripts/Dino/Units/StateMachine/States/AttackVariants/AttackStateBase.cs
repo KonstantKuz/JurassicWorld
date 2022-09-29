@@ -2,12 +2,10 @@
 using Dino.Units.Component;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
-using Dino.Units.Enemy.Config;
 using Dino.Units.Enemy.Model.EnemyAttack;
 using Feofun.Extension;
 using JetBrains.Annotations;
 using UnityEngine;
-using AppContext = Feofun.App.AppContext;
 
 namespace Dino.Units.StateMachine
 {
@@ -20,7 +18,6 @@ namespace Dino.Units.StateMachine
             protected readonly UnitStateMachine StateMachine;
             protected readonly EnemyAttackModel AttackModel;
             protected readonly Action<GameObject> HitCallback;
-            protected readonly EnemyAttackConfigs AttackConfigs;
 
             [CanBeNull]
             protected IFieldOfViewRenderer _fieldOfViewRenderer;
@@ -40,7 +37,6 @@ namespace Dino.Units.StateMachine
                 StateMachine = stateMachine;
                 AttackModel = attackModel;
                 HitCallback = hitCallback;
-                AttackConfigs = AppContext.Container.Resolve<EnemyAttackConfigs>();
                 
                 _fieldOfViewRenderer = Owner.gameObject.GetComponentInChildren<IFieldOfViewRenderer>();
             }

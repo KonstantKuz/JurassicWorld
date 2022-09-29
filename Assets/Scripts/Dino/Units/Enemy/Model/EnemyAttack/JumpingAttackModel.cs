@@ -2,7 +2,7 @@
 
 namespace Dino.Units.Enemy.Model.EnemyAttack
 {
-    public class JumpingAttackModel
+    public class JumpingAttackModel : AttackVariantModel
     {
         public JumpingAttackModel(JumpingAttackConfig config)
         {

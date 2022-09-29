@@ -2,7 +2,7 @@
 
 namespace Dino.Units.Enemy.Model.EnemyAttack
 {
-    public class BulldozingAttackModel
+    public class BulldozingAttackModel : AttackVariantModel
     {
         public BulldozingAttackModel(BulldozingAttackConfig config)
         {
