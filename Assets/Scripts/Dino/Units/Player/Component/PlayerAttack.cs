@@ -34,7 +34,8 @@ namespace Dino.Units.Player.Component
         private Animator _animator;
         private AnimationSwitcher _animationSwitcher;
         private ITargetSearcher _targetSearcher;
-        private MovementController _movementController;
+        private MovementController _movementController;   
+        private AreaChangeDetector _areaChangeDetector;
         private List<IInitializable<IWeaponModel>> _weaponDependentComponents;
         private bool _startedAttack;
         private bool _shootOnMove;
@@ -53,6 +54,7 @@ namespace Dino.Units.Player.Component
         
         private bool IsAttackAllowedByWeapon => _weapon != null && _weapon.IsWeaponReadyToFire;
         private bool IsAttackAllowedByMovement => !_movementController.IsMoving || _shootOnMove;
+        private bool IsAttackAllowedByArea => _areaChangeDetector.CurrentAreaType.Value != AreaChangeDetector.AreaType.Grass;
 
         public event Action OnAttacked;
 
@@ -64,6 +66,7 @@ namespace Dino.Units.Player.Component
             _movementController = GetComponent<MovementController>();
             _weaponDependentComponents = GetComponentsInChildren<IInitializable<IWeaponModel>>().ToList();
             _weaponAnimationHandler = GetComponentInChildren<WeaponAnimationHandler>();
+            _areaChangeDetector = gameObject.RequireComponent<AreaChangeDetector>();
             if (HasWeaponAnimationHandler) {
                 _weaponAnimationHandler.OnFireEvent += Fire;
             }
@@ -143,10 +146,8 @@ namespace Dino.Units.Player.Component
             }
         }
 
-        private bool CanAttack([CanBeNull] ITarget target) => target != null 
-                                                              && !_startedAttack &&
-                                                              IsAttackAllowedByWeapon &&
-                                                              IsAttackAllowedByMovement;
+        private bool CanAttack([CanBeNull] ITarget target) =>
+                target != null && !_startedAttack && IsAttackAllowedByArea && IsAttackAllowedByWeapon && IsAttackAllowedByMovement;
 
 
 
