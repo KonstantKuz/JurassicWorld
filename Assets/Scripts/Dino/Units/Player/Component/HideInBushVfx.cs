@@ -17,13 +17,18 @@ namespace Dino.Units.Player.Component
 
         private void Awake()
         {
-            _replacementMaterialArray = new[] { _hiddenMaterial };
+            InitMaterials();
             _disposable = GetComponent<AreaChangeDetector>().CurrentAreaType.Subscribe(OnAreaChanged);
+            SetVisible(true);
+        }
+
+        private void InitMaterials()
+        {
+            _replacementMaterialArray = new[] {_hiddenMaterial};
             foreach (var renderer in _root.GetComponentsInChildren<Renderer>())
             {
                 _initialMaterials[renderer] = renderer.materials;
             }
-            SetVisible(true);
         }
 
         private void OnDestroy()
