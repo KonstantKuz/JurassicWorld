@@ -6,7 +6,7 @@ namespace Dino.Units.Component.Target
     {
         public static bool IsTargetValidAndAlive([CanBeNull] this ITarget target)
         {
-            return target is {IsAlive: true};
+            return target is {IsValid: true};
         }
     }
 }

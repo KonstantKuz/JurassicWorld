@@ -55,7 +55,7 @@ namespace Dino.Units.Component.TargetSearcher
             var minDistance = Mathf.Infinity;
             foreach (var target in targets)
             {
-                if (!target.IsAlive) continue;
+                if (!target.IsValid) continue;
                 var dist = Vector3.Distance(from, target.Root.position);
                 if (dist >= minDistance || dist > searchDistance) continue;
                 if (Physics.Linecast(from, target.Root.position, obstacleMask)) continue;

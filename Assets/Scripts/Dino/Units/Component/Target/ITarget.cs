@@ -10,7 +10,7 @@ namespace Dino.Units.Component.Target
     {
         string TargetId { get; }
         UnitType UnitType { get; }
-        bool IsAlive { get; }
+        bool IsValid { get; }
         Transform Root { get; }
         Transform Center { get; } 
         Action OnTargetInvalid { get; set; }
