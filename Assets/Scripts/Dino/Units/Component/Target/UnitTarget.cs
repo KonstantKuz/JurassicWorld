@@ -6,6 +6,13 @@ namespace Dino.Units.Component.Target
 {
     public class UnitTarget : MonoBehaviour, ITarget, IUnitDeathEventReceiver
     {
+        private enum State
+        {
+            Default,
+            Hidden,
+            Dead
+        }
+        
         private static int _idCount;
         
         [SerializeField]
@@ -18,8 +25,10 @@ namespace Dino.Units.Component.Target
         [Inject] 
         private TargetService _targetService;
 
+        private State _state;
+
         public string TargetId { get; private set; }
-        public bool IsAlive { get; private set; } = true;
+        public bool IsValid => _state == State.Default;
         public Transform Root => _rootTarget;
         public Transform Center => _centerTarget;
         public UnitType UnitType
@@ -34,6 +43,16 @@ namespace Dino.Units.Component.Target
         }
         public Action OnTargetInvalid { get; set; }
 
+        public bool Hidden
+        {
+            get => _state == State.Hidden;
+            set
+            {
+                if (_state == State.Dead) return;
+                _state = value ? State.Hidden : State.Default;
+            }
+        }
+
         private void Awake()
         {
             TargetId = $"{_unitType.ToString()}#{_idCount++}";
@@ -42,15 +61,15 @@ namespace Dino.Units.Component.Target
 
         public void OnDeath(DeathCause deathCause)
         {
-            if (!IsAlive) return;
-            IsAlive = false;
+            if (_state == State.Dead) return;
+            _state = State.Dead;
             _targetService.Remove(this);            
             OnTargetInvalid?.Invoke();
         }
 
         private void OnDestroy()
         {
-            if (!IsAlive) return;
+            if (_state == State.Dead) return;
             _targetService.Remove(this);
             OnTargetInvalid?.Invoke();
         }

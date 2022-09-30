@@ -1,4 +1,5 @@
 ﻿using Dino.Extension;
+using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model;
 using Dino.Units.Model;
 using Logger.Extension;
@@ -13,10 +14,11 @@ namespace Dino.Units.StateMachine
             private readonly EnemyAttackModel _attackModel;
             
             private Unit Owner => StateMachine._owner;
+            private ITarget Target => StateMachine._targetProvider.Target;            
 
-            private Vector3 TargetPosition => StateMachine._targetProvider.Target.Root.position;
+            private Vector3 TargetPosition => Target.Root.position;
             private float DistanceToTarget => Vector3.Distance(Owner.transform.position, TargetPosition);
-            
+
             public ChaseState(UnitStateMachine stateMachine) : base(stateMachine)
             {
                 var enemyModel = Owner.Model as EnemyUnitModel;
@@ -39,6 +41,11 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
+                if (!Target.IsTargetValidAndAlive())
+                {
+                    StateMachine.SetState(UnitState.LookAround);
+                    return;
+                }
                 if (DistanceToTarget < _attackModel.AttackDistance)
                 {
                     StateMachine.SetState(UnitState.Attack);

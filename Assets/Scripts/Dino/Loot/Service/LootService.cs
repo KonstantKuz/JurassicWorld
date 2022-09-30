@@ -4,6 +4,7 @@ using Dino.Inventory.Model;
 using Dino.Inventory.Service;
 using Dino.Location;
 using Dino.Loot.Messages;
+using Dino.Loot.Respawn;
 using Dino.Player.Progress.Service;
 using Feofun.ReceivingLoot;
 using SuperMaxim.Messaging;
@@ -22,7 +23,7 @@ namespace Dino.Loot.Service
         [Inject] private InventoryService _inventoryService;
         [Inject] private World _world;
         [Inject] private LootFactory _lootFactory;
-        [Inject] private LootRespawnService _lootRespawnService;
+        [Inject] private LootRespawnService lootRespawnService;
         [Inject] private PlayerProgressService _playerProgressService;
         [Inject] private Analytics.Analytics _analytics;
         [Inject] private IMessenger _messenger;   
@@ -37,7 +38,7 @@ namespace Dino.Loot.Service
             _analytics.ReportLootItem(item.Id.FullName);
 
             if (loot.AutoRespawn) {
-                _lootRespawnService.AddToRespawn(loot.ObjectId, loot.ReceivedItem, loot.transform.position);
+                lootRespawnService.AddLootToRespawn(loot);
             }
             
             loot.OnCollected?.Invoke(loot);
