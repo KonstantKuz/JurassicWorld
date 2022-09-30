@@ -73,7 +73,7 @@ namespace Dino.Inventory.Service
             var previousAmount = item.Amount;
             item.IncreaseAmount(amount);
             Set(Inventory);
-            OnItemChanged?.Invoke(new ItemChangedEvent(id, previousAmount, item.Amount));
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, item.Type, previousAmount, item.Amount));
             return item;
         }
         public void Remove(ItemId id, int amount)
@@ -85,7 +85,7 @@ namespace Dino.Inventory.Service
             if (item.Amount <= 0) {
                 inventory.RemoveItem(id);
             }
-            OnItemChanged?.Invoke(new ItemChangedEvent(id, previousAmount, item.Amount));
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, item.Type, previousAmount, item.Amount));
             Set(inventory);
         }
         public void Remove(ItemId id)
@@ -100,7 +100,7 @@ namespace Dino.Inventory.Service
             var item = Item.Create(id, type, amount);
             inventory.AddNewItem(item);
             Set(inventory);
-            OnItemChanged?.Invoke(new ItemChangedEvent(id, 0, item.Amount));
+            OnItemChanged?.Invoke(new ItemChangedEvent(id, item.Type, 0, item.Amount));
             return item;
         }
 
