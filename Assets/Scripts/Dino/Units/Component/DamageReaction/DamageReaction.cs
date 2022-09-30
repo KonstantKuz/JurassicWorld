@@ -1,7 +1,8 @@
 using DG.Tweening;
+using Dino.Units.Component.Health;
 using UnityEngine;
 
-namespace Dino.Units.Component.Health
+namespace Dino.Units.Component.DamageReaction
 {
     [RequireComponent(typeof(IDamageable))]
     public class DamageReaction : MonoBehaviour

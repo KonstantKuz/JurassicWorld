@@ -16,5 +16,7 @@ namespace Dino.Units.Player.Config
         public float MoveSpeed;
         [DataMember]
         public bool ShootOnMove;
+        [DataMember]
+        public HealthRestoreConfig HealthRestoreConfig;
     }
 }
