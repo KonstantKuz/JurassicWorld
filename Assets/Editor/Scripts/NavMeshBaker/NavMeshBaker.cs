@@ -50,7 +50,13 @@ namespace Editor.Scripts.NavMeshBaker
         private static void CreateNavMeshAsset(NavMeshSurface surface)
         {
             var targetPath = GetAndEnsureTargetPath(surface);
-            var combinedAssetPath = Path.Combine(targetPath, "NavMesh-" + surface.name + ".asset");
+            
+      
+            if (!Directory.Exists(Path.Combine(targetPath, "NavMesh")))
+            {
+                AssetDatabase.CreateFolder(targetPath, "NavMesh");
+            }
+            var combinedAssetPath = Path.Combine(targetPath, "NavMesh", "NavMesh-" + surface.name + ".asset");
             combinedAssetPath = AssetDatabase.GenerateUniqueAssetPath(combinedAssetPath);
             AssetDatabase.CreateAsset(surface.navMeshData, combinedAssetPath);
         }
