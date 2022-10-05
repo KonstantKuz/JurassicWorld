@@ -1,5 +1,5 @@
 ItemId,ItemType,ItemCount,IngredientId,Count
-ThrowingAxeAmmo,Ammo,1,,
+ThrowingAxeAmmo,Ammo,5,,
 ,,,Stone,1
-BowAmmo,Ammo,1,,
+BowAmmo,Ammo,10,,
 ,,,Stick,1

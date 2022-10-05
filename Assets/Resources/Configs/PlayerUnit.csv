@@ -1,2 +1,2 @@
 Id,Health,MoveSpeed,ShootOnMove,TimeoutBeforeRecoverHealth,HealthRecoveryPeriod,HealthRecoveryValue
-StandardUnit,100,6,TRUE,10,1,5
+StandardUnit,300,6,FALSE,10,1,5
