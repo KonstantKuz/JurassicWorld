@@ -1,7 +1,5 @@
-﻿using Dino.Extension;
-using Dino.Units.Component.Target;
+﻿using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model;
-using Dino.Units.Model;
 using Logger.Extension;
 using UnityEngine;
 
@@ -12,6 +10,7 @@ namespace Dino.Units.StateMachine
         protected class ChaseState : BaseState
         {
             private readonly EnemyAttackModel _attackModel;
+            private Vector3 _lastTargetPosition;
             
             private Unit Owner => StateMachine._owner;
             private ITarget Target => StateMachine._targetProvider.Target;            
@@ -32,6 +31,7 @@ namespace Dino.Units.StateMachine
 
             public override void OnEnterState()
             {
+                UpdateLastTargetPosition();
                 StateMachine._animationWrapper.PlayMoveForwardSmooth();
             }
 
@@ -41,9 +41,10 @@ namespace Dino.Units.StateMachine
 
             public override void OnTick()
             {
+                UpdateLastTargetPosition();
                 if (!Target.IsTargetValidAndAlive())
                 {
-                    StateMachine.SetState(UnitState.LookAround, TargetPosition);
+                    StateMachine.SetState(UnitState.LookAround, _lastTargetPosition);
                     return;
                 }
                 if (DistanceToTarget < _attackModel.AttackDistance)
@@ -53,6 +54,12 @@ namespace Dino.Units.StateMachine
                 }
 
                 StateMachine._movementController.MoveTo(TargetPosition);
+            }
+
+            private void UpdateLastTargetPosition()
+            {
+                if (!Target.IsTargetValidAndAlive()) return;
+                _lastTargetPosition = TargetPosition;
             }
         }
     }

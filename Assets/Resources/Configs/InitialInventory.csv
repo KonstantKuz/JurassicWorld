@@ -1,5 +1,3 @@
 LeveId,ItemId,Type,Amount
-Level1-1,ThrowingAxe1,Weapon,1
-,ThrowingAxeAmmo,Ammo,1
-Level1-3,Bow1,Weapon,1
-,BowAmmo,Ammo,2
+Level1-1,Bow1,Weapon,1
+,BowAmmo,Ammo,1000

@@ -14,12 +14,14 @@ namespace Dino.Units.Enemy.Model
         public EnemyAttackModel AttackModel { get; }
         public PatrolStateModel PatrolStateModel { get; }
         public LookAroundStateModel LookAroundStateModel { get; }
+        public float RotationSpeed { get; }
 
         public EnemyUnitModel(EnemyUnitConfig config, int level)
         {
             Id = config.Id;
             Level = level;
             MoveSpeed = config.MoveSpeed;
+            RotationSpeed = config.RotationSpeed;            
             HealthModel = new EnemyHealthModel(config.GetHealthForLevel(Level));
             AttackModel = new EnemyAttackModel(config.GetDamageForLevel(Level), config.EnemyAttackConfig);
             PatrolStateModel = new PatrolStateModel(config.PatrolStateConfig);
