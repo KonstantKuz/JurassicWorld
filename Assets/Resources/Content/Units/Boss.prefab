@@ -121,7 +121,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 1.2
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 10
   avoidancePriority: 50
   m_AngularSpeed: 300
   m_StoppingDistance: 0
@@ -181,7 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea9f09010bd44e38f4c921c83be8686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotationSpeed: 10
 --- !u!114 &696692703190226417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645f314e7f354fe09ccbe8d9ff0330dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animationType: 0
   _disappearTime: 1
   _delayUntilDisappear: 2
   _offsetYDisappear: 2
