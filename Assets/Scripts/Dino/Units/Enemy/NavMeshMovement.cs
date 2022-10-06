@@ -34,7 +34,7 @@ namespace Dino.Units.Enemy
         {
             var lookAtDirection = (position - transform.position).XZ().normalized;
             var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * _agent.angularSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookAt, Time.deltaTime * _agent.angularSpeed);
         }
     }
 }
