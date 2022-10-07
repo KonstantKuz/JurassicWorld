@@ -28,6 +28,7 @@ namespace Dino.Units.StateMachine
         private IMovementController _movementController;
         private Animator _animator;
         private MoveAnimationWrapper _animationWrapper;
+        private Health _health;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
         
         public virtual void Init(Unit unit)
@@ -44,6 +45,7 @@ namespace Dino.Units.StateMachine
             _animator = _owner.gameObject.RequireComponentInChildren<Animator>();
             _animationWrapper = new MoveAnimationWrapper(_animator);
             _weaponAnimationHandler = _owner.gameObject.GetComponentInChildren<WeaponAnimationHandler>();
+            _health = _owner.gameObject.RequireComponent<Health>();
 
             _owner.OnDeath += OnDeath;
         }
@@ -67,8 +69,14 @@ namespace Dino.Units.StateMachine
         {
             _currentState?.OnExitState();
             _currentState = newState;
-            _currentStateName = _currentState.GetType().Name;            
+            _currentStateName = _currentState.GetType().Name;
+            UpdateAwareness(); 
             _currentState.OnEnterState();
+        }
+
+        private void UpdateAwareness()
+        {
+            _health.IsUnAware = _currentState is IdleState || _currentState is PatrolState;
         }
 
         private void OnDeath(Unit unit, DeathCause deathCause)
