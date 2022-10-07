@@ -20,8 +20,8 @@ namespace Dino.Location.Level.Service
         [Inject] private ConstantsConfig _constantsConfig;
 
         private PlayerProgress PlayerProgress => _playerProgressService.Progress;
-        
-        public string CurrentLevelId => GetLevelId(PlayerProgress.WinCount);
+
+        public string CurrentLevelId => "Level2-2";//GetLevelId(PlayerProgress.WinCount);
         public List<Level> Levels => _levels ??= _worldObjectFactory.GetPrefabComponents<Level>();
 
         private string GetLevelId(int winCount)
