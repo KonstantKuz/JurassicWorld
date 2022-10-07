@@ -13,9 +13,15 @@ namespace Dino.Config
         
         [DataMember(Name = "LoopStartLevelIndex")]
         private int _loopStartLevelIndex;
+
+        [DataMember(Name = "CriticalDamageMultiplier")]
+        private float _criticalDamageMultiplier;
         
         public string FirstUnit => _firstUnit;
         public float ItemRespawnTime => _itemRespawnTime;
         public int LoopStartLevelIndex => _loopStartLevelIndex;
+
+        public float CriticalDamageMultiplier => _criticalDamageMultiplier;
+        public bool IsCriticalDamageEnabled => CriticalDamageMultiplier >= 1f;
     }
 }

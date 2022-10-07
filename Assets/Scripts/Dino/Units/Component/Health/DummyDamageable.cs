@@ -12,5 +12,6 @@ namespace Dino.Units.Component.Health
         public event Action OnZeroHealth = delegate { };
         public event Action<HitParams> OnDamageTaken = delegate { };
         public bool DamageEnabled { get; set; }
+        public bool IsUnAware => false;
     }
 }

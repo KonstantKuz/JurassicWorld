@@ -8,5 +8,6 @@ namespace Dino.Units.Component.Health
         event Action OnZeroHealth;
         event Action<HitParams> OnDamageTaken;
         bool DamageEnabled { get; set; } 
+        bool IsUnAware { get; }
     }
 }
