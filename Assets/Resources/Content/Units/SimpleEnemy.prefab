@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 5316809173621734762}
   - component: {fileID: 8473987040358760045}
   - component: {fileID: 2215603055216662321}
+  - component: {fileID: 7168436507674400188}
   m_Layer: 6
   m_Name: SimpleEnemy
   m_TagString: Untagged
@@ -325,6 +326,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _hudPrefab: {fileID: 9022134244161410132, guid: 57ddd6c65c072314885b0edfb4a1c33d, type: 3}
   _hudPlace: {fileID: 3745184752164164833}
+--- !u!114 &7168436507674400188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047533565645016285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f65f7cf9663d4fb5af1e5782ff450758, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _unawareMaterial: {fileID: 2100000, guid: b13d11b798b73c44084a80dd91a243b2, type: 2}
+  _awareMaterial: {fileID: 2100000, guid: e193bfbcacd315a43957d0248c47ae61, type: 2}
 --- !u!1 &3753810788131279791
 GameObject:
   m_ObjectHideFlags: 0
