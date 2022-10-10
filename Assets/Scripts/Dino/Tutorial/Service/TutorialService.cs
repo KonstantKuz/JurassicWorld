@@ -28,6 +28,7 @@ namespace Dino.Tutorial.Service
         
         public void OnWorldSetup()
         {
+            return;
             Scenarios.ForEach(it =>
             {
                 if (it.IsEnabled && !it.IsCompleted)
