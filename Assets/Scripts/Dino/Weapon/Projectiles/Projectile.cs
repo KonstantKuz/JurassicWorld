@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Dino.Location.Service;
 using Dino.Units;
 using Dino.Units.Component.Health;
 using Dino.Units.Component.Target;
@@ -7,6 +8,7 @@ using Dino.Weapon.Model;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Zenject;
 
 namespace Dino.Weapon.Projectiles
 {
@@ -14,12 +16,16 @@ namespace Dino.Weapon.Projectiles
     {
         [SerializeField]
         private float _speed;
+        [SerializeField] 
+        private GameObject _hitVfx;
         
         protected Action<GameObject> HitCallback;
         protected UnitType TargetType;
         protected IWeaponModel Params;
 
         public float Speed => _speed;
+
+        [Inject] private WorldObjectFactory _objectFactory;
         
         public virtual void Launch(ITarget target, IWeaponModel model, Action<GameObject> hitCallback)
         {
@@ -47,6 +53,16 @@ namespace Dino.Weapon.Projectiles
         protected virtual void TryHit(GameObject target, Vector3 hitPos, Vector3 collisionNorm)
         {
             HitCallback?.Invoke(target);
+            SpawnHitVfx(hitPos, collisionNorm);
+        }
+
+        private void SpawnHitVfx(Vector3 position, Vector3 normal)
+        {
+            if(_hitVfx == null) return;
+
+            var hitVfx = _objectFactory.CreateObject(_hitVfx).transform;
+            hitVfx.position = position;
+            hitVfx.up = normal;
         }
         
         private void OnTriggerEnter(Collider other)

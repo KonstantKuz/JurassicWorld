@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Logger.Extension;
 using UnityEngine;
 
 namespace Dino.Units.Component.Animation
@@ -36,7 +37,18 @@ namespace Dino.Units.Component.Animation
 
         private void SmoothTransition(int animationHash, float toValue, float time)
         {
-            DOTween.To(() => _animator.GetFloat(animationHash), value => { _animator.SetFloat(animationHash, value); }, toValue, time);
+            DOTween.To(() => TryGetValue(animationHash), value => TrySetValue(animationHash, value), toValue, time);
+        }
+
+        private float TryGetValue(int animationHash)
+        {
+            return _animator != null ? _animator.GetFloat(animationHash) : 0;
+        }
+        
+        private void TrySetValue(int animationHash, float value)
+        {
+            if (_animator == null) return;
+            _animator.SetFloat(animationHash, value);
         }
     }
 }
