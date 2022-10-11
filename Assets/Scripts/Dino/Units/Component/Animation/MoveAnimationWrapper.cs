@@ -1,5 +1,8 @@
 using DG.Tweening;
+using Feofun.Extension;
 using Logger.Extension;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace Dino.Units.Component.Animation
@@ -11,10 +14,13 @@ namespace Dino.Units.Component.Animation
         private readonly int _horizontalMotionHash = Animator.StringToHash("HorizontalMotion");
         private readonly int _motionAnimationHash = Animator.StringToHash("Motion");
         private readonly Animator _animator;
+        private readonly CompositeDisposable _disposable;
 
         public MoveAnimationWrapper(Animator animator)
         {
             _animator = animator;
+            _disposable = new CompositeDisposable();
+            _animator.gameObject.OnDestroyAsObservable().Subscribe(it => Dispose()).AddTo(_disposable);
         }
 
         public void PlayIdleSmooth()
@@ -37,18 +43,13 @@ namespace Dino.Units.Component.Animation
 
         private void SmoothTransition(int animationHash, float toValue, float time)
         {
-            DOTween.To(() => TryGetValue(animationHash), value => TrySetValue(animationHash, value), toValue, time);
+            var valuesTween = DOTween.To(() => _animator.GetFloat(animationHash), value => _animator.SetFloat(animationHash, value), toValue, time);
+            valuesTween.ToDisposable().AddTo(_disposable);
         }
 
-        private float TryGetValue(int animationHash)
+        private void Dispose()
         {
-            return _animator != null ? _animator.GetFloat(animationHash) : 0;
-        }
-        
-        private void TrySetValue(int animationHash, float value)
-        {
-            if (_animator == null) return;
-            _animator.SetFloat(animationHash, value);
+            _disposable?.Dispose();
         }
     }
 }
