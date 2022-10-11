@@ -7,7 +7,7 @@ namespace Editor.Scripts.Config
 {
     public class ConfigDownloaderWindow : EditorWindow
     {
-        private string _mainUrl = "https://docs.google.com/spreadsheets/d/1PSP3Bb4PThrB0PJzS9xRKemt6tTA8U0KGwqysPwVDwk";
+        private string _mainUrl = "https://docs.google.com/spreadsheets/d/1l0RYTUYkPLF0Y5l-JU3JzU7uYsDKvvAco_aLe-UOsg0";
 
         private const int MAIN_SHEET_ID_LIST = 515831250; //id of sheet that contains list of all other sheets
         private const string MAIN_CONFIG_PATH = "Resources/Configs";

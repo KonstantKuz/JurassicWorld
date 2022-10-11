@@ -10,7 +10,7 @@ ThrowingAxe6,6,1200,2,StickAttack,ThrowingAxeAmmo
 ThrowingAxe7,6,1400,2,StickAttack,ThrowingAxeAmmo
 ThrowingAxe8,6,1600,2,StickAttack,ThrowingAxeAmmo
 ThrowingAxe9,6,1800,2,StickAttack,ThrowingAxeAmmo
-Bow1,7,75,1,BowAttack,BowAmmo
+Bow1,14,20,0.6,BowAttack,BowAmmo
 Bow2,7,75,1,BowAttack,BowAmmo
 Bow3,7,100,1,BowAttack,BowAmmo
 Bow4,7,125,1,BowAttack,BowAmmo

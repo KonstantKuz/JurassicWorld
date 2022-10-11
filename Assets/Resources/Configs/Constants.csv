@@ -1,3 +1,4 @@
 FirstUnit,StandardUnit
 ItemRespawnTime,10
-LoopStartLevelIndex,3
+LoopStartLevelIndex,0
+CriticalDamageMultiplier,3
