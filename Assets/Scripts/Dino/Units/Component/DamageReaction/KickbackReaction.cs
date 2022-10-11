@@ -1,5 +1,6 @@
 ﻿using DG.Tweening;
 using Feofun.Extension;
+using Logger.Extension;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -28,7 +29,12 @@ namespace Dino.Units.Component.DamageReaction
             if(!_owner.IsActive) { return; }
 
             var resultPosition = transform.position + direction * reactionParams.Distance;
-            NavMesh.SamplePosition(resultPosition, out var navMeshHit, reactionParams.Distance, NavMesh.AllAreas);
+            if (!NavMesh.SamplePosition(resultPosition, out var navMeshHit, reactionParams.Distance, NavMesh.AllAreas))
+            {
+                this.Logger().Warn("Can't find proper place for kickback. ");
+                return;
+            }
+            
             resultPosition = navMeshHit.position;
             _kickBack = transform.DOMove(resultPosition, reactionParams.Duration).SetEase(Ease.Linear);
 
