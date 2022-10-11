@@ -46,7 +46,12 @@ namespace Dino.Units.StateMachine
                 
                 StateMachine._animationWrapper.PlayIdleSmooth();
                 StateMachine._movementController.IsStopped = true;
-                StateMachine._owner.OnDeath += (unit, cause) => Dispose();
+                StateMachine._owner.OnDeath += OnOwnerDeath;
+            }
+
+            private void OnOwnerDeath(Unit unit, DeathCause cause)
+            {
+                Dispose();
             }
 
             public override void OnTick()
@@ -145,8 +150,8 @@ namespace Dino.Units.StateMachine
                 _fieldOfViewRenderer?.SetActive(true);
 
                 DeleteAttackIndicator();
-                
-                StateMachine._owner.OnDeath -= (unit, cause) => Dispose();
+
+                StateMachine._owner.OnDeath -= OnOwnerDeath;
 
                 if (!IsTargetInvalid)
                 {
