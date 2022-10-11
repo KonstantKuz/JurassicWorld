@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 158354064725451873}
   - component: {fileID: 5316809173621734762}
   - component: {fileID: 8473987040358760045}
+  - component: {fileID: 5642925220295017582}
   - component: {fileID: 2215603055216662321}
   - component: {fileID: 7168436507674400188}
   m_Layer: 6
@@ -122,7 +123,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.6
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 20
   avoidancePriority: 50
   m_AngularSpeed: 300
   m_StoppingDistance: 0
@@ -312,6 +313,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _jumpRotationAngle: 50
   _jumpRotationTimeRatio: 0.9
+--- !u!114 &5642925220295017582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047533565645016285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bfca440993541508f3bc19f1e5ec88c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2215603055216662321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -594,6 +607,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d30ff4443422a44fb7bcd134c5c589b, type: 3}
+--- !u!1 &7490514454875490889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3379325591218639334, guid: 4d30ff4443422a44fb7bcd134c5c589b, type: 3}
+  m_PrefabInstance: {fileID: 5266504073937492911}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7834143052057284851 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2715131901014248284, guid: 4d30ff4443422a44fb7bcd134c5c589b, type: 3}
@@ -602,10 +620,5 @@ Transform:
 --- !u!137 &4428483564631221912 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: 8386621541459098935, guid: 4d30ff4443422a44fb7bcd134c5c589b, type: 3}
-  m_PrefabInstance: {fileID: 5266504073937492911}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7490514454875490889 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3379325591218639334, guid: 4d30ff4443422a44fb7bcd134c5c589b, type: 3}
   m_PrefabInstance: {fileID: 5266504073937492911}
   m_PrefabAsset: {fileID: 0}
