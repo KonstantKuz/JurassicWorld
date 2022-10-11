@@ -1,5 +1,4 @@
-﻿using Dino.Extension;
-using Feofun.Extension;
+﻿using Feofun.Extension;
 using UnityEngine;
 
 namespace Dino.Units.Component
@@ -21,6 +20,17 @@ namespace Dino.Units.Component
         protected float _angle;
         protected float _radius;
         protected Mesh _mesh;
+        private Renderer _renderer;
+
+        public Material Material
+        {
+            get => _material;
+            set
+            {
+                _material = value;
+                _renderer.material = value;
+            }
+        }
         
         protected virtual void Awake()
         {
@@ -29,13 +39,13 @@ namespace Dino.Units.Component
 
         private void InitMesh()
         {
-            var renderer = gameObject.RequireComponent<MeshRenderer>();
-            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-            renderer.receiveShadows = false;
-            renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
-            renderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
-            renderer.allowOcclusionWhenDynamic = false;
-            renderer.material = _material;
+            _renderer = gameObject.RequireComponent<MeshRenderer>();
+            _renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            _renderer.receiveShadows = false;
+            _renderer.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off;
+            _renderer.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
+            _renderer.allowOcclusionWhenDynamic = false;
+            _renderer.material = _material;
 
             var meshFilter = gameObject.RequireComponent<MeshFilter>();
             _mesh = meshFilter.mesh;

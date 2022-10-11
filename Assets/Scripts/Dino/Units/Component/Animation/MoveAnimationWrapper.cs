@@ -1,4 +1,8 @@
 using DG.Tweening;
+using Feofun.Extension;
+using Logger.Extension;
+using UniRx;
+using UniRx.Triggers;
 using UnityEngine;
 
 namespace Dino.Units.Component.Animation
@@ -11,11 +15,14 @@ namespace Dino.Units.Component.Animation
         private readonly int _motionAnimationHash = Animator.StringToHash("Motion");
         private readonly Animator _animator;
         private readonly float _originSpeed;
-        
+        private readonly CompositeDisposable _disposable;
+
         public MoveAnimationWrapper(Animator animator)
         {
             _animator = animator;
             _originSpeed = _animator.speed;
+            _disposable = new CompositeDisposable();
+            _animator.gameObject.OnDestroyAsObservable().Subscribe(it => Dispose()).AddTo(_disposable);
         }
 
         public void SetSpeed(float speed)
@@ -48,7 +55,13 @@ namespace Dino.Units.Component.Animation
 
         private void SmoothTransition(int animationHash, float toValue, float time)
         {
-            DOTween.To(() => _animator.GetFloat(animationHash), value => { _animator.SetFloat(animationHash, value); }, toValue, time);
+            var valuesTween = DOTween.To(() => _animator.GetFloat(animationHash), value => _animator.SetFloat(animationHash, value), toValue, time);
+            valuesTween.ToDisposable().AddTo(_disposable);
+        }
+
+        private void Dispose()
+        {
+            _disposable?.Dispose();
         }
     }
 }

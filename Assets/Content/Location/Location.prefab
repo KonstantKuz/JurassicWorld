@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3904fda15694c55b18fbfbf180efa03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _distance: 22
+  _distance: 28
   _offsetFromLevelEdge: 6
 --- !u!20 &8746036833295827787
 Camera:

@@ -13,6 +13,8 @@ namespace Dino.Units.Enemy.Config
         public int Health;
         [DataMember] 
         public float MoveSpeed;
+        [DataMember]
+        public float RotationSpeed;
         [DataMember] 
         public AttackVariant AttackVariant;
         [DataMember]

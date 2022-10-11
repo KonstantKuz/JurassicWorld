@@ -1,6 +1,5 @@
 ﻿using Dino.Units.Model;
 using Dino.Units.Player.Config;
-using Dino.Units.Service;
 using Feofun.Modifiers;
 
 namespace Dino.Units.Player.Model
@@ -12,11 +11,12 @@ namespace Dino.Units.Player.Model
         public PlayerUnitModel(PlayerUnitConfig config)
         {
             _config = config;
-            HealthModel = new PlayerHealthModel(config.Health, this);
+            HealthModel = new PlayerHealthModel(config.Health, this, _config.HealthRestoreConfig);
         }
 
         public string Id => _config.Id;
         public float MoveSpeed => _config.MoveSpeed;
+        public float RotationSpeed => 0;
         public bool ShootOnMove => _config.ShootOnMove;
         public IHealthModel HealthModel { get; }
     }

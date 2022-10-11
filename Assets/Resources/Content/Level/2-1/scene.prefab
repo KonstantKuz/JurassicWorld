@@ -317,7 +317,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 23800000, guid: b7ea64929cebde143b0659fa584d68aa, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 4de698d91d0dcf340a2f62bdd03198f9, type: 2}
 --- !u!1 &7449784499107267015
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,10 +441,6 @@ PrefabInstance:
     - target: {fileID: 3603301991565831358, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
       propertyPath: <Level>k__BackingField
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629324333623088289, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
-      propertyPath: _objectId
-      value: BulldozingEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
@@ -589,10 +585,6 @@ PrefabInstance:
     - target: {fileID: 3603301991565831358, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
       propertyPath: <Level>k__BackingField
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629324333623088289, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
-      propertyPath: _objectId
-      value: BulldozingEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
@@ -1439,10 +1431,6 @@ PrefabInstance:
     - target: {fileID: 3603301991565831358, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
       propertyPath: <Level>k__BackingField
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6629324333623088289, guid: 49688800dfa9c36448a489123b40ec96, type: 3}
-      propertyPath: _objectId
-      value: BulldozingEnemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49688800dfa9c36448a489123b40ec96, type: 3}

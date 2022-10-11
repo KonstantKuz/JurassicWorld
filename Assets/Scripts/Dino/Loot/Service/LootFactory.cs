@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Dino.Location.Service;
+using Dino.Loot.Respawn;
 using UnityEngine;
 using Zenject;
 
@@ -11,10 +12,12 @@ namespace Dino.Loot.Service
         [Inject]
         private WorldObjectFactory _worldObjectFactory;
         
-        public Loot CreateLoot(string lootId, ReceivedItem receivedItem)
+        public Loot CreateLoot(RespawnLoot respawnLoot)
         {
-            var lootPrefab = GetLootPrefab(lootId).gameObject;
-            return CreateLoot(lootPrefab, receivedItem);
+            var lootPrefab = GetLootPrefab(respawnLoot.LootId).gameObject;
+            var createdLoot = CreateLoot(lootPrefab, respawnLoot.ReceivedItem);
+            createdLoot.transform.position = respawnLoot.Position;
+            return createdLoot;
         }
 
         public Loot CreateLootByReceivedItem(string receivedItemName, ReceivedItem receivedItem)

@@ -10,7 +10,6 @@ namespace Dino.Units.Component.Health
 {
     public class Health : MonoBehaviour, IDamageable, IHealthBarOwner
     {
-        
         private IHealthModel _healthModel;
         private ReactiveProperty<float> _currentHealth;
         private IDisposable _disposable;
@@ -19,6 +18,7 @@ namespace Dino.Units.Component.Health
         public IReadOnlyReactiveProperty<float> MaxValue => _healthModel.MaxHealth;
         public IReadOnlyReactiveProperty<float> CurrentValue => _currentHealth;
         public bool DamageEnabled { get; set; }
+        public bool IsUnAware { get; set; }
         public event Action OnZeroHealth;
         public event Action<HitParams> OnDamageTaken;
         
@@ -47,7 +47,7 @@ namespace Dino.Units.Component.Health
         private void ChangeHealth(float delta, bool allowOverMax = false)
         {
             var newValue = Mathf.Max(0, _currentHealth.Value + delta);
-            _currentHealth.Value = allowOverMax ?  newValue : Mathf.Min(newValue, MaxValue.Value);
+            _currentHealth.Value = allowOverMax ? newValue : Mathf.Min(newValue, MaxValue.Value);
         }
         
         private void OnDestroy()

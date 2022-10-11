@@ -10,8 +10,6 @@ namespace Dino.Units.Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     public class NavMeshMovement : MonoBehaviour, IMovementController, IInitializable<Unit>
     {
-        [SerializeField] private float _rotationSpeed;
-        
         private NavMeshAgent _agent;
         
         public bool IsStopped
@@ -24,6 +22,7 @@ namespace Dino.Units.Enemy
         {
             _agent = GetComponent<NavMeshAgent>();
             _agent.speed = owner.Model.MoveSpeed;
+            _agent.angularSpeed = owner.Model.RotationSpeed;
         }
 
         public void MoveTo(Vector3 position)
@@ -36,7 +35,7 @@ namespace Dino.Units.Enemy
         {
             var lookAtDirection = (position - transform.position).XZ().normalized;
             var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
-            var finalSpeed = Math.Abs(rotationSpeed) > Mathf.Epsilon ? rotationSpeed : _rotationSpeed; 
+            var finalSpeed = Math.Abs(rotationSpeed) > Mathf.Epsilon ? rotationSpeed : _agent.angularSpeed; 
             transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * finalSpeed);
         }
 

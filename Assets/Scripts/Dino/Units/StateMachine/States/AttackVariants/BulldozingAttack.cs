@@ -63,7 +63,7 @@ namespace Dino.Units.StateMachine
 
                 if (!_isSafeTimeStarted)
                 {
-                    StateMachine._movementController.RotateTo(TargetPosition, _bulldozingAttackModel.RotationSpeed);
+                    StateMachine._movementController.RotateTo(TargetPosition, _bulldozingAttackModel.AimSpeed);
                 }
                 
                 if (SwitchToChaseStateIfShould()) return;
