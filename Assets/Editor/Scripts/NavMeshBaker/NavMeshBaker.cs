@@ -32,13 +32,16 @@ namespace Editor.Scripts.NavMeshBaker
                 PrefabUtility.UnloadPrefabContents(prefab);
                 return;
             }
-            var bakedNavMeshCount = 0;
+            BakeSurfaces(prefab, prefabSurfaces, prefabAssetPath);
+        }
 
+        private static void BakeSurfaces(GameObject prefab, NavMeshSurface[] prefabSurfaces, string prefabAssetPath)
+        {
+            var bakedNavMeshCount = 0;
             for (int index = 0; index < prefabSurfaces.Length; index++) {
                 var surface = prefabSurfaces[index];
                 var navMeshData = InitializeBakeData(surface);
                 var updateNavMeshAsync = surface.UpdateNavMesh(navMeshData);
-                
                 
                 void OnNavMeshAsyncUpdated(AsyncOperation operation)
                 {
