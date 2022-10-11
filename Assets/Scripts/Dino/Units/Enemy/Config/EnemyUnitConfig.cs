@@ -25,8 +25,6 @@ namespace Dino.Units.Enemy.Config
         public float AttackInterval;
         [DataMember] 
         public PatrolStateConfig PatrolStateConfig;
-        [DataMember]
-        public LookAroundStateConfig LookAroundStateConfig;
         [DataMember] 
         public RankParamsConfig RankParamsConfig;
         

@@ -36,7 +36,7 @@ namespace Dino.Units.Enemy
             var lookAtDirection = (position - transform.position).XZ().normalized;
             var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
             var finalSpeed = Math.Abs(rotationSpeed) > Mathf.Epsilon ? rotationSpeed : _agent.angularSpeed; 
-            transform.rotation = Quaternion.Lerp(transform.rotation, lookAt, Time.deltaTime * finalSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, lookAt, Time.deltaTime * finalSpeed);
         }
 
         public void Warp(Vector3 position)

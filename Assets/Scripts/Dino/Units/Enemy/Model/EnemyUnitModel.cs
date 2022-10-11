@@ -13,7 +13,6 @@ namespace Dino.Units.Enemy.Model
         public IHealthModel HealthModel { get; }
         public EnemyAttackModel AttackModel { get; }
         public PatrolStateModel PatrolStateModel { get; }
-        public LookAroundStateModel LookAroundStateModel { get; }
 
         public EnemyUnitModel(EnemyUnitConfig unitConfig, int level)
         {
@@ -24,7 +23,6 @@ namespace Dino.Units.Enemy.Model
             HealthModel = new EnemyHealthModel(unitConfig.GetHealthForLevel(Level));
             AttackModel = new EnemyAttackModel(level, unitConfig);
             PatrolStateModel = new PatrolStateModel(unitConfig.PatrolStateConfig);
-            LookAroundStateModel = new LookAroundStateModel(unitConfig.LookAroundStateConfig);
         }
     }
 }
