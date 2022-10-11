@@ -61,7 +61,7 @@ namespace Dino.Units.StateMachine
 
                 if (!_isSafeTimeStarted)
                 {
-                    StateMachine._movementController.RotateTo(TargetPosition, _jumpingAttackModel.AimSpeed);
+                    StateMachine._movementController.RotateTo(TargetPosition);
                     AttackPosition = TargetPosition;
                 }
                 

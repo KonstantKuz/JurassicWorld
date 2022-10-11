@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: BulldozingAttackConfig
   m_EditorClassIdentifier: 
   <AttackVariant>k__BackingField: 1
-  AimSpeed: 3
   MoveSpeed: 12
   SafeTime: 1

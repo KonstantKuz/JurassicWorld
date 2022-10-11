@@ -53,7 +53,7 @@ namespace Dino.Units.StateMachine
                     return;
                 }
 
-                StateMachine._movementController.RotateTo(TargetPosition, 0f);
+                StateMachine._movementController.RotateTo(TargetPosition);
 
                 if (_weaponTimer.IsAttackReady.Value)
                 {

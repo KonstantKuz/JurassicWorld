@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: JumpingAttackConfig
   m_EditorClassIdentifier: 
   <AttackVariant>k__BackingField: 2
-  AimSpeed: 3
   Duration: 0.5
   Height: 3
   DamageRadius: 2

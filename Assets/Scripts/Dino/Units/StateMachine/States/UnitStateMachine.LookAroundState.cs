@@ -38,7 +38,7 @@ namespace Dino.Units.StateMachine
 
                 if (GetAngleToDesiredPosition() > LOOK_ANGLE_PRECISION)
                 {
-                    StateMachine._movementController.RotateTo(_desiredPosition, 0f);
+                    StateMachine._movementController.RotateTo(_desiredPosition);
                     return;
                 }
                 

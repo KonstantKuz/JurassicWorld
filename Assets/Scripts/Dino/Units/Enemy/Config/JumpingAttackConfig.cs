@@ -5,7 +5,6 @@ namespace Dino.Units.Enemy.Config
     [CreateAssetMenu(menuName = "EnemyAttackConfig/JumpingAttackConfig", fileName = "JumpingAttackConfig")]
     public class JumpingAttackConfig : EnemyAttackConfig
     {
-        public float AimSpeed;
         public float Duration;
         public float Height;
         public float DamageRadius;
