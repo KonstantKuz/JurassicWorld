@@ -33,10 +33,12 @@ namespace Dino.Units.StateMachine
             {
                 if (!HasPath)
                 {
+                    StateMachine.SetPatrolPath(null);
                     StateMachine.SwitchToIdle();
                     return;
                 }
                 
+                StateMachine.SetPatrolPath(PathProvider.PatrolPath);
                 GoToCurrentPoint();
                 Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;
             }
