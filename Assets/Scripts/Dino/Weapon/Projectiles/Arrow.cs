@@ -77,12 +77,12 @@ namespace Dino.Weapon.Projectiles
         {
             base.TryHit(target, hitPos, collisionNorm);
             KickbackReaction.TryExecuteOn(target, -collisionNorm, _kickbackParams);
-            SnapToTarget(target);
+            AttachToTarget(target);
             ClearTarget();
             TimeLeft = _hitStuckTime;
         }
 
-        private void SnapToTarget(GameObject target)
+        private void AttachToTarget(GameObject target)
         {
             transform.SetParent(target.transform);
         }
