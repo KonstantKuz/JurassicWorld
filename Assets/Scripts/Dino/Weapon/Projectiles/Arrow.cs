@@ -76,15 +76,15 @@ namespace Dino.Weapon.Projectiles
         protected override void TryHit(GameObject target, Vector3 hitPos, Vector3 collisionNorm)
         {
             base.TryHit(target, hitPos, collisionNorm);
-            SnapToTarget(target);
             KickbackReaction.TryExecuteOn(target, -collisionNorm, _kickbackParams);
+            SnapToTarget(target);
+            ClearTarget();
+            TimeLeft = _hitStuckTime;
         }
 
         private void SnapToTarget(GameObject target)
         {
             transform.SetParent(target.transform);
-            TimeLeft = _hitStuckTime;
-            ClearTarget();
         }
 
         private void Destroy()
