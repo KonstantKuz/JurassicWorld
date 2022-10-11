@@ -13,14 +13,11 @@ namespace Dino.Units.StateMachine.States
         [Inject] private World _world;
 
         [CanBeNull] public PatrolPath PatrolPath => _patrolPath;
-        
-        public void Awake()
-        {
-            InitPatrolPath();
-        }
 
-        private void InitPatrolPath()
+        public void InitPatrolPath()
         {
+            if (_patrolPath != null) return;
+            
             _patrolPath = FindNearestFreePath();
             if (_patrolPath == null)
             {
@@ -43,7 +40,7 @@ namespace Dino.Units.StateMachine.States
                     continue;
                 }
                 
-                var distance = Vector3.Distance(transform.position, path.Path[0].position);
+                var distance = Vector3.Distance(transform.position, path.transform.position);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
