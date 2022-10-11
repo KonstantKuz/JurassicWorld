@@ -51,6 +51,11 @@ namespace Dino.Units.Component
             _mesh = meshFilter.mesh;
         }
 
+        public void SetActive(bool value)
+        {
+            gameObject.SetActive(value);
+        }
+
         public void Init(float angle, float radius)
         {
             _segmentsCount = CalculateSegments(angle);

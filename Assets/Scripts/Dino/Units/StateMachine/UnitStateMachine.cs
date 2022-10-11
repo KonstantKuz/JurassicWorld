@@ -1,6 +1,6 @@
 using System;
 using Dino.Extension;
-using Dino.Location;
+using Dino.Location.Service;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
 using Dino.Units.Component.Health;
@@ -26,10 +26,13 @@ namespace Dino.Units.StateMachine
         private Unit _owner;
         private ITargetProvider _targetProvider;
         private IMovementController _movementController;
+        private LayerMaskProvider _layerMaskProvider;
         private Animator _animator;
         private MoveAnimationWrapper _animationWrapper;
         private Health _health;
         [CanBeNull] private WeaponAnimationHandler _weaponAnimationHandler;
+
+        [Inject] private WorldObjectFactory _worldObjectFactory;
         
         public virtual void Init(Unit unit)
         {
@@ -42,6 +45,7 @@ namespace Dino.Units.StateMachine
             _owner = unit;
             _targetProvider = _owner.gameObject.RequireComponent<ITargetProvider>();
             _movementController = _owner.gameObject.RequireComponent<IMovementController>();
+            _layerMaskProvider = _owner.gameObject.RequireComponent<LayerMaskProvider>();
             _animator = _owner.gameObject.RequireComponentInChildren<Animator>();
             _animationWrapper = new MoveAnimationWrapper(_animator);
             _weaponAnimationHandler = _owner.gameObject.GetComponentInChildren<WeaponAnimationHandler>();

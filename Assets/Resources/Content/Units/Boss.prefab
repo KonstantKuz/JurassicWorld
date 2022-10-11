@@ -48,6 +48,7 @@ GameObject:
   - component: {fileID: 2390559964527263311}
   - component: {fileID: 696692703190226417}
   - component: {fileID: 6629324333623088289}
+  - component: {fileID: 3254884751877926486}
   - component: {fileID: 529098970374765359}
   - component: {fileID: 1737704295038407037}
   - component: {fileID: 4491497861294361367}
@@ -211,6 +212,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objectId: Boss
   _objectType: 1
+--- !u!114 &3254884751877926486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047533565645016285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8074eca479c6ddf4f9c6bef64fa02896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
+  _damageMask:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!114 &529098970374765359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,9 +255,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _checkRaysCount: 3
-  _obstacleMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!114 &4491497861294361367
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ namespace Dino.Config
     {
         public static void Install(DiContainer container)
         {
+            container.Bind<EnemyAttackConfigs>().AsSingle();
+            
             new ConfigLoader(container, new CsvConfigDeserializer())
                 .RegisterSingle<LocalizationConfig>(Configs.LOCALIZATION)
                 .RegisterStringKeyedCollection<PlayerUnitConfig>(Configs.PLAYER_UNIT)

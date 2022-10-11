@@ -60,6 +60,11 @@ namespace Dino.Units.Player.Component
             _agent.SetDestination(position);
         }
 
+        public void Warp(Vector3 position)
+        {
+            _agent.Warp(position);
+        }
+
         private void UpdateAnimation()
         {
             PlayAnimation(IsMoving);

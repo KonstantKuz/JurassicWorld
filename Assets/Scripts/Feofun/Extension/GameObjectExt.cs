@@ -23,5 +23,10 @@ namespace Feofun.Extension
             Assert.IsNotNull(component, $"{gameObject.name} gameObject is missing {typeof(T).Name} component in hierarchy");
             return component;
         }
+
+        public static T GetOrAdd<T>(this GameObject gameObject) where T : MonoBehaviour
+        {
+            return gameObject.GetComponent<T>() ?? gameObject.AddComponent<T>();
+        }
     }
 }
