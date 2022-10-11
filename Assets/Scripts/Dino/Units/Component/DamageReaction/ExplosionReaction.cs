@@ -1,6 +1,7 @@
 ﻿using DG.Tweening;
 using Dino.Extension;
 using Dino.Units.Component.Health;
+using Feofun.Extension;
 using UnityEngine;
 
 namespace Dino.Units.Component.DamageReaction
@@ -14,14 +15,12 @@ namespace Dino.Units.Component.DamageReaction
         [SerializeField] private float _jumpRotationTimeRatio;
         
         private Unit _owner;
-        private IDamageable _damageable;
         
         private Sequence _explosionJump;
 
         private void Awake()
         {
-            _owner = gameObject.GetComponent<Unit>();
-            _damageable = gameObject.GetComponent<IDamageable>();
+            _owner = gameObject.RequireComponent<Unit>();
         }
 
         public static void TryExecuteOn(GameObject target, Vector3 explosionPosition, ExplosionReactionParams reactionParams)

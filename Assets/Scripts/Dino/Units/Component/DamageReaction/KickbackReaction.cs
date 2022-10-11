@@ -1,4 +1,5 @@
 ﻿using DG.Tweening;
+using Feofun.Extension;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,7 +12,7 @@ namespace Dino.Units.Component.DamageReaction
 
         private void Awake()
         {
-            _owner = gameObject.GetComponent<Unit>();
+            _owner = gameObject.RequireComponent<Unit>();
         }
 
         public static void TryExecuteOn(GameObject target, Vector3 direction, KickbackReactionParams reactionParams)
