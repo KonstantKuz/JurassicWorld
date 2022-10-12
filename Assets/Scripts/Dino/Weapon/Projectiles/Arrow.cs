@@ -1,4 +1,5 @@
 ﻿using System;
+using Dino.Units.Component.DamageReaction;
 using Dino.Units.Component.Target;
 using Dino.Weapon.Model;
 using UnityEngine;
@@ -12,7 +13,9 @@ namespace Dino.Weapon.Projectiles
         [SerializeField] private float _rotationSpeed;
         [SerializeField] private float _maxLifeTime;
         [SerializeField] private float _initialCourseTime;
-
+        [SerializeField] private float _hitStuckTime;
+        [SerializeField] private KickbackReactionParams _kickbackParams;
+        
         private Vector3 _lastTargetPos;
 
         private ITarget _target;
@@ -29,8 +32,11 @@ namespace Dino.Weapon.Projectiles
         }
         private void Update()
         {
-            UpdateTargetPosition();
-            UpdatePosition();
+            if (_target.IsTargetValidAndAlive())
+            {
+                UpdateTargetPosition();
+                UpdatePosition();
+            }
 
             TimeLeft -= Time.deltaTime;
             if (TimeLeft <= 0) {
@@ -53,7 +59,6 @@ namespace Dino.Weapon.Projectiles
         private void UpdateTargetPosition()
         {
             if (!_followTarget) return;
-            if (!_target.IsTargetValidAndAlive()) return;
             _lastTargetPos = _target.Center.position;
         }
 
@@ -71,8 +76,17 @@ namespace Dino.Weapon.Projectiles
         protected override void TryHit(GameObject target, Vector3 hitPos, Vector3 collisionNorm)
         {
             base.TryHit(target, hitPos, collisionNorm);
-            Destroy();
+            KickbackReaction.TryExecuteOn(target, -collisionNorm, _kickbackParams);
+            AttachToTarget(target);
+            ClearTarget();
+            TimeLeft = _hitStuckTime;
         }
+
+        private void AttachToTarget(GameObject target)
+        {
+            transform.SetParent(target.transform);
+        }
+
         private void Destroy()
         {
             ClearTarget();

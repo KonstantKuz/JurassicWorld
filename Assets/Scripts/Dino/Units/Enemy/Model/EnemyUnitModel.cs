@@ -1,7 +1,6 @@
 ﻿using Dino.Units.Enemy.Config;
+using Dino.Units.Enemy.Model.EnemyAttack;
 using Dino.Units.Model;
-using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.Units.Enemy.Model
 {
@@ -10,22 +9,20 @@ namespace Dino.Units.Enemy.Model
         public string Id { get; }
         public int Level { get; }
         public float MoveSpeed { get; }
+        public float RotationSpeed { get; }
         public IHealthModel HealthModel { get; }
         public EnemyAttackModel AttackModel { get; }
         public PatrolStateModel PatrolStateModel { get; }
-        public LookAroundStateModel LookAroundStateModel { get; }
-        public float RotationSpeed { get; }
 
-        public EnemyUnitModel(EnemyUnitConfig config, int level)
+        public EnemyUnitModel(EnemyUnitConfig unitConfig, int level)
         {
-            Id = config.Id;
+            Id = unitConfig.Id;
             Level = level;
-            MoveSpeed = config.MoveSpeed;
-            RotationSpeed = config.RotationSpeed;            
-            HealthModel = new EnemyHealthModel(config.GetHealthForLevel(Level));
-            AttackModel = new EnemyAttackModel(config.GetDamageForLevel(Level), config.EnemyAttackConfig);
-            PatrolStateModel = new PatrolStateModel(config.PatrolStateConfig);
-            LookAroundStateModel = new LookAroundStateModel(config.LookAroundStateConfig);
+            MoveSpeed = unitConfig.MoveSpeed;
+            RotationSpeed = unitConfig.RotationSpeed;
+            HealthModel = new EnemyHealthModel(unitConfig.GetHealthForLevel(Level));
+            AttackModel = new EnemyAttackModel(level, unitConfig);
+            PatrolStateModel = new PatrolStateModel(unitConfig.PatrolStateConfig);
         }
     }
 }

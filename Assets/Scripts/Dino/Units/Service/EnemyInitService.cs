@@ -15,7 +15,7 @@ namespace Dino.Units.Service
     public class EnemyInitService : MonoBehaviour
     {
         [Inject] private StringKeyedConfigCollection<EnemyUnitConfig> _enemyUnitConfigs;
-        
+
         public void InitEnemies(IEnumerable<Unit> units)
         {
             foreach (var unit in units)

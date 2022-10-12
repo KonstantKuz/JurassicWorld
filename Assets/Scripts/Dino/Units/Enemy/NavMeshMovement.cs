@@ -1,4 +1,5 @@
-﻿using Dino.Extension;
+﻿using System;
+using Dino.Extension;
 using Dino.Units.Component;
 using Feofun.Components;
 using UnityEngine;
@@ -35,6 +36,11 @@ namespace Dino.Units.Enemy
             var lookAtDirection = (position - transform.position).XZ().normalized;
             var lookAt = Quaternion.LookRotation(lookAtDirection, transform.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, lookAt, Time.deltaTime * _agent.angularSpeed);
+        }
+
+        public void Warp(Vector3 position)
+        {
+            _agent.Warp(position);
         }
     }
 }

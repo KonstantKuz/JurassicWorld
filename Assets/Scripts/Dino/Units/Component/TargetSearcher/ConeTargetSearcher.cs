@@ -3,23 +3,23 @@ using Dino.Units.Component.Target;
 using Dino.Units.Enemy.Model;
 using Dino.Weapon.Projectiles;
 using Feofun.Components;
+using Feofun.Extension;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 namespace Dino.Units.Component.TargetSearcher
 {
     public class ConeTargetSearcher : MonoBehaviour, IInitializable<Unit>, ITargetSearcher
     {
         [SerializeField] private int _checkRaysCount = 3;
-        [SerializeField] private LayerMask _obstacleMask;
-        
+
         private PatrolStateModel _stateModel;
+        private LayerMaskProvider _layerMaskProvider;
         
         public void Init(Unit owner)
         {
-            var enemyModel = (EnemyUnitModel) owner.Model;
-            Assert.IsTrue(enemyModel != null, "Unit model must be EnemyUnitModel.");
+            var enemyModel = owner.RequireEnemyModel();
             _stateModel = enemyModel.PatrolStateModel;
+            _layerMaskProvider = owner.gameObject.RequireComponent<LayerMaskProvider>();
         }
 
         public ITarget Find()
@@ -51,7 +51,7 @@ namespace Dino.Units.Component.TargetSearcher
             {
                 var checkPosition = target.transform.position + transform.right * offset;
                 Debug.DrawRay(transform.position, checkPosition - transform.position, Color.red);
-                if (Physics.Linecast(transform.position, checkPosition, _obstacleMask.value))
+                if (Physics.Linecast(transform.position, checkPosition, _layerMaskProvider.ObstacleMask.value))
                 {
                     offset += offsetStep;
                     continue;
