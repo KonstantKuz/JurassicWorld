@@ -192,7 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 20
   _hitVfx: {fileID: 4098703629700690818, guid: a172db610d272f945803385bcf8f8ade, type: 3}
-  _followTarget: 1
+  _followTarget: 0
   _rotationSpeed: 50
   _maxLifeTime: 4
   _initialCourseTime: 0
