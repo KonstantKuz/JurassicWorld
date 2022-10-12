@@ -25,6 +25,7 @@ namespace Dino.Units.StateMachine
             
             public PatrolState(UnitStateMachine stateMachine) : base(stateMachine)
             {
+                PathProvider.InitPatrolPath();
                 var stateModel = Owner.RequireEnemyModel().PatrolStateModel;
                 _waitSubState = WaitSubState.Build(stateModel.PatrolIdleTime, StateMachine.Stop, null, SetNextPointAndGo);
             }
@@ -33,10 +34,12 @@ namespace Dino.Units.StateMachine
             {
                 if (!HasPath)
                 {
+                    StateMachine.SetPatrolPath(null);
                     StateMachine.SwitchToIdle();
                     return;
                 }
                 
+                StateMachine.SetPatrolPath(PathProvider.PatrolPath);
                 GoToCurrentPoint();
                 Owner.Damageable.OnDamageTaken += StateMachine.LookTowardsDamage;
             }

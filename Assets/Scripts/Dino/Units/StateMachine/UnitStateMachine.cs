@@ -1,5 +1,6 @@
 using System;
 using Dino.Extension;
+using Dino.Location;
 using Dino.Location.Service;
 using Dino.Units.Component;
 using Dino.Units.Component.Animation;
@@ -20,6 +21,7 @@ namespace Dino.Units.StateMachine
         //can be move to unit config, if game-designer would like to setup it
         [SerializeField] private UnitState _initialState;
         [SerializeField] private string _currentStateName;
+        [SerializeField] private PatrolPath _patrolPath;    //just for inspector
         
         private BaseState _currentState;
 
@@ -134,6 +136,11 @@ namespace Dino.Units.StateMachine
         {
             _movementController.MoveTo(point);
             _animationWrapper.PlayMoveForwardSmooth();
+        }
+
+        private void SetPatrolPath(PatrolPath path)
+        {
+            _patrolPath = path;
         }
     }
 }
