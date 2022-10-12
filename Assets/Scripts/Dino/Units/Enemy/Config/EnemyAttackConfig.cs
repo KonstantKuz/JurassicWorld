@@ -1,15 +1,9 @@
-﻿using System.Runtime.Serialization;
+﻿using UnityEngine;
 
 namespace Dino.Units.Enemy.Config
 {
-    [DataContract]
-    public class EnemyAttackConfig
+    public class EnemyAttackConfig : ScriptableObject
     {
-        [DataMember]
-        public float AttackDistance;
-        [DataMember]
-        public int AttackDamage;
-        [DataMember]
-        public float AttackInterval;
+        [field: SerializeField] public AttackVariant AttackVariant { get; private set; }
     }
 }

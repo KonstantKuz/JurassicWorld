@@ -9,14 +9,12 @@ namespace Dino.Units.StateMachine
         {
             private const float LOOK_ANGLE_PRECISION = 1f;
             
-            private readonly LookAroundStateModel _stateModel;
             private readonly Vector3 _desiredPosition;
 
             private Unit Owner => StateMachine._owner;
 
             public LookAroundState(UnitStateMachine stateMachine, Vector3? desiredPosition = null) : base(stateMachine)
             {
-                _stateModel = Owner.RequireEnemyModel().LookAroundStateModel;
                 _desiredPosition = desiredPosition ?? Owner.transform.position - Owner.transform.forward;
             }
 

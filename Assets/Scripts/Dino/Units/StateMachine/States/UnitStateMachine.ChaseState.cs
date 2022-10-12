@@ -1,6 +1,5 @@
 ﻿using Dino.Units.Component.Target;
-using Dino.Units.Enemy.Model;
-using Logger.Extension;
+using Dino.Units.Enemy.Model.EnemyAttack;
 using UnityEngine;
 
 namespace Dino.Units.StateMachine
@@ -9,23 +8,32 @@ namespace Dino.Units.StateMachine
     {
         protected class ChaseState : BaseState
         {
+            private const float ATTACK_DISTANCE_COEFF = 0.75f;
+            
             private readonly EnemyAttackModel _attackModel;
             private Vector3 _lastTargetPosition;
             
             private Unit Owner => StateMachine._owner;
-            private ITarget Target => StateMachine._targetProvider.Target;            
-
+            private ITarget Target => StateMachine._targetProvider.Target;
             private Vector3 TargetPosition => Target.Root.position;
             private float DistanceToTarget => Vector3.Distance(Owner.transform.position, TargetPosition);
-
+            protected bool IsTargetBlocked =>
+                Physics.Linecast(Owner.SelfTarget.Center.position, Target.Center.position, StateMachine._layerMaskProvider.ObstacleMask);
+            private Vector3 ChasePoint
+            {
+                get
+                {
+                    var pos = StateMachine.transform.position;
+                    var vectorToTarget = TargetPosition - pos;
+                    var chasePoint = pos +
+                                     (vectorToTarget.magnitude - ATTACK_DISTANCE_COEFF * _attackModel.AttackDistance) *
+                                     vectorToTarget.normalized;
+                    return chasePoint;
+                }
+            }
             public ChaseState(UnitStateMachine stateMachine) : base(stateMachine)
             {
-                var enemyModel = Owner.Model as EnemyUnitModel;
-                if (enemyModel == null)
-                {
-                    this.Logger().Error("Unit model must be EnemyUnitModel");
-                    return;
-                }
+                var enemyModel = Owner.RequireEnemyModel();
                 _attackModel = enemyModel.AttackModel;
             }            
 
@@ -47,13 +55,13 @@ namespace Dino.Units.StateMachine
                     StateMachine.SetState(UnitState.LookAround, _lastTargetPosition);
                     return;
                 }
-                if (DistanceToTarget < _attackModel.AttackDistance)
+                if (DistanceToTarget < _attackModel.AttackDistance && !IsTargetBlocked)
                 {
                     StateMachine.SetState(UnitState.Attack);
                     return;
                 }
-
-                StateMachine._movementController.MoveTo(TargetPosition);
+                
+                StateMachine._movementController.MoveTo(ChasePoint);
             }
 
             private void UpdateLastTargetPosition()

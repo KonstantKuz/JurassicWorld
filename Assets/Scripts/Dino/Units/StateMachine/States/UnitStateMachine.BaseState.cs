@@ -2,7 +2,7 @@
 {
     public partial class UnitStateMachine
     {
-        protected abstract class BaseState
+        public abstract class BaseState
         {
             protected readonly UnitStateMachine StateMachine;
 
