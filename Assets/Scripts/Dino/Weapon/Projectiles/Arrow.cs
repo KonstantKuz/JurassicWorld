@@ -35,8 +35,8 @@ namespace Dino.Weapon.Projectiles
             if (_target.IsTargetValidAndAlive())
             {
                 UpdateTargetPosition();
-                UpdatePosition();
             }
+            UpdatePosition();
 
             TimeLeft -= Time.deltaTime;
             if (TimeLeft <= 0) {
