@@ -198,6 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialState: 1
   _currentStateName: 
+  _patrolPath: {fileID: 0}
 --- !u!114 &6629324333623088289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,6 +622,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Velociraptor
       objectReference: {fileID: 0}
+    - target: {fileID: 8386621541459098935, guid: 4d30ff4443422a44fb7bcd134c5c589b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 95f7ce8432f75a0489ea5cc2f7726592, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4d30ff4443422a44fb7bcd134c5c589b, type: 3}
 --- !u!1 &7490514454875490889 stripped
