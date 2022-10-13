@@ -321,7 +321,7 @@ MonoBehaviour:
   _scalePunchDuration: 0.1
   _colorBlinkDuration: 0.1
   _blinkColor: {r: 1, g: 0.5886792, b: 0.5886792, a: 0.38431373}
-  _renderer: {fileID: 0}
+  _renderer: {fileID: 3475158852273385573}
 --- !u!54 &6497831437246640067
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -667,6 +667,11 @@ Transform:
 --- !u!4 &2233354985225798506 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5150307654113551117, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
+  m_PrefabInstance: {fileID: 6451381180273172583}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3475158852273385573 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7619483162201919490, guid: 0ca6274659e040a48aeaa9732f5808ac, type: 3}
   m_PrefabInstance: {fileID: 6451381180273172583}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &7910575881886312858 stripped
