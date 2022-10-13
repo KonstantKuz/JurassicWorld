@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Content/Characters/Stickman/Materials/WholeBody.mat.meta
+guid: 2e5771ae14cb7494ca6b2d53576ef4cf
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+=======
+guid: d07ce01385d797845940f0e45989e54f
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+>>>>>>> master:Assets/Resources/Content/Level/2-1/NavMesh.meta
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
