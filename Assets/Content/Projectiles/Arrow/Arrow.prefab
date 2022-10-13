@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18b120911a6040e49aaf4126c58410d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 20
+  _speed: 25
   _hitVfx: {fileID: 4098703629700690818, guid: a172db610d272f945803385bcf8f8ade, type: 3}
   _followTarget: 0
   _rotationSpeed: 50
