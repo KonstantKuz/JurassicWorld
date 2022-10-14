@@ -3,6 +3,10 @@ guid: 443ce2beb91d8974eb1b0b5e3bbd789c
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
+<<<<<<< HEAD:Assets/Resources/Content/Level/2-2/NavMesh-Ground.asset.meta
+  mainObjectFileID: 23800000
+=======
+>>>>>>> master:Assets/Resources/Content/Level/1-3/NavMesh.meta
   userData: 
   assetBundleName: 
   assetBundleVariant: 

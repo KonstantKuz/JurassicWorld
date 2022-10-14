@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f37f95bcd246ecae74086325fe6dd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnabled: 1
+  _isEnabled: 0
   _scenarioId: 1
   _playAtLevelId: Level1-2
 --- !u!1 &2477108787278728024
@@ -232,7 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 292f5c322e4b4f3694193ef867fa54ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isEnabled: 1
+  _isEnabled: 0
   _scenarioId: 2
   _playAtLevelId: Level1-3
 --- !u!1 &3624021215789012955

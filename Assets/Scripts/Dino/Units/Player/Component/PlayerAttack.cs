@@ -172,6 +172,11 @@ namespace Dino.Units.Player.Component
 
         private void Fire()
         {
+            if (!_startedAttack) {
+                return;
+            }
+            _startedAttack = false;
+
             if (_weapon == null) {
                 this.Logger().Warn("Weapon removed while fire");
                 return;
@@ -180,12 +185,8 @@ namespace Dino.Units.Player.Component
                 _weapon.Timer.SetAttackAsReady();
                 return;
             }
-            if (!_startedAttack) {
-                return;
-            }
             _weapon.Fire(_target, DoDamage);
             _weapon.Timer.OnAttack();
-            _startedAttack = false;
             OnAttacked?.Invoke();
         }
         

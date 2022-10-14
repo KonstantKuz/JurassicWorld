@@ -15,8 +15,8 @@ namespace Dino.Weapon.Projectiles
         [SerializeField] private float _initialCourseTime;
         [SerializeField] private float _hitStuckTime;
         [SerializeField] private KickbackReactionParams _kickbackParams;
-        
-        private Vector3 _lastTargetPos;
+
+        private bool _isAttached;
 
         private ITarget _target;
 
@@ -27,14 +27,14 @@ namespace Dino.Weapon.Projectiles
         public override void Launch(ITarget target, IWeaponModel model, Action<GameObject> hitCallback)
         {
             base.Launch(target, model, hitCallback);
+            _isAttached = false;
             SetTarget(target);
             TimeLeft = _maxLifeTime;
         }
         private void Update()
         {
-            if (_target.IsTargetValidAndAlive())
+            if (!_isAttached)
             {
-                UpdateTargetPosition();
                 UpdatePosition();
             }
 
@@ -48,27 +48,22 @@ namespace Dino.Weapon.Projectiles
         {
             Assert.IsNull(_target, "we are currently supporting only one call to SetTarget on launch");
             Assert.IsNotNull(target);
-            if (!_followTarget) {
-                _lastTargetPos = target.Center.position;
-                return;
-            }
             _target = target;
             _target.OnTargetInvalid += ClearTarget;
-        }
-
-        private void UpdateTargetPosition()
-        {
-            if (!_followTarget) return;
-            _lastTargetPos = _target.Center.position;
         }
 
         private void UpdatePosition()
         {
             transform.position += transform.forward * Speed * Time.deltaTime;
 
-            if (LifeTime >= _initialCourseTime && _followTarget)
+            if (!_followTarget || !_target.IsTargetValidAndAlive())
             {
-                var lookRotation = Quaternion.LookRotation(_lastTargetPos - transform.position);
+                return;
+            }
+            
+            if (LifeTime >= _initialCourseTime)
+            {
+                var lookRotation = Quaternion.LookRotation(_target.Center.position - transform.position);
                 transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * _rotationSpeed);
             }
         }
@@ -84,6 +79,7 @@ namespace Dino.Weapon.Projectiles
 
         private void AttachToTarget(GameObject target)
         {
+            _isAttached = true;
             transform.SetParent(target.transform);
         }
 
